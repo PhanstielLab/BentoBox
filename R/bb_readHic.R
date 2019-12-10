@@ -16,7 +16,7 @@
 #'
 #' @export
 
-bb_rhic <- function(hic, chrom, chromstart = NULL, chromend = NULL, resolution = 10000, zrange = NULL,
+bb_readHic <- function(hic, chrom, chromstart = NULL, chromend = NULL, resolution = 10000, zrange = NULL,
                     norm = "KR", res_scale = "BP", altchrom = NULL, altchromstart = NULL, altchromend = NULL){
 
 
@@ -285,17 +285,9 @@ bb_rhic <- function(hic, chrom, chromstart = NULL, chromend = NULL, resolution =
   scaled_data <- scale_data(upper = upper, zrange = zrange)
 
   # ======================================================================================================================================================================================
-  # FILL IN MISSING GAPS OF DATA
-  # ======================================================================================================================================================================================
-
-  # complete_data <- fill_missing_data(dataframe = scaled_data, chrom = chrom, chromstart = chromstart, chromend = chromend, altchrom = altchrom,
-  #                              altchromstart = altchromstart, altchromend = altchromend, resolution = resolution, fill_missing = fill_missing)
-
-  # ======================================================================================================================================================================================
   # FORMAT DATA IN PROPER ORDER AND WITH LABELS
   # ======================================================================================================================================================================================
 
-  #renamed_data <- rename_columns(upper = complete_data, chrom = chrom, altchrom = altchrom)
   renamed_data <- rename_columns(upper = scaled_data, chrom = chrom, altchrom = altchrom)
 
   # ======================================================================================================================================================================================
@@ -305,7 +297,6 @@ bb_rhic <- function(hic, chrom, chromstart = NULL, chromend = NULL, resolution =
 
     warning("Warning: no data found in region.  Suggestions: check chromosome, check region.")
   }
-
 
   return(renamed_data)
 }
