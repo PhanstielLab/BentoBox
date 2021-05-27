@@ -362,11 +362,22 @@ bb_pagePlotPlace <- function(plot, x = NULL, y = NULL, width = NULL,
 
     ## Get viewport name
     currentViewports <- current_viewports()
-    vp_name <- paste0(
-        gsub(
-            pattern = "[0-9]",
-            replacement = "", x = object$grobs$vp$name
-        ),
+    # vp_name <- paste0(
+    #     gsub(
+    #         pattern = "[0-9]",
+    #         replacement = "", x = object$grobs$vp$name
+    #     ),
+    #     length(grep(
+    #         pattern = gsub(
+    #             pattern = "[0-9]",
+    #             replacement = "",
+    #             x = object$grobs$vp$name
+    #         ),
+    #         x = currentViewports
+    #     )) + 1
+    # )
+
+    num <-
         length(grep(
             pattern = gsub(
                 pattern = "[0-9]",
@@ -375,8 +386,8 @@ bb_pagePlotPlace <- function(plot, x = NULL, y = NULL, width = NULL,
             ),
             x = currentViewports
         )) + 1
-    )
 
+    vp_name <- gsub("[0-9]", replacement = num, x = object$grobs$vp$name)
 
     ## If full placing information isn't provided but plot == TRUE,
     ## set up it's own viewport separate from bb_makepage

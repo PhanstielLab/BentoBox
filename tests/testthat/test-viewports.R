@@ -56,7 +56,7 @@ test_that("Viewport order, naming, and numbering", {
     ))
     expect_setequal(
         unlist(BentoBox:::current_viewports()),
-        c("bb_arches1", "bb_signal1")
+        c("bb_arches1", "bb_signal1_h")
     )
     suppressMessages(bb_plotPairsArches(
         data = bb_bedpeData,
@@ -67,13 +67,13 @@ test_that("Viewport order, naming, and numbering", {
     ))
     expect_setequal(
         unlist(BentoBox:::current_viewports()),
-        c("bb_arches1", "bb_signal1", "bb_arches2")
+        c("bb_arches1", "bb_signal1_h", "bb_arches2")
     )
 
     bb_pagePlotRemove(plot = arches)
     expect_setequal(
         unlist(BentoBox:::current_viewports()),
-        c("bb_signal1", "bb_arches2")
+        c("bb_signal1_h", "bb_arches2")
     )
 })
 
@@ -87,7 +87,7 @@ test_that("Below-y coordinate calculation", {
         x = 0.5, y = 0.5, width = 2, height = 2,
         just = c("left", "top"), default.units = "inches"
     ))
-    expect_equal(BentoBox::plot_belowY("0b"), unit(2.5, "inches"))
+    expect_equal(BentoBox:::plot_belowY("0b"), unit(2.5, "inches"))
 })
 
 test_that("draw parameter and bb_pagePlotPlace", {
@@ -119,7 +119,7 @@ test_that("draw parameter and bb_pagePlotPlace", {
     ))
     expect_setequal(
         unlist(BentoBox:::current_viewports()),
-        c("bb_signal1")
+        c("bb_signal1_h")
     )
     expect_equal(signalPlot$x, unit(0.5, "inches"))
 })
