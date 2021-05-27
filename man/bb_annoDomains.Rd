@@ -54,8 +54,11 @@ Annotate domains in a Hi-C plot
 ## Define a GRanges object with TAD ranges
 library(GenomicRanges)
 domains <- GRanges("chr21",
-ranges = IRanges(start = c(28210000, 29085000, 29430000, 29700000),
-end = c(29085000, 29430000, 29700000, 30125000)))
+    ranges = IRanges(
+        start = c(28210000, 29085000, 29430000, 29700000),
+        end = c(29085000, 29430000, 29700000, 30125000)
+    )
+)
 
 ## Load Hi-C data and BEDPE data
 data("bb_imrHicData")
@@ -75,8 +78,10 @@ hicPlot <- bb_plotHicSquare(
 )
 
 ## Annotate domains on bottom half 0f Hi-C plot
-bb_annoDomains(plot = hicPlot, data = domains,
-               half = "bottom")
+bb_annoDomains(
+    plot = hicPlot, data = domains,
+    half = "bottom"
+)
 
 ## Annotate heatmap legend
 bb_annoHeatmapLegend(
@@ -93,5 +98,4 @@ bb_annoGenomeLabel(
 
 ## Hide page guides
 bb_pageGuideHide()
-
 }

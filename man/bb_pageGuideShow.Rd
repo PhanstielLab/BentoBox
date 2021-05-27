@@ -46,7 +46,6 @@ bb_annoGenomeLabel(
     plot = hicPlot, scale = "Mb", axis = "x",
     x = 0.5, y = 2.53, just = c("left", "top")
 )
-
 }
 \seealso{
 \link[BentoBox]{bb_pageCreate},

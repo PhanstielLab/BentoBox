@@ -36,5 +36,4 @@ bedpePlot <- bb_plotPairs(
     colorby = colorby("length"),
     lwd = 2, spaceHeight = .7,
 )
-
 }

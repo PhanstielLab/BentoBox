@@ -22,6 +22,7 @@ bb_plotSignal(
   baseline = TRUE,
   baseline.color = "grey",
   baseline.lwd = 1,
+  orientation = "h",
   x = NULL,
   y = NULL,
   width = NULL,
@@ -89,6 +90,13 @@ Default value is \code{baseline.color = "grey"}.}
 
 \item{baseline.lwd}{Baseline line width.
 Default value is \code{baseline.lwd = 1}.}
+
+\item{orientation}{A string specifying signal track orientation.
+Default value is \code{orientation = "h"}. Options are:
+\itemize{
+\item{\code{"v"}: }{Vertical signal track orientation.}
+\item{\code{"h"}: }{Horizontal signal track orientation.}
+}}
 
 \item{x}{A numeric or unit object specifying signal plot x-location.}
 
