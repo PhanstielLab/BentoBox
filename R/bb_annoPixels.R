@@ -128,10 +128,11 @@ bb_annoPixels <- function(plot, data, type = "box", half = "inherit",
 
         ## if it's a file path, it needs to exist
         if (!"data.frame" %in% class(loops)) {
-
-            ## File existence
-            if (!file.exists(loops)) {
-                stop("File", loops, "does not exist.", call. = FALSE)
+            if (!isClass("GInteractions", loops)) {
+                ## File existence
+                if (!file.exists(loops)) {
+                    stop("File", loops, "does not exist.", call. = FALSE)
+                }
             }
         }
 
@@ -145,7 +146,7 @@ bb_annoPixels <- function(plot, data, type = "box", half = "inherit",
 
         ## half needs to be able to align with what kind of hic plot is plotted
         if (class(hic) == "bb_hicSquare") {
-            if (is.null(hic$althalf)) {
+            if (hic$chrom == hic$altchrom) {
                 if ((hic$half == "top" | hic$half == "bottom") &&
                     (half == "both")) {
                     stop("Invalid \'half\' of plot to annotate.",
@@ -165,7 +166,7 @@ bb_annoPixels <- function(plot, data, type = "box", half = "inherit",
                     )
                 }
             } else {
-                if (hic$althalf == "bottom") {
+                if (hic$half == "bottom") {
                     if (!quiet) {
                         message("Attempting to annotate pixels where",
                             hic$chrom, "is on the x-axis and",
@@ -173,7 +174,7 @@ bb_annoPixels <- function(plot, data, type = "box", half = "inherit",
                             call. = FALSE
                         )
                     }
-                } else if (hic$althalf == "top") {
+                } else if (hic$half == "top") {
                     if (!quiet) {
                         message("Attempting to annotate pixels where",
                             hic$altchrom, "is on the x-axis and",
@@ -227,22 +228,6 @@ bb_annoPixels <- function(plot, data, type = "box", half = "inherit",
         }
 
         return(loops_subset)
-    }
-
-    ## Define a function that parses an inherited half
-    inherit_half <- function(hic) {
-        if (class(hic) == "bb_hicSquare") {
-            if (is.null(hic$althalf)) {
-                half <- hic$half
-            } else {
-                half <- hic$althalf
-            }
-        } else if (class(hic) == "bb_hicTriangle" |
-            class(hic) == "bb_hicRectangle") {
-            half <- "top"
-        }
-
-        return(half)
     }
 
     ## Define a function to add box annotation
@@ -575,7 +560,6 @@ bb_annoPixels <- function(plot, data, type = "box", half = "inherit",
     if (is.null(bb_loopsInternal$data)) stop("argument \"data\" is missing,
                                             with no default.", call. = FALSE)
 
-
     errorcheck_bb_annoLoops(
         hic = bb_loopsInternal$plot,
         loops = bb_loopsInternal$data,
@@ -599,7 +583,7 @@ bb_annoPixels <- function(plot, data, type = "box", half = "inherit",
     }
 
     # =========================================================================
-    # READ IN FILE OR DATAFRAME
+    # READ IN FILE, DATAFRAME OR GINTERACTIONS
     # =========================================================================
 
     loops <- bb_loopsInternal$data

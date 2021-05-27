@@ -68,6 +68,16 @@ bb_params <- function() {}
 #'
 #' @return \code{NULL} or an expression or a vector of an appropriate mode.
 #' (With no arguments the value is \code{NULL}.)
+#'
+#' @examples
+#' ## Define parameters
+#' p1 <- bb_params(chrom = "chr1", assembly = "hg19")
+#'
+#' ## Define another set of parameters
+#' p2 <- bb_params(fontsize = 10)
+#'
+#' ## Combine parameters into one `bb_params` object
+#' pTotal <- c(p1, p2)
 "c" <- function(..., recursive = FALSE) {
 
     ## Check all classes of inputs to concatenate

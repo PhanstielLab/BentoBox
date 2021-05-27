@@ -373,7 +373,7 @@ bb_plotRanges <- function(data, chrom, chromstart = NULL, chromend = NULL,
                     )) %>%
                     dplyr::mutate()
             } else {
-                bed <- fread(bed)
+                bed <- data.table::fread(bed)
             }
         }
     }
@@ -510,7 +510,7 @@ bb_plotRanges <- function(data, chrom, chromstart = NULL, chromend = NULL,
     ## If placing information is provided but plot == TRUE,
     ## set up it's own viewport separate from bb_makepage
     ## Not translating into page_coordinates
-    if (is.null(pileup_plot$x) & is.null(pileup_plot$y)) {
+    if (is.null(pileup_plot$x) | is.null(pileup_plot$y)) {
         yscale <- strand_scale(
             strandSplit = bb_pileInternal$strandSplit,
             height = 0.5

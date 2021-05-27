@@ -20,3 +20,21 @@ Returns a "\code{bb_colorby}" object.
 that specify color scaling for the functions \code{bb_plotPairs},
 \code{bb_plotPairsArches}, and \code{bb_plotRanges}.
 }
+\examples{
+## Load paired ranges data in BEDPE format
+data("bb_bedpeData")
+
+## Add a length column
+bb_bedpeData$length <- (bb_bedpeData$start2 - bb_bedpeData$start1) / 1000
+
+## Plot pairs with colorby object set for `length` column
+bedpePlot <- bb_plotPairs(
+    data = bb_bedpeData,
+    chrom = "chr21",
+    chromstart = 27900000, chromend = 30700000,
+    fill = colorRampPalette(c("dodgerblue2", "firebrick2")),
+    colorby = colorby("length"),
+    lwd = 2, spaceHeight = .7,
+)
+
+}

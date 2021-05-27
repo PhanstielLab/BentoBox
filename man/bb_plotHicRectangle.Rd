@@ -141,7 +141,6 @@ data("bb_imrHicData")
 ## Create a page
 bb_pageCreate(width = 6, height = 3.5, default.units = "inches")
 
-
 ## Plot and place rectangle Hi-C plot
 hicPlot <- bb_plotHicRectangle(
     data = bb_imrHicData, resolution = 10000,

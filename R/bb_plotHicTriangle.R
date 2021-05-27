@@ -638,7 +638,7 @@ bb_plotHicTriangle <- function(data, resolution = "auto", zrange = NULL,
         )) + 1
     )
 
-    if (is.null(hic_plot$x) & is.null(hic_plot$y)) {
+    if (is.null(hic_plot$x) | is.null(hic_plot$y)) {
         inside_vp <- viewport(
             height = unit(1, "npc"), width = unit(0.5, "npc"),
             x = unit(0, "npc"), y = unit(0, "npc"),

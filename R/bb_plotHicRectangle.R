@@ -70,7 +70,6 @@
 #' ## Create a page
 #' bb_pageCreate(width = 6, height = 3.5, default.units = "inches")
 #'
-#'
 #' ## Plot and place rectangle Hi-C plot
 #' hicPlot <- bb_plotHicRectangle(
 #'     data = bb_imrHicData, resolution = 10000,
@@ -593,7 +592,7 @@ bb_plotHicRectangle <- function(data, resolution = "auto", zrange = NULL,
         )) + 1
     )
 
-    if (is.null(hic_plot$x) & is.null(hic_plot$y)) {
+    if (is.null(hic_plot$x) | is.null(hic_plot$y)) {
         inside_vp <- viewport(
             height = unit(4 / sqrt(2), "npc"),
             width = unit(2 / sqrt(2), "npc"),

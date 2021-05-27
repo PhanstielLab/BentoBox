@@ -39,6 +39,12 @@
 #' Default value is \code{baseline.color = "grey"}.
 #' @param baseline.lwd Baseline line width.
 #' Default value is \code{baseline.lwd = 1}.
+#' @param orientation A string specifying signal track orientation.
+#' Default value is \code{orientation = "h"}. Options are:
+#' \itemize{
+#' \item{\code{"v"}: }{Vertical signal track orientation.}
+#' \item{\code{"h"}: }{Horizontal signal track orientation.}
+#' }
 #' @param x A numeric or unit object specifying signal plot x-location.
 #' @param y A numeric, unit object, or character containing a "b"
 #' combined with a numeric value specifying signal plot y-location.
@@ -138,7 +144,8 @@ bb_plotSignal <- function(data, binSize = NA, binCap = TRUE, negData = FALSE,
                         assembly = "hg19", linecolor = "#37a7db",
                         fill = NA, ymax = 1, range = NULL, scale = FALSE,
                         bg = NA, baseline = TRUE, baseline.color = "grey",
-                        baseline.lwd = 1, x = NULL, y = NULL, width = NULL,
+                        baseline.lwd = 1, orientation = "h",
+                        x = NULL, y = NULL, width = NULL,
                         height = NULL, just = c("left", "top"),
                         default.units = "inches", draw = TRUE,
                         params = NULL, ...) {
@@ -227,6 +234,9 @@ bb_plotSignal <- function(data, binSize = NA, binCap = TRUE, negData = FALSE,
                 )
             }
         }
+
+
+
     }
 
     ## Define a function that reads in signal data for bb_plotSignal
@@ -575,6 +585,7 @@ bb_plotSignal <- function(data, binSize = NA, binCap = TRUE, negData = FALSE,
     if (missing(baseline)) baseline <- NULL
     if (missing(baseline.color)) baseline.color <- NULL
     if (missing(baseline.lwd)) baseline.lwd <- NULL
+    if (missing(orientation)) orientation <- NULL
     if (missing(just)) just <- NULL
     if (missing(default.units)) default.units <- NULL
     if (missing(draw)) draw <- NULL
@@ -596,6 +607,7 @@ bb_plotSignal <- function(data, binSize = NA, binCap = TRUE, negData = FALSE,
         width = width, height = height,
         baseline.color = baseline.color,
         baseline.lwd = baseline.lwd,
+        orientation = orientation,
         x = x, y = y, just = just,
         default.units = default.units,
         draw = draw, gp = gpar()
@@ -623,6 +635,7 @@ bb_plotSignal <- function(data, binSize = NA, binCap = TRUE, negData = FALSE,
         bb_sigInternal$baseline.color <- "grey"
     }
     if (is.null(bb_sigInternal$baseline.lwd)) bb_sigInternal$baseline.lwd <- 1
+    if (is.null(bb_sigInternal$orientation)) bb_sigInternal$orientation <- "h"
     if (is.null(bb_sigInternal$just)) bb_sigInternal$just <- c("left", "top")
     if (is.null(bb_sigInternal$default.units)) {
         bb_sigInternal$default.units <- "inches"
@@ -860,37 +873,106 @@ bb_plotSignal <- function(data, binSize = NA, binCap = TRUE, negData = FALSE,
     ## If placing information is provided but plot == TRUE,
     ## set up it's own viewport separate from bb_makepage
     ## Not translating into page_coordinates
-    if (is.null(signal_track$x) & is.null(signal_track$y)) {
-        vp <- viewport(
-            height = unit(0.25, "snpc"), width = unit(1, "snpc"),
-            x = unit(0.5, "npc"), y = unit(0.5, "npc"),
-            clip = "on",
-            xscale = xscale,
-            yscale = c(signal_track$range[1], signal_track$range[2]),
-            just = "center",
-            name = vp_name
-        )
+    if (is.null(signal_track$x) | is.null(signal_track[["y"]])) {
+
+        if (bb_sigInternal$orientation == "h"){
+
+            vp <- viewport(
+                height = unit(0.25, "snpc"), width = unit(1, "snpc"),
+                x = unit(0.5, "npc"), y = unit(0.5, "npc"),
+                clip = "on",
+                xscale = xscale,
+                yscale = c(signal_track$range[1], signal_track$range[2]),
+                just = "center",
+                name = paste0(vp_name, "_h")
+                )
+            } else if (bb_sigInternal$orientation == "v"){
+
+                ## outside clipping viewport
+                vpClip <- viewport(
+                    x = unit(0.5, "npc"),
+                    y = unit(0.5, "npc"),
+                    width = unit(0.25, "snpc"),
+                    height = unit(1, "snpc"),
+                    just = "center",
+                    clip = "on",
+                    xscale = c(signal_track$range[2], signal_track$range[1]),
+                    yscale = xscale,
+                    name = paste0(vp_name, "_vClip")
+
+                )
+                pushViewport(vpClip)
+                height <- convertWidth(unit(1, "npc"), unitTo = "inches")
+                width <- convertHeight(unit(1, "npc"), unitTo = "inches")
+                upViewport()
+                ## Make rotated, horizontal viewport
+                vp <- viewport(
+                    height = height, width = width,
+                    x = unit(1, "npc"), y = unit(0, "npc"),
+                    just = c("left", "bottom"),
+                    xscale = xscale,
+                    yscale = c(signal_track$range[1], signal_track$range[2]),
+                    name = paste0(vp_name, "_v"),
+                    angle = 90
+                )
+
+
+            }
 
         if (bb_sigInternal$draw == TRUE) {
             vp$name <- "bb_signal1"
+            vpClip$name <- "bb_signal1_Clip"
             grid.newpage()
         }
-    } else {
+
+
+        } else {
         add_bbViewport(vp_name)
 
         ## Convert coordinates into same units as page
         page_coords <- convert_page(object = signal_track)
 
-        ## Make viewport
-        vp <- viewport(
-            height = page_coords$height, width = page_coords$width,
-            x = page_coords$x, y = page_coords$y,
-            clip = "on",
-            xscale = xscale,
-            yscale = c(signal_track$range[1], signal_track$range[2]),
-            just = bb_sigInternal$just,
-            name = vp_name
-        )
+        if (bb_sigInternal$orientation == "h"){
+
+            ## Make viewport
+            vp <- viewport(
+                height = page_coords$height, width = page_coords$width,
+                x = page_coords$x, y = page_coords$y,
+                clip = "on",
+                xscale = xscale,
+                yscale = c(signal_track$range[1], signal_track$range[2]),
+                just = bb_sigInternal$just,
+                name = paste0(vp_name, "_h")
+            )
+        } else if (bb_sigInternal$orientation == "v"){
+
+            ## outside clipping viewport
+            vpClip <- viewport(
+                x = page_coords$x,
+                y = page_coords$y,
+                width = page_coords$width,
+                height = page_coords$height,
+                just = bb_sigInternal$just,
+                clip = "on",
+                xscale = c(signal_track$range[2], signal_track$range[1]),
+                yscale = xscale,
+                name = paste0(vp_name, "_vClip")
+
+            )
+            ## Make rotated, horizontal viewport
+            vp <- viewport(
+                height = page_coords$width, width = page_coords$height,
+                x = unit(1, "npc"), y = unit(0, "npc"),
+                just = c("left", "bottom"),
+                xscale = xscale,
+                yscale = c(signal_track$range[1], signal_track$range[2]),
+                name = paste0(vp_name, "_v"),
+                angle = 90
+            )
+
+        }
+
+
     }
 
 
@@ -1069,7 +1151,16 @@ bb_plotSignal <- function(data, binSize = NA, binCap = TRUE, negData = FALSE,
     # =========================================================================
 
     if (bb_sigInternal$draw == TRUE) {
-        grid.draw(get("signal_grobs", envir = bbEnv))
+
+        if (bb_sigInternal$orientation == "v"){
+            pushViewport(vpClip)
+            grid.draw(get("signal_grobs", envir = bbEnv))
+            upViewport()
+        } else if (bb_sigInternal$orientation == "h"){
+            grid.draw(get("signal_grobs", envir = bbEnv))
+        }
+
+
     }
 
     # =========================================================================
@@ -1082,6 +1173,6 @@ bb_plotSignal <- function(data, binSize = NA, binCap = TRUE, negData = FALSE,
     # RETURN OBJECT
     # =========================================================================
 
-    message("bb_signal[", vp$name, "]")
+    message("bb_signal[", vp_name, "]")
     invisible(signal_track)
 }

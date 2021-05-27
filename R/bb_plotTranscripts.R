@@ -495,7 +495,7 @@ bb_plotTranscripts <- function(chrom, chromstart = NULL, chromend = NULL,
         )) + 1
     )
 
-    if (is.null(bb_transcripts$x) & is.null(bb_transcripts$y)) {
+    if (is.null(bb_transcripts$x) | is.null(bb_transcripts$y)) {
         height <- 0.5
         yscale <- strand_scale(
             strandSplit = bb_transcriptsInternal$strandSplit,

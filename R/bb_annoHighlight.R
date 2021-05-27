@@ -77,9 +77,9 @@
 #' bb_pageGuideHide()
 #' @export
 bb_annoHighlight <- function(plot, chrom, chromstart = NULL, chromend = NULL,
-    fill = "grey", linecolor = NA, alpha = 0.4,
-    y, height, just = c("left", "top"),
-    default.units = "inches", params = NULL, ...) {
+                            fill = "grey", linecolor = NA, alpha = 0.4,
+                            y, height, just = c("left", "top"),
+                            default.units = "inches", params = NULL, ...) {
 
     # =========================================================================
     # FUNCTIONS

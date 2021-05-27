@@ -247,7 +247,7 @@ vp_topRight <- function(viewport) {
 ## Define a function to convert to page units
 convert_page <- function(object) {
 
-    ## Get page_height and its units from bbEnv through bb_makepage
+    ## Get page_height and its units from bbEnv through bb_pageCreate
     page_height <- get("page_height", envir = bbEnv)
     page_units <- get("page_units", envir = bbEnv)
 

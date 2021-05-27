@@ -637,7 +637,7 @@ bb_plotPairsArches <- function(data, chrom, chromstart = NULL, chromend = NULL,
     ## If placing information is provided but plot == TRUE,
     ## set up it's own viewport separate from bb_makepage
     ## Not translating into page_coordinates
-    if (is.null(arches_plot$x) & is.null(arches_plot$y)) {
+    if (is.null(arches_plot$x) | is.null(arches_plot$y)) {
         vp <- viewport(
             height = unit(0.5, "npc"), width = unit(1, "npc"),
             x = unit(0.5, "npc"), y = unit(0.5, "npc"),

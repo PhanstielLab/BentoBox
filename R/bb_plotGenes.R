@@ -537,7 +537,7 @@ bb_plotGenes <- function(chrom, chromstart = NULL, chromend = NULL,
         )) + 1
     )
 
-    if (is.null(bb_genes$x) & is.null(bb_genes$y)) {
+    if (is.null(bb_genes$x) | is.null(bb_genes$y)) {
         if (bb_genesInternal$strandLabels == TRUE) {
 
             ## Make viewport for "+" and "-" labels to the left of genetrack

@@ -58,8 +58,24 @@ Imports:
     rlang,
     GenomicFeatures
 Remotes: PhanstielLab/straw/R
-biocViews: Visualization, GenomeAnnotation, FunctionalGenomics, GenomeAssembly
+biocViews: 
+    Visualization, 
+    GenomeAnnotation, 
+    FunctionalGenomics, 
+    GenomeAssembly,
+    HiC
 LinkingTo: 
     Rcpp
-Suggests: TxDb.Hsapiens.UCSC.hg19.knownGene, org.Hs.eg.db, BSgenome.Hsapiens.UCSC.hg19, png, ggplot2, scales, showtext, knitr, rmarkdown
+Suggests: 
+    TxDb.Hsapiens.UCSC.hg19.knownGene,
+    org.Hs.eg.db,
+    BSgenome.Hsapiens.UCSC.hg19,
+    png,
+    ggplot2,
+    scales,
+    showtext,
+    knitr,
+    rmarkdown,
+    testthat (>= 3.0.0)
 VignetteBuilder: knitr
+Config/testthat/edition: 3

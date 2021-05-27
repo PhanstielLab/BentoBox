@@ -914,7 +914,7 @@ bb_plotManhattan <- function(data, sigVal = 5e-08, chrom = NULL,
     ## If placing information is provided but plot == TRUE,
     ## set up it's own viewport separate from bb_makepage
     ## Not translating into page_coordinates
-    if (is.null(man_plot$x) & is.null(man_plot$y)) {
+    if (is.null(man_plot$x) | is.null(man_plot[["y"]])) {
         vp <- viewport(
             height = unit(0.25, "snpc"), width = unit(1, "snpc"),
             x = unit(0.5, "npc"), y = unit(0.5, "npc"),

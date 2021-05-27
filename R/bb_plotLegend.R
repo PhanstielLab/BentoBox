@@ -206,7 +206,7 @@ bb_plotLegend <- function(legend, fill = NULL, pch = NULL, lty = NULL,
     ## If placing information is provided but plot == TRUE,
     ## set up it's own viewport separate from bb_makepage
     ## Not translating into page_coordinates
-    if (is.null(legend_plot$x) & is.null(legend_plot$y)) {
+    if (is.null(legend_plot$x) | is.null(legend_plot$y)) {
         vp <- viewport(
             height = unit(0.125, "snpc"), width = unit(0.20, "snpc"),
             x = unit(0.5, "npc"), y = unit(0.5, "npc"),

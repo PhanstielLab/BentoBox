@@ -22,14 +22,14 @@ check_placement <- function(object) {
     if (attributes(object)$plotted == TRUE) {
 
         ## If giving placement coordinates
-        if (!is.null(object$x) | !is.null(object$y)) {
+        if (!is.null(object$x) | !is.null(object[["y"]])) {
 
             ## 1. Need both an x and y coordinate
-            if (!is.null(object$x) & is.null(object$y)) {
+            if (!is.null(object$x) & is.null(object[["y"]])) {
                 stop("Placement detected with y value missing.", call. = FALSE)
             }
 
-            if (!is.null(object$y) & is.null(object$x)) {
+            if (!is.null(object[["y"]]) & is.null(object$x)) {
                 stop("Placement detected with x value missing.", call. = FALSE)
             }
 
@@ -71,7 +71,7 @@ validUnits <- c(
 
 ## Define a function that converts coordinates/dimensions into default units
 defaultUnits <- function(object, default.units) {
-    if (!(is.null(object$x) & is.null(object$y))) {
+    if (!(is.null(object$x)) & !(is.null(object[["y"]]))) {
         if (!"unit" %in% class(object$x)) {
             if (!is.numeric(object$x)) {
                 stop("x-coordinate is neither a unit object nor a

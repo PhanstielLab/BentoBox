@@ -33,12 +33,27 @@ bb_pagePlotRemove <- function(plot) {
     bb_vpTree[grep(plot$grobs$name, bb_vpTree)] <- NULL
     assign("bb_vpTree", bb_vpTree, envir = bbEnv)
 
-    ## Need to remove outer viewport of bb_hicTriangle plot
+    ## Need to remove outer viewport of bb_hicTriangle/bb_hicRectangle plot
+    ## and domain Clips
     if (class(plot) == "bb_hicTriangle" |
         class(plot) == "bb_hicRectangle") {
         vp_name <- plot$grobs$vp$name
         vp_name <- gsub("inside", "outside", vp_name)
-        seekViewport(vp_name)
-        popViewport()
+        suppressMessages(seekViewport(vp_name))
+        suppressMessages(popViewport())
+    } else if (class(plot) == "bb_domain") {
+        if (plot$hicClass != "bb_hicSquare") {
+            vp_name <- plot$grobs$vp$name
+            vp_name <- gsub("inside", "outside", vp_name)
+            suppressMessages(seekViewport(vp_name))
+            suppressMessages(popViewport())
+        }
+    } else if (class(plot) == "bb_signal"){
+        if (grepl("_v", plot$grobs$vp$name)){
+            vp_name <- plot$grobs$vp$name
+            vp_name <- gsub("_v", "_vClip", vp_name)
+            suppressMessages(seekViewport(vp_name))
+            suppressMessages(popViewport())
+        }
     }
 }

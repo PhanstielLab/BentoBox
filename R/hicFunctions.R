@@ -96,9 +96,9 @@ read_data <- function(hic, hic_plot, norm, assembly, type, quiet) {
         if (!is.null(hic_plot$chromstart) & !is.null(hic_plot$chromend)) {
             if (!quiet) {
                 message(
-                    "Read in dataframe.  Assuming \'chrom\' in column1
-                        and \'altchrom\' in column2.",
-                    hic_plot$resolution, "BP resolution detected."
+                    "Read in dataframe.  Assuming \'chrom\' in column1",
+                    "and \'altchrom\' in column2. ",
+                    hic_plot$resolution, " BP resolution detected."
                 )
             }
 
@@ -142,4 +142,20 @@ set_zrange <- function(hic, hic_plot) {
     }
 
     return(hic_plot)
+}
+
+## Define a function that parses an inherited half of a Hi-C plot
+inherit_half <- function(hic) {
+    if (class(hic) == "bb_hicSquare") {
+        if (is.null(hic$althalf)) {
+            half <- hic$half
+        } else {
+            half <- hic$althalf
+        }
+    } else if (class(hic) == "bb_hicTriangle" |
+        class(hic) == "bb_hicRectangle") {
+        half <- "top"
+    }
+
+    return(half)
 }
