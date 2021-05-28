@@ -131,22 +131,15 @@
     chrom <span class="op">=</span> <span class="st">"chr21"</span>, chromstart <span class="op">=</span> <span class="fl">28000000</span>, chromend <span class="op">=</span> <span class="fl">30300000</span>,
     x <span class="op">=</span> <span class="fl">0.25</span>, y <span class="op">=</span> <span class="fl">0.25</span>, width <span class="op">=</span> <span class="fl">2.5</span>, height <span class="op">=</span> <span class="fl">2.5</span>, default.units <span class="op">=</span> <span class="st">"inches"</span>
 <span class="op">)</span>
-<span class="co">#&gt; Read in dataframe.  Assuming 'chrom' in column1and 'altchrom' in column2. 10000 BP resolution detected.</span>
-<span class="co">#&gt; bb_hicSquare[bb_hicSquare1]</span>
 
 <span class="fu"><a href="../../reference/bb_annoGenomeLabel.html">bb_annoGenomeLabel</a></span><span class="op">(</span>
     plot <span class="op">=</span> <span class="va">hicPlot</span>, scale <span class="op">=</span> <span class="st">"Mb"</span>,
     x <span class="op">=</span> <span class="fl">0.25</span>, y <span class="op">=</span> <span class="fl">2.76</span>
-<span class="op">)</span>
-<span class="co">#&gt; Warning: End label is rounded.</span>
-<span class="co">#&gt; bb_genomeLabel[bb_genomeLabel1]</span></code></pre></div>
+<span class="op">)</span></code></pre></div>
 <p><img src="annotations_files/figure-html/anno_01-1.svg" width="576" style="display: block; margin: auto;"></p>
 <p>If we use a more specific genomic region like <code>chr21:28255554-29354665</code>, the Mb scale will be rounded and indicated with an approximation sign:</p>
-<pre><code>#&gt; Read in dataframe.  Assuming 'chrom' in column1and 'altchrom' in column2. 10000 BP resolution detected.
-#&gt; bb_hicSquare[bb_hicSquare1]
-#&gt; Warning: Start label is rounded.
-#&gt; Warning: End label is rounded.
-#&gt; bb_genomeLabel[bb_genomeLabel1]</code></pre>
+<pre><code>#&gt; Warning: Start label is rounded.
+#&gt; Warning: End label is rounded.</code></pre>
 <p><img src="annotations_files/figure-html/anno_02-1.svg" width="576" style="display: block; margin: auto;"></p>
 <p>Thus, it makes more sense to use the bp scale for ultimate accuracy:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
@@ -186,8 +179,7 @@
     axis <span class="op">=</span> <span class="st">"y"</span>,
     x <span class="op">=</span> <span class="fl">0.5</span>, y <span class="op">=</span> <span class="fl">0.25</span>,
     just <span class="op">=</span> <span class="fu"><a href="../../reference/c.html">c</a></span><span class="op">(</span><span class="st">"right"</span>, <span class="st">"top"</span><span class="op">)</span>
-<span class="op">)</span>
-<span class="co">#&gt; Warning: End label is rounded.</span></code></pre></div>
+<span class="op">)</span></code></pre></div>
 <p><img src="annotations_files/figure-html/anno_06-1.svg" width="576" style="display: block; margin: auto;"></p>
 </div>
 <div id="plot-axes" class="section level2">
@@ -339,8 +331,7 @@
 <p><img src="annotations_files/figure-html/anno_11-1.svg" width="787.2" style="display: block; margin: auto;"></p>
 <p>We would use a similar workflow to how we annotated Hi-C pixels:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R">
-<span class="fu"><a href="../../reference/bb_pageCreate.html">bb_pageCreate</a></span><span class="op">(</span>
+<code class="sourceCode R"><span class="fu"><a href="../../reference/bb_pageCreate.html">bb_pageCreate</a></span><span class="op">(</span>
     width <span class="op">=</span> <span class="fl">3.25</span>, height <span class="op">=</span> <span class="fl">3.24</span>, default.units <span class="op">=</span> <span class="st">"inches"</span>,
     showGuides <span class="op">=</span> <span class="cn">FALSE</span>, xgrid <span class="op">=</span> <span class="fl">0</span>, ygrid <span class="op">=</span> <span class="fl">0</span>
 <span class="op">)</span>
@@ -356,6 +347,11 @@
 <span class="va">domainAnno</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/bb_annoDomains.html">bb_annoDomains</a></span><span class="op">(</span>
     plot <span class="op">=</span> <span class="va">hicPlot</span>, data <span class="op">=</span> <span class="va">domains</span>,
     half <span class="op">=</span> <span class="st">"bottom"</span>
+<span class="op">)</span>
+
+<span class="fu"><a href="../../reference/bb_annoGenomeLabel.html">bb_annoGenomeLabel</a></span><span class="op">(</span>
+    plot <span class="op">=</span> <span class="va">hicPlot</span>, 
+    x <span class="op">=</span> <span class="fl">0.25</span>, y <span class="op">=</span> <span class="fl">3.01</span>
 <span class="op">)</span></code></pre></div>
 <p><img src="annotations_files/figure-html/anno_12-1.svg" width="504" style="display: block; margin: auto;"></p>
 <p>We can either annotate single domains or multiple domains at once depending on the <code>data</code> input.</p>
@@ -396,7 +392,6 @@
 <span class="op">)</span></code></pre></div>
 <p><img src="annotations_files/figure-html/anno_15-1.svg" width="792" style="display: block; margin: auto;"></p>
 <p>Finally, we can add our zoomed-in signal track data within the zoom lines:</p>
-<pre><code>#&gt; Warning: End label is rounded.</code></pre>
 <p><img src="annotations_files/figure-html/anno_16-1.svg" width="792" style="display: block; margin: auto;"></p>
 </div>
   </div>

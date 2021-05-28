@@ -11,7 +11,9 @@ vignette: >
 knitr::opts_chunk$set(
     collapse = TRUE,
     comment = "#>",
-    fig.align = "center"
+    fig.align = "center",
+    message = FALSE,
+    warning = FALSE
 )
 library(BentoBox)
 library(grid)
@@ -319,16 +321,22 @@ in this Hi-C plot:
 
 ```{r anno_11, echo=FALSE, message=FALSE}
 data("bb_imrHicData")
-bb_plotHicSquare(
+bb_pageCreate(
+    width = 3.25, height = 3.24, default.units = "inches",
+    showGuides = FALSE, xgrid = 0, ygrid = 0
+)
+hicPlot <- bb_plotHicSquare(
     data = bb_imrHicData, resolution = 10000, zrange = c(0, 70),
-    chrom = "chr21", chromstart = 28000000, chromend = 30300000
+    chrom = "chr21", chromstart = 28000000, chromend = 30300000,
+    x = 0.25, y = 0.25, width = 2.75, height = 2.75,
+    just = c("left", "top"),
+    default.units = "inches"
 )
 ```
 
 We would use a similar workflow to how we annotated Hi-C pixels:
 
 ```{r anno_12, echo=TRUE, fig.height=4.25, fig.width=5.25, message=FALSE}
-
 bb_pageCreate(
     width = 3.25, height = 3.24, default.units = "inches",
     showGuides = FALSE, xgrid = 0, ygrid = 0
@@ -346,6 +354,12 @@ domainAnno <- bb_annoDomains(
     plot = hicPlot, data = domains,
     half = "bottom"
 )
+
+bb_annoGenomeLabel(
+    plot = hicPlot, 
+    x = 0.25, y = 3.01
+)
+
 ```
 
 We can either annotate single domains or multiple domains at once depending 

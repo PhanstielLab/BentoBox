@@ -11,7 +11,9 @@ vignette: >
 knitr::opts_chunk$set(
     collapse = TRUE,
     comment = "#>",
-    fig.align = "center"
+    fig.align = "center",
+    message = FALSE,
+    warning = FALSE
 )
 library(BentoBox)
 library(grid)
