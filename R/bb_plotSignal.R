@@ -921,13 +921,16 @@ bb_plotSignal <- function(data, binSize = NA, binCap = TRUE, negData = FALSE,
 
         if (bb_sigInternal$draw == TRUE) {
             vp$name <- "bb_signal1"
-            vpClip$name <- "bb_signal1_Clip"
+            if (bb_sigInternal$orientation == "v"){
+                vpClip$name <- "bb_signal1_Clip"
+            }
+
             grid.newpage()
         }
 
 
         } else {
-        add_bbViewport(vp_name)
+
 
         ## Convert coordinates into same units as page
         page_coords <- convert_page(object = signal_track)
@@ -944,6 +947,7 @@ bb_plotSignal <- function(data, binSize = NA, binCap = TRUE, negData = FALSE,
                 just = bb_sigInternal$just,
                 name = paste0(vp_name, "_h")
             )
+            add_bbViewport(paste0(vp_name, "_h"))
         } else if (bb_sigInternal$orientation == "v"){
 
             ## outside clipping viewport
@@ -969,7 +973,7 @@ bb_plotSignal <- function(data, binSize = NA, binCap = TRUE, negData = FALSE,
                 name = paste0(vp_name, "_v"),
                 angle = 90
             )
-
+            add_bbViewport(paste0(vp_name, "_vClip"))
         }
 
 

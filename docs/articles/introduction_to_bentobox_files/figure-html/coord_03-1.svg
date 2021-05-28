@@ -5374,7 +5374,7 @@
 <g clip-path="url(#clip262)" clip-rule="nonzero">
 <path style="fill:none;stroke-width:0.75;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(21.568627%,65.490196%,85.882353%);stroke-opacity:1;stroke-miterlimit:10;" d="M 396 107.019531 L 396.144531 107.019531 "/>
 </g>
-<path style="fill:none;stroke-width:0.75;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(0%,0%,0%);stroke-opacity:1;stroke-miterlimit:10;" d="M 108 108.71875 L 396 108.71875 "/>
+<path style="fill:none;stroke-width:0.75;stroke-linecap:butt;stroke-linejoin:round;stroke:rgb(0%,0%,0%);stroke-opacity:1;stroke-miterlimit:10;" d="M 108 108.71875 L 396 108.71875 "/>
 <g style="fill:rgb(0%,0%,0%);fill-opacity:1;">
   <use xlink:href="#glyph0-1" x="239.492188" y="118.726562"/>
   <use xlink:href="#glyph0-2" x="244.492188" y="118.726562"/>

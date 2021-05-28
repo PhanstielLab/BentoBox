@@ -1549,7 +1549,7 @@
   <path d="M 113 321 L 117 321 L 117 324 L 113 324 Z M 113 321 "/>
 </clipPath>
 </defs>
-<g id="surface377">
+<g id="surface186">
 <path style=" stroke:none;fill-rule:nonzero;fill:rgb(3.921569%,11.764706%,36.078431%);fill-opacity:1;" d="M 108 216 L 109.441406 216 L 109.441406 214.558594 L 108 214.558594 Z M 108 216 "/>
 <path style=" stroke:none;fill-rule:nonzero;fill:rgb(3.921569%,11.764706%,36.078431%);fill-opacity:1;" d="M 108 214.558594 L 109.441406 214.558594 L 109.441406 213.117188 L 108 213.117188 Z M 108 214.558594 "/>
 <path style=" stroke:none;fill-rule:nonzero;fill:rgb(3.921569%,11.764706%,36.078431%);fill-opacity:1;" d="M 109.441406 214.558594 L 110.882812 214.558594 L 110.882812 213.117188 L 109.441406 213.117188 Z M 109.441406 214.558594 "/>
@@ -16621,7 +16621,7 @@
 <g style="fill:rgb(67.058824%,80%,55.686275%);fill-opacity:1;">
   <use xlink:href="#glyph1-2" x="99.328125" y="350.277344"/>
 </g>
-<path style="fill:none;stroke-width:0.75;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(0%,0%,0%);stroke-opacity:1;stroke-miterlimit:10;" d="M 108 360 L 252 360 "/>
+<path style="fill:none;stroke-width:0.75;stroke-linecap:butt;stroke-linejoin:round;stroke:rgb(0%,0%,0%);stroke-opacity:1;stroke-miterlimit:10;" d="M 108 360 L 252 360 "/>
 <g style="fill:rgb(0%,0%,0%);fill-opacity:1;">
   <use xlink:href="#glyph2-1" x="167.492188" y="370.007812"/>
   <use xlink:href="#glyph2-2" x="172.492188" y="370.007812"/>

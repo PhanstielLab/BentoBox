@@ -47,8 +47,8 @@
 
 
 <meta property="og:title" content="BentoBox example data for COVID-19 cases in New York and Florida — bb_CasesNYFL" />
-<meta property="og:description" content="A timeline dataset tracking positive COVID-19 cases in New York and Florida from
-2020-01-29 to 2021-03-07." />
+<meta property="og:description" content="A timeline dataset tracking positive COVID-19 cases in
+New York and Florida from 2020-01-29 to 2021-03-07." />
 <meta property="og:image" content="https://phanstiellab.github.io/bentobox/logo.png" />
 
 
@@ -81,7 +81,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">BentoBox</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.2</span>
       </span>
     </div>
 
@@ -94,22 +94,37 @@
   </a>
 </li>
 <li>
-  <a href="../articles/our_philosophy.html">Our Philosophy</a>
+  <a href="../articles/guides/our_philosophy.html">Our Philosophy</a>
+</li>
+<li>
+  <a href="../articles/introduction_to_bentobox.html">Introduction to BentoBox</a>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Vignettes
+    Articles
      
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/introduction_to_bentobox.html">Introduction to BentoBox</a>
+      <a href="../articles/guides/bentobox_page.html">The BentoBox Page</a>
+    </li>
+    <li>
+      <a href="../articles/guides/plot_elements.html">Additional plot types and elements</a>
+    </li>
+    <li>
+      <a href="../articles/guides/annotations.html">An in depth look at plot annotations</a>
+    </li>
+    <li>
+      <a href="../articles/guides/aesthetics.html">A guide to plot aesthetics</a>
     </li>
   </ul>
 </li>
 <li>
   <a href="../reference/index.html">Reference</a>
+</li>
+<li>
+  <a href="../news/index.html">News</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -138,8 +153,8 @@
     </div>
 
     <div class="ref-description">
-    <p>A timeline dataset tracking positive COVID-19 cases in New York and Florida from
-2020-01-29 to 2021-03-07.</p>
+    <p>A timeline dataset tracking positive COVID-19 cases in
+New York and Florida from 2020-01-29 to 2021-03-07.</p>
     </div>
 
     <pre class="usage"><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='st'>"bb_CasesNYFL"</span><span class='op'>)</span></pre>
@@ -149,7 +164,8 @@
 
     <p>a dataframe with 3 columns</p><dl>
 <dt>date</dt><dd><p>The date of the case count.</p></dd>
-<dt>state</dt><dd><p>The state of the case count. Either <code>"new york"</code> or <code>"florida"</code>.</p></dd>
+<dt>state</dt><dd><p>The state of the case count.
+Either <code>"new york"</code> or <code>"florida"</code>.</p></dd>
 <dt>caseIncrease</dt><dd><p>The increase number of positive COVID-19 cases.</p></dd>
 
 </dl>

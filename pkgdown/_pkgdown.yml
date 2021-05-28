@@ -22,13 +22,23 @@ navbar:
     - icon: fa-home fa-lg
       href: index.html
     - text: Our Philosophy
-      href: articles/our_philosophy.html
-    - text: Vignettes
+      href: articles/guides/our_philosophy.html
+    - text: Introduction to BentoBox
+      href: articles/introduction_to_bentobox.html
+    - text: Articles
       menu:
-        - text: Introduction to BentoBox
-          href: articles/introduction_to_bentobox.html
+        - text: The BentoBox Page
+          href: articles/guides/bentobox_page.html
+        - text: Additional plot types and elements
+          href: articles/guides/plot_elements.html
+        - text: An in depth look at plot annotations
+          href: articles/guides/annotations.html
+        - text: A guide to plot aesthetics
+          href: articles/guides/aesthetics.html
     - text: Reference
       href: reference/index.html
+    - text: News
+      href: news/index.html
   right:
     - icon: fab fa-github fa-lg
       href: https://github.com/PhanstielLab/BentoBox

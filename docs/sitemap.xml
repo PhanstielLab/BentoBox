@@ -16,6 +16,9 @@
     <loc>https://phanstiellab.github.io/bentobox/reference/bb_VaccinesNYFL.html</loc>
   </url>
   <url>
+    <loc>https://phanstiellab.github.io/bentobox/reference/bb_annoDomains.html</loc>
+  </url>
+  <url>
     <loc>https://phanstiellab.github.io/bentobox/reference/bb_annoGenomeLabel.html</loc>
   </url>
   <url>
@@ -205,9 +208,21 @@
     <loc>https://phanstiellab.github.io/bentobox/reference/cytoBand.Rnorvegicus.UCSC.rn6.html</loc>
   </url>
   <url>
-    <loc>https://phanstiellab.github.io/bentobox/articles/introduction_to_bentobox.html</loc>
+    <loc>https://phanstiellab.github.io/bentobox/articles/guides/aesthetics.html</loc>
   </url>
   <url>
-    <loc>https://phanstiellab.github.io/bentobox/articles/our_philosophy.html</loc>
+    <loc>https://phanstiellab.github.io/bentobox/articles/guides/annotations.html</loc>
+  </url>
+  <url>
+    <loc>https://phanstiellab.github.io/bentobox/articles/guides/bentobox_page.html</loc>
+  </url>
+  <url>
+    <loc>https://phanstiellab.github.io/bentobox/articles/guides/our_philosophy.html</loc>
+  </url>
+  <url>
+    <loc>https://phanstiellab.github.io/bentobox/articles/guides/plot_elements.html</loc>
+  </url>
+  <url>
+    <loc>https://phanstiellab.github.io/bentobox/articles/introduction_to_bentobox.html</loc>
   </url>
 </urlset>

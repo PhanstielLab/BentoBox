@@ -4,9 +4,9 @@
 <clipPath id="clip1">
   <path d="M 85.429688 66.015625 L 93.933594 66.015625 L 93.933594 122.707031 L 85.429688 122.707031 Z M 85.429688 66.015625 "/>
 </clipPath>
-<image id="image536" width="1" height="300" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAEsCAIAAACNMk6CAAAABmJLR0QA/wD/AP+gvaeTAAAAtklEQVQ4ja1SORIDMQiTVOcpeWb+TRpsztlJkQp0GbNevN4fkRQJgfSeAjH60MPbNRRterNWs3Bu4pndNRQfEv/HqslbwRv3jK1VESIhwut5i4TRdSSeEMGGu556Qlj8aLOqH4r3P7jmdatJrgtZs+Q5dwwvgdRb5PPuG+8cF68GbxUvXL6jXCvc2W3R+nfYzrzaPefhm7Rdy8ySm7PiH6Lzjv3tc1XDNQ9pyaxn9/rzDPqehf8CvmEbIcdmllUAAAAASUVORK5CYII="/>
+<image id="image310" width="1" height="300" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAEsCAIAAACNMk6CAAAABmJLR0QA/wD/AP+gvaeTAAAAtklEQVQ4ja1SORIDMQiTVOcpeWb+TRpsztlJkQp0GbNevN4fkRQJgfSeAjH60MPbNRRterNWs3Bu4pndNRQfEv/HqslbwRv3jK1VESIhwut5i4TRdSSeEMGGu556Qlj8aLOqH4r3P7jmdatJrgtZs+Q5dwwvgdRb5PPuG+8cF68GbxUvXL6jXCvc2W3R+nfYzrzaPefhm7Rdy8ySm7PiH6Lzjv3tc1XDNQ9pyaxn9/rzDPqehf8CvmEbIcdmllUAAAAASUVORK5CYII="/>
 <pattern id="pattern0" patternUnits="userSpaceOnUse" width="1" height="300"  patternTransform="matrix(8.503937,0,0,0.188976,85.429002,66.014513)">
-  <use xlink:href="#image536"/>
+  <use xlink:href="#image310"/>
 </pattern>
 <clipPath id="clip2">
   <path d="M 541 83 L 700.179688 83 L 700.179688 154.722656 L 541 154.722656 Z M 541 83 "/>
@@ -39,7 +39,7 @@
   <path d="M 527.480469 192.679688 L 700.179688 192.679688 L 700.179688 193 L 527.480469 193 Z M 527.480469 192.679688 "/>
 </clipPath>
 </defs>
-<g id="surface532">
+<g id="surface306">
 <path style="fill:none;stroke-width:0.75;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(0%,0%,0%);stroke-opacity:1;stroke-miterlimit:10;" d="M 72 288 L 756 288 L 756 36 L 72 36 Z M 72 288 "/>
 <path style="fill:none;stroke-width:0.75;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(0%,0%,0%);stroke-opacity:1;stroke-miterlimit:10;" d="M 72 33.75 L 72 31.5 "/>
 <path style="fill:none;stroke-width:0.75;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(0%,0%,0%);stroke-opacity:1;stroke-miterlimit:10;" d="M 81 33.75 L 81 31.5 "/>

@@ -80,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">BentoBox</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.2</span>
       </span>
     </div>
 
@@ -93,22 +93,37 @@
   </a>
 </li>
 <li>
-  <a href="../articles/our_philosophy.html">Our Philosophy</a>
+  <a href="../articles/guides/our_philosophy.html">Our Philosophy</a>
+</li>
+<li>
+  <a href="../articles/introduction_to_bentobox.html">Introduction to BentoBox</a>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Vignettes
+    Articles
      
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/introduction_to_bentobox.html">Introduction to BentoBox</a>
+      <a href="../articles/guides/bentobox_page.html">The BentoBox Page</a>
+    </li>
+    <li>
+      <a href="../articles/guides/plot_elements.html">Additional plot types and elements</a>
+    </li>
+    <li>
+      <a href="../articles/guides/annotations.html">An in depth look at plot annotations</a>
+    </li>
+    <li>
+      <a href="../articles/guides/aesthetics.html">A guide to plot aesthetics</a>
     </li>
   </ul>
 </li>
 <li>
   <a href="../reference/index.html">Reference</a>
+</li>
+<li>
+  <a href="../news/index.html">News</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -230,20 +245,23 @@ relevant placement and <a href='https://rdrr.io/r/grid/grid.grob.html'>grob</a> 
 <span class='fu'><a href='bb_pageCreate.html'>bb_pageCreate</a></span><span class='op'>(</span>width <span class='op'>=</span> <span class='fl'>2</span>, height <span class='op'>=</span> <span class='fl'>2</span>, default.units <span class='op'>=</span> <span class='st'>"inches"</span><span class='op'>)</span>
 </div><div class='input'>
 <span class='co'>## Plot two circles, one at a time</span>
-<span class='fu'>bb_plotCircle</span><span class='op'>(</span>x <span class='op'>=</span> <span class='fl'>0.6</span>, y <span class='op'>=</span> <span class='fl'>0.5</span>, r <span class='op'>=</span> <span class='fl'>0.1</span>, fill <span class='op'>=</span> <span class='st'>"black"</span>,
-              default.units <span class='op'>=</span> <span class='st'>"inches"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>bb_circle[bb_circle1]</span></div><div class='input'><span class='fu'>bb_plotCircle</span><span class='op'>(</span>x <span class='op'>=</span> <span class='fl'>1.4</span>, y <span class='op'>=</span> <span class='fl'>0.5</span>, r <span class='op'>=</span> <span class='fl'>0.1</span>, fill <span class='op'>=</span> <span class='st'>"black"</span>,
-              default.units <span class='op'>=</span> <span class='st'>"inches"</span><span class='op'>)</span>
+<span class='fu'>bb_plotCircle</span><span class='op'>(</span>
+    x <span class='op'>=</span> <span class='fl'>0.6</span>, y <span class='op'>=</span> <span class='fl'>0.5</span>, r <span class='op'>=</span> <span class='fl'>0.1</span>, fill <span class='op'>=</span> <span class='st'>"black"</span>,
+    default.units <span class='op'>=</span> <span class='st'>"inches"</span>
+<span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='message'>bb_circle[bb_circle1]</span></div><div class='input'><span class='fu'>bb_plotCircle</span><span class='op'>(</span>
+    x <span class='op'>=</span> <span class='fl'>1.4</span>, y <span class='op'>=</span> <span class='fl'>0.5</span>, r <span class='op'>=</span> <span class='fl'>0.1</span>, fill <span class='op'>=</span> <span class='st'>"black"</span>,
+    default.units <span class='op'>=</span> <span class='st'>"inches"</span>
+<span class='op'>)</span>
 </div><div class='output co'>#&gt; <span class='message'>bb_circle[bb_circle2]</span></div><div class='input'>
 <span class='co'>## Plot a vector of circles</span>
-<span class='va'>xVals</span> <span class='op'>&lt;-</span> <span class='fl'>1</span> <span class='op'>+</span> <span class='op'>(</span><span class='fl'>0.5</span><span class='op'>*</span><span class='fu'><a href='https://rdrr.io/r/base/Trig.html'>cos</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='va'>pi</span>, <span class='va'>pi</span><span class='op'>/</span><span class='fl'>8</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
-<span class='va'>yVals</span> <span class='op'>&lt;-</span> <span class='fl'>1</span> <span class='op'>+</span> <span class='op'>(</span><span class='fl'>0.5</span><span class='op'>*</span><span class='fu'><a href='https://rdrr.io/r/base/Trig.html'>sin</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='va'>pi</span>, <span class='va'>pi</span><span class='op'>/</span><span class='fl'>8</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
+<span class='va'>xVals</span> <span class='op'>&lt;-</span> <span class='fl'>1</span> <span class='op'>+</span> <span class='op'>(</span><span class='fl'>0.5</span> <span class='op'>*</span> <span class='fu'><a href='https://rdrr.io/r/base/Trig.html'>cos</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='va'>pi</span>, <span class='va'>pi</span> <span class='op'>/</span> <span class='fl'>8</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
+<span class='va'>yVals</span> <span class='op'>&lt;-</span> <span class='fl'>1</span> <span class='op'>+</span> <span class='op'>(</span><span class='fl'>0.5</span> <span class='op'>*</span> <span class='fu'><a href='https://rdrr.io/r/base/Trig.html'>sin</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='va'>pi</span>, <span class='va'>pi</span> <span class='op'>/</span> <span class='fl'>8</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
 <span class='fu'>bb_plotCircle</span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>xVals</span>, y <span class='op'>=</span> <span class='va'>yVals</span>, r <span class='op'>=</span> <span class='fl'>0.05</span>, default.units <span class='op'>=</span> <span class='st'>"inches"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>bb_circle[bb_circle2]</span></div><div class='img'><img src='bb_plotCircle-1.png' alt='' width='787' height='672' /></div><div class='input'>
+</div><div class='output co'>#&gt; <span class='message'>bb_circle[bb_circle2]</span></div><div class='img'><img src='bb_plotCircle-1.svg' alt='' width='787' height='672' /></div><div class='input'>
 <span class='co'>## Hide page guides</span>
 <span class='fu'><a href='bb_pageGuideHide.html'>bb_pageGuideHide</a></span><span class='op'>(</span><span class='op'>)</span>
-</div><div class='img'><img src='bb_plotCircle-2.png' alt='' width='787' height='672' /></div><div class='input'>
-</div></pre>
+</div><div class='img'><img src='bb_plotCircle-2.svg' alt='' width='787' height='672' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

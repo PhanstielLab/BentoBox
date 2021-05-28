@@ -53,6 +53,7 @@ Annotate domains in a Hi-C plot
 \examples{
 ## Define a GRanges object with TAD ranges
 library(GenomicRanges)
+library(IRanges)
 domains <- GRanges("chr21",
     ranges = IRanges(
         start = c(28210000, 29085000, 29430000, 29700000),
