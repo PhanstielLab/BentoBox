@@ -61,6 +61,7 @@ LinkingTo:
     Rcpp
 Suggests: 
     AnnotationDbi,
+    BentoBoxData,
     BSgenome,
     BSgenome.Hsapiens.UCSC.hg19,
     GenomicFeatures,

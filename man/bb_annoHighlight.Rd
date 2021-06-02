@@ -76,6 +76,7 @@ BentoBox plot
 bb_pageCreate(width = 7.5, height = 1.5, default.units = "inches")
 
 ## Plot and place a signal plot
+library(BentoBoxData)
 data("bb_imrH3K27acData")
 region <- bb_params(
     chrom = "chr21",

@@ -17,6 +17,7 @@ knitr::opts_chunk$set(
 )
 library(BentoBox)
 library(grid)
+library(BentoBoxData)
 ```
 
 Beyond providing functions for plotting and arranging various genomic 

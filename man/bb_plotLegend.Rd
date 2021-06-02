@@ -95,6 +95,7 @@ Plot a legend
 }
 \examples{
 ## Load BED data
+library(BentoBoxData)
 data("bb_bedData")
 
 ## Create BentoBox page

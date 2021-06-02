@@ -40,3 +40,15 @@ Returns a 6-column dataframe of bigwig information.
 \description{
 Read a bigWig file and return it as a data frame
 }
+\examples{
+bwFile <- system.file("extdata/test.bw", package="BentoBoxData")
+
+## Read in entire file
+bwData <- bb_readBigwig(file = bwFile)
+
+## Read in specified region
+bwRegion <- bb_readBigwig(file = bwFile,
+                         chrom = "chr2",
+                         chromstart = 1,
+                         chromend = 1500)
+}

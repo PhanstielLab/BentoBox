@@ -29,6 +29,7 @@
 #'
 #' @examples
 #' ## Load Hi-C data
+#' library(BentoBoxData)
 #' data("bb_imrHicData")
 #'
 #' ## Create, but do not plot, square Hi-C plot

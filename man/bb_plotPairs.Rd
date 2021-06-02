@@ -138,6 +138,7 @@ bb_plotPairs(data, chrom,
 }
 \examples{
 ## Load paired ranges data in BEDPE format
+library(BentoBoxData)
 data("bb_bedpeData")
 
 ## Set the coordinates

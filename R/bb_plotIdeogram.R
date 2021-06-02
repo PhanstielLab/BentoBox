@@ -42,7 +42,8 @@
 #' @examples
 #' ## Load Giemsa stain band information and genomic
 #' ## annotation data for hg19 genome assembly
-#' library("TxDb.Hsapiens.UCSC.hg19.knownGene")
+#' library(TxDb.Hsapiens.UCSC.hg19.knownGene)
+#' library(BentoBoxData)
 #' data("cytoBand.Hsapiens.UCSC.hg19")
 #'
 #' ## Create page
@@ -79,7 +80,7 @@
 #' }
 #'
 #' Giemsa stain band data from the UCSC Genome Browser is
-#' included with BentoBox.
+#' included with the package BentoBoxData.
 #'
 #' @export
 bb_plotIdeogram <- function(chrom, assembly = "hg19", orientation = "h",
@@ -131,13 +132,23 @@ bb_plotIdeogram <- function(chrom, assembly = "hg19", orientation = "h",
             ## Get name of associated cytoband data (included in package)
             cytoData <- availCytos[[which(names(availCytos) %in% assemblyName)]]
 
-            ## Check that included cytoband data is loaded
+            ## Check that BenyoBoxData/included cytoband data is loaded
             currentLoaded <- ls(envir = globalenv())
             if (!cytoData %in% currentLoaded) {
-                warning("Assembly cytoBand data not loaded. Run",
-                    '`data("', cytoData, '")`', "to load data.",
-                    call. = FALSE
-                )
+                if (!"BentoBoxData" %in% (.packages())){
+                    warning("`BentoBoxData` package not loaded and assembly 
+                            cytoBand data not 
+                            loaded. Install and load `BentoBoxData` and run",
+                            '`data("', cytoData, '")`', "to load data.",
+                            call. = FALSE
+                    )
+                } else {
+                    warning("Assembly cytoBand data not loaded. Run",
+                            '`data("', cytoData, '")`', "to load data.",
+                            call. = FALSE
+                    )
+                }
+                
                 cytoData <- NULL
             }
 

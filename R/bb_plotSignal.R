@@ -73,6 +73,7 @@
 #'
 #' @examples
 #' ## Load signal data
+#' library(BentoBoxData)
 #' data("bb_imrH3K27acData")
 #' data("bb_gmH3K27acData")
 #'

@@ -93,6 +93,7 @@ Add a color scale legend for heatmap-style plots
 }
 \examples{
 ## Load Hi-C data
+library(BentoBoxData)
 data("bb_imrHicData")
 
 ## Create BentoBox page

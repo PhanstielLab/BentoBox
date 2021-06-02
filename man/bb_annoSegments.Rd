@@ -87,6 +87,7 @@ library(grid)
 bb_pageCreate(width = 7.5, height = 2.5, default.units = "inches")
 
 ## Plot a Manhattan plot
+library(BentoBoxData)
 library("TxDb.Hsapiens.UCSC.hg19.knownGene")
 data("bb_gwasData")
 manhattanPlot <- bb_plotManhattan(

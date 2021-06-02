@@ -38,7 +38,8 @@
 #'     )
 #' )
 #'
-#' ## Load Hi-C data and BEDPE data
+#' ## Load Hi-C data
+#' library(BentoBoxData)
 #' data("bb_imrHicData")
 #'
 #' ## Create BentoBox page

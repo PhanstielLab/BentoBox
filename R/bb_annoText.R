@@ -33,6 +33,7 @@
 #' bb_pageCreate(width = 4, height = 4, default.units = "inches")
 #'
 #' ## Plot text relative to a BentoBox plot
+#' library(BentoBoxData)
 #' data("bb_imrHicData")
 #' hicPlot <- bb_plotHicSquare(
 #'     data = bb_imrHicData, chrom = "chr21",

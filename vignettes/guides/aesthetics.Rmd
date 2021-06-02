@@ -17,6 +17,7 @@ knitr::opts_chunk$set(
 )
 library(BentoBox)
 library(grid)
+library(BentoBoxData)
 ```
 
 `BentoBox` plots are extremely customizable in appearance. In this section 

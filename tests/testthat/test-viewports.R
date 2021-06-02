@@ -32,6 +32,7 @@ test_that("Viewport conversions", {
 })
 
 test_that("Viewport order, naming, and numbering", {
+    library(BentoBoxData)
     data("bb_bedpeData")
     bb_pageCreate(width = 3, height = 5, default.units = "inches")
     arches <- suppressMessages(bb_plotPairsArches(
@@ -78,6 +79,7 @@ test_that("Viewport order, naming, and numbering", {
 })
 
 test_that("Below-y coordinate calculation", {
+    library(BentoBoxData)
     data("bb_imrHicData")
     bb_pageCreate(width = 3, height = 5, default.units = "inches")
     suppressMessages(bb_plotHicSquare(
@@ -91,6 +93,7 @@ test_that("Below-y coordinate calculation", {
 })
 
 test_that("draw parameter and bb_pagePlotPlace", {
+    library(BentoBoxData)
     data("bb_imrH3K27acData")
     bb_pageCreate(width = 3, height = 3, default.units = "inches")
 

@@ -18,6 +18,7 @@ knitr::opts_chunk$set(
 library(BentoBox)
 library(grid)
 library(GenomicRanges)
+library(BentoBoxData)
 ```
 
 `BentoBox` is modular and separates plotting and annotating into two different

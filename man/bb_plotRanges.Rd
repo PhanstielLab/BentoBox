@@ -151,6 +151,7 @@ bb_plotRanges(data, chrom,
 }
 \examples{
 ## Load ranges data in BED format
+library(BentoBoxData)
 data("bb_bedData")
 
 ## Create page

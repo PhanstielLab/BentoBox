@@ -82,6 +82,7 @@ Annotates zoom lines for a specified genomic region of a BentoBox plot
 bb_pageCreate(width = 7.5, height = 4.75, default.units = "inches")
 
 ## Plot and place a Manhattan plot
+library(BentoBoxData)
 library("TxDb.Hsapiens.UCSC.hg19.knownGene")
 data("bb_gwasData")
 manhattanPlot <- bb_plotManhattan(

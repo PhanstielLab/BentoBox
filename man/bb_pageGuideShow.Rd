@@ -16,6 +16,7 @@ Reshow guides drawn with \code{bb_pageCreate},
 }
 \examples{
 ## Load Hi-C data
+library(BentoBoxData)
 data("bb_imrHicData")
 
 ## Create a page

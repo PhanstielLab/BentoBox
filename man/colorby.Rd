@@ -22,6 +22,7 @@ that specify color scaling for the functions \code{bb_plotPairs},
 }
 \examples{
 ## Load paired ranges data in BEDPE format
+library(BentoBoxData)
 data("bb_bedpeData")
 
 ## Add a length column

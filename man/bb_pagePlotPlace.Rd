@@ -58,6 +58,7 @@ Place a BentoBox plot that has been previously created but not drawn
 }
 \examples{
 ## Load Hi-C data
+library(BentoBoxData)
 data("bb_imrHicData")
 
 ## Create, but do not plot, square Hi-C plot

@@ -89,12 +89,13 @@ bb_plotIdeogram(chrom)
 }
 
 Giemsa stain band data from the UCSC Genome Browser is
-included with BentoBox.
+included with the package BentoBoxData.
 }
 \examples{
 ## Load Giemsa stain band information and genomic
 ## annotation data for hg19 genome assembly
-library("TxDb.Hsapiens.UCSC.hg19.knownGene")
+library(TxDb.Hsapiens.UCSC.hg19.knownGene)
+library(BentoBoxData)
 data("cytoBand.Hsapiens.UCSC.hg19")
 
 ## Create page

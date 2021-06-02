@@ -17,6 +17,7 @@ knitr::opts_chunk$set(
 )
 library(BentoBox)
 library(grid)
+library(BentoBoxData)
 ```
 
 `BentoBox` uses a coordinate-based plotting system to define the size and 

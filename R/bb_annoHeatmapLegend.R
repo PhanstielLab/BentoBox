@@ -48,6 +48,7 @@
 #'
 #' @examples
 #' ## Load Hi-C data
+#' library(BentoBoxData)
 #' data("bb_imrHicData")
 #'
 #' ## Create BentoBox page

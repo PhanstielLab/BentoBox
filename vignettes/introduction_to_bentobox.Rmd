@@ -24,6 +24,7 @@ knitr::opts_chunk$set(
 )
 library(grid)
 library(BentoBox)
+library(BentoBoxData)
 ```
 
 # Overview

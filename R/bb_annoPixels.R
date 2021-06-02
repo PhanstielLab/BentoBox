@@ -39,6 +39,7 @@
 #'
 #' @examples
 #' ## Load Hi-C data and BEDPE data
+#' library(BentoBoxData)
 #' data("bb_imrHicData")
 #' data("bb_bedpeData")
 #'

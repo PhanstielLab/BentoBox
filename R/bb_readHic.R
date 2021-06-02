@@ -41,6 +41,19 @@
 #' @return Returns a 3-column dataframe in sparse upper triangular
 #' format with the following columns: \code{chrom}, \code{altchrom},
 #' \code{counts}.
+#' 
+#' @examples 
+#' hicFile <- system.file("extdata/test.hic", package="BentoBoxData")
+#' 
+#' ## Read in data for region `chr8:133000000-135000000` at 10Kb bp resolution
+#' hicData10kb <- bb_readHic(file = hicFile, chrom = "chr8",
+#'                      chromstart = 133000000, chromend = 135000000,
+#'                      resolution = 10000)
+#'                      
+#' ## Read in same region at 5Kb bp resolution
+#' hicData5kb <- bb_readHic(file = hicFile, chrom = "chr8",
+#'                      chromstart = 133000000, chromend = 135000000,
+#'                      resolution = 5000)                     
 #'
 #' @seealso \link[strawr]{straw}
 #'
@@ -559,10 +572,10 @@ bb_readHic <- function(file, chrom, chromstart = NULL, chromend = NULL,
     } else {
         if (!bb_rhic$quiet) {
             message(
-                "Read in hic file with",
-                bb_rhic$norm, "normalization at",
+                "Read in hic file with ",
+                bb_rhic$norm, " normalization at ",
                 bb_rhic$resolution, bb_rhic$res_scale,
-                "resolution."
+                " resolution."
             )
         }
     }

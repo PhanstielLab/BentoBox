@@ -66,6 +66,7 @@ Annotate pixels in a Hi-C plot
 }
 \examples{
 ## Load Hi-C data and BEDPE data
+library(BentoBoxData)
 data("bb_imrHicData")
 data("bb_bedpeData")
 

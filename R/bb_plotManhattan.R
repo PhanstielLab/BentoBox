@@ -97,6 +97,7 @@
 #' ## Load genomic assembly information
 #' library("TxDb.Hsapiens.UCSC.hg19.knownGene")
 #' ## Load GWAS data
+#' library(BentoBoxData)
 #' data("bb_gwasData")
 #'
 #' ## Create a page
