@@ -196,7 +196,7 @@
     x <span class="op">=</span> <span class="fl">0.5</span>, y <span class="op">=</span> <span class="fl">0.5</span>, width <span class="op">=</span> <span class="fl">2</span>, height <span class="op">=</span> <span class="fl">1</span>, just <span class="op">=</span> <span class="fu"><a href="../../reference/c.html">c</a></span><span class="op">(</span><span class="st">"left"</span>, <span class="st">"top"</span><span class="op">)</span>,
     default.units <span class="op">=</span> <span class="st">"inches"</span>
 <span class="op">)</span></code></pre></div>
-<p><img src="aesthetics_files/figure-html/aes_01-1.svg" width="480" style="display: block; margin: auto;"> This makes it easy to clearly see the precise dimensional boundaries of <code>BentoBox</code> plots.</p>
+<p><img src="aesthetics_files/figure-html/aes_01-1.png" width="750" style="display: block; margin: auto;"> This makes it easy to clearly see the precise dimensional boundaries of <code>BentoBox</code> plots.</p>
 <p>Some plots also benefit from baselines to quickly show where y = 0. This can aid in data interpretation and guide plot annotation placement. Baselines can be plotted in selective plots with <code>baseline = TRUE</code>.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../../reference/bb_plotRanges.html">bb_plotRanges</a></span><span class="op">(</span>
@@ -207,7 +207,7 @@
     x <span class="op">=</span> <span class="fl">0.5</span>, y <span class="op">=</span> <span class="fl">0.25</span>, width <span class="op">=</span> <span class="fl">6.5</span>, height <span class="op">=</span> <span class="fl">4.25</span>,
     just <span class="op">=</span> <span class="fu"><a href="../../reference/c.html">c</a></span><span class="op">(</span><span class="st">"left"</span>, <span class="st">"top"</span><span class="op">)</span>, default.units <span class="op">=</span> <span class="st">"inches"</span>
 <span class="op">)</span></code></pre></div>
-<p><img src="aesthetics_files/figure-html/aes_02-1.svg" width="912" style="display: block; margin: auto;"></p>
+<p><img src="aesthetics_files/figure-html/aes_02-1.png" width="1425" style="display: block; margin: auto;"></p>
 </div>
 <div id="colorby" class="section level1">
 <h1 class="hasAnchor">
@@ -235,7 +235,7 @@
     x <span class="op">=</span> <span class="fl">0.5</span>, y <span class="op">=</span> <span class="fl">0.25</span>, width <span class="op">=</span> <span class="fl">6.5</span>, height <span class="op">=</span> <span class="fl">4.25</span>,
     just <span class="op">=</span> <span class="fu"><a href="../../reference/c.html">c</a></span><span class="op">(</span><span class="st">"left"</span>, <span class="st">"top"</span><span class="op">)</span>, default.units <span class="op">=</span> <span class="st">"inches"</span>
 <span class="op">)</span></code></pre></div>
-<p><img src="aesthetics_files/figure-html/aes_03-1.svg" width="912" style="display: block; margin: auto;"></p>
+<p><img src="aesthetics_files/figure-html/aes_03-1.png" width="1425" style="display: block; margin: auto;"></p>
 <p>To further control the order of color assignment, we can set our categorical <code>colorby</code> column as a factor with our own order of levels before plotting:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="st">"bb_bedData"</span><span class="op">)</span>
@@ -245,7 +245,7 @@
 <span class="co">#&gt; [1] + + + - + -</span>
 <span class="co">#&gt; Levels: + -</span></code></pre></div>
 <p>Now we’ve set the <code><a href="https://rdrr.io/r/base/Arithmetic.html">+</a></code> level as our first level, so the first value in <code>fill</code> will color the plus-stranded elements and the second <code>fill</code> value will color the minus-stranded elements:</p>
-<p><img src="aesthetics_files/figure-html/aes_04-1.svg" width="912" style="display: block; margin: auto;"></p>
+<p><img src="aesthetics_files/figure-html/aes_04-1.png" width="1425" style="display: block; margin: auto;"></p>
 <p>In this example, we will color BEDPE arches by a range of numerical values we will add as a <code>length</code> column:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="st">"bb_bedpeData"</span><span class="op">)</span>
@@ -266,7 +266,7 @@
     just <span class="op">=</span> <span class="fu"><a href="../../reference/c.html">c</a></span><span class="op">(</span><span class="st">"left"</span>, <span class="st">"top"</span><span class="op">)</span>,
     default.units <span class="op">=</span> <span class="st">"inches"</span>
 <span class="op">)</span></code></pre></div>
-<p><img src="aesthetics_files/figure-html/aes_05-1.svg" width="912" style="display: block; margin: auto;"></p>
+<p><img src="aesthetics_files/figure-html/aes_05-1.png" width="1425" style="display: block; margin: auto;"></p>
 <p>And now since we have numbers mapped to colors, we can use <code><a href="../../reference/bb_annoHeatmapLegend.html">bb_annoHeatmapLegend()</a></code> with our <code>bb_arches</code> object to add a legend for the <code>colorby</code> we performed:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../../reference/bb_annoHeatmapLegend.html">bb_annoHeatmapLegend</a></span><span class="op">(</span>
@@ -274,7 +274,7 @@
     x <span class="op">=</span> <span class="fl">7.0</span>, y <span class="op">=</span> <span class="fl">0.25</span>,
     width <span class="op">=</span> <span class="fl">0.10</span>, height <span class="op">=</span> <span class="fl">1</span>, fontsize <span class="op">=</span> <span class="fl">10</span>
 <span class="op">)</span></code></pre></div>
-<p><img src="aesthetics_files/figure-html/aes_06-1.svg" width="912" style="display: block; margin: auto;"></p>
+<p><img src="aesthetics_files/figure-html/aes_06-1.png" width="1425" style="display: block; margin: auto;"></p>
 </div>
 <div id="gene-and-transcript-plot-aesthetics" class="section level1">
 <h1 class="hasAnchor">
@@ -294,7 +294,7 @@
     chrom <span class="op">=</span> <span class="st">"chr2"</span>, chromstart <span class="op">=</span> <span class="fl">1000000</span>, chromend <span class="op">=</span> <span class="fl">20000000</span>,
     x <span class="op">=</span> <span class="fl">0.25</span>, y <span class="op">=</span> <span class="fl">0.25</span>, width <span class="op">=</span> <span class="fl">4.75</span>, height <span class="op">=</span> <span class="fl">1</span>
 <span class="op">)</span></code></pre></div>
-<p><img src="aesthetics_files/figure-html/aes_07-1.svg" width="480" style="display: block; margin: auto;"> Looking in the <code>bb_genes</code> object, we can see that there were numerous genes that were not labeled.</p>
+<p><img src="aesthetics_files/figure-html/aes_07-1.png" width="750" style="display: block; margin: auto;"> Looking in the <code>bb_genes</code> object, we can see that there were numerous genes that were not labeled.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">genePlot</span><span class="op">$</span><span class="va">genes</span>
 <span class="co">#&gt;  [1] "MIR3125"      "RNASEH1-AS1"  "LOC100506274" "MIR4757"      "LINC00570"   </span>
@@ -324,7 +324,7 @@
     geneOrder <span class="op">=</span> <span class="fu"><a href="../../reference/c.html">c</a></span><span class="op">(</span><span class="st">"MIR3125"</span><span class="op">)</span>,
     x <span class="op">=</span> <span class="fl">0.25</span>, y <span class="op">=</span> <span class="fl">0.25</span>, width <span class="op">=</span> <span class="fl">4.75</span>, height <span class="op">=</span> <span class="fl">1</span>
 <span class="op">)</span></code></pre></div>
-<p><img src="aesthetics_files/figure-html/aes_08-1.svg" width="480" style="display: block; margin: auto;"></p>
+<p><img src="aesthetics_files/figure-html/aes_08-1.png" width="750" style="display: block; margin: auto;"></p>
 <p>If we wanted to change the type of label in our plot, we can change the <code>display.column</code> parameter in a <code><a href="../../reference/bb_assembly.html">bb_assembly()</a></code> object. The default <code>display.column = "SYMBOL"</code>, but we could change this value to other available <code>keytypes</code> in the <code>orgDb</code> we are using. For example, if we wanted to display the associated Ensembl IDs, we would set <code>display.column = "ENSEMBL"</code>:</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">new_hg19</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/bb_assembly.html">bb_assembly</a></span><span class="op">(</span>
@@ -343,7 +343,7 @@
     assembly <span class="op">=</span> <span class="va">new_hg19</span>,
     x <span class="op">=</span> <span class="fl">0.25</span>, y <span class="op">=</span> <span class="fl">0.25</span>, width <span class="op">=</span> <span class="fl">4.75</span>, height <span class="op">=</span> <span class="fl">1</span>
 <span class="op">)</span></code></pre></div>
-<p><img src="aesthetics_files/figure-html/aes_09-1.svg" width="480" style="display: block; margin: auto;"></p>
+<p><img src="aesthetics_files/figure-html/aes_09-1.png" width="750" style="display: block; margin: auto;"></p>
 <p>Label IDs used in transcript plots can be customized through <code><a href="../../reference/bb_assembly.html">bb_assembly()</a></code> objects, and transcript label formatting can be changed through the <code>labels</code> parameter. For example, if we wish to display both transcript names and their associated gene names, we can set <code>labels = "both"</code>:</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../../reference/bb_pageCreate.html">bb_pageCreate</a></span><span class="op">(</span>
@@ -355,7 +355,7 @@
     labels <span class="op">=</span> <span class="st">"both"</span>,
     x <span class="op">=</span> <span class="fl">0.25</span>, y <span class="op">=</span> <span class="fl">0.25</span>, width <span class="op">=</span> <span class="fl">5.5</span>, height <span class="op">=</span> <span class="fl">4.5</span>
 <span class="op">)</span></code></pre></div>
-<p><img src="aesthetics_files/figure-html/aes_10-1.svg" width="672" style="display: block; margin: auto;"></p>
+<p><img src="aesthetics_files/figure-html/aes_10-1.png" width="1050" style="display: block; margin: auto;"></p>
 </div>
 <div id="highlighting-genes-by-color" class="section level2">
 <h2 class="hasAnchor">
@@ -374,7 +374,7 @@
     geneHighlights <span class="op">=</span> <span class="va">geneHighlights</span>, geneBackground <span class="op">=</span> <span class="st">"grey"</span>,
     x <span class="op">=</span> <span class="fl">0.25</span>, y <span class="op">=</span> <span class="fl">0.25</span>, width <span class="op">=</span> <span class="fl">4.75</span>, height <span class="op">=</span> <span class="fl">1</span>
 <span class="op">)</span></code></pre></div>
-<p><img src="aesthetics_files/figure-html/aes_11-1.svg" width="480" style="display: block; margin: auto;"></p>
+<p><img src="aesthetics_files/figure-html/aes_11-1.png" width="750" style="display: block; margin: auto;"></p>
 <p>Since <code>geneHighlights</code> is a <code>data.frame</code>, we can highlight multiple genes in different colors at once. For example, let’s now highlight RRM2 in “steel blue” and PXDN in “red”:</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">geneHighlights</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>
@@ -391,7 +391,7 @@
     geneHighlights <span class="op">=</span> <span class="va">geneHighlights</span>, geneBackground <span class="op">=</span> <span class="st">"grey"</span>,
     x <span class="op">=</span> <span class="fl">0.25</span>, y <span class="op">=</span> <span class="fl">0.25</span>, width <span class="op">=</span> <span class="fl">4.75</span>, height <span class="op">=</span> <span class="fl">1</span>
 <span class="op">)</span></code></pre></div>
-<p><img src="aesthetics_files/figure-html/aes_12-1.svg" width="480" style="display: block; margin: auto;"></p>
+<p><img src="aesthetics_files/figure-html/aes_12-1.png" width="750" style="display: block; margin: auto;"></p>
 </div>
 <div id="customizing-transcripts-by-strand" class="section level2">
 <h2 class="hasAnchor">
@@ -407,7 +407,7 @@
     strandSplit <span class="op">=</span> <span class="cn">TRUE</span>,
     x <span class="op">=</span> <span class="fl">0.25</span>, y <span class="op">=</span> <span class="fl">0.25</span>, width <span class="op">=</span> <span class="fl">5.5</span>, height <span class="op">=</span> <span class="fl">4.5</span>
 <span class="op">)</span></code></pre></div>
-<p><img src="aesthetics_files/figure-html/aes_13-1.svg" width="672" style="display: block; margin: auto;"></p>
+<p><img src="aesthetics_files/figure-html/aes_13-1.png" width="1050" style="display: block; margin: auto;"></p>
 <p>Now all our positive strand transcripts are grouped together above the group of negative strand transcripts.</p>
 </div>
 </div>
@@ -420,7 +420,7 @@
 <li><p><code><a href="../../reference/bb_plotHicTriangle.html">bb_plotHicTriangle()</a></code>: Plots a triangular Hi-C plot where the genome region falls along the base of the triangle.</p></li>
 <li><p><code><a href="../../reference/bb_plotHicRectangle.html">bb_plotHicRectangle()</a></code>: Plots a triangular Hi-C plot with additional data filling the surrounding regions to form a rectangle.</p></li>
 </ul>
-<p><img src="aesthetics_files/figure-html/aes_14-1.svg" width="936" style="display: block; margin: auto;"></p>
+<p><img src="aesthetics_files/figure-html/aes_14-1.png" width="1462.5" style="display: block; margin: auto;"></p>
 <p>All Hi-C plot types can use different color palettes, and colors can be linearly or log-scaled with the <code>colorTrans</code> parameter.</p>
 <p><code>bb_hicSquare</code> plots can be further customized to include two datasets in one plot. Instead of plotting both symmetrical halves of the plot, we can set one dataset as <code>half = "top"</code> and the other dataset as <code>half = "bottom"</code>:</p>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
@@ -450,7 +450,7 @@
     half <span class="op">=</span> <span class="st">"bottom"</span>,
     y <span class="op">=</span> <span class="fl">0.25</span>, height <span class="op">=</span> <span class="fl">2.75</span>
 <span class="op">)</span></code></pre></div>
-<p><img src="aesthetics_files/figure-html/aes_15-1.svg" width="504" style="display: block; margin: auto;"></p>
+<p><img src="aesthetics_files/figure-html/aes_15-1.png" width="787.5" style="display: block; margin: auto;"></p>
 </div>
   </div>
 

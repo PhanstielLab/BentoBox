@@ -136,11 +136,11 @@
     plot <span class="op">=</span> <span class="va">hicPlot</span>, scale <span class="op">=</span> <span class="st">"Mb"</span>,
     x <span class="op">=</span> <span class="fl">0.25</span>, y <span class="op">=</span> <span class="fl">2.76</span>
 <span class="op">)</span></code></pre></div>
-<p><img src="annotations_files/figure-html/anno_01-1.svg" width="576" style="display: block; margin: auto;"></p>
+<p><img src="annotations_files/figure-html/anno_01-1.png" width="900" style="display: block; margin: auto;"></p>
 <p>If we use a more specific genomic region like <code>chr21:28255554-29354665</code>, the Mb scale will be rounded and indicated with an approximation sign:</p>
 <pre><code>#&gt; Warning: Start label is rounded.
 #&gt; Warning: End label is rounded.</code></pre>
-<p><img src="annotations_files/figure-html/anno_02-1.svg" width="576" style="display: block; margin: auto;"></p>
+<p><img src="annotations_files/figure-html/anno_02-1.png" width="900" style="display: block; margin: auto;"></p>
 <p>Thus, it makes more sense to use the bp scale for ultimate accuracy:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="st">"bb_imrHicData"</span><span class="op">)</span>
@@ -157,11 +157,11 @@
     plot <span class="op">=</span> <span class="va">hicPlot</span>, scale <span class="op">=</span> <span class="st">"bp"</span>,
     x <span class="op">=</span> <span class="fl">0.25</span>, y <span class="op">=</span> <span class="fl">2.76</span>
 <span class="op">)</span></code></pre></div>
-<p><img src="annotations_files/figure-html/anno_03-1.svg" width="576" style="display: block; margin: auto;"></p>
+<p><img src="annotations_files/figure-html/anno_03-1.png" width="900" style="display: block; margin: auto;"></p>
 <p>If our genomic region is small enough, <code><a href="../../reference/bb_annoGenomeLabel.html">bb_annoGenomeLabel()</a></code> can also be used to display the nucleotide sequence of that region. Similar to IGV, <code><a href="../../reference/bb_annoGenomeLabel.html">bb_annoGenomeLabel()</a></code> will first represent nucleotides as colored boxes:</p>
-<p><img src="annotations_files/figure-html/anno_04-1.svg" width="672" style="display: block; margin: auto;"></p>
+<p><img src="annotations_files/figure-html/anno_04-1.png" width="1050" style="display: block; margin: auto;"></p>
 <p>At even finer scales, <code><a href="../../reference/bb_annoGenomeLabel.html">bb_annoGenomeLabel()</a></code> will then represent nucleotides with colored letters:</p>
-<p><img src="annotations_files/figure-html/anno_05-1.svg" width="672" style="display: block; margin: auto;"></p>
+<p><img src="annotations_files/figure-html/anno_05-1.png" width="1050" style="display: block; margin: auto;"></p>
 <p>In the specific case of square Hi-C plots (<code>bb_hicSquare</code> objects), <code><a href="../../reference/bb_annoGenomeLabel.html">bb_annoGenomeLabel()</a></code> can annotate the genome label along the y-axis:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="st">"bb_imrHicData"</span><span class="op">)</span>
@@ -180,7 +180,7 @@
     x <span class="op">=</span> <span class="fl">0.5</span>, y <span class="op">=</span> <span class="fl">0.25</span>,
     just <span class="op">=</span> <span class="fu"><a href="../../reference/c.html">c</a></span><span class="op">(</span><span class="st">"right"</span>, <span class="st">"top"</span><span class="op">)</span>
 <span class="op">)</span></code></pre></div>
-<p><img src="annotations_files/figure-html/anno_06-1.svg" width="576" style="display: block; margin: auto;"></p>
+<p><img src="annotations_files/figure-html/anno_06-1.png" width="900" style="display: block; margin: auto;"></p>
 </div>
 <div id="plot-axes" class="section level2">
 <h2 class="hasAnchor">
@@ -223,7 +223,7 @@
     fontsize <span class="op">=</span> <span class="fl">8</span>, fontface <span class="op">=</span> <span class="st">"bold"</span>, just <span class="op">=</span> <span class="st">"center"</span>,
     default.units <span class="op">=</span> <span class="st">"inches"</span>
 <span class="op">)</span></code></pre></div>
-<p><img src="annotations_files/figure-html/anno_07-1.svg" width="912" style="display: block; margin: auto;"></p>
+<p><img src="annotations_files/figure-html/anno_07-1.png" width="1425" style="display: block; margin: auto;"></p>
 <p><code><a href="../../reference/bb_annoXaxis.html">bb_annoXaxis()</a></code> and <code><a href="../../reference/bb_annoYaxis.html">bb_annoYaxis()</a></code> have similar usages and customizations.</p>
 </div>
 <div id="heatmap-legends" class="section level2">
@@ -264,7 +264,7 @@
     width <span class="op">=</span> <span class="fl">0.5</span>, height <span class="op">=</span> <span class="fl">0.07</span>, just <span class="op">=</span> <span class="fu"><a href="../../reference/c.html">c</a></span><span class="op">(</span><span class="st">"right"</span>, <span class="st">"top"</span><span class="op">)</span>,
     default.units <span class="op">=</span> <span class="st">"inches"</span>
 <span class="op">)</span></code></pre></div>
-<p><img src="annotations_files/figure-html/anno_08-1.svg" width="504" style="display: block; margin: auto;"></p>
+<p><img src="annotations_files/figure-html/anno_08-1.png" width="787.5" style="display: block; margin: auto;"></p>
 </div>
 <div id="hi-c-pixels-and-domains" class="section level2">
 <h2 class="hasAnchor">
@@ -291,7 +291,7 @@
     plot <span class="op">=</span> <span class="va">hicPlot</span>, data <span class="op">=</span> <span class="va">bb_bedpeData</span>, type <span class="op">=</span> <span class="st">"box"</span>,
     half <span class="op">=</span> <span class="st">"top"</span>
 <span class="op">)</span></code></pre></div>
-<p><img src="annotations_files/figure-html/anno_09-1.svg" width="504" style="display: block; margin: auto;"></p>
+<p><img src="annotations_files/figure-html/anno_09-1.png" width="787.5" style="display: block; margin: auto;"></p>
 <p>If we want to annotate one pixel of interest, we can subset our BEDPE data and <code><a href="../../reference/bb_annoPixels.html">bb_annoPixels()</a></code> will only annotate the specified pixels:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="st">"bb_imrHicData"</span><span class="op">)</span>
@@ -318,7 +318,7 @@
     plot <span class="op">=</span> <span class="va">hicPlot</span>, data <span class="op">=</span> <span class="va">bb_bedpeData</span>, type <span class="op">=</span> <span class="st">"arrow"</span>,
     half <span class="op">=</span> <span class="st">"bottom"</span>, shift <span class="op">=</span> <span class="fl">12</span>
 <span class="op">)</span></code></pre></div>
-<p><img src="annotations_files/figure-html/anno_10-1.svg" width="504" style="display: block; margin: auto;"></p>
+<p><img src="annotations_files/figure-html/anno_10-1.png" width="787.5" style="display: block; margin: auto;"></p>
 <p>For genomic ranges of domain data, we can annotate Hi-C domains with <code><a href="../../reference/bb_annoDomains.html">bb_annoDomains()</a></code>. For example, if we want to annotate the following domains</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">domains</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/GenomicRanges/man/GRanges-class.html">GRanges</a></span><span class="op">(</span><span class="st">"chr21"</span>,
@@ -328,7 +328,7 @@
      <span class="op">)</span>
  <span class="op">)</span></code></pre></div>
 <p>in this Hi-C plot:</p>
-<p><img src="annotations_files/figure-html/anno_11-1.svg" width="787.2" style="display: block; margin: auto;"></p>
+<p><img src="annotations_files/figure-html/anno_11-1.png" width="1230" style="display: block; margin: auto;"></p>
 <p>We would use a similar workflow to how we annotated Hi-C pixels:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../../reference/bb_pageCreate.html">bb_pageCreate</a></span><span class="op">(</span>
@@ -353,7 +353,7 @@
     plot <span class="op">=</span> <span class="va">hicPlot</span>, 
     x <span class="op">=</span> <span class="fl">0.25</span>, y <span class="op">=</span> <span class="fl">3.01</span>
 <span class="op">)</span></code></pre></div>
-<p><img src="annotations_files/figure-html/anno_12-1.svg" width="504" style="display: block; margin: auto;"></p>
+<p><img src="annotations_files/figure-html/anno_12-1.png" width="787.5" style="display: block; margin: auto;"></p>
 <p>We can either annotate single domains or multiple domains at once depending on the <code>data</code> input.</p>
 </div>
 <div id="genomic-region-highlights-and-zooms" class="section level2">
@@ -374,7 +374,7 @@
     orientation <span class="op">=</span> <span class="st">"h"</span>,
     x <span class="op">=</span> <span class="fl">0.25</span>, y <span class="op">=</span> <span class="fl">0.5</span>, width <span class="op">=</span> <span class="fl">5.75</span>, height <span class="op">=</span> <span class="fl">0.3</span>, just <span class="op">=</span> <span class="st">"left"</span>
 <span class="op">)</span></code></pre></div>
-<p><img src="annotations_files/figure-html/anno_13-1.svg" width="792" style="display: block; margin: auto;"></p>
+<p><img src="annotations_files/figure-html/anno_13-1.png" width="1237.5" style="display: block; margin: auto;"></p>
 <p>We can then use <code><a href="../../reference/bb_annoHighlight.html">bb_annoHighlight()</a></code> to highlight our genomic region of interest (<code>chr21:28000000-30300000</code>) with a box of our desired <code>height</code>:</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">region</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/bb_params.html">bb_params</a></span><span class="op">(</span>chrom <span class="op">=</span> <span class="st">"chr21"</span>, chromstart <span class="op">=</span> <span class="fl">28000000</span>, chromend <span class="op">=</span> <span class="fl">30300000</span><span class="op">)</span>
@@ -383,16 +383,16 @@
     fill <span class="op">=</span> <span class="st">"red"</span>,
     y <span class="op">=</span> <span class="fl">0.25</span>, height <span class="op">=</span> <span class="fl">0.5</span>, just <span class="op">=</span> <span class="fu"><a href="../../reference/c.html">c</a></span><span class="op">(</span><span class="st">"left"</span>, <span class="st">"top"</span><span class="op">)</span>, default.units <span class="op">=</span> <span class="st">"inches"</span>
 <span class="op">)</span></code></pre></div>
-<p><img src="annotations_files/figure-html/anno_14-1.svg" width="792" style="display: block; margin: auto;"></p>
+<p><img src="annotations_files/figure-html/anno_14-1.png" width="1237.5" style="display: block; margin: auto;"></p>
 <p>To make it clearer that we are zooming in on a genomic region, we can then use <code><a href="../../reference/bb_annoZoomLines.html">bb_annoZoomLines()</a></code> to add zoom lines from the genomic region we highlighted:</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../../reference/bb_annoZoomLines.html">bb_annoZoomLines</a></span><span class="op">(</span>
     plot <span class="op">=</span> <span class="va">ideogramPlot</span>, params <span class="op">=</span> <span class="va">region</span>,
     y0 <span class="op">=</span> <span class="fl">0.75</span>, x1 <span class="op">=</span> <span class="fu"><a href="../../reference/c.html">c</a></span><span class="op">(</span><span class="fl">0.25</span>, <span class="fl">6</span><span class="op">)</span>, y1 <span class="op">=</span> <span class="fl">1.25</span>, default.units <span class="op">=</span> <span class="st">"inches"</span>
 <span class="op">)</span></code></pre></div>
-<p><img src="annotations_files/figure-html/anno_15-1.svg" width="792" style="display: block; margin: auto;"></p>
+<p><img src="annotations_files/figure-html/anno_15-1.png" width="1237.5" style="display: block; margin: auto;"></p>
 <p>Finally, we can add our zoomed-in signal track data within the zoom lines:</p>
-<p><img src="annotations_files/figure-html/anno_16-1.svg" width="792" style="display: block; margin: auto;"></p>
+<p><img src="annotations_files/figure-html/anno_16-1.png" width="1237.5" style="display: block; margin: auto;"></p>
 </div>
   </div>
 

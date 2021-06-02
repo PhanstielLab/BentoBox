@@ -222,7 +222,7 @@
     data <span class="op">=</span> <span class="va">bb_imrHicData</span>,
     chrom <span class="op">=</span> <span class="st">"chr21"</span>, chromstart <span class="op">=</span> <span class="fl">28000000</span>, chromend <span class="op">=</span> <span class="fl">30300000</span>
 <span class="op">)</span></code></pre></div>
-<p><img src="introduction_to_bentobox_files/figure-html/hic_quickplot-1.svg" width="288" style="display: block; margin: auto;"></p>
+<p><img src="introduction_to_bentobox_files/figure-html/hic_quickplot-1.png" width="450" style="display: block; margin: auto;"></p>
 </div>
 <div id="signal-tracks" class="section level3">
 <h3 class="hasAnchor">
@@ -239,7 +239,7 @@
     data <span class="op">=</span> <span class="va">bb_imrH3K27acData</span>,
     chrom <span class="op">=</span> <span class="st">"chr21"</span>, chromstart <span class="op">=</span> <span class="fl">28000000</span>, chromend <span class="op">=</span> <span class="fl">30300000</span>
 <span class="op">)</span></code></pre></div>
-<p><img src="introduction_to_bentobox_files/figure-html/signal_quickplot-1.svg" width="288" style="display: block; margin: auto;"></p>
+<p><img src="introduction_to_bentobox_files/figure-html/signal_quickplot-1.png" width="450" style="display: block; margin: auto;"></p>
 </div>
 <div id="gene-tracks" class="section level3">
 <h3 class="hasAnchor">
@@ -257,7 +257,7 @@
     assembly <span class="op">=</span> <span class="st">"hg19"</span>,
     chrom <span class="op">=</span> <span class="st">"chr21"</span>, chromstart <span class="op">=</span> <span class="fl">28000000</span>, chromend <span class="op">=</span> <span class="fl">30300000</span>
 <span class="op">)</span></code></pre></div>
-<p><img src="introduction_to_bentobox_files/figure-html/gene_quickplot-1.svg" width="288" style="display: block; margin: auto;"></p>
+<p><img src="introduction_to_bentobox_files/figure-html/gene_quickplot-1.png" width="450" style="display: block; margin: auto;"></p>
 </div>
 <div id="gwas-manhattan-plots" class="section level3">
 <h3 class="hasAnchor">
@@ -277,7 +277,7 @@
     data <span class="op">=</span> <span class="va">bb_gwasData</span>, fill <span class="op">=</span> <span class="fu"><a href="../reference/c.html">c</a></span><span class="op">(</span><span class="st">"steel blue"</span>, <span class="st">"grey"</span><span class="op">)</span>,
     ymax <span class="op">=</span> <span class="fl">1.1</span>, cex <span class="op">=</span> <span class="fl">0.20</span>
 <span class="op">)</span></code></pre></div>
-<p><img src="introduction_to_bentobox_files/figure-html/gwas_quickplot-1.svg" width="288" style="display: block; margin: auto;"></p>
+<p><img src="introduction_to_bentobox_files/figure-html/gwas_quickplot-1.png" width="450" style="display: block; margin: auto;"></p>
 </div>
 </div>
 <div id="plotting-and-annotating-on-the-bentobox-page" class="section level2">
@@ -289,7 +289,7 @@
 </ol>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/bb_pageCreate.html">bb_pageCreate</a></span><span class="op">(</span>width <span class="op">=</span> <span class="fl">3.25</span>, height <span class="op">=</span> <span class="fl">3.25</span>, default.units <span class="op">=</span> <span class="st">"inches"</span><span class="op">)</span></code></pre></div>
-<p><img src="introduction_to_bentobox_files/figure-html/quickpage-1.svg" width="384" style="display: block; margin: auto;"></p>
+<p><img src="introduction_to_bentobox_files/figure-html/quickpage-1.png" width="600" style="display: block; margin: auto;"></p>
 <ol start="2" style="list-style-type: decimal">
 <li>Provide values for the placement arguments (<code>x</code>, <code>y</code>, <code>width</code>, <code>height</code>, <code>just</code>, <code>default.units</code>) in plotting functions and save the output of the plotting function.</li>
 </ol>
@@ -300,7 +300,7 @@
     chrom <span class="op">=</span> <span class="st">"chr21"</span>, chromstart <span class="op">=</span> <span class="fl">28000000</span>, chromend <span class="op">=</span> <span class="fl">30300000</span>,
     x <span class="op">=</span> <span class="fl">0.25</span>, y <span class="op">=</span> <span class="fl">0.25</span>, width <span class="op">=</span> <span class="fl">2.5</span>, height <span class="op">=</span> <span class="fl">2.5</span>, default.units <span class="op">=</span> <span class="st">"inches"</span>
 <span class="op">)</span></code></pre></div>
-<p><img src="introduction_to_bentobox_files/figure-html/quickpageHic-1.svg" width="384" style="display: block; margin: auto;"></p>
+<p><img src="introduction_to_bentobox_files/figure-html/quickpageHic-1.png" width="600" style="display: block; margin: auto;"></p>
 <ol start="3" style="list-style-type: decimal">
 <li>Annotate <code>BentoBox</code> plot objects by passing them into the <code>plot</code> argument of annotation functions.</li>
 </ol>
@@ -314,7 +314,7 @@
     plot <span class="op">=</span> <span class="va">hicPlot</span>,
     x <span class="op">=</span> <span class="fl">0.25</span>, y <span class="op">=</span> <span class="fl">2.75</span>, width <span class="op">=</span> <span class="fl">2.5</span>, height <span class="op">=</span> <span class="fl">0.25</span>, default.units <span class="op">=</span> <span class="st">"inches"</span>
 <span class="op">)</span></code></pre></div>
-<p><img src="introduction_to_bentobox_files/figure-html/quickpageAnno-1.svg" width="384" style="display: block; margin: auto;"></p>
+<p><img src="introduction_to_bentobox_files/figure-html/quickpageAnno-1.png" width="600" style="display: block; margin: auto;"></p>
 <p>For more information about how to place plots and annotations on a <code>BentoBox</code> page, check out the section <a href="introduction_to_bentobox.html#working-with-plot-objects-1">Working with plot objects</a>.</p>
 </div>
 <div id="exporting-plots" class="section level2">
@@ -323,7 +323,7 @@
 <p>When a <code>BentoBox</code> plot is ready to be saved and exported, we can first remove all page guides that were made with <code><a href="../reference/bb_pageCreate.html">bb_pageCreate()</a></code>:</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/bb_pageGuideHide.html">bb_pageGuideHide</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
-<p><img src="introduction_to_bentobox_files/figure-html/quickpageHide-1.svg" width="384" style="display: block; margin: auto;"></p>
+<p><img src="introduction_to_bentobox_files/figure-html/quickpageHide-1.png" width="600" style="display: block; margin: auto;"></p>
 <p>We can then either use the <strong>Export</strong> toggle in the RStudio plot panel, or save the plot within our R code as follows:</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/grDevices/pdf.html">pdf</a></span><span class="op">(</span>width <span class="op">=</span> <span class="fl">3.25</span>, height <span class="op">=</span> <span class="fl">3.25</span><span class="op">)</span>
@@ -416,7 +416,7 @@
     x <span class="op">=</span> <span class="fl">0.5</span>, y <span class="op">=</span> <span class="fl">4.5</span>, length <span class="op">=</span> <span class="fl">2</span>, scale <span class="op">=</span> <span class="st">"Mb"</span>,
     just <span class="op">=</span> <span class="fu"><a href="../reference/c.html">c</a></span><span class="op">(</span><span class="st">"left"</span>, <span class="st">"top"</span><span class="op">)</span>, default.units <span class="op">=</span> <span class="st">"inches"</span>
 <span class="op">)</span></code></pre></div>
-<p><img src="introduction_to_bentobox_files/figure-html/plotting_example01-1.svg" width="480" style="display: block; margin: auto;"></p>
+<p><img src="introduction_to_bentobox_files/figure-html/plotting_example01-1.png" width="750" style="display: block; margin: auto;"></p>
 <div id="using-the-bb_params-object" class="section level2">
 <h2 class="hasAnchor">
 <a href="#using-the-bb_params-object" class="anchor"></a>Using the <code>bb_params</code> object</h2>
@@ -485,7 +485,7 @@
     params <span class="op">=</span> <span class="va">params</span>,
     y <span class="op">=</span> <span class="fl">4.5</span>, scale <span class="op">=</span> <span class="st">"Mb"</span>
 <span class="op">)</span></code></pre></div>
-<p><img src="introduction_to_bentobox_files/figure-html/plotting_example02-1.svg" width="480" style="display: block; margin: auto;"></p>
+<p><img src="introduction_to_bentobox_files/figure-html/plotting_example02-1.png" width="750" style="display: block; margin: auto;"></p>
 <p>The <code>bb_params</code> object also simplifies the code for making complex multi-omic figures when we want to change the genomic region of our plots. If we want to change the region for the figure above, we can simply put it into the <code>bb_params</code> object and re-run the code to generate the figure:</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">params</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/bb_params.html">bb_params</a></span><span class="op">(</span>
@@ -493,7 +493,7 @@
     x <span class="op">=</span> <span class="fl">0.5</span>, just <span class="op">=</span> <span class="fu"><a href="../reference/c.html">c</a></span><span class="op">(</span><span class="st">"left"</span>, <span class="st">"top"</span><span class="op">)</span>,
     width <span class="op">=</span> <span class="fl">2</span>, length <span class="op">=</span> <span class="fl">2</span>, default.units <span class="op">=</span> <span class="st">"inches"</span>
 <span class="op">)</span></code></pre></div>
-<p><img src="introduction_to_bentobox_files/figure-html/plotting_example03-1.svg" width="480" style="display: block; margin: auto;"></p>
+<p><img src="introduction_to_bentobox_files/figure-html/plotting_example03-1.png" width="750" style="display: block; margin: auto;"></p>
 <p>Alternatively, if we want to plot around a particular gene rather than a genomic region we can use <code><a href="../reference/bb_params.html">bb_params()</a></code> to specify <code>gene</code> and <code>geneBuffer</code>. If <code>geneBuffer</code> is not included, the default buffer adds <code>(gene length) / 2</code> base pairs to the ends of the gene coordinates.</p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">params</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/bb_params.html">bb_params</a></span><span class="op">(</span>
@@ -501,7 +501,7 @@
     x <span class="op">=</span> <span class="fl">0.5</span>, just <span class="op">=</span> <span class="fu"><a href="../reference/c.html">c</a></span><span class="op">(</span><span class="st">"left"</span>, <span class="st">"top"</span><span class="op">)</span>,
     width <span class="op">=</span> <span class="fl">2</span>, length <span class="op">=</span> <span class="fl">2</span>, default.units <span class="op">=</span> <span class="st">"inches"</span>
 <span class="op">)</span></code></pre></div>
-<p><img src="introduction_to_bentobox_files/figure-html/plotting_example04-1.svg" width="480" style="display: block; margin: auto;"></p>
+<p><img src="introduction_to_bentobox_files/figure-html/plotting_example04-1.png" width="750" style="display: block; margin: auto;"></p>
 </div>
 <div id="the-below-y-coordinate" class="section level2">
 <h2 class="hasAnchor">
@@ -576,7 +576,7 @@
     y <span class="op">=</span> <span class="st">"0b"</span>,
     scale <span class="op">=</span> <span class="st">"Mb"</span>
 <span class="op">)</span></code></pre></div>
-<p><img src="introduction_to_bentobox_files/figure-html/below_y-1.svg" width="480" style="display: block; margin: auto;"></p>
+<p><img src="introduction_to_bentobox_files/figure-html/below_y-1.png" width="750" style="display: block; margin: auto;"></p>
 </div>
 </div>
 <div id="incorporating-ggplots" class="section level1">
@@ -618,7 +618,7 @@
     <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_fixed.html">coord_fixed</a></span><span class="op">(</span><span class="fl">1.3</span><span class="op">)</span>
 
 <span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">US_map</span><span class="op">)</span></code></pre></div>
-<p><img src="introduction_to_bentobox_files/figure-html/ggplot_01-1.svg" width="288" style="display: block; margin: auto;"></p>
+<p><img src="introduction_to_bentobox_files/figure-html/ggplot_01-1.png" width="450" style="display: block; margin: auto;"></p>
 <ol start="2" style="list-style-type: decimal">
 <li>Line plots showing the accumulation of COVID-19 cases over time:</li>
 </ol>
@@ -682,7 +682,7 @@
     <span class="op">)</span>
 
 <span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">cases_NYline</span><span class="op">)</span></code></pre></div>
-<p><img src="introduction_to_bentobox_files/figure-html/ggplot_02-1.svg" width="288" style="display: block; margin: auto;"></p>
+<p><img src="introduction_to_bentobox_files/figure-html/ggplot_02-1.png" width="450" style="display: block; margin: auto;"></p>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">bb_CasesFL</span> <span class="op">&lt;-</span> <span class="va">bb_CasesNYFL</span><span class="op">[</span><span class="va">bb_CasesNYFL</span><span class="op">$</span><span class="va">state</span> <span class="op">==</span> <span class="st">"florida"</span>, <span class="op">]</span>
 <span class="va">bb_CasesFLpoly</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://Rdatatable.gitlab.io/data.table/reference/rbindlist.html">rbind</a></span><span class="op">(</span>
@@ -733,7 +733,7 @@
     <span class="op">)</span>
 
 <span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">cases_FLline</span><span class="op">)</span></code></pre></div>
-<p><img src="introduction_to_bentobox_files/figure-html/ggplot_03-1.svg" width="288" style="display: block; margin: auto;"></p>
+<p><img src="introduction_to_bentobox_files/figure-html/ggplot_03-1.png" width="450" style="display: block; margin: auto;"></p>
 <ol start="3" style="list-style-type: decimal">
 <li>Pie charts of COVID-19 vaccination status:</li>
 </ol>
@@ -766,7 +766,7 @@
     <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"New York"</span><span class="op">)</span>
 
 <span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">vaccines_NYpie</span><span class="op">)</span></code></pre></div>
-<p><img src="introduction_to_bentobox_files/figure-html/ggplot_04-1.svg" width="288" style="display: block; margin: auto;"></p>
+<p><img src="introduction_to_bentobox_files/figure-html/ggplot_04-1.png" width="450" style="display: block; margin: auto;"></p>
 <div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">vaccines_FLpie</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span>
     <span class="va">bb_VaccinesNYFL</span><span class="op">[</span><span class="va">bb_VaccinesNYFL</span><span class="op">$</span><span class="va">state</span> <span class="op">==</span> <span class="st">"florida"</span>, <span class="op">]</span>,
@@ -795,7 +795,7 @@
     <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Florida"</span><span class="op">)</span>
 
 <span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">vaccines_FLpie</span><span class="op">)</span></code></pre></div>
-<p><img src="introduction_to_bentobox_files/figure-html/ggplot_05-1.svg" width="288" style="display: block; margin: auto;"></p>
+<p><img src="introduction_to_bentobox_files/figure-html/ggplot_05-1.png" width="450" style="display: block; margin: auto;"></p>
 <p>We can now easily overlap and size all these <code>ggplots</code> by passing our saved plot objects into <code><a href="../reference/bb_plotGG.html">bb_plotGG()</a></code>:</p>
 <div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/bb_pageCreate.html">bb_pageCreate</a></span><span class="op">(</span>width <span class="op">=</span> <span class="fl">9.5</span>, height <span class="op">=</span> <span class="fl">3.5</span>, default.units <span class="op">=</span> <span class="st">"inches"</span><span class="op">)</span>
@@ -815,7 +815,7 @@
     x <span class="op">=</span> <span class="fl">6.25</span>, y <span class="op">=</span> <span class="fl">3.5</span>,
     width <span class="op">=</span> <span class="fl">3.025</span>, height <span class="op">=</span> <span class="fl">1.4</span>, just <span class="op">=</span> <span class="fu"><a href="../reference/c.html">c</a></span><span class="op">(</span><span class="st">"left"</span>, <span class="st">"bottom"</span><span class="op">)</span>
 <span class="op">)</span></code></pre></div>
-<p><img src="introduction_to_bentobox_files/figure-html/gg_plot05-1.svg" width="1104" style="display: block; margin: auto;"></p>
+<p><img src="introduction_to_bentobox_files/figure-html/gg_plot05-1.png" width="1725" style="display: block; margin: auto;"></p>
 <p>In particular, <code>BentoBox</code> makes it easy to resize and place our pie charts in a layout that overlaps our line plots without it affecting the sizing of the other plots on the page:</p>
 <div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/bb_plotGG.html">bb_plotGG</a></span><span class="op">(</span>
@@ -828,7 +828,7 @@
     x <span class="op">=</span> <span class="fl">6.37</span>, y <span class="op">=</span> <span class="fl">1.67</span>,
     width <span class="op">=</span> <span class="fl">1.45</span>, height <span class="op">=</span> <span class="fl">1.45</span>, just <span class="op">=</span> <span class="fu"><a href="../reference/c.html">c</a></span><span class="op">(</span><span class="st">"left"</span>, <span class="st">"top"</span><span class="op">)</span>
 <span class="op">)</span></code></pre></div>
-<p><img src="introduction_to_bentobox_files/figure-html/gg_plot06-1.svg" width="1104" style="display: block; margin: auto;"></p>
+<p><img src="introduction_to_bentobox_files/figure-html/gg_plot06-1.png" width="1725" style="display: block; margin: auto;"></p>
 <p>We can also easily add additional elements to further enhance our complex <code>ggplot</code> arrangments, like a precise placement of text labels:</p>
 <div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/bb_plotText.html">bb_plotText</a></span><span class="op">(</span>
@@ -844,7 +844,7 @@
     y <span class="op">=</span> <span class="fu"><a href="../reference/c.html">c</a></span><span class="op">(</span><span class="fl">2.47</span>, <span class="fl">2.75</span>, <span class="fl">2.2</span><span class="op">)</span>, just <span class="op">=</span> <span class="fu"><a href="../reference/c.html">c</a></span><span class="op">(</span><span class="st">"left"</span>, <span class="st">"bottom"</span><span class="op">)</span>
 <span class="op">)</span></code></pre></div>
 <p>We are then left with a complex, precise, and elegant arrangement of <code>ggplots</code> as if we had arranged them together with graphic design software:</p>
-<p><img src="introduction_to_bentobox_files/figure-html/gg_plot07-1.svg" width="1104" style="display: block; margin: auto;"></p>
+<p><img src="introduction_to_bentobox_files/figure-html/gg_plot07-1.png" width="1725" style="display: block; margin: auto;"></p>
 </div>
 <div id="bioconductor-integration" class="section level1">
 <h1 class="hasAnchor">
@@ -979,44 +979,46 @@
 <span class="co">#&gt;  [9] rprojroot_2.0.2             tools_4.1.0                </span>
 <span class="co">#&gt; [11] utf8_1.2.1                  R6_2.5.0                   </span>
 <span class="co">#&gt; [13] DBI_1.1.1                   colorspace_2.0-1           </span>
-<span class="co">#&gt; [15] withr_2.4.2                 tidyselect_1.1.1           </span>
-<span class="co">#&gt; [17] prettyunits_1.1.1           bit_4.0.4                  </span>
-<span class="co">#&gt; [19] curl_4.3.1                  compiler_4.1.0             </span>
-<span class="co">#&gt; [21] desc_1.3.0                  DelayedArray_0.18.0        </span>
-<span class="co">#&gt; [23] labeling_0.4.2              rtracklayer_1.52.0         </span>
-<span class="co">#&gt; [25] rappdirs_0.3.3              pkgdown_1.6.1              </span>
-<span class="co">#&gt; [27] stringr_1.4.0               digest_0.6.27              </span>
-<span class="co">#&gt; [29] Rsamtools_2.8.0             rmarkdown_2.8              </span>
-<span class="co">#&gt; [31] XVector_0.32.0              pkgconfig_2.0.3            </span>
-<span class="co">#&gt; [33] htmltools_0.5.1.1           MatrixGenerics_1.4.0       </span>
-<span class="co">#&gt; [35] dbplyr_2.1.1                fastmap_1.1.0              </span>
-<span class="co">#&gt; [37] highr_0.9                   rlang_0.4.11               </span>
-<span class="co">#&gt; [39] RSQLite_2.2.7               farver_2.1.0               </span>
-<span class="co">#&gt; [41] gridGraphics_0.5-1          BiocIO_1.2.0               </span>
-<span class="co">#&gt; [43] generics_0.1.0              BiocParallel_1.26.0        </span>
-<span class="co">#&gt; [45] dplyr_1.0.6                 RCurl_1.98-1.3             </span>
-<span class="co">#&gt; [47] magrittr_2.0.1              ggplotify_0.0.7            </span>
-<span class="co">#&gt; [49] GenomeInfoDbData_1.2.6      Matrix_1.3-3               </span>
-<span class="co">#&gt; [51] Rcpp_1.0.6                  munsell_0.5.0              </span>
-<span class="co">#&gt; [53] fansi_0.5.0                 lifecycle_1.0.0            </span>
-<span class="co">#&gt; [55] stringi_1.6.2               yaml_2.2.1                 </span>
-<span class="co">#&gt; [57] SummarizedExperiment_1.22.0 zlibbioc_1.38.0            </span>
-<span class="co">#&gt; [59] BiocFileCache_2.0.0         blob_1.2.1                 </span>
-<span class="co">#&gt; [61] crayon_1.4.1                lattice_0.20-44            </span>
-<span class="co">#&gt; [63] Biostrings_2.60.0           hms_1.1.0                  </span>
-<span class="co">#&gt; [65] KEGGREST_1.32.0             knitr_1.33                 </span>
-<span class="co">#&gt; [67] pillar_1.6.1                rjson_0.2.20               </span>
-<span class="co">#&gt; [69] biomaRt_2.48.0              XML_3.99-0.6               </span>
-<span class="co">#&gt; [71] glue_1.4.2                  evaluate_0.14              </span>
-<span class="co">#&gt; [73] data.table_1.14.0           BiocManager_1.30.15        </span>
-<span class="co">#&gt; [75] vctrs_0.3.8                 png_0.1-7                  </span>
-<span class="co">#&gt; [77] gtable_0.3.0                purrr_0.3.4                </span>
-<span class="co">#&gt; [79] assertthat_0.2.1            cachem_1.0.5               </span>
-<span class="co">#&gt; [81] xfun_0.23                   restfulr_0.0.13            </span>
-<span class="co">#&gt; [83] Rmpfr_0.8-4                 tibble_3.1.2               </span>
-<span class="co">#&gt; [85] rvcheck_0.1.8               GenomicAlignments_1.28.0   </span>
-<span class="co">#&gt; [87] plyranges_1.12.0            memoise_2.0.0              </span>
-<span class="co">#&gt; [89] gmp_0.6-2                   ellipsis_0.3.2</span></code></pre></div>
+<span class="co">#&gt; [15] withr_2.4.2                 prettyunits_1.1.1          </span>
+<span class="co">#&gt; [17] tidyselect_1.1.1            curl_4.3.1                 </span>
+<span class="co">#&gt; [19] bit_4.0.4                   compiler_4.1.0             </span>
+<span class="co">#&gt; [21] textshaping_0.3.4           desc_1.3.0                 </span>
+<span class="co">#&gt; [23] DelayedArray_0.18.0         labeling_0.4.2             </span>
+<span class="co">#&gt; [25] rtracklayer_1.52.0          rappdirs_0.3.3             </span>
+<span class="co">#&gt; [27] pkgdown_1.6.1               systemfonts_1.0.2          </span>
+<span class="co">#&gt; [29] stringr_1.4.0               digest_0.6.27              </span>
+<span class="co">#&gt; [31] Rsamtools_2.8.0             rmarkdown_2.8              </span>
+<span class="co">#&gt; [33] XVector_0.32.0              pkgconfig_2.0.3            </span>
+<span class="co">#&gt; [35] htmltools_0.5.1.1           MatrixGenerics_1.4.0       </span>
+<span class="co">#&gt; [37] dbplyr_2.1.1                fastmap_1.1.0              </span>
+<span class="co">#&gt; [39] highr_0.9                   rlang_0.4.11               </span>
+<span class="co">#&gt; [41] RSQLite_2.2.7               farver_2.1.0               </span>
+<span class="co">#&gt; [43] gridGraphics_0.5-1          BiocIO_1.2.0               </span>
+<span class="co">#&gt; [45] generics_0.1.0              BiocParallel_1.26.0        </span>
+<span class="co">#&gt; [47] dplyr_1.0.6                 RCurl_1.98-1.3             </span>
+<span class="co">#&gt; [49] magrittr_2.0.1              ggplotify_0.0.7            </span>
+<span class="co">#&gt; [51] GenomeInfoDbData_1.2.6      Matrix_1.3-3               </span>
+<span class="co">#&gt; [53] Rcpp_1.0.6                  munsell_0.5.0              </span>
+<span class="co">#&gt; [55] fansi_0.5.0                 lifecycle_1.0.0            </span>
+<span class="co">#&gt; [57] stringi_1.6.2               yaml_2.2.1                 </span>
+<span class="co">#&gt; [59] SummarizedExperiment_1.22.0 zlibbioc_1.38.0            </span>
+<span class="co">#&gt; [61] BiocFileCache_2.0.0         blob_1.2.1                 </span>
+<span class="co">#&gt; [63] crayon_1.4.1                lattice_0.20-44            </span>
+<span class="co">#&gt; [65] Biostrings_2.60.0           hms_1.1.0                  </span>
+<span class="co">#&gt; [67] KEGGREST_1.32.0             knitr_1.33                 </span>
+<span class="co">#&gt; [69] pillar_1.6.1                rjson_0.2.20               </span>
+<span class="co">#&gt; [71] biomaRt_2.48.0              XML_3.99-0.6               </span>
+<span class="co">#&gt; [73] glue_1.4.2                  evaluate_0.14              </span>
+<span class="co">#&gt; [75] data.table_1.14.0           BiocManager_1.30.15        </span>
+<span class="co">#&gt; [77] vctrs_0.3.8                 png_0.1-7                  </span>
+<span class="co">#&gt; [79] gtable_0.3.0                purrr_0.3.4                </span>
+<span class="co">#&gt; [81] assertthat_0.2.1            cachem_1.0.5               </span>
+<span class="co">#&gt; [83] xfun_0.23                   restfulr_0.0.13            </span>
+<span class="co">#&gt; [85] Rmpfr_0.8-4                 ragg_1.1.2                 </span>
+<span class="co">#&gt; [87] tibble_3.1.2                rvcheck_0.1.8              </span>
+<span class="co">#&gt; [89] GenomicAlignments_1.28.0    plyranges_1.12.0           </span>
+<span class="co">#&gt; [91] memoise_2.0.0               gmp_0.6-2                  </span>
+<span class="co">#&gt; [93] ellipsis_0.3.2</span></code></pre></div>
 </div>
   </div>
 
