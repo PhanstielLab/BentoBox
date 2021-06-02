@@ -319,7 +319,7 @@ domains <- GRanges("chr21",
 ```
 in this Hi-C plot: 
 
-```{r anno_11, echo=FALSE, message=FALSE}
+```{r anno_11, echo=FALSE, message=FALSE, fig.height=4.25, fig.width=5.25}
 data("bb_imrHicData")
 bb_pageCreate(
     width = 3.25, height = 3.24, default.units = "inches",
@@ -352,7 +352,7 @@ hicPlot <- bb_plotHicSquare(
 ## Annotate domains
 domainAnno <- bb_annoDomains(
     plot = hicPlot, data = domains,
-    half = "bottom"
+    half = "bottom", linecolor = "red"
 )
 
 bb_annoGenomeLabel(

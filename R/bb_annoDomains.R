@@ -58,7 +58,7 @@
 #' ## Annotate domains on bottom half 0f Hi-C plot
 #' bb_annoDomains(
 #'     plot = hicPlot, data = domains,
-#'     half = "bottom"
+#'     half = "bottom", linecolor = "red"
 #' )
 #'
 #' ## Annotate heatmap legend

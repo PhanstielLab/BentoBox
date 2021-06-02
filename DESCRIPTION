@@ -34,29 +34,22 @@ URL: https://phanstiellab.github.io/bentobox, https://github.com/PhanstielLab/Be
 Encoding: UTF-8
 RoxygenNote: 7.1.1
 Imports:
-    stats,
-    utils,
+    data.table,
+    dplyr,
     grDevices,
     grid,
-    methods,
-    strawr,
-    GenomicRanges,
-    IRanges,
-    Rcpp,
-    rtracklayer,
-    BSgenome,
-    GenomeInfoDb,
-    plyranges,
-    data.table,
-    Rmpfr,
     ggplotify,
-    RColorBrewer,
-    tools,
-    dplyr,
+    methods,
+    plyranges,
     purrr,
-    AnnotationDbi,
+    Rcpp,
+    Rmpfr,
+    RColorBrewer,
     rlang,
-    GenomicFeatures
+    stats,
+    strawr,
+    tools,
+    utils
 Remotes: PhanstielLab/straw/R
 biocViews: 
     Visualization, 
@@ -67,15 +60,22 @@ biocViews:
 LinkingTo: 
     Rcpp
 Suggests: 
-    TxDb.Hsapiens.UCSC.hg19.knownGene,
-    org.Hs.eg.db,
+    AnnotationDbi,
+    BSgenome,
     BSgenome.Hsapiens.UCSC.hg19,
-    png,
+    GenomicFeatures,
+    GenomeInfoDb,
+    GenomicRanges,
     ggplot2,
+    IRanges,
+    knitr,
+    org.Hs.eg.db,
+    rtracklayer,
+    png,
+    rmarkdown,
     scales,
     showtext,
-    knitr,
-    rmarkdown,
-    testthat (>= 3.0.0)
+    testthat (>= 3.0.0),
+    TxDb.Hsapiens.UCSC.hg19.knownGene
 VignetteBuilder: knitr
 Config/testthat/edition: 3
