@@ -242,7 +242,8 @@ genomic region, placement, and <a href='https://rdrr.io/r/grid/grid.grob.html'>g
     <span class='op'>)</span>
 <span class='op'>)</span>
 
-<span class='co'>## Load Hi-C data and BEDPE data</span>
+<span class='co'>## Load Hi-C data</span>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'>BentoBoxData</span><span class='op'>)</span>
 <span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='st'>"bb_imrHicData"</span><span class='op'>)</span>
 
 <span class='co'>## Create BentoBox page</span>
@@ -262,7 +263,7 @@ genomic region, placement, and <a href='https://rdrr.io/r/grid/grid.grob.html'>g
 <span class='co'>## Annotate domains on bottom half 0f Hi-C plot</span>
 <span class='fu'>bb_annoDomains</span><span class='op'>(</span>
     plot <span class='op'>=</span> <span class='va'>hicPlot</span>, data <span class='op'>=</span> <span class='va'>domains</span>,
-    half <span class='op'>=</span> <span class='st'>"bottom"</span>
+    half <span class='op'>=</span> <span class='st'>"bottom"</span>, linecolor <span class='op'>=</span> <span class='st'>"red"</span>
 <span class='op'>)</span>
 </div><div class='output co'>#&gt; <span class='message'>bb_domain[bb_domain1]</span></div><div class='input'>
 <span class='co'>## Annotate heatmap legend</span>

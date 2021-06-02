@@ -7,15 +7,6 @@
     <loc>https://phanstiellab.github.io/bentobox/reference/BentoBox.html</loc>
   </url>
   <url>
-    <loc>https://phanstiellab.github.io/bentobox/reference/bb_CasesNYFL.html</loc>
-  </url>
-  <url>
-    <loc>https://phanstiellab.github.io/bentobox/reference/bb_CasesUSA.html</loc>
-  </url>
-  <url>
-    <loc>https://phanstiellab.github.io/bentobox/reference/bb_VaccinesNYFL.html</loc>
-  </url>
-  <url>
     <loc>https://phanstiellab.github.io/bentobox/reference/bb_annoDomains.html</loc>
   </url>
   <url>
@@ -49,37 +40,10 @@
     <loc>https://phanstiellab.github.io/bentobox/reference/bb_assembly.html</loc>
   </url>
   <url>
-    <loc>https://phanstiellab.github.io/bentobox/reference/bb_bedData.html</loc>
-  </url>
-  <url>
-    <loc>https://phanstiellab.github.io/bentobox/reference/bb_bedpeData.html</loc>
-  </url>
-  <url>
     <loc>https://phanstiellab.github.io/bentobox/reference/bb_defaultPackages.html</loc>
   </url>
   <url>
     <loc>https://phanstiellab.github.io/bentobox/reference/bb_genomes.html</loc>
-  </url>
-  <url>
-    <loc>https://phanstiellab.github.io/bentobox/reference/bb_gmCTCFData.html</loc>
-  </url>
-  <url>
-    <loc>https://phanstiellab.github.io/bentobox/reference/bb_gmH3K27acData.html</loc>
-  </url>
-  <url>
-    <loc>https://phanstiellab.github.io/bentobox/reference/bb_gmHicData.html</loc>
-  </url>
-  <url>
-    <loc>https://phanstiellab.github.io/bentobox/reference/bb_gwasData.html</loc>
-  </url>
-  <url>
-    <loc>https://phanstiellab.github.io/bentobox/reference/bb_imrCTCFData.html</loc>
-  </url>
-  <url>
-    <loc>https://phanstiellab.github.io/bentobox/reference/bb_imrH3K27acData.html</loc>
-  </url>
-  <url>
-    <loc>https://phanstiellab.github.io/bentobox/reference/bb_imrHicData.html</loc>
   </url>
   <url>
     <loc>https://phanstiellab.github.io/bentobox/reference/bb_pageCreate.html</loc>
@@ -179,33 +143,6 @@
   </url>
   <url>
     <loc>https://phanstiellab.github.io/bentobox/reference/colorby.html</loc>
-  </url>
-  <url>
-    <loc>https://phanstiellab.github.io/bentobox/reference/cytoBand.Dmelanogaster.UCSC.dm6.html</loc>
-  </url>
-  <url>
-    <loc>https://phanstiellab.github.io/bentobox/reference/cytoBand.Drerio.UCSC.danRer10.html</loc>
-  </url>
-  <url>
-    <loc>https://phanstiellab.github.io/bentobox/reference/cytoBand.Hsapiens.UCSC.hg18.html</loc>
-  </url>
-  <url>
-    <loc>https://phanstiellab.github.io/bentobox/reference/cytoBand.Hsapiens.UCSC.hg19.html</loc>
-  </url>
-  <url>
-    <loc>https://phanstiellab.github.io/bentobox/reference/cytoBand.Hsapiens.UCSC.hg38.html</loc>
-  </url>
-  <url>
-    <loc>https://phanstiellab.github.io/bentobox/reference/cytoBand.Mmusculus.UCSC.mm10.html</loc>
-  </url>
-  <url>
-    <loc>https://phanstiellab.github.io/bentobox/reference/cytoBand.Mmusculus.UCSC.mm9.html</loc>
-  </url>
-  <url>
-    <loc>https://phanstiellab.github.io/bentobox/reference/cytoBand.Rnorvegicus.UCSC.rn5.html</loc>
-  </url>
-  <url>
-    <loc>https://phanstiellab.github.io/bentobox/reference/cytoBand.Rnorvegicus.UCSC.rn6.html</loc>
   </url>
   <url>
     <loc>https://phanstiellab.github.io/bentobox/articles/guides/aesthetics.html</loc>

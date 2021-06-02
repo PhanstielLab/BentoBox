@@ -328,7 +328,7 @@
      <span class="op">)</span>
  <span class="op">)</span></code></pre></div>
 <p>in this Hi-C plot:</p>
-<p><img src="annotations_files/figure-html/anno_11-1.png" width="1230" style="display: block; margin: auto;"></p>
+<p><img src="annotations_files/figure-html/anno_11-1.png" width="787.5" style="display: block; margin: auto;"></p>
 <p>We would use a similar workflow to how we annotated Hi-C pixels:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../../reference/bb_pageCreate.html">bb_pageCreate</a></span><span class="op">(</span>
@@ -346,7 +346,7 @@
 <span class="co">## Annotate domains</span>
 <span class="va">domainAnno</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/bb_annoDomains.html">bb_annoDomains</a></span><span class="op">(</span>
     plot <span class="op">=</span> <span class="va">hicPlot</span>, data <span class="op">=</span> <span class="va">domains</span>,
-    half <span class="op">=</span> <span class="st">"bottom"</span>
+    half <span class="op">=</span> <span class="st">"bottom"</span>, linecolor <span class="op">=</span> <span class="st">"red"</span>
 <span class="op">)</span>
 
 <span class="fu"><a href="../../reference/bb_annoGenomeLabel.html">bb_annoGenomeLabel</a></span><span class="op">(</span>
