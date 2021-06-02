@@ -176,6 +176,7 @@
 <p>When it’s time to stack various data types along the same genomic region, users can be confident in accurately aligning containers of the same width:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">## Load data</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">BentoBoxData</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="st">"bb_imrHicData"</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="st">"bb_bedpeData"</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="st">"bb_imrH3K27acData"</span><span class="op">)</span>
@@ -210,7 +211,7 @@
 <span class="va">signalPlot</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/bb_plotSignal.html">bb_plotSignal</a></span><span class="op">(</span>
     data <span class="op">=</span> <span class="va">bb_imrH3K27acData</span>,
     params <span class="op">=</span> <span class="va">params</span>,
-    y <span class="op">=</span> <span class="fl">3</span>, height <span class="op">=</span> <span class="fl">0.45</span>,
+    y <span class="op">=</span> <span class="fl">3.1</span>, height <span class="op">=</span> <span class="fl">0.45</span>,
     just <span class="op">=</span> <span class="fu"><a href="../../reference/c.html">c</a></span><span class="op">(</span><span class="st">"left"</span>, <span class="st">"top"</span><span class="op">)</span>, default.units <span class="op">=</span> <span class="st">"inches"</span>
 <span class="op">)</span>
 
@@ -218,7 +219,7 @@
 <span class="fu"><a href="../../reference/bb_annoGenomeLabel.html">bb_annoGenomeLabel</a></span><span class="op">(</span>
     plot <span class="op">=</span> <span class="va">signalPlot</span>,
     params <span class="op">=</span> <span class="va">params</span>, scale <span class="op">=</span> <span class="st">"Mb"</span>,
-    y <span class="op">=</span> <span class="fl">3.47</span>, just <span class="op">=</span> <span class="fu"><a href="../../reference/c.html">c</a></span><span class="op">(</span><span class="st">"left"</span>, <span class="st">"top"</span><span class="op">)</span>, default.units <span class="op">=</span> <span class="st">"inches"</span>
+    y <span class="op">=</span> <span class="fl">3.57</span>, just <span class="op">=</span> <span class="fu"><a href="../../reference/c.html">c</a></span><span class="op">(</span><span class="st">"left"</span>, <span class="st">"top"</span><span class="op">)</span>, default.units <span class="op">=</span> <span class="st">"inches"</span>
 <span class="op">)</span></code></pre></div>
 <p><img src="our_philosophy_files/figure-html/philosphy_6-1.png" width="900" style="display: block; margin: auto;"></p>
 </div>
@@ -253,8 +254,8 @@
 <span class="va">hicPlot</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/bb_plotHicTriangle.html">bb_plotHicTriangle</a></span><span class="op">(</span>
     data <span class="op">=</span> <span class="va">bb_imrHicData</span>,
     params <span class="op">=</span> <span class="va">params</span>,
-    x <span class="op">=</span> <span class="fl">2</span>, y <span class="op">=</span> <span class="fl">0.5</span>, width <span class="op">=</span> <span class="fl">3</span>, height <span class="op">=</span> <span class="fl">2</span>,
-    just <span class="op">=</span> <span class="st">"top"</span>, default.units <span class="op">=</span> <span class="st">"inches"</span>
+    x <span class="op">=</span> <span class="fl">0.5</span>, y <span class="op">=</span> <span class="fl">0.5</span>, width <span class="op">=</span> <span class="fl">3</span>, height <span class="op">=</span> <span class="fl">1.5</span>,
+    just <span class="op">=</span> <span class="fu"><a href="../../reference/c.html">c</a></span><span class="op">(</span><span class="st">"left"</span>, <span class="st">"top"</span><span class="op">)</span>, default.units <span class="op">=</span> <span class="st">"inches"</span>
 <span class="op">)</span>
 
 <span class="co">## Add color scale annotation</span>
@@ -307,8 +308,8 @@
     data <span class="op">=</span> <span class="va">bb_imrHicData</span>,
     params <span class="op">=</span> <span class="va">params</span>,
     palette <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grDevices/colorRamp.html">colorRampPalette</a></span><span class="op">(</span><span class="fu"><a href="../../reference/c.html">c</a></span><span class="op">(</span><span class="st">"white"</span>, <span class="st">"steel blue"</span><span class="op">)</span><span class="op">)</span>,
-    x <span class="op">=</span> <span class="fl">2</span>, y <span class="op">=</span> <span class="fl">0.5</span>, width <span class="op">=</span> <span class="fl">3</span>, height <span class="op">=</span> <span class="fl">2</span>,
-    just <span class="op">=</span> <span class="st">"top"</span>, default.units <span class="op">=</span> <span class="st">"inches"</span>
+    x <span class="op">=</span> <span class="fl">0.5</span>, y <span class="op">=</span> <span class="fl">0.5</span>, width <span class="op">=</span> <span class="fl">3</span>, height <span class="op">=</span> <span class="fl">1.5</span>,
+    just <span class="op">=</span> <span class="fu"><a href="../../reference/c.html">c</a></span><span class="op">(</span><span class="st">"left"</span>, <span class="st">"top"</span><span class="op">)</span>, default.units <span class="op">=</span> <span class="st">"inches"</span>
 <span class="op">)</span>
 
 <span class="va">genesPlot</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/bb_plotGenes.html">bb_plotGenes</a></span><span class="op">(</span>
