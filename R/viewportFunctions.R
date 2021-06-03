@@ -281,8 +281,8 @@ plot_belowY <- function(y_coord) {
     prevPlots <- unlist(get("bb_vpTree", envir = bbEnv))
 
     if (length(prevPlots) == 0) {
-        stop("No previous plot detected. Cannot define
-            a \'below\' y-coordinate.",
+        stop("No previous plot detected. Cannot define ",
+            "a \'below\' y-coordinate.",
             call. = FALSE
         )
     }

@@ -120,8 +120,8 @@ bb_plotIdeogram <- function(chrom, assembly = "hg19", orientation = "h",
         assemblyName <- assembly$Genome
 
         if (!any(names(availCytos) %in% assemblyName)) {
-            warning("CytoBand data not available for the given genome assembly.
-                Ideograms can only be plotted for the following assemblies:",
+            warning("CytoBand data not available for the given genome assembly. ",
+                "Ideograms can only be plotted for the following assemblies:",
                 cat(names(availCytos), sep = ", "),
                 call. = FALSE
             )
@@ -136,14 +136,14 @@ bb_plotIdeogram <- function(chrom, assembly = "hg19", orientation = "h",
             currentLoaded <- ls(envir = globalenv())
             if (!cytoData %in% currentLoaded) {
                 if (!"BentoBoxData" %in% (.packages())){
-                    warning("`BentoBoxData` package not loaded and assembly 
-                            cytoBand data not 
-                            loaded. Install and load `BentoBoxData` and run",
+                    warning("`BentoBoxData` package not loaded and assembly ",
+                            "cytoBand data not ",
+                            "loaded. Install and load `BentoBoxData` and run ",
                             '`data("', cytoData, '")`', "to load data.",
                             call. = FALSE
                     )
                 } else {
-                    warning("Assembly cytoBand data not loaded. Run",
+                    warning("Assembly cytoBand data not loaded. Run ",
                             '`data("', cytoData, '")`', "to load data.",
                             call. = FALSE
                     )
@@ -362,42 +362,12 @@ bb_plotIdeogram <- function(chrom, assembly = "hg19", orientation = "h",
     # PARSE PARAMETERS
     # =========================================================================
 
-    ## Check which defaults are not overwritten and set to NULL
-    if (missing(assembly)) assembly <- NULL
-    if (missing(orientation)) orientation <- NULL
-    if (missing(showBands)) showBands <- NULL
-    if (missing(just)) just <- NULL
-    if (missing(default.units)) default.units <- NULL
-    if (missing(draw)) draw <- NULL
-
-    ## Check if chrom argument is missing (could be in object)
-    if (!hasArg(chrom)) chrom <- NULL
-
-    ## Compile all parameters into an internal object
-    bb_ideoInternal <- structure(list(
-        chrom = chrom, assembly = assembly,
-        orientation = orientation,
-        showBands = showBands,
-        x = x, y = y, width = width,
-        height = height, just = just,
-        default.units = default.units,
-        draw = draw
-    ), class = "bb_ideoInternal")
-
     bb_ideoInternal <- parseParams(
-        bb_params = params,
-        object_params = bb_ideoInternal
+        params = params,
+        defaultArgs = formals(eval(match.call()[[1]])),
+        declaredArgs = lapply(match.call()[-1], eval),
+        class = "bb_ideoInternal"
     )
-
-    ## For any defaults that are still NULL, set back to default
-    if (is.null(bb_ideoInternal$assembly)) bb_ideoInternal$assembly <- "hg19"
-    if (is.null(bb_ideoInternal$orientation)) bb_ideoInternal$orientation <- "h"
-    if (is.null(bb_ideoInternal$showBands)) bb_ideoInternal$showBands <- TRUE
-    if (is.null(bb_ideoInternal$just)) bb_ideoInternal$just <- c("left", "top")
-    if (is.null(bb_ideoInternal$default.units)) {
-        bb_ideoInternal$default.units <- "inches"
-    }
-    if (is.null(bb_ideoInternal$draw)) bb_ideoInternal$draw <- TRUE
 
     # =========================================================================
     # INITIALIZE OBJECT

@@ -283,15 +283,15 @@ bb_plotManhattan <- function(data, sigVal = 5e-08, chrom = NULL,
             ## within a chrom
 
             if (!is.null(chromstart) & is.null(chromend)) {
-                stop("If specifying \'chromstart\',
-                    need to provide \'chromend\'.",
+                stop("If specifying \'chromstart\', ",
+                    "need to provide \'chromend\'.",
                     call. = FALSE
                 )
             }
 
             if (!is.null(chromend) & is.null(chromstart)) {
-                stop("If specifying \'chromend\',
-                    need to provide \'chromstart\'.",
+                stop("If specifying \'chromend\', ",
+                    "need to provide \'chromstart\'.",
                     call. = FALSE
                 )
             }
@@ -305,16 +305,16 @@ bb_plotManhattan <- function(data, sigVal = 5e-08, chrom = NULL,
                 }
 
                 if (chromstart > chromend) {
-                    stop("\'chromstart\' should not be
-                        larger than \'chromend\'.",
+                    stop("\'chromstart\' should not be ",
+                        "larger than \'chromend\'.",
                         call. = FALSE
                     )
                 }
             }
         } else {
             if (!is.null(chromstart) | !is.null(chromend)) {
-                warning("Plotting multiple chromosomes. \'chromstart\'
-                        and \'chromend\' inputs will be ignored.",
+                warning("Plotting multiple chromosomes. \'chromstart\' ",
+                        "and \'chromend\' inputs will be ignored.",
                     call. = FALSE
                 )
             }
@@ -342,8 +342,8 @@ bb_plotManhattan <- function(data, sigVal = 5e-08, chrom = NULL,
 
             ## second value should be larger than the first value
             if (man_plot$range[1] >= man_plot$range[2]) {
-                stop("\'range\' must be a vector of two numbers
-                    in which the 2nd value is larger than the 1st.",
+                stop("\'range\' must be a vector of two numbers ",
+                    "in which the 2nd value is larger than the 1st.",
                     call. = FALSE
                 )
             }
@@ -352,25 +352,25 @@ bb_plotManhattan <- function(data, sigVal = 5e-08, chrom = NULL,
         ## lead SNP
         if (!is.null(leadSNP)) {
             if (class(leadSNP) != "list") {
-                stop("\'leadSNP\' must be a list with a \'snp\' name
-                slot and any other aesthetic options for that SNP,
-                like \'fill\', \'pch\', \'cex\', \'fontcolor\',
-                and \'fontsize\'.", call. = FALSE)
+                stop("\'leadSNP\' must be a list with a \'snp\' name ",
+                "slot and any other aesthetic options for that SNP, ",
+                "like \'fill\', \'pch\', \'cex\', \'fontcolor\', ",
+                "and \'fontsize\'.", call. = FALSE)
             }
 
             if (!"snp" %in% names(leadSNP)) {
-                stop("\'leadSNP\' must be a list with a \'snp\' name
-                slot and any other aesthetic options for that SNP,
-                like \'fill\', \'pch\', \'cex\', \'fontcolor\',
-                and \'fontsize\'.", call. = FALSE)
+                stop("\'leadSNP\' must be a list with a \'snp\' name ",
+                "slot and any other aesthetic options for that SNP, ",
+                "like \'fill\', \'pch\', \'cex\', \'fontcolor\', ",
+                "and \'fontsize\'.", call. = FALSE)
             }
         }
 
         ## scaleLD
         if (!is.null(scaleLD)) {
             if (class(scaleLD) != "character") {
-                stop("\'scaleLD\' input must be a character specifying
-                    the name of a column in data.", call. = FALSE)
+                stop("\'scaleLD\' input must be a character specifying ",
+                    "the name of a column in data.", call. = FALSE)
             }
             if (!scaleLD %in% colnames(bedfile)) {
                 stop(scaleLD, "not found in data.", call. = FALSE)
@@ -499,72 +499,12 @@ bb_plotManhattan <- function(data, sigVal = 5e-08, chrom = NULL,
     # PARSE PARAMETERS
     # =========================================================================
 
-    ## Check which defaults are not overwritten and set to NULL
-    if (missing(assembly)) assembly <- NULL
-    if (missing(fill)) fill <- NULL
-    if (missing(pch)) pch <- NULL
-    if (missing(space)) space <- NULL
-    if (missing(cex)) cex <- NULL
-    if (missing(ymax)) ymax <- NULL
-    if (missing(sigVal)) sigVal <- NULL
-    if (missing(sigLine)) sigLine <- NULL
-    if (missing(bg)) bg <- NULL
-    if (missing(baseline)) baseline <- NULL
-    if (missing(baseline.color)) baseline.color <- NULL
-    if (missing(baseline.lwd)) baseline.lwd <- NULL
-    if (missing(just)) just <- NULL
-    if (missing(just)) just <- NULL
-    if (missing(flip)) flip <- NULL
-    if (missing(draw)) draw <- NULL
-
-    ## Check if bed/pVals arguments are missing (could be in object)
-    if (!hasArg(data)) data <- NULL
-
-    ## Compile all parameters into an internal object
-    bb_manInternal <- structure(list(
-        data = data, leadSNP = leadSNP,
-        chrom = chrom, chromstart = chromstart,
-        chromend = chromend, assembly = assembly,
-        fill = fill, pch = pch, space = space,
-        cex = cex, ymax = ymax, range = range,
-        sigVal = sigVal, scaleLD = scaleLD,
-        sigLine = sigLine, sigCol = sigCol,
-        bg = bg, baseline = baseline,
-        baseline.color = baseline.color,
-        baseline.lwd = baseline.lwd,
-        x = x, y = y, width = width,
-        height = height, just = just,
-        flip = flip,
-        default.units = default.units,
-        draw = draw
-    ), class = "bb_manInternal")
-
     bb_manInternal <- parseParams(
-        bb_params = params,
-        object_params = bb_manInternal
+        params = params,
+        defaultArgs = formals(eval(match.call()[[1]])),
+        declaredArgs = lapply(match.call()[-1], eval),
+        class = "bb_manInternal"
     )
-
-    ## For any defaults that are still NULL, set back to default
-    if (is.null(bb_manInternal$assembly)) bb_manInternal$assembly <- "hg19"
-    if (is.null(bb_manInternal$fill)) bb_manInternal$fill <- "black"
-    if (is.null(bb_manInternal$pch)) bb_manInternal$pch <- 19
-    if (is.null(bb_manInternal$space)) bb_manInternal$space <- 0.01
-    if (is.null(bb_manInternal$cex)) bb_manInternal$cex <- 0.25
-    if (is.null(bb_manInternal$ymax)) bb_manInternal$ymax <- 1
-    if (is.null(bb_manInternal$sigVal)) bb_manInternal$sigVal <- 5e-08
-    if (is.null(bb_manInternal$sigLine)) bb_manInternal$sigLine <- FALSE
-    if (is.null(bb_manInternal$bg)) bb_manInternal$bg <- NA
-    if (is.null(bb_manInternal$baseline)) bb_manInternal$baseline <- FALSE
-    if (is.null(bb_manInternal$baseline.color)) {
-        bb_manInternal$baseline.color <- "grey"
-    }
-    if (is.null(bb_manInternal$baseline.lwd)) bb_manInternal$baseline.lwd <- 1
-    if (is.null(bb_manInternal$just)) bb_manInternal$just <- c("left", "top")
-    if (is.null(bb_manInternal$flip)) bb_manInternal$flip <- FALSE
-    if (is.null(bb_manInternal$default.units)) {
-        bb_manInternal$default.units <- "inches"
-    }
-    if (is.null(bb_manInternal$draw)) bb_manInternal$draw <- TRUE
 
     ## Set gp
     bb_manInternal$gp <- gpar(cex = bb_manInternal$cex)
@@ -598,8 +538,8 @@ bb_plotManhattan <- function(data, sigVal = 5e-08, chrom = NULL,
     # CATCH MISSING ARGUMENT AND PLACEMENT ERRORS
     # =========================================================================
 
-    if (is.null(bb_manInternal$data)) stop("argument \"data\" is missing,
-                                        with no default.", call. = FALSE)
+    if (is.null(bb_manInternal$data)) stop("argument \"data\" is missing, ",
+                                        "with no default.", call. = FALSE)
 
     check_placement(object = man_plot)
 

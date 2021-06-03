@@ -124,13 +124,13 @@ bb_annoZoomLines <- function(plot, chrom, chromstart = NULL, chromend = NULL,
     ## Define a function that catches errors for bb_annoZoomLines
     bb_errorcheck_annoZoomLines <- function(object) {
         if (!object$chrom %in% object$plot$chrom) {
-            stop(object$chrom, "not found in input plot.
-                Cannot annotate zoom lines.", call. = FALSE)
+            stop(object$chrom, "not found in input plot. ",
+                "Cannot annotate zoom lines.", call. = FALSE)
         }
 
         if (length(object$chrom) > 1) {
-            stop("Cannot annotate zoom lines for multiple chromosome regions
-                in one function call.", call. = FALSE)
+            stop("Cannot annotate zoom lines for multiple chromosome regions ",
+                "in one function call.", call. = FALSE)
         }
     }
 
@@ -138,49 +138,12 @@ bb_annoZoomLines <- function(plot, chrom, chromstart = NULL, chromend = NULL,
     # PARSE PARAMETERS
     # =========================================================================
 
-    ## Check which defaults are not overwritten and set to NULL
-    if (missing(extend)) extend <- NULL
-    if (missing(linecolor)) linecolor <- NULL
-    if (missing(lty)) lty <- NULL
-    if (missing(default.units)) default.units <- NULL
-
-    ## Check if x0/y0/x1/y1 arguments are missing (could be in object)
-    if (!hasArg(plot)) plot <- NULL
-    if (!hasArg(chrom)) chrom <- NULL
-    if (!hasArg(y0)) y0 <- NULL
-    if (!hasArg(y1)) y1 <- NULL
-
-    ## Compile all parameters into an internal object
-    bb_zoomInternal <- structure(list(
-        plot = plot, chrom = chrom,
-        chromstart = chromstart,
-        chromend = chromend, y0 = y0,
-        x1 = x1, y1 = y1,
-        extend = extend, linecolor = linecolor,
-        lty = lty,
-        default.units = default.units
-    ),
-    class = "bb_zoomInternal"
-    )
-
     bb_zoomInternal <- parseParams(
-        bb_params = params,
-        object_params = bb_zoomInternal
+        params = params,
+        defaultArgs = formals(eval(match.call()[[1]])),
+        declaredArgs = lapply(match.call()[-1], eval),
+        class = "bb_zoomInternal"
     )
-
-    ## For any defaults that are still NULL, set back to default
-    if (is.null(bb_zoomInternal$extend)) {
-        bb_zoomInternal$extend <- 0
-    }
-    if (is.null(bb_zoomInternal$linecolor)) {
-        bb_zoomInternal$linecolor <- "grey"
-    }
-    if (is.null(bb_zoomInternal$lty)) {
-        bb_zoomInternal$lty <- 2
-    }
-    if (is.null(bb_zoomInternal$default.units)) {
-        bb_zoomInternal$default.units <- "inches"
-    }
 
     ## Set gp
     bb_zoomInternal$gp <- gpar(
@@ -213,8 +176,8 @@ bb_annoZoomLines <- function(plot, chrom, chromstart = NULL, chromend = NULL,
     # =========================================================================
 
     check_bbpage(error = "Cannot annotate zoom lines without a BentoBox page.")
-    if (is.null(bb_zoomInternal$plot)) stop("argument \"plot\" is missing,
-                                            with no default.", call. = FALSE)
+    if (is.null(bb_zoomInternal$plot)) stop("argument \"plot\" is missing, ",
+                                            "with no default.", call. = FALSE)
     if (is.null(bb_zoom$chrom)) {
         stop("argument \"chrom\" is missing, with no default.",
             call. = FALSE
@@ -241,17 +204,17 @@ bb_annoZoomLines <- function(plot, chrom, chromstart = NULL, chromend = NULL,
 
         ## Check for "below" y0-coords
         if (all(grepl("b", bb_zoom$y0)) == TRUE) {
-            stop("\'below\' y0-coordinate detected. Cannot parse \'below\'
-                y-coordinate for bb_annoZoomLines.", call. = FALSE)
+            stop("\'below\' y0-coordinate detected. Cannot parse \'below\' ",
+                "y-coordinate for bb_annoZoomLines.", call. = FALSE)
         } else {
             if (!is.numeric(bb_zoom$y0)) {
-                stop("y0-coordinate is neither a unit object or a numeric
-                    value. Cannot annotate zoom lines.", call. = FALSE)
+                stop("y0-coordinate is neither a unit object or a numeric ",
+                    "value. Cannot annotate zoom lines.", call. = FALSE)
             }
 
             if (is.null(bb_zoomInternal$default.units)) {
-                stop("y0-coordinate detected as numeric.\'default.units\'
-                    must be specified.", call. = FALSE)
+                stop("y0-coordinate detected as numeric.\'default.units\' ",
+                    "must be specified.", call. = FALSE)
             }
 
             bb_zoom$y0 <- unit(bb_zoom$y0, bb_zoomInternal$default.units)
@@ -267,17 +230,17 @@ bb_annoZoomLines <- function(plot, chrom, chromstart = NULL, chromend = NULL,
 
         ## Check for "below" y0-coords
         if (all(grepl("b", bb_zoom$y1)) == TRUE) {
-            stop("\'below\' y1-coordinate detected. Cannot parse \'below\'
-                y-coordinate for bb_annoZoomLines.", call. = FALSE)
+            stop("\'below\' y1-coordinate detected. Cannot parse \'below\' ",
+                "y-coordinate for bb_annoZoomLines.", call. = FALSE)
         } else {
             if (!is.numeric(bb_zoom$y1)) {
-                stop("y1-coordinate is neither a unit object or a numeric
-                    value. Cannot annotate zoom lines.", call. = FALSE)
+                stop("y1-coordinate is neither a unit object or a numeric ",
+                    "value. Cannot annotate zoom lines.", call. = FALSE)
             }
 
             if (is.null(bb_zoomInternal$default.units)) {
-                stop("y1-coordinate detected as numeric.\'default.units\'
-                    must be specified.", call. = FALSE)
+                stop("y1-coordinate detected as numeric.\'default.units\' ",
+                    "must be specified.", call. = FALSE)
             }
 
             bb_zoom$y1 <- unit(bb_zoom$y1, bb_zoomInternal$default.units)
@@ -291,13 +254,13 @@ bb_annoZoomLines <- function(plot, chrom, chromstart = NULL, chromend = NULL,
     ## extend
     if (!"unit" %in% class(bb_zoom$extend)) {
         if (!is.numeric(bb_zoom$extend)) {
-            stop("\'extend\' is neither a unit object or a numeric value.
-                Cannot annotate zoom lines.", call. = FALSE)
+            stop("\'extend\' is neither a unit object or a numeric value. ",
+                "Cannot annotate zoom lines.", call. = FALSE)
         }
 
         if (is.null(bb_zoomInternal$default.units)) {
-            stop("\'extend\' detected as numeric.\'default.units\' must
-                be specified.", call. = FALSE)
+            stop("\'extend\' detected as numeric.\'default.units\' must ",
+                "be specified.", call. = FALSE)
         }
 
         bb_zoom$extend <- unit(bb_zoom$extend, bb_zoomInternal$default.units)
@@ -415,13 +378,13 @@ bb_annoZoomLines <- function(plot, chrom, chromstart = NULL, chromend = NULL,
     } else {
         if (!"unit" %in% class(bb_zoom$x1)) {
             if (!is.numeric(bb_zoom$x1)) {
-                stop("x1-coordinate is neither a unit object or a numeric
-                    value. Cannot annotate zoom lines.", call. = FALSE)
+                stop("x1-coordinate is neither a unit object or a numeric ",
+                    "value. Cannot annotate zoom lines.", call. = FALSE)
             }
 
             if (is.null(bb_zoomInternal$default.units)) {
-                stop("x1-coordinate detected as numeric.\'default.units\'
-                    must be specified.", call. = FALSE)
+                stop("x1-coordinate detected as numeric.\'default.units\' ",
+                    "must be specified.", call. = FALSE)
             }
 
             bb_zoom$x1 <- unit(bb_zoom$x1, bb_zoomInternal$default.units)

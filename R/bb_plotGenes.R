@@ -243,73 +243,12 @@ bb_plotGenes <- function(chrom, chromstart = NULL, chromend = NULL,
     # PARSE PARAMETERS
     # =========================================================================
 
-    ## Check which defaults are not overwritten and set to NULL
-    if (missing(assembly)) assembly <- NULL
-    if (missing(fontcolor)) fontcolor <- NULL
-    if (missing(fill)) fill <- NULL
-    if (missing(geneBackground)) geneBackground <- NULL
-    if (missing(stroke)) stroke <- NULL
-    if (missing(fontsize)) fontsize <- NULL
-    if (missing(strandLabels)) strandLabels <- NULL
-    if (missing(bg)) bg <- NULL
-    if (missing(height)) height <- NULL
-    if (missing(just)) just <- NULL
-    if (missing(default.units)) default.units <- NULL
-    if (missing(draw)) draw <- NULL
-
-    ## Check if chrom argument is missing (could be in object)
-    if (!hasArg(chrom)) chrom <- NULL
-
-    ## Compile all parameters into an internal object
-    bb_genesInternal <- structure(list(
-        assembly = assembly, chrom = chrom,
-        chromstart = chromstart,
-        chromend = chromend,
-        fontcolor = fontcolor,
-        fill = fill,
-        geneOrder = geneOrder,
-        geneHighlights = geneHighlights,
-        geneBackground = geneBackground,
-        stroke = stroke, fontsize = fontsize,
-        strandLabels = strandLabels,
-        bg = bg, x = x, y = y, width = width,
-        height = height, just = just,
-        default.units = default.units,
-        draw = draw
-    ), class = "bb_genesInternal")
-
     bb_genesInternal <- parseParams(
-        bb_params = params,
-        object_params = bb_genesInternal
+        params = params,
+        defaultArgs = formals(eval(match.call()[[1]])),
+        declaredArgs = lapply(match.call()[-1], eval),
+        class = "bb_genesInternal"
     )
-
-    ## For any defaults that are still NULL, set back to default
-    if (is.null(bb_genesInternal$assembly)) bb_genesInternal$assembly <- "hg19"
-    if (is.null(bb_genesInternal$fontcolor)) {
-        bb_genesInternal$fontcolor <- c("#669fd9", "#abcc8e")
-    }
-    if (is.null(bb_genesInternal$fill)) {
-        bb_genesInternal$fill <- c("#669fd9", "#abcc8e")
-    }
-    if (is.null(bb_genesInternal$geneBackground)) {
-        bb_genesInternal$geneBackground <- "grey"
-    }
-    if (is.null(bb_genesInternal$stroke)) bb_genesInternal$stroke <- 0.1
-    if (is.null(bb_genesInternal$fontsize)) bb_genesInternal$fontsize <- 8
-    if (is.null(bb_genesInternal$strandLabels)) {
-        bb_genesInternal$strandLabels <- TRUE
-    }
-    if (is.null(bb_genesInternal$bg)) bb_genesInternal$bg <- NA
-    if (is.null(bb_genesInternal$height)) {
-        bb_genesInternal$height <- unit(0.6, "inches")
-    }
-    if (is.null(bb_genesInternal$just)) {
-        bb_genesInternal$just <- c("left", "top")
-    }
-    if (is.null(bb_genesInternal$default.units)) {
-        bb_genesInternal$default.units <- "inches"
-    }
-    if (is.null(bb_genesInternal$draw)) bb_genesInternal$draw <- TRUE
 
     # =========================================================================
     # INITIALIZE OBJECT
@@ -333,8 +272,8 @@ bb_plotGenes <- function(chrom, chromstart = NULL, chromend = NULL,
     # CATCH ERRORS
     # =========================================================================
 
-    if (is.null(bb_genes$chrom)) stop("argument \"chrom\" is missing,
-                                    with no default.", call. = FALSE)
+    if (is.null(bb_genes$chrom)) stop("argument \"chrom\" is missing, ",
+                                    "with no default.", call. = FALSE)
     errorcheck_bb_plotGenes(
         chromstart = bb_genes$chromstart,
         chromend = bb_genes$chromend

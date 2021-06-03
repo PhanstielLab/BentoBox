@@ -96,50 +96,16 @@ bb_plotLegend <- function(legend, fill = NULL, pch = NULL, lty = NULL,
     # PARSE PARAMETERS
     # =========================================================================
 
-    ## Check which defaults are not overwritten and set to NULL
-    if (missing(orientation)) orientation <- NULL
-    if (missing(fontsize)) fontsize <- NULL
-    if (missing(border)) border <- NULL
-    if (missing(bg)) bg <- NULL
-    if (missing(just)) just <- NULL
-    if (missing(default.units)) default.units <- NULL
-    if (missing(draw)) draw <- NULL
-
-    ## Check if legend argument is missing (could be in object)
-    if (!hasArg(legend)) legend <- NULL
-
-    ## Compile all parameters into an internal object
-    bb_legInternal <- structure(list(
-        legend = legend, orientation = orientation,
-        fill = fill, pch = pch, lty = lty,
-        title = title, fontsize = fontsize,
-        border = border, bg = bg, x = x, y = y,
-        width = width, height = height,
-        just = just, default.units = default.units,
-        draw = draw, gp = gpar()
-    ),
-    class = "bb_legInternal"
-    )
-
     bb_legInternal <- parseParams(
-        bb_params = params,
-        object_params = bb_legInternal
+        params = params,
+        defaultArgs = formals(eval(match.call()[[1]])),
+        declaredArgs = lapply(match.call()[-1], eval),
+        class = "bb_legInternal"
     )
-
-    ## For any defaults that are still NULL, set back to default
-    if (is.null(bb_legInternal$orientation)) bb_legInternal$orientation <- "v"
-    if (is.null(bb_legInternal$fontsize)) bb_legInternal$fontsize <- 10
-    if (is.null(bb_legInternal$border)) bb_legInternal$border <- TRUE
-    if (is.null(bb_legInternal$bg)) bb_legInternal$bg <- NA
-    if (is.null(bb_legInternal$just)) bb_legInternal$just <- c("left", "top")
-    if (is.null(bb_legInternal$default.units)) {
-        bb_legInternal$default.units <- "inches"
-    }
-    if (is.null(bb_legInternal$draw)) bb_legInternal$draw <- TRUE
 
     ## Set gp
     bb_legInternal$gp <- setGP(
-        gpList = bb_legInternal$gp,
+        gpList = gpar(),
         params = bb_legInternal, ...
     )
 
@@ -167,8 +133,8 @@ bb_plotLegend <- function(legend, fill = NULL, pch = NULL, lty = NULL,
     # CATCH ERRORS
     # =========================================================================
 
-    if (is.null(bb_legInternal$legend)) stop("argument \"legend\" is missing,
-                                            with no default.", call. = FALSE)
+    if (is.null(bb_legInternal$legend)) stop("argument \"legend\" is missing, ",
+                                            "with no default.", call. = FALSE)
 
     check_placement(object = legend_plot)
 

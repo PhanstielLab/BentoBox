@@ -29,14 +29,16 @@ within a `BentoBox` page layout:
 In addition to a genomic axis label, it can also be useful to include an 
 ideogram representation of a chromosome to give a broader context of the 
 location of genomic data. UCSC Giemsa stain cytoband information for various 
-genomic assemblies is included with `BentoBox` and must be loaded before 
+genomic assemblies is included with `BentoBoxData` and must be loaded before 
 plotting an ideogram (i.e.`data("cytoBand.Hsapiens.UCSC.hg19")`).
+```{r eval=TRUE, echo=TRUE}
+library(BentoBoxData)
+data("cytoBand.Hsapiens.UCSC.hg19")
+library(TxDb.Hsapiens.UCSC.hg19.knownGene)
+```
 
 Ideograms can be plotted both vertically and horizontally:
 ```{r ideogram_01, echo=TRUE, fig.height=5.25, fig.width=10.35, message=FALSE}
-## Load cytoband data
-data("cytoBand.Hsapiens.UCSC.hg19")
-library(TxDb.Hsapiens.UCSC.hg19.knownGene)
 library(GenomeInfoDb)
 
 ## Get sizes of chromosomes to scale their sizes

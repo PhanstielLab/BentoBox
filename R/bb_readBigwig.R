@@ -37,34 +37,12 @@ bb_readBigwig <- function(file, chrom = NULL, chromstart = 1,
     # PARSE PARAMETERS
     # =========================================================================
 
-    bigwigDefaults <- c("chromstart", "chromend", "strand")
-
-    ## Check which defaults are not overwritten and set to NULL
-    if (missing(chromstart)) chromstart <- NULL
-    if (missing(chromend)) chromend <- NULL
-    if (missing(strand)) strand <- NULL
-
-    ## Check if filename argument is missing (could be in object)
-    if (!hasArg(file)) file <- NULL
-
-    ## Compile all parameters into an internal object
-    bb_bigwig <- structure(list(
-        file = file, chrom = chrom,
-        chromstart = chromstart,
-        chromend = chromend, strand = strand
-    ),
-    class = "bb_bigwig"
-    )
-
     bb_bigwig <- parseParams(
-        bb_params = params,
-        object_params = bb_bigwig
+        params = params,
+        defaultArgs = formals(eval(match.call()[[1]])),
+        declaredArgs = lapply(match.call()[-1], eval),
+        class = "bb_bigwig"
     )
-
-    ## For any defaults that are still NULL, set back to default
-    if (is.null(bb_bigwig$chromstart)) bb_bigwig$chromstart <- 1
-    if (is.null(bb_bigwig$chromend)) bb_bigwig$chromend <- .Machine$integer.max
-    if (is.null(bb_bigwig$strand)) bb_bigwig$strand <- "*"
 
     # =========================================================================
     # ERRORS

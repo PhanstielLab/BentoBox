@@ -64,38 +64,16 @@ bb_annoXaxis <- function(plot, at = NULL, label = TRUE, main = TRUE,
     # PARSE PARAMETERS
     # =========================================================================
 
-    ## Check which defaults are not overwritten and set to NULL
-    if (missing(label)) label <- NULL
-    if (missing(main)) main <- NULL
-    if (missing(scipen)) scipen <- NULL
-    if (missing(axisLine)) axisLine <- NULL
-
-    ## Check if plot argument is missing (could be in object)
-    if (!hasArg(plot)) plot <- NULL
-
-    ## Compile all parameters into an internal object
-    bb_xInternal <- structure(list(
-        plot = plot, at = at, label = label,
-        main = main, gp = gpar(), scipen = scipen,
-        axisLine = axisLine
-    ),
-    class = "bb_xInternal"
-    )
-
     bb_xInternal <- parseParams(
-        bb_params = params,
-        object_params = bb_xInternal
+        params = params,
+        defaultArgs = formals(eval(match.call()[[1]])),
+        declaredArgs = lapply(match.call()[-1], eval),
+        class = "bb_xInternal"
     )
-
-    ## For any defaults that are still NULL, set back to default
-    if (is.null(bb_xInternal$label)) bb_xInternal$label <- TRUE
-    if (is.null(bb_xInternal$main)) bb_xInternal$main <- TRUE
-    if (is.null(bb_xInternal$scipen)) bb_xInternal$scipen <- 999
-    if (is.null(bb_xInternal$axisLine)) bb_xInternal$axisLine <- FALSE
 
     ## Set gp
     bb_xInternal$gp <- setGP(
-        gpList = bb_xInternal$gp,
+        gpList = gpar(),
         params = bb_xInternal, ...
     )
 
@@ -103,8 +81,8 @@ bb_annoXaxis <- function(plot, at = NULL, label = TRUE, main = TRUE,
     # CATCH ERRORS
     # =========================================================================
 
-    if (is.null(bb_xInternal$plot)) stop("argument \"plot\" is missing,
-                                        with no default.", call. = FALSE)
+    if (is.null(bb_xInternal$plot)) stop("argument \"plot\" is missing, ",
+                                        "with no default.", call. = FALSE)
     check_bbpage(error = "Cannot add an x-axis without a BentoBox page.")
 
     # =========================================================================

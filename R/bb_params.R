@@ -86,9 +86,9 @@ bb_params <- function() {}
     ## into one `bb_params` object
     if (any(inputClasses == "bb_params")) {
         if (!all(inputClasses == "bb_params")) {
-            warning("Attempting to concatenate parameters not of
-                    class `bb_params` with `bb_params` objects.
-                    Coercing all parameters into a `bb_params` object.",
+            warning("Attempting to concatenate parameters not of ",
+                    "class `bb_params` with `bb_params` objects. ",
+                    "Coercing all parameters into a `bb_params` object.",
                 call. = FALSE
             )
         }
@@ -115,8 +115,8 @@ bb_params <- function() {}
         for (a in allowed) {
             dups <- combArgs[names(combArgs) %in% a]
             if (length(unique(unlist(dups))) != 1) {
-                stop(sQuote(a), "must be the same when combining
-                    bb_params objects.", call. = FALSE)
+                stop(sQuote(a), "must be the same when combining ",
+                    "bb_params objects.", call. = FALSE)
             }
         }
 

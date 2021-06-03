@@ -96,8 +96,8 @@ bb_annoHighlight <- function(plot, chrom, chromstart = NULL, chromend = NULL,
         }
 
         if (length(object$chrom) > 1) {
-            stop("Cannot highlight multiple chromosome
-            regions in one function call.", call. = FALSE)
+            stop("Cannot highlight multiple chromosome ",
+            "regions in one function call.", call. = FALSE)
         }
     }
 
@@ -150,53 +150,12 @@ bb_annoHighlight <- function(plot, chrom, chromstart = NULL, chromend = NULL,
     # PARSE PARAMETERS
     # =========================================================================
 
-    ## Check which defaults are not overwritten and set to NULL
-    if (missing(fill)) fill <- NULL
-    if (missing(linecolor)) linecolor <- NULL
-    if (missing(alpha)) alpha <- NULL
-    if (missing(just)) just <- NULL
-    if (missing(default.units)) default.units <- NULL
-
-    ## Check if arguments are missing (could be in object)
-    if (!hasArg(plot)) plot <- NULL
-    if (!hasArg(chrom)) chrom <- NULL
-    if (!hasArg(y)) y <- NULL
-    if (!hasArg(height)) height <- NULL
-
-    ## Compile all parameters into an internal object
-    bb_highlightInternal <- structure(list(
-        plot = plot, chrom = chrom,
-        chromstart = chromstart,
-        chromend = chromend,
-        fill = fill, linecolor = linecolor,
-        alpha = alpha, y = y, height = height,
-        just = just,
-        default.units = default.units
-    ),
-    class = "bb_highlightInternal"
-    )
-
     bb_highlightInternal <- parseParams(
-        bb_params = params,
-        object_params = bb_highlightInternal
+        params = params,
+        defaultArgs = formals(eval(match.call()[[1]])),
+        declaredArgs = lapply(match.call()[-1], eval),
+        class = "bb_highlightInternal"
     )
-
-    ## For any defaults that are still NULL, set back to default
-    if (is.null(bb_highlightInternal$fill)) {
-        bb_highlightInternal$fill <- "grey"
-    }
-    if (is.null(bb_highlightInternal$linecolor)) {
-        bb_highlightInternal$linecolor <- NA
-    }
-    if (is.null(bb_highlightInternal$alpha)) {
-        bb_highlightInternal$alpha <- 0.4
-    }
-    if (is.null(bb_highlightInternal$just)) {
-        bb_highlightInternal$just <- c("left", "top")
-    }
-    if (is.null(bb_highlightInternal$default.units)) {
-        bb_highlightInternal$default.units <- "inches"
-    }
 
     ## Set gp
     bb_highlightInternal$gp <- gpar(
@@ -260,15 +219,15 @@ bb_annoHighlight <- function(plot, chrom, chromstart = NULL, chromend = NULL,
         ## Check for "below" y-coords
         if (all(grepl("b", bb_highlight$y)) == TRUE) {
             if (any(grepl("^[ac-zA-Z]+$", bb_highlight$y)) == TRUE) {
-                stop("\'below\' y-coordinate(s) detected with
-                    additional letters. Cannot parse
-                    y-coordinate(s).", call. = FALSE)
+                stop("\'below\' y-coordinate(s) detected with ",
+                    "additional letters. Cannot parse ",
+                    "y-coordinate(s).", call. = FALSE)
             }
 
             if (any(is.na(as.numeric(gsub("b", "", bb_highlight$y))))) {
-                stop("\'below\' y-coordinate(s) does not have a numeric
-                    associated with it. Cannot parse
-                    y-coordinate(s).", call. = FALSE)
+                stop("\'below\' y-coordinate(s) does not have a numeric ",
+                    "associated with it. Cannot parse ",
+                    "y-coordinate(s).", call. = FALSE)
             }
 
             bb_highlight$y <- unit(
@@ -277,13 +236,13 @@ bb_annoHighlight <- function(plot, chrom, chromstart = NULL, chromend = NULL,
             )
         } else {
             if (!is.numeric(bb_highlight$y)) {
-                stop("y-coordinate is neither a unit object or a
-                    numeric value. Cannot plot text.", call. = FALSE)
+                stop("y-coordinate is neither a unit object or a ",
+                    "numeric value. Cannot plot text.", call. = FALSE)
             }
 
             if (is.null(bb_highlightInternal$default.units)) {
-                stop("y-coordinate detected as numeric.\'default.units\'
-                    must be specified.", call. = FALSE)
+                stop("y-coordinate detected as numeric.\'default.units\' ",
+                    "must be specified.", call. = FALSE)
             }
 
             bb_highlight$y <- unit(
@@ -295,13 +254,13 @@ bb_annoHighlight <- function(plot, chrom, chromstart = NULL, chromend = NULL,
 
     if (!"unit" %in% class(bb_highlight$height)) {
         if (!is.numeric(bb_highlight$height)) {
-            stop("Height is neither a unit object or a
-                numeric value. Cannot place object.", call. = FALSE)
+            stop("Height is neither a unit object or a ",
+                "numeric value. Cannot place object.", call. = FALSE)
         }
 
         if (is.null(bb_highlightInternal$default.units)) {
-            stop("Height detected as numeric.\'default.units\'
-                must be specified.", call. = FALSE)
+            stop("Height detected as numeric.\'default.units\' ",
+                "must be specified.", call. = FALSE)
         }
 
         bb_highlight$height <- unit(

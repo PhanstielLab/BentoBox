@@ -78,47 +78,12 @@ bb_plotRect <- function(x, y, width, height, just = "center",
     # PARSE PARAMETERS
     # =========================================================================
 
-    ## Check which defaults are not overwritten and set to NULL
-    if (missing(just)) just <- NULL
-    if (missing(linecolor)) linecolor <- NULL
-    if (missing(fill)) fill <- NULL
-    if (missing(lwd)) lwd <- NULL
-    if (missing(lty)) lty <- NULL
-    if (missing(alpha)) alpha <- NULL
-    if (missing(default.units)) default.units <- NULL
-
-    ## Check if label/x/y arguments are missing (could be in object)
-    if (!hasArg(x)) x <- NULL
-    if (!hasArg(y)) y <- NULL
-    if (!hasArg(width)) width <- NULL
-    if (!hasArg(height)) height <- NULL
-
-    ## Compile all parameters into an internal object
-    bb_rectInternal <- structure(list(
-        x = x, y = y, width = width,
-        height = height, just = just,
-        linecolor = linecolor, fill = fill,
-        lwd = lwd, lty = lty, alpha = alpha,
-        default.units = default.units
-    ),
-    class = "bb_rectInternal"
-    )
-
     bb_rectInternal <- parseParams(
-        bb_params = params,
-        object_params = bb_rectInternal
+        params = params,
+        defaultArgs = formals(eval(match.call()[[1]])),
+        declaredArgs = lapply(match.call()[-1], eval),
+        class = "bb_rectInternal"
     )
-
-    ## For any defaults that are still NULL, set back to default
-    if (is.null(bb_rectInternal$just)) bb_rectInternal$just <- "center"
-    if (is.null(bb_rectInternal$linecolor)) bb_rectInternal$linecolor <- "black"
-    if (is.null(bb_rectInternal$fill)) bb_rectInternal$fill <- NA
-    if (is.null(bb_rectInternal$lwd)) bb_rectInternal$lwd <- 1
-    if (is.null(bb_rectInternal$lty)) bb_rectInternal$lty <- 1
-    if (is.null(bb_rectInternal$alpha)) bb_rectInternal$alpha <- 1
-    if (is.null(bb_rectInternal$default.units)) {
-        bb_rectInternal$default.units <- "inches"
-    }
 
     ## Set gp
     bb_rectInternal$gp <- gpar(
@@ -184,13 +149,13 @@ bb_plotRect <- function(x, y, width, height, just = "center",
 
     if (!"unit" %in% class(bb_rect$x)) {
         if (!is.numeric(bb_rect$x)) {
-            stop("x-coordinate is neither a unit object or a numeric
-                value. Cannot plot rectangle.", call. = FALSE)
+            stop("x-coordinate is neither a unit object or a numeric ",
+                "value. Cannot plot rectangle.", call. = FALSE)
         }
 
         if (is.null(bb_rectInternal$default.units)) {
-            stop("x-coordinate detected as numeric.\'default.units\'
-                must be specified.", call. = FALSE)
+            stop("x-coordinate detected as numeric.\'default.units\' ",
+                "must be specified.", call. = FALSE)
         }
 
         bb_rect$x <- unit(bb_rect$x, bb_rectInternal$default.units)
@@ -201,13 +166,13 @@ bb_plotRect <- function(x, y, width, height, just = "center",
         ## Check for "below" y-coords
         if (all(grepl("b", bb_rect$y)) == TRUE) {
             if (any(grepl("^[ac-zA-Z]+$", bb_rect$y)) == TRUE) {
-                stop("\'below\' y-coordinate(s) detected with additional
-                    letters. Cannot parse y-coordinate(s).", call. = FALSE)
+                stop("\'below\' y-coordinate(s) detected with additional ",
+                    "letters. Cannot parse y-coordinate(s).", call. = FALSE)
             }
 
             if (any(is.na(as.numeric(gsub("b", "", bb_rect$y))))) {
-                stop("\'below\' y-coordinate(s) does not have a numeric
-                    associated with it. Cannot parse y-coordinate(s).",
+                stop("\'below\' y-coordinate(s) does not have a numeric ",
+                    "associated with it. Cannot parse y-coordinate(s).",
                     call. = FALSE
                 )
             }
@@ -218,13 +183,13 @@ bb_plotRect <- function(x, y, width, height, just = "center",
             )
         } else {
             if (!is.numeric(bb_rect$y)) {
-                stop("y-coordinate is neither a unit object or a numeric
-                    value. Cannot plot rectangle.", call. = FALSE)
+                stop("y-coordinate is neither a unit object or a numeric ",
+                    "value. Cannot plot rectangle.", call. = FALSE)
             }
 
             if (is.null(bb_rectInternal$default.units)) {
-                stop("y-coordinate detected as numeric.\'default.units\'
-                    must be specified.", call. = FALSE)
+                stop("y-coordinate detected as numeric.\'default.units\' ",
+                    "must be specified.", call. = FALSE)
             }
 
             bb_rect$y <- unit(bb_rect$y, bb_rectInternal$default.units)
@@ -233,13 +198,13 @@ bb_plotRect <- function(x, y, width, height, just = "center",
 
     if (!"unit" %in% class(bb_rect$width)) {
         if (!is.numeric(bb_rect$width)) {
-            stop("width is neither a unit object or a numeric value.
-                Cannot plot rectangle.", call. = FALSE)
+            stop("width is neither a unit object or a numeric value. ",
+                "Cannot plot rectangle.", call. = FALSE)
         }
 
         if (is.null(bb_rectInternal$default.units)) {
-            stop("width detected as numeric.\'default.units\'
-                must be specified.",
+            stop("width detected as numeric.\'default.units\' ",
+                "must be specified.",
                 call. = FALSE
             )
         }
@@ -249,13 +214,13 @@ bb_plotRect <- function(x, y, width, height, just = "center",
 
     if (!"unit" %in% class(bb_rect$height)) {
         if (!is.numeric(bb_rect$height)) {
-            stop("height is neither a unit object or a numeric value.
-                Cannot plot rectangle.", call. = FALSE)
+            stop("height is neither a unit object or a numeric value. ",
+                "Cannot plot rectangle.", call. = FALSE)
         }
 
         if (is.null(bb_rectInternal$default.units)) {
-            stop("height detected as numeric.\'default.units\'
-                must be specified.", call. = FALSE)
+            stop("height detected as numeric.\'default.units\' ",
+                "must be specified.", call. = FALSE)
         }
 
         bb_rect$height <- unit(bb_rect$height, bb_rectInternal$default.units)

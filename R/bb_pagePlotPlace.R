@@ -187,36 +187,17 @@ bb_pagePlotPlace <- function(plot, x = NULL, y = NULL, width = NULL,
     # PARSE PARAMETERS
     # =========================================================================
 
-    ## Check which defaults are not overwritten and set to NULL
-    if (missing(just)) just <- NULL
-    if (missing(default.units)) default.units <- NULL
-    if (missing(draw)) draw <- NULL
-
-    ## Check if plot argument is missing (could be in object)
-    if (!hasArg(plot)) plot <- NULL
-
-    ## Compile all parameters into an internal object
-    bb_place <- structure(list(
-        plot = plot, x = x, y = y, width = width,
-        height = height, draw = draw,
-        just = just, default.units = default.units
-    ),
-    class = "bb_place"
-    )
-
-    bb_place <- parseParams(bb_params = params, object_params = bb_place)
-
-    ## For any defaults that are still NULL, set back to default
-    if (is.null(bb_place$just)) bb_place$just <- c("left", "top")
-    if (is.null(bb_place$default.units)) bb_place$default.units <- "inches"
-    if (is.null(bb_place$draw)) bb_place$draw <- TRUE
-
+    bb_place <- parseParams(params = params, 
+                            defaultArgs = formals(eval(match.call()[[1]])),
+                            declaredArgs = lapply(match.call()[-1], eval),
+                            class = "bb_place")
+    
     # =========================================================================
     # ERRORS
     # =========================================================================
 
-    if (is.null(bb_place$plot)) stop("argument \"plot\" is missing,
-                                    with no default.", call. = FALSE)
+    if (is.null(bb_place$plot)) stop("argument \"plot\" is missing, ",
+                                    "with no default.", call. = FALSE)
 
     # =========================================================================
     # INITIALIZE PLOT OBJECT COPY
@@ -231,16 +212,16 @@ bb_pagePlotPlace <- function(plot, x = NULL, y = NULL, width = NULL,
     if (!is.null(bb_place$x)) {
         if (!"unit" %in% class(bb_place$x)) {
             if (!is.numeric(bb_place$x)) {
-                warning("x-coordinate is neither a unit object or a
-                        numeric value. Cannot parse x-coordinate.",
+                warning("x-coordinate is neither a unit object or a ",
+                        "numeric value. Cannot parse x-coordinate.",
                     call. = FALSE
                 )
                 bb_place$x <- NULL
             }
 
             if (is.null(bb_place$default.units)) {
-                warning("x-coordinate detected as numeric.\'default.units\'
-                        must be specified.", call. = FALSE)
+                warning("x-coordinate detected as numeric.\'default.units\' ",
+                        "must be specified.", call. = FALSE)
                 bb_place$x <- NULL
             }
 
@@ -254,33 +235,33 @@ bb_pagePlotPlace <- function(plot, x = NULL, y = NULL, width = NULL,
             ## Check for "below" y-coord
             if (grepl("b", bb_place$y) == TRUE) {
                 if (grepl("^[ac-zA-Z]+$", bb_place$y) == TRUE) {
-                    warning("\'below\' y-coordinate detected with additional
-                            letters. Cannot parse y-coordinate.",
+                    warning("\'below\' y-coordinate detected with additional ",
+                            "letters. Cannot parse y-coordinate.",
                         call. = FALSE
                     )
                     bb_place$y <- NULL
                 }
 
                 if (is.na(as.numeric(gsub("b", "", bb_place$y)))) {
-                    warning("\'below\' y-coordinate does not have a
-                            numeric associated with it.
-                            Cannot parse y-coordinate.", call. = FALSE)
+                    warning("\'below\' y-coordinate does not have a ",
+                            "numeric associated with it. ",
+                            "Cannot parse y-coordinate.", call. = FALSE)
                     bb_place$y <- NULL
                 }
 
                 bb_place$y <- plot_belowY(y_coord = bb_place$y)
             } else {
                 if (!is.numeric(bb_place$y)) {
-                    warning("y-coordinate is neither a unit object or
-                            a numeric value. Cannot parse y-coordinate.",
+                    warning("y-coordinate is neither a unit object or ",
+                            "a numeric value. Cannot parse y-coordinate.",
                         call. = FALSE
                     )
                     bb_place$y <- NULL
                 }
 
                 if (is.null(bb_place$default.units)) {
-                    warning("y-coordinate detected as numeric.
-                            \'default.units\' must be specified.",
+                    warning("y-coordinate detected as numeric. ",
+                            "\'default.units\' must be specified.",
                         call. = FALSE
                     )
                     bb_place$y <- NULL
@@ -294,16 +275,16 @@ bb_pagePlotPlace <- function(plot, x = NULL, y = NULL, width = NULL,
     if (!is.null(bb_place$width)) {
         if (!"unit" %in% class(bb_place$width)) {
             if (!is.numeric(bb_place$width)) {
-                warning("width is neither a unit object or a
-                        numeric value. Cannot parse width.",
+                warning("width is neither a unit object or a ",
+                        "numeric value. Cannot parse width.",
                     call. = FALSE
                 )
                 bb_place$width <- NULL
             }
 
             if (is.null(bb_place$default.units)) {
-                warning("width detected as numeric.\'default.units\'
-                        must be specified.", call. = FALSE)
+                warning("width detected as numeric.\'default.units\' ",
+                        "must be specified.", call. = FALSE)
                 bb_place$width <- NULL
             }
 
@@ -314,16 +295,16 @@ bb_pagePlotPlace <- function(plot, x = NULL, y = NULL, width = NULL,
     if (!is.null(bb_place$height)) {
         if (!"unit" %in% class(bb_place$height)) {
             if (!is.numeric(bb_place$height)) {
-                warning("height is neither a unit object or a
-                        numeric value. Cannot parse height.",
+                warning("height is neither a unit object or a ",
+                        "numeric value. Cannot parse height.",
                     call. = FALSE
                 )
                 bb_place$height <- NULL
             }
 
             if (is.null(bb_place$default.units)) {
-                warning("height detected as numeric.\'default.units\'
-                        must be specified.", call. = FALSE)
+                warning("height detected as numeric.\'default.units\' ",
+                        "must be specified.", call. = FALSE)
                 bb_place$height <- NULL
             }
 

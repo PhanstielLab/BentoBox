@@ -69,92 +69,6 @@ validUnits <- c(
     "cicero", "scaledpts", "char", "lines", "snpc"
 )
 
-## Define a function that converts coordinates/dimensions into default units
-defaultUnits <- function(object, default.units) {
-    if (!(is.null(object$x)) & !(is.null(object[["y"]]))) {
-        if (!"unit" %in% class(object$x)) {
-            if (!is.numeric(object$x)) {
-                stop("x-coordinate is neither a unit object nor a
-                    numeric value. Cannot place object.", call. = FALSE)
-            }
-
-            if (is.null(default.units)) {
-                stop("x-coordinate detected as numeric.\'default.units\'
-                    must be specified.", call. = FALSE)
-            }
-
-            object$x <- unit(object$x, default.units)
-        }
-
-
-        if (!"unit" %in% class(object$y)) {
-
-            ## Check for "below" y-coord
-            if (grepl("b", object$y) == TRUE) {
-                if (grepl("^[ac-zA-Z]+$", object$y) == TRUE) {
-                    stop("\'below\' y-coordinate detected with additional
-                        letters. Cannot parse y-coordinate.", call. = FALSE)
-                }
-
-                if (is.na(as.numeric(gsub("b", "", object$y)))) {
-                    stop("\'below\' y-coordinate does not have a numeric
-                        associated with it. Cannot parse y-coordinate.",
-                        call. = FALSE
-                    )
-                }
-
-                object$y <- plot_belowY(y_coord = object$y)
-            } else {
-                if (!is.numeric(object$y)) {
-                    stop("y-coordinate is neither a unit object nor a
-                        numeric value. Cannot place object.", call. = FALSE)
-                }
-
-                if (is.null(default.units)) {
-                    stop("y-coordinate detected as numeric.\'default.units\'
-                        must be specified.", call. = FALSE)
-                }
-
-                object$y <- unit(object$y, default.units)
-            }
-        }
-
-        if (!"unit" %in% class(object$width)) {
-            if (!is.numeric(object$width)) {
-                stop("Width is neither a unit object nor a numeric value.
-                    Cannot place object.", call. = FALSE)
-            }
-
-            if (is.null(default.units)) {
-                stop("Width detected as numeric.\'default.units\' must
-                    be specified.",
-                    call. = FALSE
-                )
-            }
-
-            object$width <- unit(object$width, default.units)
-        }
-
-        if (!"unit" %in% class(object$height)) {
-            if (!is.numeric(object$height)) {
-                stop("Height is neither a unit object nor a numeric
-                    value. Cannot place object.", call. = FALSE)
-            }
-
-            if (is.null(default.units)) {
-                stop("Height detected as numeric.\'default.units\'
-                    must be specified.",
-                    call. = FALSE
-                )
-            }
-
-            object$height <- unit(object$height, default.units)
-        }
-    }
-
-    return(object)
-}
-
 ## Define a function that determines the chromosome offsets for a plot
 ## with multiple chromosomes (manhattan plots)
 spaceChroms <- function(assemblyData, space) {
@@ -193,60 +107,6 @@ makeTransparent <- function(color, alpha) {
         maxColorValue = 255
     )
     return(transp)
-}
-
-# Define a function that parses parameters from a bb_params object
-parseParams <- function(bb_params, object_params) {
-    getNull <- function(name, params) {
-        val <- params[[name]]
-        if (is.null(val)) {
-            return(name)
-        }
-    }
-
-    if (!is.null(bb_params)) {
-        ## First make sure it's actually a "bb_params" object
-        if (class(bb_params) != "bb_params") {
-            warning("Input object ignored. Object must be a
-                    \'bb_params\' class object.", call. = FALSE)
-        } else {
-            objectNames <- names(object_params)
-
-            ## Get the NULL object params that haven't been set
-            ## with other parameter input
-            nullNames <- unlist(lapply(objectNames, getNull,
-                params = object_params
-            ))
-            ## Get any of the object values that match those names
-            objectMatches <- bb_params[which(names(bb_params) %in% nullNames)]
-            ## Replace object_param values with bb_params values
-            object_params[match(names(objectMatches), names(object_params))] <-
-                objectMatches
-
-            addParams <- bb_params[which(!names(bb_params) %in% objectNames)]
-
-            object_params <- c(object_params, addParams)
-        }
-    }
-
-    return(object_params)
-}
-
-## Define a function that parses gpar parameters
-setGP <- function(gpList, params, ...) {
-    availGPs <- names(get.gpar())
-    gpMatches <- params[which(names(params) %in% availGPs)]
-    gpList[names(gpMatches)] <- gpMatches
-    gpList[names(list(...))] <- list(...)
-
-    ## Reset with fontface first
-    if ("fontface" %in% names(gpList)) {
-        otherParams <- gpList
-        gpList <- gpar(fontface = gpList$fontface)
-        gpList[names(otherParams)] <- otherParams
-    }
-
-    return(gpList)
 }
 
 ## Define a function to get the data packages of a genome assembly
@@ -503,9 +363,9 @@ parse_bbAssembly <- function(assembly) {
     ## If it's just a string, get the default
     if (class(assembly) == "character") {
         if (!assembly %in% availDefaults) {
-            stop("\'assembly\' not available as a default. Please make a
-                bb_assembly object with `bb_assembly()` or pick an assembly
-                from the defaults listed with `bb_genomes()`.", call. = FALSE)
+            stop("\'assembly\' not available as a default. Please make a ",
+                "bb_assembly object with `bb_assembly()` or pick an assembly ",
+                "from the defaults listed with `bb_genomes()`.", call. = FALSE)
         }
 
         assemblyData <- getPackages(genome = assembly)
@@ -514,9 +374,9 @@ parse_bbAssembly <- function(assembly) {
     } else if (class(assembly) == "bb_assembly") {
         assemblyData <- assembly
     } else {
-        stop("Invalid \'assembly\' type. Please make a bb_assembly object
-            with `bb_assembly()` or input an assembly string from the
-            defaults listed with `bb_genomes()`.", call. = FALSE)
+        stop("Invalid \'assembly\' type. Please make a bb_assembly object ",
+            "with `bb_assembly()` or input an assembly string from the ",
+            "defaults listed with `bb_genomes()`.", call. = FALSE)
     }
 
 

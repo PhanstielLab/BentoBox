@@ -84,47 +84,12 @@ bb_plotPolygon <- function(x, y, default.units = "inches",
     # PARSE PARAMETERS
     # =========================================================================
 
-    ## Check which defaults are not overwritten and set to NULL
-    if (missing(id)) id <- NULL
-    if (missing(id.lengths)) id.lengths <- NULL
-    if (missing(linecolor)) linecolor <- NULL
-    if (missing(fill)) fill <- NULL
-    if (missing(lwd)) lwd <- NULL
-    if (missing(lty)) lty <- NULL
-    if (missing(alpha)) alpha <- NULL
-    if (missing(default.units)) default.units <- NULL
-
-    ## Check if label/x/y arguments are missing (could be in object)
-    if (!hasArg(x)) x <- NULL
-    if (!hasArg(y)) y <- NULL
-
-    ## Compile all parameters into an internal object
-    bb_polygonInternal <- structure(list(
-        x = x, y = y, id = id,
-        id.lengths = id.lengths,
-        linecolor = linecolor, fill = fill,
-        lwd = lwd, lty = lty, alpha = alpha,
-        default.units = default.units
-    ),
-    class = "bb_polygonInternal"
-    )
-
     bb_polygonInternal <- parseParams(
-        bb_params = params,
-        object_params = bb_polygonInternal
+        params = params,
+        defaultArgs = formals(eval(match.call()[[1]])),
+        declaredArgs = lapply(match.call()[-1], eval),
+        class = "bb_polygonInternal"
     )
-
-    ## For any defaults that are still NULL, set back to default
-    if (is.null(bb_polygonInternal$linecolor)) {
-        bb_polygonInternal$linecolor <- "black"
-    }
-    if (is.null(bb_polygonInternal$fill)) bb_polygonInternal$fill <- NA
-    if (is.null(bb_polygonInternal$lwd)) bb_polygonInternal$lwd <- 1
-    if (is.null(bb_polygonInternal$lty)) bb_polygonInternal$lty <- 1
-    if (is.null(bb_polygonInternal$alpha)) bb_polygonInternal$alpha <- 1
-    if (is.null(bb_polygonInternal$default.units)) {
-        bb_polygonInternal$default.units <- "inches"
-    }
 
     ## Set gp
     bb_polygonInternal$gp <- gpar(
@@ -181,13 +146,13 @@ bb_plotPolygon <- function(x, y, default.units = "inches",
 
     if (!"unit" %in% class(bb_polygon$x)) {
         if (!is.numeric(bb_polygon$x)) {
-            stop("x-coordinate is neither a unit object or a
-                numeric value. Cannot plot polygon.", call. = FALSE)
+            stop("x-coordinate is neither a unit object or a ",
+                "numeric value. Cannot plot polygon.", call. = FALSE)
         }
 
         if (is.null(bb_polygonInternal$default.units)) {
-            stop("x-coordinate detected as numeric. \'default.units\'
-                must be specified.", call. = FALSE)
+            stop("x-coordinate detected as numeric. \'default.units\' ",
+                "must be specified.", call. = FALSE)
         }
 
         bb_polygon$x <- unit(bb_polygon$x, bb_polygonInternal$default.units)
@@ -198,13 +163,13 @@ bb_plotPolygon <- function(x, y, default.units = "inches",
         ## Check for "below" y-coords
         if (all(grepl("b", bb_polygon$y)) == TRUE) {
             if (any(grepl("^[ac-zA-Z]+$", bb_polygon$y)) == TRUE) {
-                stop("\'below\' y-coordinate(s) detected with additional
-                    letters. Cannot parse y-coordinate(s).", call. = FALSE)
+                stop("\'below\' y-coordinate(s) detected with additional ",
+                    "letters. Cannot parse y-coordinate(s).", call. = FALSE)
             }
 
             if (any(is.na(as.numeric(gsub("b", "", bb_polygon$y))))) {
-                stop("\'below\' y-coordinate(s) does not have a numeric
-                    associated with it. Cannot parse y-coordinate(s).",
+                stop("\'below\' y-coordinate(s) does not have a numeric ",
+                    "associated with it. Cannot parse y-coordinate(s).",
                     call. = FALSE
                 )
             }
@@ -215,13 +180,13 @@ bb_plotPolygon <- function(x, y, default.units = "inches",
             )
         } else {
             if (!is.numeric(bb_polygon$y)) {
-                stop("y-coordinate is neither a unit object or a
-                    numeric value. Cannot plot polygon.", call. = FALSE)
+                stop("y-coordinate is neither a unit object or a ",
+                    "numeric value. Cannot plot polygon.", call. = FALSE)
             }
 
             if (is.null(bb_polygonInternal$default.units)) {
-                stop("y-coordinate detected as numeric. \'default.units\'
-                    must be specified.", call. = FALSE)
+                stop("y-coordinate detected as numeric. \'default.units\' ",
+                    "must be specified.", call. = FALSE)
             }
 
             bb_polygon$y <- unit(bb_polygon$y, bb_polygonInternal$default.units)

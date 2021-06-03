@@ -159,8 +159,8 @@ bb_plotHicSquare <- function(data, resolution = "auto", zrange = NULL,
 
         ## if it's a dataframe or datatable, it needs to be properly formatted
         if ("data.frame" %in% class(hic) && ncol(hic) != 3) {
-            stop("Invalid dataframe format.  Input a dataframe with
-                3 columns: chrA, chrB, counts.", call. = FALSE)
+            stop("Invalid dataframe format.  Input a dataframe with ",
+                "3 columns: chrA, chrB, counts.", call. = FALSE)
         }
 
         if (!"data.frame" %in% class(hic)) {
@@ -217,8 +217,8 @@ bb_plotHicSquare <- function(data, resolution = "auto", zrange = NULL,
         if (hic_plot$assembly$Genome == "hg19") {
             if (grepl("chr", hic_plot$chrom) == FALSE) {
                 stop("'", hic_plot$chrom, "'",
-                    "is an invalid input for an hg19 chromsome.
-                    Please specify chromosome as",
+                    "is an invalid input for an hg19 chromsome. ",
+                    "Please specify chromosome as",
                     "'chr", hic_plot$chrom, "'.",
                     call. = FALSE
                 )
@@ -238,8 +238,8 @@ bb_plotHicSquare <- function(data, resolution = "auto", zrange = NULL,
             if (hic_plot$assembly$Genome == "hg19") {
                 if (grepl("chr", hic_plot$altchrom) == FALSE) {
                     stop("'", hic_plot$altchrom, "'",
-                        "is an invalid input for an hg19 chromsome.
-                        Please specify chromosome as",
+                        "is an invalid input for an hg19 chromsome. ",
+                        "Please specify chromosome as",
                         "'chr", hic_plot$altchrom, "'.",
                         call. = FALSE
                     )
@@ -253,8 +253,8 @@ bb_plotHicSquare <- function(data, resolution = "auto", zrange = NULL,
                 !is.null(hic_plot$altchromend)) |
                 (is.null(hic_plot$altchromend) &
                     !is.null(hic_plot$altchromstart))) {
-                stop("Cannot have one \'NULL\' \'altchromstart\' or
-                    \'altchromend\'.",
+                stop("Cannot have one \'NULL\' \'altchromstart\' or ",
+                    "\'altchromend\'.",
                     call. = FALSE
                 )
             }
@@ -268,8 +268,8 @@ bb_plotHicSquare <- function(data, resolution = "auto", zrange = NULL,
 
                 ## Altchromstart should be smaller than altchromend
                 if (hic_plot$altchromstart > hic_plot$altchromend) {
-                    stop("\'altchromstart\' should not be larger
-                        than \'altchromend\'.",
+                    stop("\'altchromstart\' should not be larger ",
+                        "than \'altchromend\'.",
                         call. = FALSE
                     )
                 }
@@ -312,8 +312,8 @@ bb_plotHicSquare <- function(data, resolution = "auto", zrange = NULL,
 
             ## second value should be larger than the first value
             if (hic_plot$zrange[1] >= hic_plot$zrange[2]) {
-                stop("\'zrange\' must be a vector of two numbers in which
-                    the 2nd value is larger than the 1st.", call. = FALSE)
+                stop("\'zrange\' must be a vector of two numbers in which ",
+                    "the 2nd value is larger than the 1st.", call. = FALSE)
             }
         }
 
@@ -322,16 +322,16 @@ bb_plotHicSquare <- function(data, resolution = "auto", zrange = NULL,
 
         if (is.null(hic_plot$altchrom)) {
             if (!(hic_plot$half %in% c("both", "top", "bottom"))) {
-                stop("Invalid \'half\'.  Options are \'both\',
-                    \top\', or \'bottom\'.",
+                stop("Invalid \'half\'.  Options are \'both\', ",
+                    "\top\', or \'bottom\'.",
                     call. = FALSE
                 )
             }
         } else {
             if (!hic_plot$half %in% c("top", "bottom")) {
-                stop("Invalid \'half\' for off-diagonal and
-                    interchromosomal plotting.  Options are \'top\'
-                    or \'bottom\'.", call. = FALSE)
+                stop("Invalid \'half\' for off-diagonal and ",
+                    "interchromosomal plotting.  Options are \'top\' ",
+                    "or \'bottom\'.", call. = FALSE)
             }
         }
     }
@@ -504,72 +504,19 @@ bb_plotHicSquare <- function(data, resolution = "auto", zrange = NULL,
     # PARSE PARAMETERS
     # =========================================================================
 
-    ## Check which defaults are not overwritten and set to NULL
-    if (missing(half)) half <- NULL
-    if (missing(resolution)) resolution <- NULL
-    if (missing(palette)) palette <- NULL
-    if (missing(assembly)) assembly <- NULL
-    if (missing(just)) just <- NULL
-    if (missing(default.units)) default.units <- NULL
-    if (missing(draw)) draw <- NULL
-    if (missing(norm)) norm <- NULL
-    if (missing(matrix)) matrix <- NULL
-    if (missing(colorTrans)) colorTrans <- NULL
-    if (missing(quiet)) quiet <- NULL
-
-    ## Check if hic/chrom arguments are missing (could be in object)
-    if (!hasArg(data)) data <- NULL
-    if (!hasArg(chrom)) chrom <- NULL
-
-    ## Compile all parameters into an internal object
-    bb_hicInternal <- structure(list(
-        data = data, chrom = chrom,
-        chromstart = chromstart,
-        chromend = chromend, half = half,
-        resolution = resolution,
-        zrange = zrange, palette = palette,
-        assembly = assembly, width = width,
-        height = height, x = x, y = y, just = just,
-        default.units = default.units, draw = draw,
-        altchrom = altchrom,
-        altchromstart = altchromstart,
-        altchromend = altchromend,
-        norm = norm, matrix = matrix,
-        colorTrans = colorTrans, quiet = quiet
-    ),
-    class = "bb_hicInternal"
-    )
-
     bb_hicInternal <- parseParams(
-        bb_params = params,
-        object_params = bb_hicInternal
+        params = params,
+        defaultArgs = formals(eval(match.call()[[1]])),
+        declaredArgs = lapply(match.call()[-1], eval),
+        class = "bb_hicInternal"
     )
 
-    ## For any defaults that are still NULL, set back to default
-    if (is.null(bb_hicInternal$half)) bb_hicInternal$half <- "both"
-    if (is.null(bb_hicInternal$resolution)) bb_hicInternal$resolution <- "auto"
-    if (is.null(bb_hicInternal$palette)) {
-        bb_hicInternal$palette <- colorRampPalette(
-            brewer.pal(n = 9, "YlGnBu")
-        )
-    }
-    if (is.null(bb_hicInternal$assembly)) bb_hicInternal$assembly <- "hg19"
-    if (is.null(bb_hicInternal$just)) bb_hicInternal$just <- c("left", "top")
-    if (is.null(bb_hicInternal$default.units)) {
-        bb_hicInternal$default.units <- "inches"
-    }
-    if (is.null(bb_hicInternal$draw)) bb_hicInternal$draw <- TRUE
-    if (is.null(bb_hicInternal$norm)) bb_hicInternal$norm <- "KR"
-    if (is.null(bb_hicInternal$matrix)) bb_hicInternal$matrix <- "observed"
-    if (is.null(bb_hicInternal$colorTrans)) {
-        bb_hicInternal$colorTrans <- "linear"
-    }
     if (is.null(bb_hicInternal$quiet)) bb_hicInternal$quiet <- FALSE
 
-    if (is.null(bb_hicInternal$data)) stop("argument \"data\" is missing,
-                                        with no default.", call. = FALSE)
-    if (is.null(bb_hicInternal$chrom)) stop("argument \"chrom\" is missing,
-                                            with no default.", call. = FALSE)
+    if (is.null(bb_hicInternal$data)) stop("argument \"data\" is missing, ",
+                                        "with no default.", call. = FALSE)
+    if (is.null(bb_hicInternal$chrom)) stop("argument \"chrom\" is missing, ",
+                                            "with no default.", call. = FALSE)
 
     # =========================================================================
     # INITIALIZE OBJECT
@@ -710,8 +657,8 @@ bb_plotHicSquare <- function(data, resolution = "auto", zrange = NULL,
 
             ## Won't scale to log if negative values
             if (any(hic$counts < 0)) {
-                stop("Negative values in Hi-C data. Cannot scale colors on a
-                log scale. Please set `colorTrans = 'linear'`.", call. = FALSE)
+                stop("Negative values in Hi-C data. Cannot scale colors on a ",
+                "log scale. Please set `colorTrans = 'linear'`.", call. = FALSE)
             }
 
             hic$counts <- log(hic$counts, base = logBase)
@@ -832,8 +779,8 @@ bb_plotHicSquare <- function(data, resolution = "auto", zrange = NULL,
                 ))
             }
         } else {
-            warning("No data found in region.
-                Suggestions: check chromosome, check region.", call. = FALSE)
+            warning("No data found in region. ",
+                "Suggestions: check chromosome, check region.", call. = FALSE)
         }
     }
 

@@ -97,16 +97,16 @@ bb_annoDomains <- function(plot, data, half = "inherit",
             "bb_hicSquare", "bb_hicTriangle",
             "bb_hicRectangle"
         )) {
-            stop("Input plot must be a plot of class \'bb_hicSquare\',
-                \'bb_hicTriangle\', or \'bb_hicRectangle\'.", call. = FALSE)
+            stop("Input plot must be a plot of class \'bb_hicSquare\', ",
+                "\'bb_hicTriangle\', or \'bb_hicRectangle\'.", call. = FALSE)
         }
 
         ###### half #####
 
         ## half needs to be a valid option
         if (!half %in% c("inherit", "both", "top", "bottom")) {
-            stop("Invalid \'half\'.  Options are \'inherit\',
-                \'both\', \'top\', or \'bottom\'.", call. = FALSE)
+            stop("Invalid \'half\'.  Options are \'inherit\', ",
+                "\'both\', \'top\', or \'bottom\'.", call. = FALSE)
         }
 
         ## half needs to be able to align with what kind of hic plot is plotted
@@ -131,16 +131,16 @@ bb_annoDomains <- function(plot, data, half = "inherit",
                     )
                 }
             } else {
-                stop("Cannot annotate domains for an intrachromosomal
-                    square Hi-C plot.", call. = FALSE)
+                stop("Cannot annotate domains for an intrachromosomal ",
+                    "square Hi-C plot.", call. = FALSE)
             }
         } else if (class(hic) == "bb_hicTriangle" |
             class(hic) == "bb_hicRectangle") {
             if (half == "both" | half == "bottom") {
                 warning("Plot of class \'",
                     class(hic),
-                    "\' detected. Pixels will automatically be annotated
-                    in the upper triangular of the plot.",
+                    "\' detected. Pixels will automatically be annotated ",
+                    "in the upper triangular of the plot.",
                     call. = FALSE
                 )
             }
@@ -304,40 +304,16 @@ bb_annoDomains <- function(plot, data, half = "inherit",
     # PARSE PARAMETERS
     # =========================================================================
 
-    ## Check which defaults are not overwritten and set to NULL
-    if (missing(half)) half <- NULL
-    if (missing(linecolor)) linecolor <- NULL
-
-    ## Check if hic/loops arguments are missing (could be in object)
-    if (!hasArg(plot)) plot <- NULL
-    if (!hasArg(data)) data <- NULL
-
-    ## Compile all parameters into an internal object
-    bb_domainsInternal <- structure(list(
-        plot = plot, data = data, half = half,
-        linecolor = linecolor,
-        gp = gpar()
-    ), class = "bb_domainsInternal")
-
-    bb_domainsInternal <- parseParams(
-        bb_params = params,
-        object_params = bb_domainsInternal
-    )
-
-    ## For any defaults that are still NULL, set back to default
-    if (is.null(bb_domainsInternal$half)) bb_domainsInternal$half <- "inherit"
-    if (is.null(bb_domainsInternal$linecolor)) {
-        bb_domainsInternal$linecolor <- "black"
-    }
-
-    ## Set gp
-    bb_domainsInternal$gp <- setGP(
-        gpList = bb_domainsInternal$gp,
-        params = bb_domainsInternal, ...
-    )
+    bb_domainsInternal <- parseParams(params = params,
+                                       defaultArgs = formals(eval(match.call()[[1]])),
+                                       declaredArgs = lapply(match.call()[-1], eval),
+                                       class = "bb_domainsInternal")
+    bb_domainsInternal$gp <- setGP(gpList = gpar(), 
+                                   params = bb_domainsInternal, ...)
 
     bb_domainsInternal$gp$col <- bb_domainsInternal$linecolor
     bb_domainsInternal$gp$lineend <- "square"
+    
     # =========================================================================
     # INITIALIZE OBJECT: GET REGION/DIMENSIONS FROM HIC PLOT INPUT
     # =========================================================================
@@ -364,10 +340,10 @@ bb_annoDomains <- function(plot, data, half = "inherit",
 
     check_bbpage(error = "Cannot annotate Hi-C domains without a
                 BentoBox page.")
-    if (is.null(bb_domainsInternal$plot)) stop("argument \"plot\" is missing,
-                                            with no default.", call. = FALSE)
-    if (is.null(bb_domainsInternal$data)) stop("argument \"data\" is missing,
-                                            with no default.", call. = FALSE)
+    if (is.null(bb_domainsInternal$plot)) stop("argument \"plot\" is missing, ",
+                                            "with no default.", call. = FALSE)
+    if (is.null(bb_domainsInternal$data)) stop("argument \"data\" is missing, ",
+                                            "with no default.", call. = FALSE)
 
     errorcheck_bb_annoDomains(
         hic = bb_domainsInternal$plot,
@@ -409,9 +385,9 @@ bb_annoDomains <- function(plot, data, half = "inherit",
 
         col1Checks <- unlist(lapply(bed[, 1], checkChr))
         if (any(col1Checks == FALSE)) {
-            stop("Chromosomes in column 1 are in invalid format for
-                hg19 genome assembly. Please specify chromosomes as a string
-                with the following format: 'chr1'.", call. = FALSE)
+            stop("Chromosomes in column 1 are in invalid format for ",
+                "hg19 genome assembly. Please specify chromosomes as a string ",
+                "with the following format: 'chr1'.", call. = FALSE)
         }
     }
 

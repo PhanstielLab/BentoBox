@@ -164,8 +164,8 @@ bb_plotSignal <- function(data, binSize = NA, binCap = TRUE, negData = FALSE,
                         "bw", "bigWig",
                         "bigwig", "bedgraph"
                     )) {
-                        stop("Invalid input. File must have a valid bigwig or
-                            bedgraph extension.", call. = FALSE)
+                        stop("Invalid input. File must have a valid bigwig or ",
+                            "bedgraph extension.", call. = FALSE)
                     }
                 }
             }
@@ -188,8 +188,8 @@ bb_plotSignal <- function(data, binSize = NA, binCap = TRUE, negData = FALSE,
             !is.null(signal_track$chromend)) |
             (is.null(signal_track$chromend) &
                 !is.null(signal_track$chromstart))) {
-            stop("Cannot have one \'NULL\' \'chromstart\' or
-                \'chromend\'.", call. = FALSE)
+            stop("Cannot have one \'NULL\' \'chromstart\' or ",
+                "\'chromend\'.", call. = FALSE)
         }
 
         if (!is.null(signal_track$chromstart) &
@@ -199,8 +199,8 @@ bb_plotSignal <- function(data, binSize = NA, binCap = TRUE, negData = FALSE,
             }
 
             if (signal_track$chromstart > signal_track$chromend) {
-                stop("\'chromstart\' should not be larger than
-                    \'chromend\'.", call. = FALSE)
+                stop("\'chromstart\' should not be larger than ",
+                    "\'chromend\'.", call. = FALSE)
             }
         }
 
@@ -229,8 +229,8 @@ bb_plotSignal <- function(data, binSize = NA, binCap = TRUE, negData = FALSE,
 
             ## second value should be larger than the first value
             if (signaltrack$range[1] >= signaltrack$range[2]) {
-                stop("\'range\' must be a vector of two numbers in
-                    which the 2nd value is larger than the 1st.",
+                stop("\'range\' must be a vector of two numbers in ",
+                    "which the 2nd value is larger than the 1st.",
                     call. = FALSE
                 )
             }
@@ -261,8 +261,8 @@ bb_plotSignal <- function(data, binSize = NA, binCap = TRUE, negData = FALSE,
             GenomicRanges::makeGRangesFromDataFrame(signal),
             drop.self = TRUE
         ) == TRUE)) {
-            stop("Data ranges cannot overlap. Please check `start`
-                and `end` column ranges.", call. = FALSE)
+            stop("Data ranges cannot overlap. Please check `start` ",
+                "and `end` column ranges.", call. = FALSE)
         }
 
         return(signal)
@@ -337,8 +337,8 @@ bb_plotSignal <- function(data, binSize = NA, binCap = TRUE, negData = FALSE,
                     updated_binSize <- 1
                     signaltrack$binNum <- updated_binNum
                     signaltrack$binSize <- updated_binSize
-                    warning("Number of bins larger than plot length:
-                        adjusting to ", binNum, " bins of size 1.",
+                    warning("Number of bins larger than plot length: ",
+                        "adjusting to ", binNum, " bins of size 1.",
                         call. = FALSE
                     )
                 }
@@ -573,79 +573,16 @@ bb_plotSignal <- function(data, binSize = NA, binCap = TRUE, negData = FALSE,
     # PARSE PARAMETERS
     # =========================================================================
 
-    ## Check which defaults are not overwritten and set to NULL
-    if (missing(linecolor)) linecolor <- NULL
-    if (missing(fill)) fill <- NULL
-    if (missing(binSize)) binSize <- NULL
-    if (missing(binCap)) binCap <- NULL
-    if (missing(negData)) negData <- NULL
-    if (missing(assembly)) assembly <- NULL
-    if (missing(ymax)) ymax <- NULL
-    if (missing(scale)) scale <- NULL
-    if (missing(bg)) bg <- NULL
-    if (missing(baseline)) baseline <- NULL
-    if (missing(baseline.color)) baseline.color <- NULL
-    if (missing(baseline.lwd)) baseline.lwd <- NULL
-    if (missing(orientation)) orientation <- NULL
-    if (missing(just)) just <- NULL
-    if (missing(default.units)) default.units <- NULL
-    if (missing(draw)) draw <- NULL
-
-    ## Check if data/chrom arguments are missing (could be in object)
-    if (!hasArg(data)) data <- NULL
-    if (!hasArg(chrom)) chrom <- NULL
-
-    ## Compile all parameters into an internal object
-    bb_sigInternal <- structure(list(
-        data = data, chrom = chrom,
-        chromstart = chromstart,
-        chromend = chromend, negData = negData,
-        range = range, linecolor = linecolor,
-        binSize = binSize,
-        binCap = binCap, fill = fill,
-        assembly = assembly, ymax = ymax,
-        scale = scale, bg = bg, baseline = baseline,
-        width = width, height = height,
-        baseline.color = baseline.color,
-        baseline.lwd = baseline.lwd,
-        orientation = orientation,
-        x = x, y = y, just = just,
-        default.units = default.units,
-        draw = draw, gp = gpar()
-    ),
-    class = "bb_sigInternal"
-    )
-
     bb_sigInternal <- parseParams(
-        bb_params = params,
-        object_params = bb_sigInternal
+        params = params,
+        defaultArgs = formals(eval(match.call()[[1]])),
+        declaredArgs = lapply(match.call()[-1], eval),
+        class = "bb_sigInternal"
     )
-
-    ## For any defaults that are still NULL, set back to default
-    if (is.null(bb_sigInternal$linecolor)) bb_sigInternal$linecolor <- "#37a7db"
-    if (is.null(bb_sigInternal$fill)) bb_sigInternal$fill <- NA
-    if (is.null(bb_sigInternal$binSize)) bb_sigInternal$binSize <- NA
-    if (is.null(bb_sigInternal$binCap)) bb_sigInternal$binCap <- TRUE
-    if (is.null(bb_sigInternal$negData)) bb_sigInternal$negData <- FALSE
-    if (is.null(bb_sigInternal$assembly)) bb_sigInternal$assembly <- "hg19"
-    if (is.null(bb_sigInternal$ymax)) bb_sigInternal$ymax <- 1
-    if (is.null(bb_sigInternal$scale)) bb_sigInternal$scale <- FALSE
-    if (is.null(bb_sigInternal$bg)) bb_sigInternal$bg <- NA
-    if (is.null(bb_sigInternal$baseline)) bb_sigInternal$baseline <- TRUE
-    if (is.null(bb_sigInternal$baseline.color)) {
-        bb_sigInternal$baseline.color <- "grey"
-    }
-    if (is.null(bb_sigInternal$baseline.lwd)) bb_sigInternal$baseline.lwd <- 1
-    if (is.null(bb_sigInternal$orientation)) bb_sigInternal$orientation <- "h"
-    if (is.null(bb_sigInternal$just)) bb_sigInternal$just <- c("left", "top")
-    if (is.null(bb_sigInternal$default.units)) {
-        bb_sigInternal$default.units <- "inches"
-    }
-    if (is.null(bb_sigInternal$draw)) bb_sigInternal$draw <- TRUE
 
     ## Set gp
     bb_sigInternal$gp <- setGP(
-        gpList = bb_sigInternal$gp,
+        gpList = gpar(),
         params = bb_sigInternal, ...
     )
 
@@ -674,10 +611,10 @@ bb_plotSignal <- function(data, binSize = NA, binCap = TRUE, negData = FALSE,
     # CATCH ERRORS
     # =========================================================================
 
-    if (is.null(bb_sigInternal$data)) stop("argument \"data\" is missing,
-                                        with no default.", call. = FALSE)
-    if (is.null(bb_sigInternal$chrom)) stop("argument \"chrom\" is missing,
-                                            with no default.", call. = FALSE)
+    if (is.null(bb_sigInternal$data)) stop("argument \"data\" is missing, ",
+                                        "with no default.", call. = FALSE)
+    if (is.null(bb_sigInternal$chrom)) stop("argument \"chrom\" is missing, ",
+                                            "with no default.", call. = FALSE)
 
     check_placement(object = signal_track)
     errorcheck_bb_signaltrack(
@@ -787,9 +724,9 @@ bb_plotSignal <- function(data, binSize = NA, binCap = TRUE, negData = FALSE,
 
         if (any(signal[, 3] < 0)) {
             if (bb_sigInternal$negData == FALSE) {
-                warning("Negative scores detected in signal data. To make
-                an entirely positive signal track,
-                please remove negative scores from data.", call. = FALSE)
+                warning("Negative scores detected in signal data. To make ",
+                "an entirely positive signal track, ",
+                "please remove negative scores from data.", call. = FALSE)
             }
 
             posSignal <- signal[which(signal[, 3] >= 0), ]

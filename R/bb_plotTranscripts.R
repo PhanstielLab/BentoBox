@@ -168,8 +168,8 @@ bb_plotTranscripts <- function(chrom, chromstart = NULL, chromend = NULL,
 
 
         if (!labels %in% c(NULL, "transcript", "gene", "both")) {
-            stop("Invalid \'labels\' input. Options are \'NULL\',
-                \'transcript\', \'gene\', or \'both\'.", call. = FALSE)
+            stop("Invalid \'labels\' input. Options are \'NULL\', ",
+                "\'transcript\', \'gene\', or \'both\'.", call. = FALSE)
         }
     }
 
@@ -224,95 +224,12 @@ bb_plotTranscripts <- function(chrom, chromstart = NULL, chromend = NULL,
     # PARSE PARAMETERS
     # =========================================================================
 
-    ## Check which defaults are not overwritten and set to NULL
-    if (missing(assembly)) assembly <- NULL
-    if (missing(boxHeight)) boxHeight <- NULL
-    if (missing(spaceHeight)) spaceHeight <- NULL
-    if (missing(spaceWidth)) spaceWidth <- NULL
-    if (missing(fill)) fill <- NULL
-    if (missing(colorbyStrand)) colorbyStrand <- NULL
-    if (missing(labels)) labels <- NULL
-    if (missing(fontsize)) fontsize <- NULL
-    if (missing(strandSplit)) strandSplit <- NULL
-    if (missing(stroke)) stroke <- NULL
-    if (missing(bg)) bg <- NULL
-    if (missing(just)) just <- NULL
-    if (missing(default.units)) default.units <- NULL
-    if (missing(draw)) draw <- NULL
-
-    ## Check if chrom argument is missing (could be in object)
-    if (!hasArg(chrom)) chrom <- NULL
-
-    ## Compile all parameters into an internal object
-    bb_transcriptsInternal <- structure(list(
-        assembly = assembly, chrom = chrom,
-        chromstart = chromstart,
-        chromend = chromend,
-        boxHeight = boxHeight,
-        spaceHeight = spaceHeight,
-        spaceWidth = spaceWidth,
-        fill = fill,
-        colorbyStrand = colorbyStrand,
-        labels = labels,
-        fontsize = fontsize,
-        strandSplit = strandSplit,
-        stroke = stroke, bg = bg, x = x,
-        y = y, width = width,
-        height = height, just = just,
-        default.units = default.units,
-        draw = draw
-    ),
-    class = "bb_transcriptsInternal"
-    )
-
     bb_transcriptsInternal <- parseParams(
-        bb_params = params,
-        object_params = bb_transcriptsInternal
+        params = params,
+        defaultArgs = formals(eval(match.call()[[1]])),
+        declaredArgs = lapply(match.call()[-1], eval),
+        class = "bb_transcriptsInternal"
     )
-
-    ## For any defaults that are still NULL, set back to default
-    if (is.null(bb_transcriptsInternal$assembly)) {
-        bb_transcriptsInternal$assembly <- "hg19"
-    }
-    if (is.null(bb_transcriptsInternal$boxHeight)) {
-        bb_transcriptsInternal$boxHeight <- unit(2, "mm")
-    }
-    if (is.null(bb_transcriptsInternal$spaceHeight)) {
-        bb_transcriptsInternal$spaceHeight <- 0.3
-    }
-    if (is.null(bb_transcriptsInternal$spaceWidth)) {
-        bb_transcriptsInternal$spaceWidth <- 0.02
-    }
-    if (is.null(bb_transcriptsInternal$fill)) {
-        bb_transcriptsInternal$fill <- c("#669fd9", "#abcc8e")
-    }
-    if (is.null(bb_transcriptsInternal$colorbyStrand)) {
-        bb_transcriptsInternal$colorbyStrand <- TRUE
-    }
-    if (is.null(bb_transcriptsInternal$labels)) {
-        bb_transcriptsInternal$labels <- "transcript"
-    }
-    if (is.null(bb_transcriptsInternal$fontsize)) {
-        bb_transcriptsInternal$fontsize <- 8
-    }
-    if (is.null(bb_transcriptsInternal$strandSplit)) {
-        bb_transcriptsInternal$strandSplit <- FALSE
-    }
-    if (is.null(bb_transcriptsInternal$stroke)) {
-        bb_transcriptsInternal$stroke <- 0.1
-    }
-    if (is.null(bb_transcriptsInternal$bg)) {
-        bb_transcriptsInternal$bg <- NA
-    }
-    if (is.null(bb_transcriptsInternal$just)) {
-        bb_transcriptsInternal$just <- c("left", "top")
-    }
-    if (is.null(bb_transcriptsInternal$default.units)) {
-        bb_transcriptsInternal$default.units <- "inches"
-    }
-    if (is.null(bb_transcriptsInternal$draw)) {
-        bb_transcriptsInternal$draw <- TRUE
-    }
 
     # =========================================================================
     # INITIALIZE OBJECT
@@ -337,8 +254,7 @@ bb_plotTranscripts <- function(chrom, chromstart = NULL, chromend = NULL,
     # =========================================================================
 
     if (is.null(bb_transcripts$chrom)) {
-        stop("argument \"chrom\" is
-                                            missing, with no default.",
+        stop("argument \"chrom\" is missing, with no default.",
             call. = FALSE
         )
     }
@@ -365,13 +281,13 @@ bb_plotTranscripts <- function(chrom, chromstart = NULL, chromend = NULL,
     )
     if (!"unit" %in% class(bb_transcriptsInternal$boxHeight)) {
         if (!is.numeric(bb_transcriptsInternal$boxHeight)) {
-            stop("\'boxHeight\' is neither a unit object or a
-                numeric value. Cannot make transcript plot.", call. = FALSE)
+            stop("\'boxHeight\' is neither a unit object or a ",
+                "numeric value. Cannot make transcript plot.", call. = FALSE)
         }
 
         if (is.null(bb_transcriptsInternal$default.units)) {
-            stop("\'boxHeight\' detected as numeric.\'default.units\'
-                must be specified.", call. = FALSE)
+            stop("\'boxHeight\' detected as numeric.\'default.units\' ",
+                "must be specified.", call. = FALSE)
         }
 
         bb_transcriptsInternal$boxHeight <- unit(

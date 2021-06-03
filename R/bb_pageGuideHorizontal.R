@@ -28,26 +28,10 @@ bb_pageGuideHorizontal <- function(y, default.units = "inches",
     # PARSE PARAMETERS
     # =========================================================================
 
-    ## Check which defaults are not overwritten and set to NULL
-    if (missing(linecolor)) linecolor <- NULL
-    if (missing(default.units)) default.units <- NULL
-
-    ## Check if y argument is missing (could be in object)
-    if (!hasArg(y)) y <- NULL
-
-    ## Compile all parameters into an internal object
-    bb_hguide <- structure(list(
-        y = y, linecolor = linecolor,
-        default.units = default.units
-    ),
-    class = "bb_hguide"
-    )
-
-    bb_hguide <- parseParams(bb_params = params, object_params = bb_hguide)
-
-    ## For any defaults that are still NULL, set back to default
-    if (is.null(bb_hguide$linecolor)) bb_hguide$linecolor <- "grey55"
-    if (is.null(bb_hguide$default.units)) bb_hguide$default.units <- "inches"
+    bb_hguide <- parseParams(params = params, 
+                             defaultArgs = formals(eval(match.call()[[1]])),
+                             declaredArgs = lapply(match.call()[-1], eval),
+                             class = "bb_hguide")
 
     ## Set gp
     bb_hguide$gp <- gpar(col = bb_hguide$linecolor)
@@ -70,17 +54,17 @@ bb_pageGuideHorizontal <- function(y, default.units = "inches",
 
         ## Check for "below" y-coords
         if (any(grepl("b", bb_hguide$y)) == TRUE) {
-            stop("\'below\' y-coordinate detected. Cannot parse \'below\'
-                y-coordinate for bb_pageGuideHorizontal.", call. = FALSE)
+            stop("\'below\' y-coordinate detected. Cannot parse \'below\' ",
+                "y-coordinate for bb_pageGuideHorizontal.", call. = FALSE)
         } else {
             if (!is.numeric(bb_hguide$y)) {
-                stop("y-coordinate is neither a unit object or a
-                    numeric value. Cannot place Hguide.", call. = FALSE)
+                stop("y-coordinate is neither a unit object or a ",
+                    "numeric value. Cannot place Hguide.", call. = FALSE)
             }
 
             if (is.null(bb_hguide$default.units)) {
-                stop("y-coordinate detected as numeric.\'default.units\'
-                    must be specified.", call. = FALSE)
+                stop("y-coordinate detected as numeric.\'default.units\' ",
+                    "must be specified.", call. = FALSE)
             }
 
             y <- unit(bb_hguide$y, bb_hguide$default.units)

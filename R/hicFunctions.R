@@ -96,7 +96,7 @@ read_data <- function(hic, hic_plot, norm, assembly, type, quiet) {
         if (!is.null(hic_plot$chromstart) & !is.null(hic_plot$chromend)) {
             if (!quiet) {
                 message(
-                    "Read in dataframe.  Assuming \'chrom\' in column1",
+                    "Read in dataframe.  Assuming \'chrom\' in column1 ",
                     "and \'altchrom\' in column2. ",
                     hic_plot$resolution, " BP resolution detected."
                 )
@@ -104,8 +104,8 @@ read_data <- function(hic, hic_plot, norm, assembly, type, quiet) {
 
             if (hic_plot$chromstart < min(hic[, 1]) |
                 hic_plot$chromend > max(hic[, 1])) {
-                warning("Data is missing for inputted region.
-                        Some data may be missing from Hi-C plot.",
+                warning("Data is missing for inputted region. ",
+                        "Some data may be missing from Hi-C plot.",
                     call. = FALSE
                 )
             }

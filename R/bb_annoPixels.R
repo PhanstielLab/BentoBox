@@ -110,16 +110,16 @@ bb_annoPixels <- function(plot, data, type = "box", half = "inherit",
             "bb_hicSquare", "bb_hicTriangle",
             "bb_hicRectangle"
         )) {
-            stop("Input plot must be a plot of class \'bb_hicSquare\',
-                \'bb_hicTriangle\', or \'bb_hicRectangle\'.", call. = FALSE)
+            stop("Input plot must be a plot of class \'bb_hicSquare\', ",
+                "\'bb_hicTriangle\', or \'bb_hicRectangle\'.", call. = FALSE)
         }
 
         ###### loops #####
 
         ## if data.frame/data.table needs to be properly formatted
         if ("data.frame" %in% class(loops) && ncol(loops) < 6) {
-            stop("Invalid dataframe format.
-                Dataframe must be in BEDPE format.", call. = FALSE)
+            stop("Invalid dataframe format. ",
+                "Dataframe must be in BEDPE format.", call. = FALSE)
         }
 
         if ("data.frame" %in% class(loops) && nrow(loops) < 1) {
@@ -190,8 +190,8 @@ bb_annoPixels <- function(plot, data, type = "box", half = "inherit",
             if (half == "both" | half == "bottom") {
                 warning("Plot of class \'",
                     class(hic),
-                    "\' detected. Pixels will automatically be annotated
-                    in the upper triangular of the plot.",
+                    "\' detected. Pixels will automatically be annotated ",
+                    "in the upper triangular of the plot.",
                     call. = FALSE
                 )
             }
@@ -201,8 +201,8 @@ bb_annoPixels <- function(plot, data, type = "box", half = "inherit",
 
         ## Check type of annotation
         if (!type %in% c("box", "circle", "arrow")) {
-            stop("Invalid \'type\' of annotation.  Options are \'box\',
-                \'circle\', or \'arrow\'.", call. = FALSE)
+            stop("Invalid \'type\' of annotation.  Options are \'box\', ",
+                "\'circle\', or \'arrow\'.", call. = FALSE)
         }
     }
 
@@ -494,38 +494,17 @@ bb_annoPixels <- function(plot, data, type = "box", half = "inherit",
     # =========================================================================
     # PARSE PARAMETERS
     # =========================================================================
-
-    ## Check which defaults are not overwritten and set to NULL
-    if (missing(half)) half <- NULL
-    if (missing(shift)) shift <- NULL
-    if (missing(type)) type <- NULL
-    if (missing(quiet)) quiet <- NULL
-
-    ## Check if hic/loops arguments are missing (could be in object)
-    if (!hasArg(plot)) plot <- NULL
-    if (!hasArg(data)) data <- NULL
-
-    ## Compile all parameters into an internal object
-    bb_loopsInternal <- structure(list(
-        plot = plot, data = data, half = half,
-        shift = shift, type = type, quiet = quiet,
-        gp = gpar()
-    ), class = "bb_loopsInternal")
-
+    
     bb_loopsInternal <- parseParams(
-        bb_params = params,
-        object_params = bb_loopsInternal
+        params = params,
+        defaultArgs = formals(eval(match.call()[[1]])),
+        declaredArgs = lapply(match.call()[-1], eval),
+        class = "bb_loopsInternal"
     )
-
-    ## For any defaults that are still NULL, set back to default
-    if (is.null(bb_loopsInternal$half)) bb_loopsInternal$half <- "inherit"
-    if (is.null(bb_loopsInternal$shift)) bb_loopsInternal$shift <- 4
-    if (is.null(bb_loopsInternal$type)) bb_loopsInternal$type <- "box"
-    if (is.null(bb_loopsInternal$quiet)) bb_loopsInternal$quiet <- FALSE
 
     ## Set gp
     bb_loopsInternal$gp <- setGP(
-        gpList = bb_loopsInternal$gp,
+        gpList = gpar(),
         params = bb_loopsInternal, ...
     )
 
@@ -556,10 +535,10 @@ bb_annoPixels <- function(plot, data, type = "box", half = "inherit",
 
     check_bbpage(error = "Cannot annotate Hi-C pixels without a
                 BentoBox page.")
-    if (is.null(bb_loopsInternal$plot)) stop("argument \"plot\" is missing,
-                                            with no default.", call. = FALSE)
-    if (is.null(bb_loopsInternal$data)) stop("argument \"data\" is missing,
-                                            with no default.", call. = FALSE)
+    if (is.null(bb_loopsInternal$plot)) stop("argument \"plot\" is missing, ",
+                                            "with no default.", call. = FALSE)
+    if (is.null(bb_loopsInternal$data)) stop("argument \"data\" is missing, ",
+                                            "with no default.", call. = FALSE)
 
     errorcheck_bb_annoLoops(
         hic = bb_loopsInternal$plot,
@@ -619,15 +598,15 @@ bb_annoPixels <- function(plot, data, type = "box", half = "inherit",
 
         col1Checks <- unlist(lapply(loops[, 1], checkChr))
         if (any(col1Checks == FALSE)) {
-            stop("Chromosomes in column 1 are in invalid format for
-                hg19 genome assembly. Please specify chromosomes as a string
-                with the following format: 'chr1'.", call. = FALSE)
+            stop("Chromosomes in column 1 are in invalid format for ",
+                "hg19 genome assembly. Please specify chromosomes as a string ",
+                "with the following format: 'chr1'.", call. = FALSE)
         }
         col4Checks <- unlist(lapply(loops[, 4], checkChr))
         if (any(col4Checks == FALSE)) {
-            stop("Chromosomes in column 4 are in invalid format for
-                hg19 genome assembly. Please specify chromosomes as a string
-                with the following format: 'chr1'.", call. = FALSE)
+            stop("Chromosomes in column 4 are in invalid format for ",
+                "hg19 genome assembly. Please specify chromosomes as a string ",
+                "with the following format: 'chr1'.", call. = FALSE)
         }
     }
 

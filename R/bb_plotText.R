@@ -76,46 +76,12 @@ bb_plotText <- function(label, fontcolor = "black", fontsize = 12, rot = 0,
     # PARSE PARAMETERS
     # =========================================================================
 
-    ## Check which defaults are not overwritten and set to NULL
-    if (missing(just)) just <- NULL
-    if (missing(fontcolor)) fontcolor <- NULL
-    if (missing(fontsize)) fontsize <- NULL
-    if (missing(rot)) rot <- NULL
-    if (missing(check.overlap)) check.overlap <- NULL
-    if (missing(default.units)) default.units <- NULL
-
-    ## Check if label/x/y arguments are missing (could be in object)
-    if (!hasArg(label)) label <- NULL
-    if (!hasArg(x)) x <- NULL
-    if (!hasArg(y)) y <- NULL
-
-    ## Compile all parameters into an internal object
-    bb_textInternal <- structure(list(
-        label = label, x = x, y = y,
-        just = just, fontcolor = fontcolor,
-        fontsize = fontsize, rot = rot,
-        check.overlap = check.overlap,
-        default.units = default.units
-    ),
-    class = "bb_textInternal"
-    )
-
     bb_textInternal <- parseParams(
-        bb_params = params,
-        object_params = bb_textInternal
+        params = params,
+        defaultArgs = formals(eval(match.call()[[1]])),
+        declaredArgs = lapply(match.call()[-1], eval),
+        class = "bb_textInternal"
     )
-
-    ## For any defaults that are still NULL, set back to default
-    if (is.null(bb_textInternal$just)) bb_textInternal$just <- "center"
-    if (is.null(bb_textInternal$fontcolor)) bb_textInternal$fontcolor <- "black"
-    if (is.null(bb_textInternal$fontsize)) bb_textInternal$fontsize <- 12
-    if (is.null(bb_textInternal$rot)) bb_textInternal$rot <- 0
-    if (is.null(bb_textInternal$check.overlap)) {
-        bb_textInternal$check.overlap <- FALSE
-    }
-    if (is.null(bb_textInternal$default.units)) {
-        bb_textInternal$default.units <- "inches"
-    }
 
     ## Set gp
     bb_textInternal$gp <- gpar(
@@ -144,8 +110,8 @@ bb_plotText <- function(label, fontcolor = "black", fontsize = 12, rot = 0,
     # =========================================================================
 
     check_bbpage(error = "Cannot plot text without a BentoBox page.")
-    if (is.null(bb_text$label)) stop("argument \"label\" is missing,
-                                    with no default.", call. = FALSE)
+    if (is.null(bb_text$label)) stop("argument \"label\" is missing, ",
+                                    "with no default.", call. = FALSE)
     if (is.null(bb_text$x)) {
         stop("argument \"x\" is missing, with no default.",
             call. = FALSE
@@ -167,13 +133,13 @@ bb_plotText <- function(label, fontcolor = "black", fontsize = 12, rot = 0,
 
     if (!"unit" %in% class(bb_text$x)) {
         if (!is.numeric(bb_text$x)) {
-            stop("x-coordinate is neither a unit object or a numeric value.
-                Cannot plot text.", call. = FALSE)
+            stop("x-coordinate is neither a unit object or a numeric value. ",
+                "Cannot plot text.", call. = FALSE)
         }
 
         if (is.null(bb_textInternal$default.units)) {
-            stop("x-coordinate detected as numeric.\'default.units\'
-                must be specified.", call. = FALSE)
+            stop("x-coordinate detected as numeric.\'default.units\' ",
+                "must be specified.", call. = FALSE)
         }
 
         bb_text$x <- unit(bb_text$x, bb_textInternal$default.units)
@@ -184,13 +150,13 @@ bb_plotText <- function(label, fontcolor = "black", fontsize = 12, rot = 0,
         ## Check for "below" y-coords
         if (all(grepl("b", bb_text$y)) == TRUE) {
             if (any(grepl("^[ac-zA-Z]+$", bb_text$y)) == TRUE) {
-                stop("\'below\' y-coordinate(s) detected with additional
-                    letters. Cannot parse y-coordinate(s).", call. = FALSE)
+                stop("\'below\' y-coordinate(s) detected with additional ",
+                    "letters. Cannot parse y-coordinate(s).", call. = FALSE)
             }
 
             if (any(is.na(as.numeric(gsub("b", "", bb_text$y))))) {
-                stop("\'below\' y-coordinate(s) does not have a numeric
-                    associated with it. Cannot parse y-coordinate(s).",
+                stop("\'below\' y-coordinate(s) does not have a numeric ",
+                    "associated with it. Cannot parse y-coordinate(s).",
                     call. = FALSE
                 )
             }
@@ -201,13 +167,13 @@ bb_plotText <- function(label, fontcolor = "black", fontsize = 12, rot = 0,
             )
         } else {
             if (!is.numeric(bb_text$y)) {
-                stop("y-coordinate is neither a unit object or a numeric
-                    value. Cannot plot text.", call. = FALSE)
+                stop("y-coordinate is neither a unit object or a numeric ",
+                    "value. Cannot plot text.", call. = FALSE)
             }
 
             if (is.null(bb_textInternal$default.units)) {
-                stop("y-coordinate detected as numeric.\'default.units\'
-                    must be specified.", call. = FALSE)
+                stop("y-coordinate detected as numeric.\'default.units\' ",
+                    "must be specified.", call. = FALSE)
             }
 
             bb_text$y <- unit(bb_text$y, bb_textInternal$default.units)

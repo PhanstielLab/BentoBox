@@ -68,46 +68,24 @@ bb_annoYaxis <- function(plot, at = NULL, label = TRUE, main = TRUE,
     # PARSE PARAMETERS
     # =========================================================================
 
-    ## Check which defaults are not overwritten and set to NULL
-    if (missing(label)) label <- NULL
-    if (missing(main)) main <- NULL
-    if (missing(scipen)) scipen <- NULL
-    if (missing(axisLine)) axisLine <- NULL
-
-    ## Check if plot argument is missing (could be in object)
-    if (!hasArg(plot)) plot <- NULL
-
-    ## Compile all parameters into an internal object
-    bb_yInternal <- structure(list(
-        plot = plot, at = at, label = label,
-        main = main, gp = gpar(), scipen = scipen,
-        axisLine = axisLine
-    ),
-    class = "bb_yInternal"
-    )
-
     bb_yInternal <- parseParams(
-        bb_params = params,
-        object_params = bb_yInternal
+        params = params,
+        defaultArgs = formals(eval(match.call()[[1]])),
+        declaredArgs = lapply(match.call()[-1], eval),
+        class = "bb_yInternal"
     )
-
-    ## For any defaults that are still NULL, set back to default
-    if (is.null(bb_yInternal$label)) bb_yInternal$label <- TRUE
-    if (is.null(bb_yInternal$main)) bb_yInternal$main <- TRUE
-    if (is.null(bb_yInternal$scipen)) bb_yInternal$scipen <- 999
-    if (is.null(bb_yInternal$axisLine)) bb_yInternal$axisLine <- FALSE
 
     ## Set gp
     bb_yInternal$gp <- setGP(
-        gpList = bb_yInternal$gp,
+        gpList = gpar(),
         params = bb_yInternal, ...
     )
     # =========================================================================
     # CATCH ERRORS
     # =========================================================================
 
-    if (is.null(bb_yInternal$plot)) stop("argument \"plot\" is missing,
-                                        with no default.", call. = FALSE)
+    if (is.null(bb_yInternal$plot)) stop("argument \"plot\" is missing, ",
+                                        "with no default.", call. = FALSE)
     check_bbpage(error = "Cannot add an y-axis without a BentoBox page.")
 
     # =========================================================================

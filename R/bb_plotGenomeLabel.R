@@ -160,15 +160,15 @@ bb_plotGenomeLabel <- function(chrom, chromstart = NULL, chromend = NULL,
 
             ## Can't have ticks if label is genome assembly for manhattan plot
             if (is.null(object$chrom)) {
-                stop("Cannot add tick marks to a genome label of entire
-                    genome assembly.", call. = FALSE)
+                stop("Cannot add tick marks to a genome label of entire ",
+                    "genome assembly.", call. = FALSE)
             }
 
             ## Make sure ticks fall within the chromstart to chromend range
             if (range(ticks)[1] < object$chromstart |
                 range(ticks)[2] > object$chromend) {
-                stop("Given tick locations do not fall within
-                    the genomic range.",
+                stop("Given tick locations do not fall within ",
+                    "the genomic range.",
                     call. = FALSE
                 )
             }
@@ -848,91 +848,12 @@ bb_plotGenomeLabel <- function(chrom, chromstart = NULL, chromend = NULL,
     # PARSE PARAMETERS
     # =========================================================================
 
-    ## Check which defaults are not overwritten and set to NULL
-    if (missing(just)) just <- NULL
-    if (missing(scale)) scale <- NULL
-    if (missing(assembly)) assembly <- NULL
-    if (missing(fontsize)) fontsize <- NULL
-    if (missing(fontcolor)) fontcolor <- NULL
-    if (missing(linecolor)) linecolor <- NULL
-    if (missing(commas)) commas <- NULL
-    if (missing(sequence)) sequence <- NULL
-    if (missing(margin)) margin <- NULL
-    if (missing(axis)) axis <- NULL
-    if (missing(boxWidth)) boxWidth <- NULL
-    if (missing(tcl)) tcl <- NULL
-    if (missing(default.units)) default.units <- NULL
-
-    ## Check if chrom/x/y/length arguments are missing (could be in object)
-    if (!hasArg(chrom)) chrom <- NULL
-    if (!hasArg(x)) x <- NULL
-    if (!hasArg(y)) y <- NULL
-    if (!hasArg(length)) length <- NULL
-
-    ## Compile all parameters into an internal object
-    bb_genomeLabelInternal <- structure(list(
-        x = x, y = y, length = length,
-        chrom = chrom,
-        chromstart = chromstart,
-        chromend = chromend, just = just,
-        scale = scale,
-        assembly = assembly,
-        fontsize = fontsize,
-        fontcolor = fontcolor,
-        linecolor = linecolor,
-        commas = commas, margin = margin,
-        sequence = sequence, axis = axis,
-        boxWidth = boxWidth, at = at,
-        tcl = tcl,
-        default.units = default.units
-    ),
-    class = "bb_genomeLabelInternal"
-    )
     bb_genomeLabelInternal <- parseParams(
-        bb_params = params,
-        object_params = bb_genomeLabelInternal
+        params = params,
+        defaultArgs = formals(eval(match.call()[[1]])),
+        declaredArgs = lapply(match.call()[-1], eval),
+        class = "bb_genomeLabelInternal"
     )
-
-
-    if (is.null(bb_genomeLabelInternal$just)) {
-        bb_genomeLabelInternal$just <- c("left", "top")
-    }
-    if (is.null(bb_genomeLabelInternal$scale)) {
-        bb_genomeLabelInternal$scale <- "bp"
-    }
-    if (is.null(bb_genomeLabelInternal$assembly)) {
-        bb_genomeLabelInternal$assembly <- "hg19"
-    }
-    if (is.null(bb_genomeLabelInternal$fontsize)) {
-        bb_genomeLabelInternal$fontsize <- 10
-    }
-    if (is.null(bb_genomeLabelInternal$fontcolor)) {
-        bb_genomeLabelInternal$fontcolor <- "black"
-    }
-    if (is.null(bb_genomeLabelInternal$linecolor)) {
-        bb_genomeLabelInternal$linecolor <- "black"
-    }
-    if (is.null(bb_genomeLabelInternal$commas)) {
-        bb_genomeLabelInternal$commas <- TRUE
-    }
-    if (is.null(bb_genomeLabelInternal$sequence)) {
-        bb_genomeLabelInternal$sequence <- TRUE
-    }
-    if (is.null(bb_genomeLabelInternal$margin)) {
-        bb_genomeLabelInternal$margin <- unit(1, "mm")
-    }
-    if (is.null(bb_genomeLabelInternal$axis)) {
-        bb_genomeLabelInternal$axis <- "x"
-    }
-    if (is.null(bb_genomeLabelInternal$boxWidth)) {
-        bb_genomeLabelInternal$boxWidth <- 0.5
-    }
-    if (is.null(bb_genomeLabelInternal$tcl)) {
-        bb_genomeLabelInternal$tcl <- 0.5
-    }
-    if (is.null(bb_genomeLabelInternal$default.units)) {
-        bb_genomeLabelInternal$default.units <- "inches"
-    }
 
     ## Parsing for "space" from input Manhattan plot from bb_annoGenomeLabel
     additionalParams <- list(...)
@@ -971,26 +892,25 @@ bb_plotGenomeLabel <- function(chrom, chromstart = NULL, chromend = NULL,
     # CATCH ERRORS
     # =========================================================================
 
-    if (is.null(bb_genomeLabel$x)) stop("argument \"x\" is missing,
-                                        with no default.", call. = FALSE)
-    if (is.null(bb_genomeLabel$y)) stop("argument \"y\" is missing,
-                                        with no default.", call. = FALSE)
-    if (is.null(bb_genomeLabel$chrom)) stop("argument \"chrom\" is missing,
-                                            with no default.", call. = FALSE)
+    if (is.null(bb_genomeLabel$x)) stop("argument \"x\" is missing, ",
+                                        "with no default.", call. = FALSE)
+    if (is.null(bb_genomeLabel$y)) stop("argument \"y\" is missing, ",
+                                        "with no default.", call. = FALSE)
+    if (is.null(bb_genomeLabel$chrom)) stop("argument \"chrom\" is missing, ",
+                                            "with no default.", call. = FALSE)
     if (is.null(bb_genomeLabelInternal$length)) {
-        stop("argument \"length\" is
-            missing,
-            with no default.",
+        stop("argument \"length\" is missing, ",
+            "with no default.",
             call. = FALSE
         )
     }
     if (length(bb_genomeLabel$chrom) == 1) {
-        if (is.null(bb_genomeLabel$chromstart)) stop("argument \"chromstart\"
-                                                    is missing, with no
-                                                    default.", call. = FALSE)
-        if (is.null(bb_genomeLabel$chromend)) stop("argument \"chromend\"
-                                                is missing, with no
-                                                default.", call. = FALSE)
+        if (is.null(bb_genomeLabel$chromstart)) stop("argument \"chromstart\" ",
+                                                    "is missing, with no ",
+                                                    "default.", call. = FALSE)
+        if (is.null(bb_genomeLabel$chromend)) stop("argument \"chromend\" ",
+                                                "is missing, with no ",
+                                                "default.", call. = FALSE)
     } else {
         if (is.null(bb_genomeLabelInternal$space)) {
             bb_genomeLabelInternal$space <- 0.01
@@ -1018,13 +938,13 @@ bb_plotGenomeLabel <- function(chrom, chromstart = NULL, chromend = NULL,
     # =========================================================================
     if (!"unit" %in% class(bb_genomeLabel$x)) {
         if (!is.numeric(bb_genomeLabel$x)) {
-            stop("x-coordinate is neither a unit object or a numeric value.
-                Cannot place object.", call. = FALSE)
+            stop("x-coordinate is neither a unit object or a numeric value. ",
+                "Cannot place object.", call. = FALSE)
         }
 
         if (is.null(bb_genomeLabelInternal$default.units)) {
-            stop("x-coordinate detected as numeric.\'default.units\'
-                must be specified.", call. = FALSE)
+            stop("x-coordinate detected as numeric.\'default.units\' ",
+                "must be specified.", call. = FALSE)
         }
 
         bb_genomeLabel$x <- unit(
@@ -1038,13 +958,13 @@ bb_plotGenomeLabel <- function(chrom, chromstart = NULL, chromend = NULL,
         ## Check for "below" y-coord
         if (grepl("b", bb_genomeLabel$y) == TRUE) {
             if (grepl("^[ac-zA-Z]+$", bb_genomeLabel$y) == TRUE) {
-                stop("\'below\' y-coordinate detected with additional
-                    letters. Cannot parse y-coordinate.", call. = FALSE)
+                stop("\'below\' y-coordinate detected with additional ",
+                    "letters. Cannot parse y-coordinate.", call. = FALSE)
             }
 
             if (is.na(as.numeric(gsub("b", "", bb_genomeLabel$y)))) {
-                stop("\'below\' y-coordinate does not have a numeric
-                    associated with it. Cannot parse y-coordinate.",
+                stop("\'below\' y-coordinate does not have a numeric ",
+                    "associated with it. Cannot parse y-coordinate.",
                     call. = FALSE
                 )
             }
@@ -1052,13 +972,13 @@ bb_plotGenomeLabel <- function(chrom, chromstart = NULL, chromend = NULL,
             bb_genomeLabel$y <- plot_belowY(y_coord = bb_genomeLabel$y)
         } else {
             if (!is.numeric(bb_genomeLabel$y)) {
-                stop("y-coordinate is neither a unit object or a numeric
-                    value. Cannot place object.", call. = FALSE)
+                stop("y-coordinate is neither a unit object or a numeric ",
+                    "value. Cannot place object.", call. = FALSE)
             }
 
             if (is.null(bb_genomeLabelInternal$default.units)) {
-                stop("y-coordinate detected as numeric.\'default.units\'
-                    must be specified.", call. = FALSE)
+                stop("y-coordinate detected as numeric.\'default.units\' ",
+                    "must be specified.", call. = FALSE)
             }
 
             bb_genomeLabel$y <- unit(
@@ -1070,13 +990,13 @@ bb_plotGenomeLabel <- function(chrom, chromstart = NULL, chromend = NULL,
 
     if (!"unit" %in% class(bb_genomeLabelInternal$length)) {
         if (!is.numeric(bb_genomeLabelInternal$length)) {
-            stop("Length is neither a unit object or a numeric value.
-                Cannot place object.", call. = FALSE)
+            stop("Length is neither a unit object or a numeric value. ",
+                "Cannot place object.", call. = FALSE)
         }
 
         if (is.null(bb_genomeLabelInternal$default.units)) {
-            stop("Length detected as numeric.\'default.units\' must
-                be specified.", call. = FALSE)
+            stop("Length detected as numeric.\'default.units\' must ",
+                "be specified.", call. = FALSE)
         }
 
         bb_genomeLabelInternal$length <- unit(
@@ -1087,13 +1007,13 @@ bb_plotGenomeLabel <- function(chrom, chromstart = NULL, chromend = NULL,
 
     if (!"unit" %in% class(bb_genomeLabelInternal$margin)) {
         if (!is.numeric(bb_genomeLabelInternal$margin)) {
-            stop("Margin is neither a unit object or a numeric value.
-                Cannot place object.", call. = FALSE)
+            stop("Margin is neither a unit object or a numeric value. ",
+                "Cannot place object.", call. = FALSE)
         }
 
         if (is.null(bb_genomeLabelInternal$default.units)) {
-            stop("Margin detected as numeric.\'default.units\'
-                must be specified.",
+            stop("Margin detected as numeric.\'default.units\' ",
+                "must be specified.",
                 call. = FALSE
             )
         }
@@ -1208,8 +1128,8 @@ bb_plotGenomeLabel <- function(chrom, chromstart = NULL, chromend = NULL,
                 seqType <- NULL
             }
         } else {
-            warning("No `BSgenome` package found for the input assembly.
-                    Sequence information cannot be displayed.", call. = FALSE)
+            warning("No `BSgenome` package found for the input assembly. ",
+                    "Sequence information cannot be displayed.", call. = FALSE)
             seqType <- NULL
         }
     }

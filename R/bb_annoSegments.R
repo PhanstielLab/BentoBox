@@ -107,61 +107,12 @@ bb_annoSegments <- function(x0, y0, x1, y1, plot, default.units = "native",
     # PARSE PARAMETERS
     # =========================================================================
 
-    ## Check which defaults are not overwritten and set to NULL
-    if (missing(arrow)) arrow <- NULL
-    if (missing(linecolor)) linecolor <- NULL
-    if (missing(lwd)) lwd <- NULL
-    if (missing(lty)) lty <- NULL
-    if (missing(lineend)) lineend <- NULL
-    if (missing(linejoin)) linejoin <- NULL
-    if (missing(default.units)) default.units <- NULL
-
-    ## Check if x0/y0/x1/y1 arguments are missing (could be in object)
-    if (!hasArg(plot)) plot <- NULL
-    if (!hasArg(x0)) x0 <- NULL
-    if (!hasArg(y0)) y0 <- NULL
-    if (!hasArg(x1)) x1 <- NULL
-    if (!hasArg(y1)) y1 <- NULL
-
-    ## Compile all parameters into an internal object
-    bb_segmentsInternal <- structure(list(
-        plot = plot, x0 = x0, y0 = y0,
-        x1 = x1, y1 = y1, arrow = arrow,
-        linecolor = linecolor,
-        lwd = lwd, lty = lty,
-        lineend = lineend, linejoin = linejoin,
-        default.units = default.units
-    ),
-    class = "bb_segmentsInternal"
-    )
-
     bb_segmentsInternal <- parseParams(
-        bb_params = params,
-        object_params = bb_segmentsInternal
+        params = params,
+        defaultArgs = formals(eval(match.call()[[1]])),
+        declaredArgs = lapply(match.call()[-1], eval),
+        class = "bb_segmentsInternal"
     )
-
-    ## For any defaults that are still NULL, set back to default
-    if (is.null(bb_segmentsInternal$arrow)) {
-        bb_segmentsInternal$arrow <- NULL
-    }
-    if (is.null(bb_segmentsInternal$linecolor)) {
-        bb_segmentsInternal$linecolor <- "black"
-    }
-    if (is.null(bb_segmentsInternal$lwd)) {
-        bb_segmentsInternal$lwd <- 1
-    }
-    if (is.null(bb_segmentsInternal$lty)) {
-        bb_segmentsInternal$lty <- 1
-    }
-    if (is.null(bb_segmentsInternal$lineend)) {
-        bb_segmentsInternal$lineend <- "butt"
-    }
-    if (is.null(bb_segmentsInternal$linejoin)) {
-        bb_segmentsInternal$linejoin <- "mitre"
-    }
-    if (is.null(bb_segmentsInternal$default.units)) {
-        bb_segmentsInternal$default.units <- "native"
-    }
 
     ## Set gp
     bb_segmentsInternal$gp <- gpar(
@@ -198,19 +149,18 @@ bb_annoSegments <- function(x0, y0, x1, y1, plot, default.units = "native",
 
     check_bbpage(error = "Cannot annotate segment without a BentoBox page.")
     if (is.null(bb_segmentsInternal$plot)) {
-        stop("argument \"plot\" is missing,
-                                                with no default.",
+        stop("argument \"plot\" is missing, with no default.",
             call. = FALSE
         )
     }
-    if (is.null(bb_segments$x0)) stop("argument \"x0\" is missing,
-                                    with no default.", call. = FALSE)
-    if (is.null(bb_segments$y0)) stop("argument \"y0\" is missing,
-                                    with no default.", call. = FALSE)
-    if (is.null(bb_segments$x1)) stop("argument \"x1\" is missing,
-                                    with no default.", call. = FALSE)
-    if (is.null(bb_segments$y1)) stop("argument \"y1\" is missing,
-                                    with no default.", call. = FALSE)
+    if (is.null(bb_segments$x0)) stop("argument \"x0\" is missing, ",
+                                    "with no default.", call. = FALSE)
+    if (is.null(bb_segments$y0)) stop("argument \"y0\" is missing, ",
+                                    "with no default.", call. = FALSE)
+    if (is.null(bb_segments$x1)) stop("argument \"x1\" is missing, ",
+                                    "with no default.", call. = FALSE)
+    if (is.null(bb_segments$y1)) stop("argument \"y1\" is missing, ",
+                                    "with no default.", call. = FALSE)
 
     # =========================================================================
     # DEFINE PARAMETERS
@@ -222,13 +172,13 @@ bb_annoSegments <- function(x0, y0, x1, y1, plot, default.units = "native",
 
     if (!"unit" %in% class(bb_segments$x0)) {
         if (!is.numeric(bb_segments$x0)) {
-            stop("x0-coordinate is neither a unit object or a numeric value.
-                Cannot plot segment.", call. = FALSE)
+            stop("x0-coordinate is neither a unit object or a numeric value. ",
+                "Cannot plot segment.", call. = FALSE)
         }
 
         if (is.null(bb_segmentsInternal$default.units)) {
-            stop("x0-coordinate detected as numeric.\'default.units\' must
-                be specified.", call. = FALSE)
+            stop("x0-coordinate detected as numeric.\'default.units\' must ",
+                "be specified.", call. = FALSE)
         }
 
         bb_segments$x0 <- unit(
@@ -241,17 +191,17 @@ bb_annoSegments <- function(x0, y0, x1, y1, plot, default.units = "native",
 
         ## Check for "below" y0-coords
         if (all(grepl("b", bb_segments$y0)) == TRUE) {
-            stop("\'below\' y0-coordinate detected. Cannot parse \'below\'
-                y-coordinate for bb_annoSegments.", call. = FALSE)
+            stop("\'below\' y0-coordinate detected. Cannot parse \'below\' ",
+                "y-coordinate for bb_annoSegments.", call. = FALSE)
         } else {
             if (!is.numeric(bb_segments$y0)) {
-                stop("y0-coordinate is neither a unit object or a
-                    numeric value. Cannot plot segment.", call. = FALSE)
+                stop("y0-coordinate is neither a unit object or a ",
+                    "numeric value. Cannot plot segment.", call. = FALSE)
             }
 
             if (is.null(bb_segmentsInternal$default.units)) {
-                stop("y0-coordinate detected as numeric.\'default.units\'
-                    must be specified.", call. = FALSE)
+                stop("y0-coordinate detected as numeric.\'default.units\' ",
+                    "must be specified.", call. = FALSE)
             }
 
             bb_segments$y0 <- unit(
@@ -263,13 +213,13 @@ bb_annoSegments <- function(x0, y0, x1, y1, plot, default.units = "native",
 
     if (!"unit" %in% class(bb_segments$x1)) {
         if (!is.numeric(bb_segments$x1)) {
-            stop("x1-coordinate is neither a unit object or a
-                numeric value. Cannot plot segment.", call. = FALSE)
+            stop("x1-coordinate is neither a unit object or a ",
+                "numeric value. Cannot plot segment.", call. = FALSE)
         }
 
         if (is.null(bb_segmentsInternal$default.units)) {
-            stop("x1-coordinate detected as numeric.\'default.units\'
-                must be specified.", call. = FALSE)
+            stop("x1-coordinate detected as numeric.\'default.units\' ",
+                "must be specified.", call. = FALSE)
         }
 
         bb_segments$x1 <- unit(
@@ -282,17 +232,17 @@ bb_annoSegments <- function(x0, y0, x1, y1, plot, default.units = "native",
 
         ## Check for "below" y1-coords
         if (all(grepl("b", bb_segments$y1)) == TRUE) {
-            stop("\'below\' y1-coordinate detected. Cannot parse \'below\'
-                y-coordinate for bb_annoSegments.", call. = FALSE)
+            stop("\'below\' y1-coordinate detected. Cannot parse \'below\' ",
+                "y-coordinate for bb_annoSegments.", call. = FALSE)
         } else {
             if (!is.numeric(bb_segments$y1)) {
-                stop("y1-coordinate is neither a unit object or a numeric value.
-                    Cannot plot segment.", call. = FALSE)
+                stop("y1-coordinate is neither a unit object or a numeric value. ",
+                    "Cannot plot segment.", call. = FALSE)
             }
 
             if (is.null(bb_segmentsInternal$default.units)) {
-                stop("y1-coordinate detected as numeric.\'default.units\'
-                    must be specified.", call. = FALSE)
+                stop("y1-coordinate detected as numeric.\'default.units\' ",
+                    "must be specified.", call. = FALSE)
             }
 
             bb_segments$y1 <- unit(

@@ -77,44 +77,16 @@ bb_plotRaster <- function(image, x, y, width, height, just = "center",
     # PARSE PARAMETERS
     # =========================================================================
 
-    ## Check which defaults are not overwritten and set to NULL
-    if (missing(just)) just <- NULL
-    if (missing(interpolate)) interpolate <- NULL
-    if (missing(default.units)) default.units <- NULL
-
-    ## Check if image/x/y arguments are missing (could be in object)
-    if (!hasArg(image)) image <- NULL
-    if (!hasArg(x)) x <- NULL
-    if (!hasArg(y)) y <- NULL
-    if (!hasArg(width)) width <- NULL
-    if (!hasArg(height)) height <- NULL
-
-    ## Compile all parameters into an internal object
-    bb_rastInternal <- structure(list(
-        image = image, x = x, y = y,
-        width = width, height = height,
-        just = just, interpolate = interpolate,
-        default.units = default.units,
-        gp = gpar()
-    ), class = "bb_rastInternal")
-
     bb_rastInternal <- parseParams(
-        bb_params = params,
-        object_params = bb_rastInternal
+        params = params,
+        defaultArgs = formals(eval(match.call()[[1]])),
+        declaredArgs = lapply(match.call()[-1], eval),
+        class = "bb_rastInternal"
     )
-
-    ## For any defaults that are still NULL, set back to default
-    if (is.null(bb_rastInternal$just)) bb_rastInternal$just <- "center"
-    if (is.null(bb_rastInternal$interpolate)) {
-        bb_rastInternal$interpolate <- TRUE
-    }
-    if (is.null(bb_rastInternal$default.units)) {
-        bb_rastInternal$default.units <- "inches"
-    }
 
     ## Set gp
     bb_rastInternal$gp <- setGP(
-        gpList = bb_rastInternal$gp,
+        gpList = gpar(),
         params = bb_rastInternal, ...
     )
 
@@ -138,8 +110,8 @@ bb_plotRaster <- function(image, x, y, width, height, just = "center",
     # =========================================================================
 
     check_bbpage(error = "Cannot plot raster without a BentoBox page.")
-    if (is.null(bb_rast$image)) stop("arguement \"image\" is
-                                    missing, with no default.", call. = FALSE)
+    if (is.null(bb_rast$image)) stop("arguement \"image\" is ",
+                                    "missing, with no default.", call. = FALSE)
     if (is.null(bb_rast$x)) {
         stop("argument \"x\" is missing, with no default.",
             call. = FALSE
@@ -150,10 +122,10 @@ bb_plotRaster <- function(image, x, y, width, height, just = "center",
             call. = FALSE
         )
     }
-    if (is.null(bb_rast$width)) stop("argument \"width\" is missing,
-                                    with no default.", call. = FALSE)
-    if (is.null(bb_rast$height)) stop("argument \"height\" is missing,
-                                    with no default.", call. = FALSE)
+    if (is.null(bb_rast$width)) stop("argument \"width\" is missing, ",
+                                    "with no default.", call. = FALSE)
+    if (is.null(bb_rast$height)) stop("argument \"height\" is missing, ",
+                                    "with no default.", call. = FALSE)
 
 
     # =========================================================================
@@ -166,13 +138,13 @@ bb_plotRaster <- function(image, x, y, width, height, just = "center",
 
     if (!"unit" %in% class(bb_rast$x)) {
         if (!is.numeric(bb_rast$x)) {
-            stop("x-coordinate is neither a unit object or a numeric value.
-                Cannot plot raster.", call. = FALSE)
+            stop("x-coordinate is neither a unit object or a numeric value. ",
+                "Cannot plot raster.", call. = FALSE)
         }
 
         if (is.null(bb_rastInternal$default.units)) {
-            stop("x-coordinate detected as numeric.\'default.units\'
-                must be specified.", call. = FALSE)
+            stop("x-coordinate detected as numeric.\'default.units\' ",
+                "must be specified.", call. = FALSE)
         }
 
         bb_rast$x <- unit(bb_rast$x, bb_rastInternal$default.units)
@@ -183,15 +155,15 @@ bb_plotRaster <- function(image, x, y, width, height, just = "center",
         ## Check for "below" y-coords
         if (all(grepl("b", bb_rast$y)) == TRUE) {
             if (any(grepl("^[ac-zA-Z]+$", bb_rast$y)) == TRUE) {
-                stop("\'below\' y-coordinate(s) detected with
-                    additional letters. Cannot parse y-coordinate(s).",
+                stop("\'below\' y-coordinate(s) detected with ",
+                    "additional letters. Cannot parse y-coordinate(s).",
                     call. = FALSE
                 )
             }
 
             if (any(is.na(as.numeric(gsub("b", "", bb_rast$y))))) {
-                stop("\'below\' y-coordinate(s) does not have a numeric
-                    associated with it. Cannot parse y-coordinate(s).",
+                stop("\'below\' y-coordinate(s) does not have a numeric ",
+                    "associated with it. Cannot parse y-coordinate(s).",
                     call. = FALSE
                 )
             }
@@ -202,13 +174,13 @@ bb_plotRaster <- function(image, x, y, width, height, just = "center",
             )
         } else {
             if (!is.numeric(bb_rast$y)) {
-                stop("y-coordinate is neither a unit object or a numeric
-                    value. Cannot plot raster.", call. = FALSE)
+                stop("y-coordinate is neither a unit object or a numeric ",
+                    "value. Cannot plot raster.", call. = FALSE)
             }
 
             if (is.null(bb_rastInternal$default.units)) {
-                stop("y-coordinate detected as numeric.\'default.units\'
-                    must be specified.", call. = FALSE)
+                stop("y-coordinate detected as numeric.\'default.units\' ",
+                    "must be specified.", call. = FALSE)
             }
 
             bb_rast$y <- unit(bb_rast$y, bb_rastInternal$default.units)
@@ -217,13 +189,13 @@ bb_plotRaster <- function(image, x, y, width, height, just = "center",
 
     if (!"unit" %in% class(bb_rast$width)) {
         if (!is.numeric(bb_rast$width)) {
-            stop("width is neither a unit object or a numeric value.
-                Cannot plot raster.", call. = FALSE)
+            stop("width is neither a unit object or a numeric value. ",
+                "Cannot plot raster.", call. = FALSE)
         }
 
         if (is.null(bb_rastInternal$default.units)) {
-            stop("width detected as numeric.\'default.units\' must be
-                specified.",
+            stop("width detected as numeric.\'default.units\' must be ",
+                "specified.",
                 call. = FALSE
             )
         }
@@ -233,15 +205,15 @@ bb_plotRaster <- function(image, x, y, width, height, just = "center",
 
     if (!"unit" %in% class(bb_rast$height)) {
         if (!is.numeric(bb_rast$height)) {
-            stop("height is neither a unit object or a numeric value.
-                Cannot plot raster.",
+            stop("height is neither a unit object or a numeric value. ",
+                "Cannot plot raster.",
                 call. = FALSE
             )
         }
 
         if (is.null(bb_rastInternal$default.units)) {
-            stop("height detected as numeric.\'default.units\'
-                must be specified.",
+            stop("height detected as numeric.\'default.units\' ",
+                "must be specified.",
                 call. = FALSE
             )
         }

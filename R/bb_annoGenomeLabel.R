@@ -112,84 +112,13 @@ bb_annoGenomeLabel <- function(plot, fontsize = 10, fontcolor = "black",
     # =========================================================================
     # PARSE PARAMETERS
     # =========================================================================
-
-    if (missing(fontsize)) fontsize <- NULL
-    if (missing(fontcolor)) fontcolor <- NULL
-    if (missing(linecolor)) linecolor <- NULL
-    if (missing(scale)) scale <- NULL
-    if (missing(margin)) margin <- NULL
-    if (missing(commas)) commas <- NULL
-    if (missing(sequence)) sequence <- NULL
-    if (missing(boxWidth)) boxWidth <- NULL
-    if (missing(axis)) axis <- NULL
-    if (missing(tcl)) tcl <- NULL
-    if (missing(just)) just <- NULL
-    if (missing(default.units)) default.units <- NULL
-
-    ## Check if plot/x/y arguments are missing (could be in object)
-    if (!hasArg(plot)) plot <- NULL
-    if (!hasArg(x)) x <- NULL
-    if (!hasArg(y)) y <- NULL
-
-    ## Compile all parameters into an internal object
-    bb_genomeLabelInternal <- structure(list(
-        plot = plot, x = x, y = y,
-        just = just, scale = scale,
-        margin = margin,
-        fontsize = fontsize,
-        fontcolor = fontcolor,
-        linecolor = linecolor,
-        commas = commas,
-        sequence = sequence, axis = axis,
-        boxWidth = boxWidth, at = at,
-        cl = tcl,
-        default.units = default.units
-    ),
-    class = "bb_genomeLabelInternal"
-    )
+    
     bb_genomeLabelInternal <- parseParams(
-        bb_params = params,
-        object_params = bb_genomeLabelInternal
+        params = params,
+        defaultArgs = formals(eval(match.call()[[1]])),
+        declaredArgs = lapply(match.call()[-1], eval),
+        class = "bb_genomeLabelInternal"
     )
-
-    ## For any defaults that are still NULL, set back to default
-    if (is.null(bb_genomeLabelInternal$fontsize)) {
-        bb_genomeLabelInternal$fontsize <- 10
-    }
-    if (is.null(bb_genomeLabelInternal$fontcolor)) {
-        bb_genomeLabelInternal$fontcolor <- "black"
-    }
-    if (is.null(bb_genomeLabelInternal$linecolor)) {
-        bb_genomeLabelInternal$linecolor <- "black"
-    }
-    if (is.null(bb_genomeLabelInternal$margin)) {
-        bb_genomeLabelInternal$margin <- unit(1, "mm")
-    }
-    if (is.null(bb_genomeLabelInternal$scale)) {
-        bb_genomeLabelInternal$scale <- "bp"
-    }
-    if (is.null(bb_genomeLabelInternal$commas)) {
-        bb_genomeLabelInternal$commas <- TRUE
-    }
-    if (is.null(bb_genomeLabelInternal$sequence)) {
-        bb_genomeLabelInternal$sequence <- TRUE
-    }
-    if (is.null(bb_genomeLabelInternal$boxWidth)) {
-        bb_genomeLabelInternal$boxWidth <- 0.5
-    }
-    if (is.null(bb_genomeLabelInternal$axis)) {
-        bb_genomeLabelInternal$axis <- "x"
-    }
-    if (is.null(bb_genomeLabelInternal$tcl)) {
-        bb_genomeLabelInternal$tcl <- 0.5
-    }
-    if (is.null(bb_genomeLabelInternal$just)) {
-        bb_genomeLabelInternal$just <- c("left", "top")
-    }
-    if (is.null(bb_genomeLabelInternal$default.units)) {
-        bb_genomeLabelInternal$default.units <- "inches"
-    }
-
     # =========================================================================
     # CATCH ARGUMENT/PLOT INPUT ERRORS
     # =========================================================================
@@ -211,8 +140,8 @@ bb_annoGenomeLabel <- function(plot, fontsize = 10, fontcolor = "black",
         if (!("chrom" %in% inputNames) |
             !("chromstart" %in% inputNames) |
             !("chromend" %in% inputNames)) {
-            stop("Invalid input plot. Please input a plot that has genomic
-            coordinates associated with it.", call. = FALSE)
+            stop("Invalid input plot. Please input a plot that has genomic ",
+            "coordinates associated with it.", call. = FALSE)
         }
     }
 

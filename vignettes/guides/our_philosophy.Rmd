@@ -146,6 +146,7 @@ users can be confident in accurately aligning containers of the same width:
 
 ```{r philosphy_6, echo=TRUE, eval=TRUE, message=FALSE, warning=FALSE}
 ## Load data
+library(BentoBoxData)
 data("bb_imrHicData")
 data("bb_bedpeData")
 data("bb_imrH3K27acData")
@@ -180,7 +181,7 @@ bedpeLoops <- bb_plotPairsArches(
 signalPlot <- bb_plotSignal(
     data = bb_imrH3K27acData,
     params = params,
-    y = 3, height = 0.45,
+    y = 3.1, height = 0.45,
     just = c("left", "top"), default.units = "inches"
 )
 
@@ -188,7 +189,7 @@ signalPlot <- bb_plotSignal(
 bb_annoGenomeLabel(
     plot = signalPlot,
     params = params, scale = "Mb",
-    y = 3.47, just = c("left", "top"), default.units = "inches"
+    y = 3.57, just = c("left", "top"), default.units = "inches"
 )
 ```
 
@@ -224,8 +225,8 @@ params <- bb_params(chrom = "chr21",
 hicPlot <- bb_plotHicTriangle(
     data = bb_imrHicData,
     params = params,
-    x = 2, y = 0.5, width = 3, height = 2,
-    just = "top", default.units = "inches"
+    x = 0.5, y = 0.5, width = 3, height = 1.5,
+    just = c("left", "top"), default.units = "inches"
 )
 
 ## Add color scale annotation
@@ -288,8 +289,8 @@ params <- bb_params(chrom = "chr21",
 hicPlot <- bb_plotHicTriangle(
     data = bb_imrHicData,
     params = params,
-    x = 2, y = 0.5, width = 3, height = 2,
-    just = "top", default.units = "inches"
+    x = 0.5, y = 0.5, width = 3, height = 1.5,
+    just = c("left", "top"), default.units = "inches"
 )
 
 ## Add color scale annotation
@@ -342,8 +343,8 @@ hicPlot <- bb_plotHicTriangle(
     data = bb_imrHicData,
     params = params,
     palette = colorRampPalette(c("white", "steel blue")),
-    x = 2, y = 0.5, width = 3, height = 2,
-    just = "top", default.units = "inches"
+    x = 0.5, y = 0.5, width = 3, height = 1.5,
+    just = c("left", "top"), default.units = "inches"
 )
 
 genesPlot <- bb_plotGenes(
@@ -370,8 +371,8 @@ hicPlot <- bb_plotHicTriangle(
     data = bb_imrHicData,
     params = params,
     palette = colorRampPalette(c("white", "steel blue")),
-    x = 2, y = 0.5, width = 3, height = 2,
-    just = "top", default.units = "inches"
+    x = 0.5, y = 0.5, width = 3, height = 1.5,
+    just = c("left", "top"), default.units = "inches"
 )
 
 ## Add color scale annotation

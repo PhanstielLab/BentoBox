@@ -56,43 +56,12 @@ bb_plotBase <- function(plot, x, y, width, height, just = c("left", "top"),
     # PARSE PARAMETERS
     # =========================================================================
 
-    ## Check which defaults are not overwritten and set to NULL
-    if (missing(bg)) bg <- NULL
-    if (missing(just)) just <- NULL
-    if (missing(default.units)) default.units <- NULL
-
-    ## Check if plot/x/y/width/height arguments are missing
-    if (!hasArg(plot)) plot <- NULL
-    if (!hasArg(x)) x <- NULL
-    if (!hasArg(y)) y <- NULL
-    if (!hasArg(width)) width <- NULL
-    if (!hasArg(height)) height <- NULL
-
-    ## Compile all parameters into an internal object
-    bb_baseInternal <- structure(list(
-        plot = plot, x = x, y = y, width = width,
-        height = height, bg = bg,
-        just = just,
-        default.units = default.units
-    ),
-    class = "bb_baseInternal"
-    )
-
     bb_baseInternal <- parseParams(
-        bb_params = params,
-        object_params = bb_baseInternal
+        params = params,
+        defaultArgs = formals(eval(match.call()[[1]])),
+        declaredArgs = lapply(match.call()[-1], eval),
+        class = "bb_baseInternal"
     )
-
-    ## For any defaults that are still NULL, set back to default
-    if (is.null(bb_baseInternal$bg)) {
-        bb_baseInternal$bg <- NA
-    }
-    if (is.null(bb_baseInternal$just)) {
-        bb_baseInternal$just <- c("left", "top")
-    }
-    if (is.null(bb_baseInternal$default.units)) {
-        bb_baseInternal$default.units <- "inches"
-    }
 
     # =========================================================================
     # INITIALIZE PLOT OBJECT

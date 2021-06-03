@@ -176,9 +176,9 @@ bb_plotRanges <- function(data, chrom, chromstart = NULL, chromend = NULL,
             }
 
             if (length(which(colnames(bed) == colorby$column)) > 1) {
-                stop("Multiple matching colorby columns found in data.
-                    Please provide colorby column name with
-                    only one occurrence.", call. = FALSE)
+                stop("Multiple matching colorby columns found in data. ",
+                    "Please provide colorby column name with ",
+                    "only one occurrence.", call. = FALSE)
             }
         }
     }
@@ -198,82 +198,16 @@ bb_plotRanges <- function(data, chrom, chromstart = NULL, chromend = NULL,
     # PARSE PARAMETERS
     # =========================================================================
 
-    ## Check which defaults are not overwritten and set to NULL
-    if (missing(assembly)) assembly <- NULL
-    if (missing(fill)) fill <- NULL
-    if (missing(collapse)) collapse <- NULL
-    if (missing(linecolor)) linecolor <- NULL
-    if (missing(strandSplit)) strandSplit <- NULL
-    if (missing(boxHeight)) boxHeight <- NULL
-    if (missing(spaceHeight)) spaceHeight <- NULL
-    if (missing(spaceWidth)) spaceWidth <- NULL
-    if (missing(bg)) bg <- NULL
-    if (missing(baseline)) baseline <- NULL
-    if (missing(baseline.color)) baseline.color <- NULL
-    if (missing(baseline.lwd)) baseline.lwd <- NULL
-    if (missing(just)) just <- NULL
-    if (missing(default.units)) default.units <- NULL
-    if (missing(draw)) draw <- NULL
-
-    ## Check if data/chrom arguments are missing (could be in object)
-    if (!hasArg(data)) data <- NULL
-    if (!hasArg(chrom)) chrom <- NULL
-
-    ## Compile all parameters into an internal object
-    bb_pileInternal <- structure(list(
-        data = data, chrom = chrom,
-        chromstart = chromstart,
-        chromend = chromend, assembly = assembly,
-        collapse = collapse, fill = fill,
-        linecolor = linecolor, colorby = colorby,
-        strandSplit = strandSplit,
-        boxHeight = boxHeight,
-        spaceHeight = spaceHeight,
-        spaceWidth = spaceWidth, bg = bg,
-        baseline = baseline,
-        baseline.color = baseline.color,
-        baseline.lwd = baseline.lwd,
-        x = x, y = y, width = width,
-        height = height, just = just,
-        default.units = default.units,
-        draw = draw, gp = gpar()
-    ),
-    class = "bb_pileInternal"
-    )
-
     bb_pileInternal <- parseParams(
-        bb_params = params,
-        object_params = bb_pileInternal
+        params = params,
+        defaultArgs = formals(eval(match.call()[[1]])),
+        declaredArgs = lapply(match.call()[-1], eval),
+        class = "bb_pileInternal"
     )
-
-    ## For any defaults that are still NULL, set back to default
-    if (is.null(bb_pileInternal$assembly)) bb_pileInternal$assembly <- "hg19"
-    if (is.null(bb_pileInternal$fill)) bb_pileInternal$fill <- "#7ecdbb"
-    if (is.null(bb_pileInternal$collapse)) bb_pileInternal$collapse <- FALSE
-    if (is.null(bb_pileInternal$linecolor)) bb_pileInternal$linecolor <- NA
-    if (is.null(bb_pileInternal$strandSplit)) {
-        bb_pileInternal$strandSplit <- FALSE
-    }
-    if (is.null(bb_pileInternal$boxHeight)) {
-        bb_pileInternal$boxHeight <- unit(2, "mm")
-    }
-    if (is.null(bb_pileInternal$spaceHeight)) bb_pileInternal$spaceHeight <- 0.3
-    if (is.null(bb_pileInternal$spaceWidth)) bb_pileInternal$spaceWidth <- 0.02
-    if (is.null(bb_pileInternal$bg)) bb_pileInternal$bg <- NA
-    if (is.null(bb_pileInternal$baseline)) bb_pileInternal$baseline <- FALSE
-    if (is.null(bb_pileInternal$baseline.color)) {
-        bb_pileInternal$baseline.color <- "grey"
-    }
-    if (is.null(bb_pileInternal$baseline.lwd)) bb_pileInternal$baseline.lwd <- 1
-    if (is.null(bb_pileInternal$just)) bb_pileInternal$just <- c("left", "top")
-    if (is.null(bb_pileInternal$default.units)) {
-        bb_pileInternal$default.units <- "inches"
-    }
-    if (is.null(bb_pileInternal$draw)) bb_pileInternal$draw <- TRUE
 
     ## Parse gp
     bb_pileInternal$gp <- setGP(
-        gpList = bb_pileInternal$gp,
+        gpList = gpar(),
         params = bb_pileInternal, ...
     )
 
@@ -281,15 +215,15 @@ bb_plotRanges <- function(data, chrom, chromstart = NULL, chromend = NULL,
     # CHECK ARGUMENT ERROS
     # =========================================================================
 
-    if (is.null(bb_pileInternal$data)) stop("argument \"data\" is missing,
-                                            with no default.", call. = FALSE)
-    if (is.null(bb_pileInternal$chrom)) stop("argument \"chrom\" is missing,
-                                            with no default.", call. = FALSE)
+    if (is.null(bb_pileInternal$data)) stop("argument \"data\" is missing, ",
+                                            "with no default.", call. = FALSE)
+    if (is.null(bb_pileInternal$chrom)) stop("argument \"chrom\" is missing, ",
+                                            "with no default.", call. = FALSE)
 
     if (!is.null(bb_pileInternal$colorby)) {
         if (class(bb_pileInternal$colorby) != "bb_colorby") {
-            stop("\"colorby\" not of class \"bb_colorby\". Input colorby
-                information with \"colorby()\".", call. = FALSE)
+            stop("\"colorby\" not of class \"bb_colorby\". Input colorby ",
+                "information with \"colorby()\".", call. = FALSE)
         }
     }
 
@@ -335,13 +269,13 @@ bb_plotRanges <- function(data, chrom, chromstart = NULL, chromend = NULL,
     )
     if (!"unit" %in% class(bb_pileInternal$boxHeight)) {
         if (!is.numeric(bb_pileInternal$boxHeight)) {
-            stop("\'boxHeight\' is neither a unit object or a numeric value.
-                Cannot make ranges plot.", call. = FALSE)
+            stop("\'boxHeight\' is neither a unit object or a numeric value. ",
+                "Cannot make ranges plot.", call. = FALSE)
         }
 
         if (is.null(bb_pileInternal$default.units)) {
-            stop("\'boxHeight\' detected as numeric.\'default.units\'
-                must be specified.", call. = FALSE)
+            stop("\'boxHeight\' detected as numeric.\'default.units\' ",
+                "must be specified.", call. = FALSE)
         }
 
         bb_pileInternal$boxHeight <- unit(
@@ -360,9 +294,9 @@ bb_plotRanges <- function(data, chrom, chromstart = NULL, chromend = NULL,
             if (file_ext(bed) == "bam") {
                 indexFile <- paste0(bed, ".bai")
                 if (!file.exists(indexFile)) {
-                    stop("Cannot read in bam file without a
-                        corresponding bam index file (.bai) in the
-                        same directory.", call. = FALSE)
+                    stop("Cannot read in bam file without a ",
+                        "corresponding bam index file (.bai) in the ",
+                        "same directory.", call. = FALSE)
                 }
                 bed <- plyranges::read_bam(bed) %>%
                     plyranges::filter_by_overlaps(GenomicRanges::GRanges(
@@ -484,8 +418,8 @@ bb_plotRanges <- function(data, chrom, chromstart = NULL, chromend = NULL,
 
         ## Look for column named 'strand'
         if (!any(colnames(bed) == "strand")) {
-            stop("No `strand` column found in data.
-                Cannot split data based on strand.", call. = FALSE)
+            stop("No `strand` column found in data. ",
+                "Cannot split data based on strand.", call. = FALSE)
         } else {
             strand_col <- which(colnames(bed) == "strand")
             posStrand <- bed[which(bed[, strand_col] == "+"), ]
@@ -628,8 +562,8 @@ bb_plotRanges <- function(data, chrom, chromstart = NULL, chromend = NULL,
 
                 if (any(rowDF$row == 0)) {
                     rowDF <- rowDF[which(rowDF$row != 0), ]
-                    warning("Not enough plotting space for all
-                            provided range elements.",
+                    warning("Not enough plotting space for all ",
+                            "provided range elements.",
                         call. = FALSE
                     )
 
@@ -673,8 +607,8 @@ bb_plotRanges <- function(data, chrom, chromstart = NULL, chromend = NULL,
                 colnames(posDF) <- c("start", "stop", "colorby", "row")
                 if (any(posDF$row == 0)) {
                     posDF <- posDF[which(posDF$row != 0), ]
-                    warning("Not enough plotting space for all
-                            provided plus strand range elements.",
+                    warning("Not enough plotting space for all ",
+                            "provided plus strand range elements.",
                         call. = FALSE
                     )
                     limitGrob1 <- textGrob(
@@ -716,8 +650,8 @@ bb_plotRanges <- function(data, chrom, chromstart = NULL, chromend = NULL,
                 colnames(minDF) <- c("start", "stop", "colorby", "row")
                 if (any(minDF$row == 0)) {
                     minDF <- minDF[which(minDF$row != 0), ]
-                    warning("Not enough plotting space for all
-                            provided minus strand range elements.",
+                    warning("Not enough plotting space for all ",
+                            "provided minus strand range elements.",
                         call. = FALSE
                     )
                     limitGrob2 <- textGrob(

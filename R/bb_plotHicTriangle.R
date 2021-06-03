@@ -143,8 +143,8 @@ bb_plotHicTriangle <- function(data, resolution = "auto", zrange = NULL,
 
         ## if it's a dataframe or datatable, it needs to be properly formatted
         if ("data.frame" %in% class(hic) && ncol(hic) != 3) {
-            stop("Invalid dataframe format.  Input a dataframe with
-                3 columns: chrA, chrB, counts.", call. = FALSE)
+            stop("Invalid dataframe format.  Input a dataframe with ",
+                "3 columns: chrA, chrB, counts.", call. = FALSE)
         }
 
         if (!"data.frame" %in% class(hic)) {
@@ -189,8 +189,8 @@ bb_plotHicTriangle <- function(data, resolution = "auto", zrange = NULL,
         if (assembly == "hg19") {
             if (grepl("chr", hic_plot$chrom) == FALSE) {
                 stop("'", hic_plot$chrom, "'",
-                    "is an invalid input for an hg19 chromsome.
-                    Please specify chromosome as",
+                    "is an invalid input for an hg19 chromsome. ",
+                    "Please specify chromosome as",
                     "'chr", hic_plot$chrom, "'.",
                     call. = FALSE
                 )
@@ -235,8 +235,8 @@ bb_plotHicTriangle <- function(data, resolution = "auto", zrange = NULL,
 
             ## second value should be larger than the first value
             if (hic_plot$zrange[1] >= hic_plot$zrange[2]) {
-                stop("\'zrange\' must be a vector of two numbers
-                    in which the 2nd value is larger than the 1st.",
+                stop("\'zrange\' must be a vector of two numbers ",
+                    "in which the 2nd value is larger than the 1st.",
                     call. = FALSE
                 )
             }
@@ -380,66 +380,12 @@ bb_plotHicTriangle <- function(data, resolution = "auto", zrange = NULL,
     # PARSE PARAMETERS
     # =========================================================================
 
-    ## Check which defaults are not overwritten and set to NULL
-    if (missing(resolution)) resolution <- NULL
-    if (missing(palette)) palette <- NULL
-    if (missing(assembly)) assembly <- NULL
-    if (missing(just)) just <- NULL
-    if (missing(norm)) norm <- NULL
-    if (missing(default.units)) default.units <- NULL
-    if (missing(draw)) draw <- NULL
-    if (missing(matrix)) matrix <- NULL
-    if (missing(colorTrans)) colorTrans <- NULL
-    if (missing(quiet)) quiet <- NULL
-
-    ## Check if hic/chrom arguments are missing (could be in object)
-    if (!hasArg(data)) data <- NULL
-    if (!hasArg(chrom)) chrom <- NULL
-
-    ## Compile all parameters into an internal object
-    bb_thicInternal <- structure(list(
-        data = data, chrom = chrom,
-        chromstart = chromstart,
-        chromend = chromend,
-        resolution = resolution,
-        zrange = zrange, palette = palette,
-        assembly = assembly, width = width,
-        height = height, x = x,
-        colorTrans = colorTrans,
-        y = y, just = just, norm = norm,
-        default.units = default.units,
-        draw = draw, matrix = matrix,
-        quiet = quiet
-    ),
-    class = "bb_thicInternal"
-    )
-
     bb_thicInternal <- parseParams(
-        bb_params = params,
-        object_params = bb_thicInternal
+        params = params,
+        defaultArgs = formals(eval(match.call()[[1]])),
+        declaredArgs = lapply(match.call()[-1], eval),
+        class = "bb_thicInternal"
     )
-
-    ## For any defaults that are still NULL, set back to default
-    if (is.null(bb_thicInternal$resolution)) {
-        bb_thicInternal$resolution <- "auto"
-    }
-    if (is.null(bb_thicInternal$palette)) {
-        bb_thicInternal$palette <- colorRampPalette(brewer.pal(
-            n = 9, "YlGnBu"
-        ))
-    }
-    if (is.null(bb_thicInternal$assembly)) bb_thicInternal$assembly <- "hg19"
-    if (is.null(bb_thicInternal$just)) bb_thicInternal$just <- c("left", "top")
-    if (is.null(bb_thicInternal$norm)) bb_thicInternal$norm <- "KR"
-    if (is.null(bb_thicInternal$default.units)) {
-        bb_thicInternal$default.units <- "inches"
-    }
-    if (is.null(bb_thicInternal$draw)) bb_thicInternal$draw <- TRUE
-    if (is.null(bb_thicInternal$matrix)) bb_thicInternal$matrix <- "observed"
-    if (is.null(bb_thicInternal$colorTrans)) {
-        bb_thicInternal$colorTrans <- "linear"
-    }
-    if (is.null(bb_thicInternal$quiet)) bb_thicInternal$quiet <- FALSE
     # =========================================================================
     # INITIALIZE OBJECT
     # =========================================================================
@@ -470,10 +416,10 @@ bb_plotHicTriangle <- function(data, resolution = "auto", zrange = NULL,
     # CHECK PLACEMENT/ARGUMENT ERRORS
     # =========================================================================
 
-    if (is.null(bb_thicInternal$data)) stop("argument \"data\" is missing,
-                                            with no default.", call. = FALSE)
-    if (is.null(bb_thicInternal$chrom)) stop("argument \"chrom\" is missing,
-                                            with no default.", call. = FALSE)
+    if (is.null(bb_thicInternal$data)) stop("argument \"data\" is missing, ",
+                                            "with no default.", call. = FALSE)
+    if (is.null(bb_thicInternal$chrom)) stop("argument \"chrom\" is missing, ",
+                                            "with no default.", call. = FALSE)
     check_placement(object = hic_plot)
 
     # =========================================================================
@@ -602,9 +548,9 @@ bb_plotHicTriangle <- function(data, resolution = "auto", zrange = NULL,
 
             ## Won't scale to log if negative values
             if (any(hic$counts < 0)) {
-                stop("Negative values in Hi-C data. Cannot scale colors
-                on a log scale. Please
-                set `colorTrans = 'linear'`.", call. = FALSE)
+                stop("Negative values in Hi-C data. Cannot scale colors ",
+                "on a log scale. Please ",
+                "set `colorTrans = 'linear'`.", call. = FALSE)
             }
 
 
@@ -781,15 +727,15 @@ bb_plotHicTriangle <- function(data, resolution = "auto", zrange = NULL,
 
             if (nrow(squares) == 0 & nrow(triangles) == 0) {
                 if (txdbChecks == TRUE) {
-                    warning("No data found in region.
-                            Suggestions: check chromosome, check region.",
+                    warning("No data found in region. ",
+                            "Suggestions: check chromosome, check region.",
                         call. = FALSE
                     )
                 }
             }
         } else {
-            warning("No data found in region.
-                    Suggestions: check chromosome, check region.",
+            warning("No data found in region. ",
+                    "Suggestions: check chromosome, check region.",
                 call. = FALSE
             )
         }

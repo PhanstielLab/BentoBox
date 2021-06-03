@@ -26,29 +26,12 @@ bb_pageGuideVertical <- function(x, default.units = "inches",
     # PARSE PARAMETERS
     # =========================================================================
 
-    ## Check which defaults are not overwritten and set to NULL
-    if (missing(linecolor)) linecolor <- NULL
-    if (missing(default.units)) default.units <- NULL
-
-    ## Check if x argument is missing (could be in object)
-    if (!hasArg(x)) x <- NULL
-
-    ## Compile all parameters into an internal object
-    bb_vguide <- structure(list(
-        x = x, linecolor = linecolor,
-        default.units = default.units
-    ),
-    class = "bb_vguide"
-    )
-
     bb_vguide <- parseParams(
-        bb_params = params,
-        object_params = bb_vguide
+        params = params,
+        defaultArgs = formals(eval(match.call()[[1]])),
+        declaredArgs = lapply(match.call()[-1], eval),
+        class = "bb_vguide"
     )
-
-    ## For any defaults that are still NULL, set back to default
-    if (is.null(bb_vguide$linecolor)) bb_vguide$linecolor <- "grey55"
-    if (is.null(bb_vguide$default.units)) bb_vguide$default.units <- "inches"
 
     ## Set gp
     bb_vguide$gp <- gpar(col = bb_vguide$linecolor)
@@ -70,13 +53,13 @@ bb_pageGuideVertical <- function(x, default.units = "inches",
 
     if (class(bb_vguide$x) != "unit") {
         if (!is.numeric(bb_vguide$x)) {
-            stop("x-coordinate is neither a unit object or a numeric value.
-                Cannot place object.", call. = FALSE)
+            stop("x-coordinate is neither a unit object or a numeric value. ",
+                "Cannot place object.", call. = FALSE)
         }
 
         if (is.null(bb_vguide$default.units)) {
-            stop("x-coordinate detected as numeric.\'default.units\'
-                must be specified.", call. = FALSE)
+            stop("x-coordinate detected as numeric.\'default.units\' ",
+                "must be specified.", call. = FALSE)
         }
 
         x <- unit(bb_vguide$x, bb_vguide$default.units)

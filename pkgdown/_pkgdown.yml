@@ -98,14 +98,6 @@ reference:
       - c
       - colorby
 
-  - title: "Datasets"
-    contents:
-      - ends_with("Data")
-      - starts_with("cytoBand")
-      - bb_CasesNYFL
-      - bb_CasesUSA
-      - bb_VaccinesNYFL
-
 figures:
   fig.height: 7
   fig.width: 8.2

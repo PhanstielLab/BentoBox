@@ -62,45 +62,12 @@ bb_plotCircle <- function(x, y, r, default.units = "inches",
     # PARSE PARAMETERS
     # =========================================================================
 
-    ## Check which defaults are not overwritten and set to NULL
-    if (missing(linecolor)) linecolor <- NULL
-    if (missing(fill)) fill <- NULL
-    if (missing(lwd)) lwd <- NULL
-    if (missing(lty)) lty <- NULL
-    if (missing(alpha)) alpha <- NULL
-    if (missing(default.units)) default.units <- NULL
-
-    ## Check if label/x/y arguments are missing (could be in object)
-    if (!hasArg(x)) x <- NULL
-    if (!hasArg(y)) y <- NULL
-    if (!hasArg(r)) r <- NULL
-
-    ## Compile all parameters into an internal object
-    bb_circleInternal <- structure(list(
-        x = x, y = y, r = r,
-        linecolor = linecolor, fill = fill,
-        lwd = lwd, lty = lty, alpha = alpha,
-        default.units = default.units
-    ),
-    class = "bb_circleInternal"
-    )
-
     bb_circleInternal <- parseParams(
-        bb_params = params,
-        object_params = bb_circleInternal
+        params = params,
+        defaultArgs = formals(eval(match.call()[[1]])),
+        declaredArgs = lapply(match.call()[-1], eval),
+        class = "bb_circleInternal"
     )
-
-    ## For any defaults that are still NULL, set back to default
-    if (is.null(bb_circleInternal$linecolor)) {
-        bb_circleInternal$linecolor <- "black"
-    }
-    if (is.null(bb_circleInternal$fill)) bb_circleInternal$fill <- NA
-    if (is.null(bb_circleInternal$lwd)) bb_circleInternal$lwd <- 1
-    if (is.null(bb_circleInternal$lty)) bb_circleInternal$lty <- 1
-    if (is.null(bb_circleInternal$alpha)) bb_circleInternal$alpha <- 1
-    if (is.null(bb_circleInternal$default.units)) {
-        bb_circleInternal$default.units <- "inches"
-    }
 
     ## Set gp
     bb_circleInternal$gp <- gpar(
@@ -158,13 +125,13 @@ bb_plotCircle <- function(x, y, r, default.units = "inches",
 
     if (!"unit" %in% class(bb_circle$x)) {
         if (!is.numeric(bb_circle$x)) {
-            stop("x-coordinate is neither a unit object or a numeric value.
-                Cannot plot circle.", call. = FALSE)
+            stop("x-coordinate is neither a unit object or a numeric value. ",
+                "Cannot plot circle.", call. = FALSE)
         }
 
         if (is.null(bb_circleInternal$default.units)) {
-            stop("x-coordinate detected as numeric.\'default.units\'
-                must be specified.", call. = FALSE)
+            stop("x-coordinate detected as numeric.\'default.units\' ",
+                "must be specified.", call. = FALSE)
         }
 
         bb_circle$x <- unit(bb_circle$x, bb_circleInternal$default.units)
@@ -175,13 +142,13 @@ bb_plotCircle <- function(x, y, r, default.units = "inches",
         ## Check for "below" y-coords
         if (all(grepl("b", bb_circle$y)) == TRUE) {
             if (any(grepl("^[ac-zA-Z]+$", bb_circle$y)) == TRUE) {
-                stop("\'below\' y-coordinate(s) detected with additional
-                    letters. Cannot parse y-coordinate(s).", call. = FALSE)
+                stop("\'below\' y-coordinate(s) detected with additional ",
+                    "letters. Cannot parse y-coordinate(s).", call. = FALSE)
             }
 
             if (any(is.na(as.numeric(gsub("b", "", bb_circle$y))))) {
-                stop("\'below\' y-coordinate(s) does not have a numeric
-                    associated with it. Cannot parse y-coordinate(s).",
+                stop("\'below\' y-coordinate(s) does not have a numeric ",
+                    "associated with it. Cannot parse y-coordinate(s).",
                     call. = FALSE
                 )
             }
@@ -192,13 +159,13 @@ bb_plotCircle <- function(x, y, r, default.units = "inches",
             )
         } else {
             if (!is.numeric(bb_circle$y)) {
-                stop("y-coordinate is neither a unit object or a
-                    numeric value. Cannot plot circle.", call. = FALSE)
+                stop("y-coordinate is neither a unit object or a ",
+                    "numeric value. Cannot plot circle.", call. = FALSE)
             }
 
             if (is.null(bb_circleInternal$default.units)) {
-                stop("y-coordinate detected as numeric.\'default.units\'
-                    must be specified.", call. = FALSE)
+                stop("y-coordinate detected as numeric.\'default.units\' ",
+                    "must be specified.", call. = FALSE)
             }
 
             bb_circle$y <- unit(bb_circle$y, bb_circleInternal$default.units)
@@ -207,13 +174,13 @@ bb_plotCircle <- function(x, y, r, default.units = "inches",
 
     if (!"unit" %in% class(bb_circle$r)) {
         if (!is.numeric(bb_circle$r)) {
-            stop("Radius is neither a unit object or a numeric value.
-                Cannot plot circle.", call. = FALSE)
+            stop("Radius is neither a unit object or a numeric value. ",
+                "Cannot plot circle.", call. = FALSE)
         }
 
         if (is.null(bb_circleInternal$default.units)) {
-            stop("Radius detected as numeric.\'default.units\'
-                must be specified.",
+            stop("Radius detected as numeric.\'default.units\' ",
+                "must be specified.",
                 call. = FALSE
             )
         }

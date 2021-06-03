@@ -98,8 +98,8 @@ bb_annoHeatmapLegend <- function(plot, orientation = "v", fontsize = 8,
         ## checking min_val and max val
         if (as.numeric(bb_heatmapLegend$min_val) >
             as.numeric(bb_heatmapLegend$max_val)) {
-            warning("/'min_val/' is larger than /'max_val/'.
-                    Legend labels may be incorrect.", call. = FALSE)
+            warning("/'min_val/' is larger than /'max_val/'. ",
+                    "Legend labels may be incorrect.", call. = FALSE)
         }
 
         ## check proper orientation
@@ -114,75 +114,12 @@ bb_annoHeatmapLegend <- function(plot, orientation = "v", fontsize = 8,
     # PARSE PARAMETERS
     # =========================================================================
 
-    ## Check which defaults are not overwritten and set to NULL
-    if (missing(border)) border <- NULL
-    if (missing(orientation)) orientation <- NULL
-    if (missing(fontsize)) fontsize <- NULL
-    if (missing(fontcolor)) fontcolor <- NULL
-    if (missing(scientific)) scientific <- NULL
-    if (missing(digits)) digits <- NULL
-    if (missing(ticks)) ticks <- NULL
-    if (missing(just)) just <- NULL
-    if (missing(default.units)) default.units <- NULL
-
-    ## Check if plot/x/y/width/height arguments are missing (could be in object)
-    if (!hasArg(plot)) plot <- NULL
-    if (!hasArg(x)) x <- NULL
-    if (!hasArg(y)) y <- NULL
-    if (!hasArg(width)) width <- NULL
-    if (!hasArg(height)) height <- NULL
-
-    ## Compile all parameters into an internal object
-    bb_heatmapLegendInternal <- structure(list(
-        plot = plot, border = border,
-        x = x, y = y, width = width,
-        height = height,
-        orientation = orientation,
-        fontsize = fontsize,
-        fontcolor = fontcolor,
-        ticks = ticks,
-        scientific = scientific,
-        digits = digits, breaks = breaks,
-        just = just,
-        default.units = default.units,
-        gp = gpar()
-    ),
-    class = "bb_heatmapLegendInternal"
-    )
-
     bb_heatmapLegendInternal <- parseParams(
-        bb_params = params,
-        object_params = bb_heatmapLegendInternal
+        params = params,
+        defaultArgs = formals(eval(match.call()[[1]])),
+        declaredArgs = lapply(match.call()[-1], eval),
+        class = "bb_heatmapLegendInternal"
     )
-
-    ## For any defaults that are still NULL, set back to default
-    if (is.null(bb_heatmapLegendInternal$border)) {
-        bb_heatmapLegendInternal$border <- FALSE
-    }
-    if (is.null(bb_heatmapLegendInternal$orientation)) {
-        bb_heatmapLegendInternal$orientation <- "v"
-    }
-    if (is.null(bb_heatmapLegendInternal$fontsize)) {
-        bb_heatmapLegendInternal$fontsize <- 8
-    }
-    if (is.null(bb_heatmapLegendInternal$fontcolor)) {
-        bb_heatmapLegendInternal$fontcolor <- "dark grey"
-    }
-    if (is.null(bb_heatmapLegendInternal$scientific)) {
-        bb_heatmapLegendInternal$scientific <- FALSE
-    }
-    if (is.null(bb_heatmapLegendInternal$digits)) {
-        bb_heatmapLegendInternal$digits <- 0
-    }
-    if (is.null(bb_heatmapLegendInternal$ticks)) {
-        bb_heatmapLegendInternal$ticks <- FALSE
-    }
-    if (is.null(bb_heatmapLegendInternal$just)) {
-        bb_heatmapLegendInternal$just <- c("left", "top")
-    }
-    if (is.null(bb_heatmapLegendInternal$default.units)) {
-        bb_heatmapLegendInternal$default.units <- "inches"
-    }
 
     ## Set gp
     bb_heatmapLegendInternal$gp <-
@@ -207,13 +144,13 @@ bb_annoHeatmapLegend <- function(plot, orientation = "v", fontsize = 8,
     }
 
     if (is.null(bb_heatmapLegendInternal$plot$color_palette)) {
-        stop("Cannot add heatmap legend to an input plot
-            that does not have a color palette.", call. = FALSE)
+        stop("Cannot add heatmap legend to an input plot ",
+            "that does not have a color palette.", call. = FALSE)
     }
 
     if (is.null(bb_heatmapLegendInternal$plot$zrange)) {
-        stop("Cannot add heatmap legend to an input plot
-            that does not have a zrange.", call. = FALSE)
+        stop("Cannot add heatmap legend to an input plot ",
+            "that does not have a zrange.", call. = FALSE)
     }
 
     # =========================================================================

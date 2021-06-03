@@ -193,16 +193,16 @@ bb_plotPairsArches <- function(data, chrom, chromstart = NULL, chromend = NULL,
 
         if (!is.null(colorby)) {
             if (!any(colnames(bedpe) == colorby$column)) {
-                stop("Colorby column not found in data. Check
-                    colorby column name.",
+                stop("Colorby column not found in data. Check ",
+                    "colorby column name.",
                     call. = FALSE
                 )
             }
 
             if (length(which(colnames(bedpe) == colorby$column)) > 1) {
-                stop("Multiple matching colorby columns found in data.
-                    Please provide colorby column name with only
-                    one occurrence.", call. = FALSE)
+                stop("Multiple matching colorby columns found in data. ",
+                    "Please provide colorby column name with only ",
+                    "one occurrence.", call. = FALSE)
             }
         }
     }
@@ -316,79 +316,16 @@ bb_plotPairsArches <- function(data, chrom, chromstart = NULL, chromend = NULL,
     # PARSE PARAMETERS
     # =========================================================================
 
-    ## Check which defaults are not overwritten and set to NULL
-    if (missing(clip)) clip <- NULL
-    if (missing(style)) style <- NULL
-    if (missing(curvature)) curvature <- NULL
-    if (missing(flip)) flip <- NULL
-    if (missing(fill)) fill <- NULL
-    if (missing(linecolor)) linecolor <- NULL
-    if (missing(assembly)) assembly <- NULL
-    if (missing(alpha)) alpha <- NULL
-    if (missing(baseline)) baseline <- NULL
-    if (missing(baseline.color)) baseline.color <- NULL
-    if (missing(baseline.lwd)) baseline.lwd <- NULL
-    if (missing(bg)) bg <- NULL
-    if (missing(just)) just <- NULL
-    if (missing(default.units)) default.units <- NULL
-    if (missing(draw)) draw <- NULL
-
-    ## Check if bedpe/chrom arguments are missing (could be in object)
-    if (!hasArg(data)) data <- NULL
-    if (!hasArg(chrom)) chrom <- NULL
-
-    ## Compile all parameters into an internal object
-    bb_archInternal <- structure(list(
-        data = data, chrom = chrom,
-        chromstart = chromstart,
-        chromend = chromend,
-        clip = clip, archHeight = archHeight,
-        style = style,
-        curvature = curvature, flip = flip,
-        fill = fill, linecolor = linecolor,
-        colorby = colorby, assembly = assembly,
-        alpha = alpha, baseline = baseline,
-        baseline.color = baseline.color,
-        baseline.lwd = baseline.lwd,
-        bg = bg, x = x, y = y, width = width,
-        height = height, just = just,
-        default.units = default.units,
-        draw = draw, gp = gpar()
-    ),
-    class = "bb_archInternal"
-    )
-
     bb_archInternal <- parseParams(
-        bb_params = params,
-        object_params = bb_archInternal
+        params = params,
+        defaultArgs = formals(eval(match.call()[[1]])),
+        declaredArgs = lapply(match.call()[-1], eval),
+        class = "bb_archInternal"
     )
-
-    ## For any defaults that are still NULL, set back to default
-    if (is.null(bb_archInternal$clip)) bb_archInternal$clip <- FALSE
-    if (is.null(bb_archInternal$style)) bb_archInternal$style <- "2D"
-    if (is.null(bb_archInternal$curvature)) bb_archInternal$curvature <- 5
-    if (is.null(bb_archInternal$flip)) bb_archInternal$flip <- FALSE
-    if (is.null(bb_archInternal$fill)) bb_archInternal$fill <- "#1f4297"
-    if (is.null(bb_archInternal$linecolor)) bb_archInternal$linecolor <- NA
-    if (is.null(bb_archInternal$assembly)) bb_archInternal$assembly <- "hg19"
-    if (is.null(bb_archInternal$alpha)) bb_archInternal$alpha <- 0.4
-    if (is.null(bb_archInternal$baseline)) bb_archInternal$baseline <- FALSE
-    if (is.null(bb_archInternal$baseline.color)) {
-        bb_archInternal$baseline.color <- "grey"
-    }
-    if (is.null(bb_archInternal$baseline.lwd)) {
-        bb_archInternal$baseline.lwd <- 1
-    }
-    if (is.null(bb_archInternal$bg)) bb_archInternal$bg <- NA
-    if (is.null(bb_archInternal$just)) bb_archInternal$just <- c("left", "top")
-    if (is.null(bb_archInternal$default.units)) {
-        bb_archInternal$default.units <- "inches"
-    }
-    if (is.null(bb_archInternal$draw)) bb_archInternal$draw <- TRUE
 
     ## Set gp
     bb_archInternal$gp <- setGP(
-        gpList = bb_archInternal$gp,
+        gpList = gpar(),
         params = bb_archInternal, ...
     )
 
@@ -397,17 +334,17 @@ bb_plotPairsArches <- function(data, chrom, chromstart = NULL, chromend = NULL,
     # =========================================================================
     if (!is.null(bb_archInternal$colorby)) {
         if (class(bb_archInternal$colorby) != "bb_colorby") {
-            stop("\"colorby\" not of class \"bb_colorby\".
-                Input colorby information with \"colorby()\".",
+            stop("\"colorby\" not of class \"bb_colorby\". ",
+                "Input colorby information with \"colorby()\".",
                 call. = FALSE
             )
         }
     }
 
-    if (is.null(bb_archInternal$data)) stop("argument \"data\" is missing,
-                                            with no default.", call. = FALSE)
-    if (is.null(bb_archInternal$chrom)) stop("argument \"chrom\" is missing,
-                                            with no default.", call. = FALSE)
+    if (is.null(bb_archInternal$data)) stop("argument \"data\" is missing, ",
+                                            "with no default.", call. = FALSE)
+    if (is.null(bb_archInternal$chrom)) stop("argument \"chrom\" is missing, ",
+                                            "with no default.", call. = FALSE)
     # =========================================================================
     # INITIALIZE OBJECT
     # =========================================================================

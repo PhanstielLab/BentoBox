@@ -43,7 +43,10 @@
 #' \code{counts}.
 #' 
 #' @examples 
-#' hicFile <- system.file("extdata/test.hic", package="BentoBoxData")
+#' hicFile <- system.file("extdata/test.hic.tar.gz", package="BentoBoxData")
+#' tmpdir <- tempdir()
+#' untar(hicFile, exdir = tmpdir)
+#' hicFile <- paste0(tmpdir, "/test.hic")
 #' 
 #' ## Read in data for region `chr8:133000000-135000000` at 10Kb bp resolution
 #' hicData10kb <- bb_readHic(file = hicFile, chrom = "chr8",
@@ -111,8 +114,8 @@ bb_readHic <- function(file, chrom, chromstart = NULL, chromend = NULL,
         if (assembly == "hg19") {
             if (grepl("chr", chrom) == FALSE) {
                 stop("'", chrom, "'",
-                    "is an invalid input for an hg19
-                    chromsome. Please specify chromosome as",
+                    "is an invalid input for an hg19 ",
+                    "chromsome. Please specify chromosome as",
                     "'chr", chrom, "'.",
                     call. = FALSE
                 )
@@ -143,8 +146,8 @@ bb_readHic <- function(file, chrom, chromstart = NULL, chromend = NULL,
             if (assembly == "hg19") {
                 if (grepl("chr", altchrom) == FALSE) {
                     stop("'", altchrom, "'",
-                        "is an invalid input for an hg19 chromsome.
-                        Please specify chromosome as",
+                        "is an invalid input for an hg19 chromsome. ",
+                        "Please specify chromosome as",
                         "'chr", altchrom, "'.",
                         call. = FALSE
                     )
@@ -161,16 +164,16 @@ bb_readHic <- function(file, chrom, chromstart = NULL, chromend = NULL,
             ## Can't have only one NULL altchromstart or altchromend
             if ((is.null(altchromstart) & !is.null(altchromend)) |
                 (is.null(altchromend) & !is.null(altchromstart))) {
-                stop("Cannot have one \'NULL\' \'altchromstart\' or
-                    \'altchromend\'.",
+                stop("Cannot have one \'NULL\' \'altchromstart\' or ",
+                    "\'altchromend\'.",
                     call. = FALSE
                 )
             }
             ## Altchromstart should be smaller than altchromend
             if (!is.null(altchromstart) & !is.null(altchromend)) {
                 if (altchromstart > altchromend) {
-                    stop("\'altchromstart\' should not be larger
-                        than \'altchromend\'.",
+                    stop("\'altchromstart\' should not be larger ",
+                        "than \'altchromend\'.",
                         call. = FALSE
                     )
                 }
@@ -184,11 +187,11 @@ bb_readHic <- function(file, chrom, chromstart = NULL, chromend = NULL,
                     is.null(chromend) |
                     is.null(altchromstart) |
                     is.null(altchromend)) {
-                    stop("If giving the same \'chrom\' and \'altchrom\',
-                    please specify \'chromstart\', \'chromend\',
-                    \'altchromstart\', and \'altchromend\'.
-                    If trying to get all interactions between one chromosome,
-                    just specify \'chrom\'.", call. = FALSE)
+                    stop("If giving the same \'chrom\' and \'altchrom\', ",
+                    "please specify \'chromstart\', \'chromend\', ",
+                    "\'altchromstart\', and \'altchromend\'. ",
+                    "If trying to get all interactions between one chromosome, ",
+                    "just specify \'chrom\'.", call. = FALSE)
                 }
             }
         }
@@ -215,8 +218,8 @@ bb_readHic <- function(file, chrom, chromstart = NULL, chromend = NULL,
 
             ## second value should be larger than the first value
             if (zrange[1] >= zrange[2]) {
-                stop("\'zrange\' must be a vector of two numbers
-                    in which the 2nd value is larger than the 1st.",
+                stop("\'zrange\' must be a vector of two numbers ",
+                    "in which the 2nd value is larger than the 1st.",
                     call. = FALSE
                 )
             }
@@ -375,45 +378,15 @@ bb_readHic <- function(file, chrom, chromstart = NULL, chromend = NULL,
     # PARSE PARAMETERS
     # =========================================================================
 
-    ## Check which defaults are not overwritten and set to NULL
-    if (missing(resolution)) resolution <- NULL
-    if (missing(norm)) norm <- NULL
-    if (missing(res_scale)) res_scale <- NULL
-    if (missing(assembly)) assembly <- NULL
-    if (missing(matrix)) matrix <- NULL
-    if (missing(quiet)) quiet <- NULL
+    bb_rhic <- parseParams(params = params, 
+                           defaultArgs = formals(eval(match.call()[[1]])),
+                           declaredArgs = lapply(match.call()[-1], eval),
+                           class = "bb_rhic")
 
-    ## Check if hic/chrom arguments are missing (could be in object)
-    if (!hasArg(file)) file <- NULL
-    if (!hasArg(chrom)) chrom <- NULL
-
-    ## Compile all parameters into an internal object
-    bb_rhic <- structure(list(
-        file = file, chrom = chrom,
-        chromstart = chromstart, chromend = chromend,
-        resolution = resolution, zrange = zrange,
-        norm = norm, res_scale = res_scale,
-        assembly = assembly, matrix = matrix,
-        altchrom = altchrom,
-        altchromstart = altchromstart,
-        altchromend = altchromend,
-        quiet = quiet
-    ), class = "bb_rhic")
-
-    bb_rhic <- parseParams(bb_params = params, object_params = bb_rhic)
-
-    ## For any defaults that are still NULL, set back to default
-    if (is.null(bb_rhic$resolution)) bb_rhic$resolution <- "auto"
-    if (is.null(bb_rhic$norm)) bb_rhic$norm <- "KR"
-    if (is.null(bb_rhic$res_scale)) bb_rhic$res_scale <- "BP"
-    if (is.null(bb_rhic$assembly)) bb_rhic$assembly <- "hg19"
-    if (is.null(bb_rhic$matrix)) bb_rhic$matrix <- "observed"
-    if (is.null(bb_rhic$quiet)) bb_rhic$quiet <- FALSE
-
-    if (is.null(bb_rhic$file)) stop("argument \"file\" is missing,
-                                    with no default.", call. = FALSE)
-    if (is.null(bb_rhic$chrom)) stop("argument \"chrom\" is missing,
-                                    with no default.", call. = FALSE)
+    if (is.null(bb_rhic$file)) stop("argument \"file\" is missing, ",
+                                    "with no default.", call. = FALSE)
+    if (is.null(bb_rhic$chrom)) stop("argument \"chrom\" is missing, ",
+                                    "with no default.", call. = FALSE)
 
     # =========================================================================
     # PARSE ASSEMBLY

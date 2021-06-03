@@ -23,8 +23,8 @@ bb_defaultPackages <- function(Genome) {
     )
 
     if (!Genome %in% availDefaults) {
-        stop("Inputted genome not an available default. To see the included
-            defaults, use `bb_genomes()`.", call. = FALSE)
+        stop("Inputted genome not an available default. To see the included ",
+            "defaults, use `bb_genomes()`.", call. = FALSE)
     }
 
     defaults <- getPackages(genome = Genome)

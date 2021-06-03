@@ -84,7 +84,10 @@ format with the following columns: \code{chrom}, \code{altchrom},
 Read a .hic file and return Hi-C data as a dataframe
 }
 \examples{
-hicFile <- system.file("extdata/test.hic", package="BentoBoxData")
+hicFile <- system.file("extdata/test.hic.tar.gz", package="BentoBoxData")
+tmpdir <- tempdir()
+untar(hicFile, exdir = tmpdir)
+hicFile <- paste0(tmpdir, "/test.hic")
 
 ## Read in data for region `chr8:133000000-135000000` at 10Kb bp resolution
 hicData10kb <- bb_readHic(file = hicFile, chrom = "chr8",

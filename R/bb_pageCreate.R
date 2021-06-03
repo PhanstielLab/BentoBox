@@ -52,8 +52,8 @@ bb_pageCreate <- function(width = 8.5, height = 11, default.units = "inches",
         widthUnit <- gsub("[0-9]|[.]", "", object$width)
         heightUnit <- gsub("[0-9]|[.]", "", object$height)
         if (widthUnit != heightUnit) {
-            stop("`width` and `height` must be in the same units.
-                `width` detected as", "`", widthUnit, "`",
+            stop("`width` and `height` must be in the same units. ",
+                "`width` detected as", "`", widthUnit, "`",
                 "and `height` detected as", "`", heightUnit, "`", ".",
                 call. = FALSE
             )
@@ -83,31 +83,11 @@ bb_pageCreate <- function(width = 8.5, height = 11, default.units = "inches",
     # PARSE PARAMETERS
     # =========================================================================
 
-    ## Check which defaults are not overwritten and set to NULL
-    if (missing(width)) width <- NULL
-    if (missing(height)) height <- NULL
-    if (missing(default.units)) default.units <- NULL
-    if (missing(showGuides)) showGuides <- NULL
-    if (missing(xgrid)) xgrid <- NULL
-    if (missing(ygrid)) ygrid <- NULL
-
-    ## Compile all parameters into an internal object
-    bb_page <- structure(list(
-        width = width, height = height,
-        default.units = default.units,
-        showGuides = showGuides,
-        xgrid = xgrid, ygrid = ygrid
-    ), class = "bb_page")
-    bb_page <- parseParams(bb_params = params, object_params = bb_page)
-
-    ## For any defaults that are still NULL, set back to default
-    if (is.null(bb_page$width)) bb_page$width <- 8.5
-    if (is.null(bb_page$height)) bb_page$height <- 11
-    if (is.null(bb_page$default.units)) bb_page$default.units <- "inches"
-    if (is.null(bb_page$showGuides)) bb_page$showGuides <- TRUE
-    if (is.null(bb_page$xgrid)) bb_page$xgrid <- 0.5
-    if (is.null(bb_page$ygrid)) bb_page$ygrid <- 0.5
-
+    bb_page <- parseParams(params = params, 
+                           defaultArgs = formals(eval(match.call()[[1]])),
+                           declaredArgs = lapply(match.call()[-1], eval),
+                           class = "bb_page")
+    
     # =========================================================================
     # DEFAULT UNITS
     # =========================================================================
@@ -115,18 +95,18 @@ bb_pageCreate <- function(width = 8.5, height = 11, default.units = "inches",
 
     if (!"unit" %in% class(bb_page$width)) {
         if (!is.numeric(bb_page$width)) {
-            stop("`width` is neither a unit object nor a numeric value.
-                Cannot create BentoBox page.", call. = FALSE)
+            stop("`width` is neither a unit object nor a numeric value. ",
+                "Cannot create BentoBox page.", call. = FALSE)
         }
 
         if (is.null(bb_page$default.units)) {
-            stop("`width` detected as numeric. `default.units`
-                must be specified.", call. = FALSE)
+            stop("`width` detected as numeric. `default.units` ",
+                "must be specified.", call. = FALSE)
         }
 
         if (!bb_page$default.units %in% validUnits) {
-            message <- paste(c("Invalid default units.
-                            Options for page units are:", validUnits),
+            message <- paste(c("Invalid default units. ",
+                            "Options for page units are:", validUnits),
                 collapse = " "
             )
             stop(message, call. = FALSE)
@@ -137,21 +117,21 @@ bb_pageCreate <- function(width = 8.5, height = 11, default.units = "inches",
 
     if (!"unit" %in% class(bb_page$height)) {
         if (!is.numeric(bb_page$height)) {
-            stop("`height` is neither a unit object or a numeric value.
-                Cannot create BentoBox page.", call. = FALSE)
+            stop("`height` is neither a unit object or a numeric value. ",
+                "Cannot create BentoBox page.", call. = FALSE)
         }
 
         if (is.null(bb_page$default.units)) {
-            stop("`height` detected as numeric. `default.units`
-                must be specified.",
+            stop("`height` detected as numeric. `default.units` ",
+                "must be specified.",
                 call. = FALSE
             )
         }
 
 
         if (!bb_page$default.units %in% validUnits) {
-            message <- paste(c("Invalid default units. Options for page
-                            units are:", validUnits),
+            message <- paste(c("Invalid default units. Options for page ",
+                            "units are:", validUnits),
                 collapse = " "
             )
             stop(message, call. = FALSE)
