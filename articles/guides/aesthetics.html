@@ -38,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../../index.html">BentoBox</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.3</span>
       </span>
     </div>
 
@@ -114,7 +114,8 @@
 
     
     
-<p><code>BentoBox</code> plots are extremely customizable in appearance. In this section we will outline some of the major aesthetic customizations, including general features and specific plot type customizations.</p>
+<p><code>BentoBox</code> plots are extremely customizable in appearance. In this article we will outline some of the major aesthetic customizations, including general features and specific plot type customizations.</p>
+<p>All the data included in this article can be found in the supplementary package <code>BentoBoxData</code>.</p>
 <div id="gpar-and-common-plot-customizations" class="section level1">
 <h1 class="hasAnchor">
 <a href="#gpar-and-common-plot-customizations" class="anchor"></a><code>gpar</code> and common plot customizations</h1>
@@ -192,6 +193,7 @@
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../../reference/bb_plotGenes.html">bb_plotGenes</a></span><span class="op">(</span>
     chrom <span class="op">=</span> <span class="st">"chr8"</span>, chromstart <span class="op">=</span> <span class="fl">1000000</span>, chromend <span class="op">=</span> <span class="fl">2000000</span>,
+    assembly <span class="op">=</span> <span class="st">"hg19"</span>,
     bg <span class="op">=</span> <span class="st">"#f6f6f6"</span>,
     x <span class="op">=</span> <span class="fl">0.5</span>, y <span class="op">=</span> <span class="fl">0.5</span>, width <span class="op">=</span> <span class="fl">2</span>, height <span class="op">=</span> <span class="fl">1</span>, just <span class="op">=</span> <span class="fu"><a href="../../reference/c.html">c</a></span><span class="op">(</span><span class="st">"left"</span>, <span class="st">"top"</span><span class="op">)</span>,
     default.units <span class="op">=</span> <span class="st">"inches"</span>
@@ -202,6 +204,7 @@
 <code class="sourceCode R"><span class="fu"><a href="../../reference/bb_plotRanges.html">bb_plotRanges</a></span><span class="op">(</span>
     data <span class="op">=</span> <span class="va">bb_bedData</span>,
     chrom <span class="op">=</span> <span class="st">"chr21"</span>, chromstart <span class="op">=</span> <span class="fl">29073000</span>, chromend <span class="op">=</span> <span class="fl">29074000</span>,
+    assembly <span class="op">=</span> <span class="st">"hg19"</span>,
     fill <span class="op">=</span> <span class="fu"><a href="../../reference/c.html">c</a></span><span class="op">(</span><span class="st">"#7ecdbb"</span>, <span class="st">"#37a7db"</span><span class="op">)</span>,
     baseline <span class="op">=</span> <span class="cn">TRUE</span>, baseline.color <span class="op">=</span> <span class="st">"black"</span>,
     x <span class="op">=</span> <span class="fl">0.5</span>, y <span class="op">=</span> <span class="fl">0.25</span>, width <span class="op">=</span> <span class="fl">6.5</span>, height <span class="op">=</span> <span class="fl">4.25</span>,
@@ -230,6 +233,7 @@
 <code class="sourceCode R"><span class="fu"><a href="../../reference/bb_plotRanges.html">bb_plotRanges</a></span><span class="op">(</span>
     data <span class="op">=</span> <span class="va">bb_bedData</span>,
     chrom <span class="op">=</span> <span class="st">"chr21"</span>, chromstart <span class="op">=</span> <span class="fl">29073000</span>, chromend <span class="op">=</span> <span class="fl">29074000</span>,
+    assembly <span class="op">=</span> <span class="st">"hg19"</span>,
     fill <span class="op">=</span> <span class="fu"><a href="../../reference/c.html">c</a></span><span class="op">(</span><span class="st">"#7ecdbb"</span>, <span class="st">"#37a7db"</span><span class="op">)</span>,
     colorby <span class="op">=</span> <span class="fu"><a href="../../reference/colorby.html">colorby</a></span><span class="op">(</span><span class="st">"strand"</span><span class="op">)</span>,
     x <span class="op">=</span> <span class="fl">0.5</span>, y <span class="op">=</span> <span class="fl">0.25</span>, width <span class="op">=</span> <span class="fl">6.5</span>, height <span class="op">=</span> <span class="fl">4.25</span>,
@@ -257,6 +261,7 @@
 <code class="sourceCode R"><span class="va">bedpePlot</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/bb_plotPairsArches.html">bb_plotPairsArches</a></span><span class="op">(</span>
     data <span class="op">=</span> <span class="va">bb_bedpeData</span>,
     chrom <span class="op">=</span> <span class="st">"chr21"</span>, chromstart <span class="op">=</span> <span class="fl">27900000</span>, chromend <span class="op">=</span> <span class="fl">30700000</span>,
+    assembly <span class="op">=</span> <span class="st">"hg19"</span>,
     fill <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grDevices/colorRamp.html">colorRampPalette</a></span><span class="op">(</span><span class="fu"><a href="../../reference/c.html">c</a></span><span class="op">(</span><span class="st">"dodgerblue2"</span>, <span class="st">"firebrick2"</span><span class="op">)</span><span class="op">)</span>,
     linecolor <span class="op">=</span> <span class="st">"fill"</span>,
     colorby <span class="op">=</span> <span class="fu"><a href="../../reference/colorby.html">colorby</a></span><span class="op">(</span><span class="st">"length"</span><span class="op">)</span>,
@@ -292,6 +297,7 @@
 <span class="op">)</span>
 <span class="va">genePlot</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/bb_plotGenes.html">bb_plotGenes</a></span><span class="op">(</span>
     chrom <span class="op">=</span> <span class="st">"chr2"</span>, chromstart <span class="op">=</span> <span class="fl">1000000</span>, chromend <span class="op">=</span> <span class="fl">20000000</span>,
+    assembly <span class="op">=</span> <span class="st">"hg19"</span>,
     x <span class="op">=</span> <span class="fl">0.25</span>, y <span class="op">=</span> <span class="fl">0.25</span>, width <span class="op">=</span> <span class="fl">4.75</span>, height <span class="op">=</span> <span class="fl">1</span>
 <span class="op">)</span></code></pre></div>
 <p><img src="aesthetics_files/figure-html/aes_07-1.png" width="750" style="display: block; margin: auto;"> Looking in the <code>bb_genes</code> object, we can see that there were numerous genes that were not labeled.</p>
@@ -321,6 +327,7 @@
 <span class="op">)</span>
 <span class="va">genePlot</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/bb_plotGenes.html">bb_plotGenes</a></span><span class="op">(</span>
     chrom <span class="op">=</span> <span class="st">"chr2"</span>, chromstart <span class="op">=</span> <span class="fl">1000000</span>, chromend <span class="op">=</span> <span class="fl">20000000</span>,
+    assembly <span class="op">=</span> <span class="st">"hg19"</span>,
     geneOrder <span class="op">=</span> <span class="fu"><a href="../../reference/c.html">c</a></span><span class="op">(</span><span class="st">"MIR3125"</span><span class="op">)</span>,
     x <span class="op">=</span> <span class="fl">0.25</span>, y <span class="op">=</span> <span class="fl">0.25</span>, width <span class="op">=</span> <span class="fl">4.75</span>, height <span class="op">=</span> <span class="fl">1</span>
 <span class="op">)</span></code></pre></div>
@@ -352,6 +359,7 @@
 <span class="op">)</span>
 <span class="va">transcriptPlot</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/bb_plotTranscripts.html">bb_plotTranscripts</a></span><span class="op">(</span>
     chrom <span class="op">=</span> <span class="st">"chr2"</span>, chromstart <span class="op">=</span> <span class="fl">1000000</span>, chromend <span class="op">=</span> <span class="fl">20000000</span>,
+    assembly <span class="op">=</span> <span class="st">"hg19"</span>,
     labels <span class="op">=</span> <span class="st">"both"</span>,
     x <span class="op">=</span> <span class="fl">0.25</span>, y <span class="op">=</span> <span class="fl">0.25</span>, width <span class="op">=</span> <span class="fl">5.5</span>, height <span class="op">=</span> <span class="fl">4.5</span>
 <span class="op">)</span></code></pre></div>
@@ -371,6 +379,7 @@
 <span class="op">)</span>
 <span class="va">genePlot</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/bb_plotGenes.html">bb_plotGenes</a></span><span class="op">(</span>
     chrom <span class="op">=</span> <span class="st">"chr2"</span>, chromstart <span class="op">=</span> <span class="fl">1000000</span>, chromend <span class="op">=</span> <span class="fl">20000000</span>,
+    assembly <span class="op">=</span> <span class="st">"hg19"</span>,
     geneHighlights <span class="op">=</span> <span class="va">geneHighlights</span>, geneBackground <span class="op">=</span> <span class="st">"grey"</span>,
     x <span class="op">=</span> <span class="fl">0.25</span>, y <span class="op">=</span> <span class="fl">0.25</span>, width <span class="op">=</span> <span class="fl">4.75</span>, height <span class="op">=</span> <span class="fl">1</span>
 <span class="op">)</span></code></pre></div>
@@ -388,6 +397,7 @@
 <span class="op">)</span>
 <span class="va">genePlot</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/bb_plotGenes.html">bb_plotGenes</a></span><span class="op">(</span>
     chrom <span class="op">=</span> <span class="st">"chr2"</span>, chromstart <span class="op">=</span> <span class="fl">1000000</span>, chromend <span class="op">=</span> <span class="fl">20000000</span>,
+    assembly <span class="op">=</span> <span class="st">"hg19"</span>,
     geneHighlights <span class="op">=</span> <span class="va">geneHighlights</span>, geneBackground <span class="op">=</span> <span class="st">"grey"</span>,
     x <span class="op">=</span> <span class="fl">0.25</span>, y <span class="op">=</span> <span class="fl">0.25</span>, width <span class="op">=</span> <span class="fl">4.75</span>, height <span class="op">=</span> <span class="fl">1</span>
 <span class="op">)</span></code></pre></div>
@@ -404,6 +414,7 @@
 <span class="op">)</span>
 <span class="va">transcriptPlot</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/bb_plotTranscripts.html">bb_plotTranscripts</a></span><span class="op">(</span>
     chrom <span class="op">=</span> <span class="st">"chr2"</span>, chromstart <span class="op">=</span> <span class="fl">1000000</span>, chromend <span class="op">=</span> <span class="fl">20000000</span>,
+    assembly <span class="op">=</span> <span class="st">"hg19"</span>,
     strandSplit <span class="op">=</span> <span class="cn">TRUE</span>,
     x <span class="op">=</span> <span class="fl">0.25</span>, y <span class="op">=</span> <span class="fl">0.25</span>, width <span class="op">=</span> <span class="fl">5.5</span>, height <span class="op">=</span> <span class="fl">4.5</span>
 <span class="op">)</span></code></pre></div>

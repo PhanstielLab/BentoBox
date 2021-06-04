@@ -38,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">BentoBox</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.3</span>
       </span>
     </div>
 
@@ -107,7 +107,7 @@
       <h1 data-toc-skip>Introduction to BentoBox</h1>
                         <h4 class="author">Nicole Kramer, Eric S. Davis, Craig Wenger, Sarah Parker, Erika Deoudes, Douglas H. Phanstiel</h4>
             
-            <h4 class="date">2021-06-02</h4>
+            <h4 class="date">2021-06-04</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/PhanstielLab/BentoBox/blob/master/vignettes/introduction_to_bentobox.Rmd"><code>vignettes/introduction_to_bentobox.Rmd</code></a></small>
       <div class="hidden name"><code>introduction_to_bentobox.Rmd</code></div>
@@ -120,7 +120,7 @@
 <h1 class="hasAnchor">
 <a href="#overview" class="anchor"></a>Overview</h1>
 <p><img src="../man/figures/logo.png" align="right" width="140px" style="padding-left:20px; background-color:white; border-color: transparent"></p>
-<p><code>BentoBox</code> is a coordinate-based, genomic visualization package for R. Using <code>grid</code> graphics, <code>BentoBox</code> empowers users to programatically and flexibly generate multi-panel figures. Tailored for genomics, <code>BentoBox</code> allows users to visualize large, complex genomic datasets while providing exquisite control over the arrangement of plots.</p>
+<p><code>BentoBox</code> is a coordinate-based, genomic visualization package for R. Using <code>grid</code> graphics, <code>BentoBox</code> empowers users to programatically and flexibly generate multi-panel figures. Tailored for genomics for a variety of genomic assemblies, <code>BentoBox</code> allows users to visualize large, complex genomic datasets while providing exquisite control over the arrangement of plots.</p>
 <p><code>BentoBox</code> functions can be grouped into the following categories:</p>
 <ul>
 <li><strong>Page layout functions:</strong></li>
@@ -142,7 +142,8 @@
 <li><strong>Meta functions:</strong></li>
 </ul>
 <p>Functions that display <code>BentoBox</code> properties or operate on other <code>BentoBox</code> functions, or constructors for <code>BentoBox</code> objects.</p>
-<p>This vignette provides a best-practices guide for utilizing <code>BentoBox</code>. It begins with a Quick Start section that outlines usage examples for reading in and plotting the most commonly used genomic data. Then the following sections explore how BentoBox works in more detail, highlighting helpful topics that showcase the capabilities of BentoBox. For detailed usage of each function, see the function-specific reference examples with <code>?function()</code> (e.g. <code>?bb_plotPairs()</code>).</p>
+<p>This vignette provides a best-practices guide for utilizing <code>BentoBox</code>. It begins with a Quick Start section that outlines usage examples for reading in and plotting the most commonly used genomic data. Then the following sections explore how BentoBox works in more detail, highlighting helpful topics that showcase the capabilities of BentoBox. For in-depth demonstrations of <code>BentoBox</code>’s key features, see the additional articles. For detailed usage of each function, see the function-specific reference examples with <code>?function()</code> (e.g. <code>?bb_plotPairs()</code>).</p>
+<p>All the data included in this vignette can be found in the supplementary package <code>BentoBoxData</code>.</p>
 </div>
 <div id="quick-start" class="section level1">
 <h1 class="hasAnchor">
@@ -150,7 +151,7 @@
 <div id="reading-data" class="section level2">
 <h2 class="hasAnchor">
 <a href="#reading-data" class="anchor"></a>Reading data</h2>
-<p><code>BentoBox</code> handles a wide array of genomic data types in various formats and file types. Not only does it work with <code>data.frames</code>, <code>data.tables</code>, <code>tibbles</code>, and Bioconductor <code>GRanges</code> objects, but it can also read in common genomic file types like BED, BEDPE, bigWig, and .hic files. While files can be read directly into <code>BentoBox</code> plotting functions, <code>BentoBox</code> also provides functions for reading in these large genomic data sets to work with them within the R environment:</p>
+<p><code>BentoBox</code> handles a wide array of genomic data types in various formats and file types. Not only does it work with <code>data.frames</code>, <code>data.tables</code>, <code>tibbles</code>, and Bioconductor <code>GRanges</code> and <code>GInteractions</code> objects, but it can also read in common genomic file types like BED, BEDPE, bigWig, and .hic files. While files can be read directly into <code>BentoBox</code> plotting functions, <code>BentoBox</code> also provides functions for reading in these large genomic data sets to work with them within the R environment:</p>
 <ul>
 <li>
 <code><a href="../reference/bb_readBigwig.html">bb_readBigwig()</a></code>: Read in entire bigWig files, or read in specific genomic regions or strands of bigWig data.</li>
@@ -181,6 +182,7 @@
 <span class="va">chromRegion</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/bb_readHic.html">bb_readHic</a></span><span class="op">(</span><span class="st">"/path/to/hic"</span>,
     chrom <span class="op">=</span> <span class="st">"chr1"</span>,
     chromstart <span class="op">=</span> <span class="fl">1000000</span>, chromend <span class="op">=</span> <span class="fl">2000000</span>,
+    assembly <span class="op">=</span> <span class="st">"hg19"</span>,
     resolution <span class="op">=</span> <span class="fl">10000</span>, res_scale <span class="op">=</span> <span class="st">"BP"</span>, norm <span class="op">=</span> <span class="st">"KR"</span>
 <span class="op">)</span>
 
@@ -215,12 +217,14 @@
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://phanstiellab.github.io/bentobox">BentoBox</a></span><span class="op">)</span>
 
 <span class="co">## Load example Hi-C data</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">BentoBoxData</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="st">"bb_imrHicData"</span><span class="op">)</span>
 
 <span class="co">## Quick plot Hi-C data</span>
 <span class="fu"><a href="../reference/bb_plotHicSquare.html">bb_plotHicSquare</a></span><span class="op">(</span>
     data <span class="op">=</span> <span class="va">bb_imrHicData</span>,
-    chrom <span class="op">=</span> <span class="st">"chr21"</span>, chromstart <span class="op">=</span> <span class="fl">28000000</span>, chromend <span class="op">=</span> <span class="fl">30300000</span>
+    chrom <span class="op">=</span> <span class="st">"chr21"</span>, chromstart <span class="op">=</span> <span class="fl">28000000</span>, chromend <span class="op">=</span> <span class="fl">30300000</span>,
+    assembly <span class="op">=</span> <span class="st">"hg19"</span>
 <span class="op">)</span></code></pre></div>
 <p><img src="introduction_to_bentobox_files/figure-html/hic_quickplot-1.png" width="450" style="display: block; margin: auto;"></p>
 </div>
@@ -232,12 +236,14 @@
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://phanstiellab.github.io/bentobox">BentoBox</a></span><span class="op">)</span>
 
 <span class="co">## Load example signal data</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">BentoBoxData</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="st">"bb_imrH3K27acData"</span><span class="op">)</span>
 
 <span class="co">## Quick plot signal data</span>
 <span class="fu"><a href="../reference/bb_plotSignal.html">bb_plotSignal</a></span><span class="op">(</span>
     data <span class="op">=</span> <span class="va">bb_imrH3K27acData</span>,
-    chrom <span class="op">=</span> <span class="st">"chr21"</span>, chromstart <span class="op">=</span> <span class="fl">28000000</span>, chromend <span class="op">=</span> <span class="fl">30300000</span>
+    chrom <span class="op">=</span> <span class="st">"chr21"</span>, chromstart <span class="op">=</span> <span class="fl">28000000</span>, chromend <span class="op">=</span> <span class="fl">30300000</span>,
+    assembly <span class="op">=</span> <span class="st">"hg19"</span>
 <span class="op">)</span></code></pre></div>
 <p><img src="introduction_to_bentobox_files/figure-html/signal_quickplot-1.png" width="450" style="display: block; margin: auto;"></p>
 </div>
@@ -270,11 +276,14 @@
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">TxDb.Hsapiens.UCSC.hg19.knownGene</span><span class="op">)</span>
 
 <span class="co">## Load example GWAS data</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">BentoBoxData</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="st">"bb_gwasData"</span><span class="op">)</span>
 
 <span class="co">## Quick plot GWAS data</span>
 <span class="fu"><a href="../reference/bb_plotManhattan.html">bb_plotManhattan</a></span><span class="op">(</span>
-    data <span class="op">=</span> <span class="va">bb_gwasData</span>, fill <span class="op">=</span> <span class="fu"><a href="../reference/c.html">c</a></span><span class="op">(</span><span class="st">"steel blue"</span>, <span class="st">"grey"</span><span class="op">)</span>,
+    data <span class="op">=</span> <span class="va">bb_gwasData</span>, 
+    assembly <span class="op">=</span> <span class="st">"hg19"</span>,
+    fill <span class="op">=</span> <span class="fu"><a href="../reference/c.html">c</a></span><span class="op">(</span><span class="st">"steel blue"</span>, <span class="st">"grey"</span><span class="op">)</span>,
     ymax <span class="op">=</span> <span class="fl">1.1</span>, cex <span class="op">=</span> <span class="fl">0.20</span>
 <span class="op">)</span></code></pre></div>
 <p><img src="introduction_to_bentobox_files/figure-html/gwas_quickplot-1.png" width="450" style="display: block; margin: auto;"></p>
@@ -298,6 +307,7 @@
 <span class="va">hicPlot</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/bb_plotHicSquare.html">bb_plotHicSquare</a></span><span class="op">(</span>
     data <span class="op">=</span> <span class="va">bb_imrHicData</span>,
     chrom <span class="op">=</span> <span class="st">"chr21"</span>, chromstart <span class="op">=</span> <span class="fl">28000000</span>, chromend <span class="op">=</span> <span class="fl">30300000</span>,
+    assembly <span class="op">=</span> <span class="st">"hg19"</span>,
     x <span class="op">=</span> <span class="fl">0.25</span>, y <span class="op">=</span> <span class="fl">0.25</span>, width <span class="op">=</span> <span class="fl">2.5</span>, height <span class="op">=</span> <span class="fl">2.5</span>, default.units <span class="op">=</span> <span class="st">"inches"</span>
 <span class="op">)</span></code></pre></div>
 <p><img src="introduction_to_bentobox_files/figure-html/quickpageHic-1.png" width="600" style="display: block; margin: auto;"></p>
@@ -333,6 +343,7 @@
 <span class="va">hicPlot</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/bb_plotHicSquare.html">bb_plotHicSquare</a></span><span class="op">(</span>
     data <span class="op">=</span> <span class="va">bb_imrHicData</span>,
     chrom <span class="op">=</span> <span class="st">"chr21"</span>, chromstart <span class="op">=</span> <span class="fl">28000000</span>, chromend <span class="op">=</span> <span class="fl">30300000</span>,
+    assembly <span class="op">=</span> <span class="st">"hg19"</span>,
     x <span class="op">=</span> <span class="fl">0.25</span>, y <span class="op">=</span> <span class="fl">0.25</span>, width <span class="op">=</span> <span class="fl">2.5</span>, height <span class="op">=</span> <span class="fl">2.5</span>, default.units <span class="op">=</span> <span class="st">"inches"</span>
 <span class="op">)</span>
 <span class="fu"><a href="../reference/bb_annoHeatmapLegend.html">bb_annoHeatmapLegend</a></span><span class="op">(</span>
@@ -356,6 +367,7 @@
 <p>In the following example, we plot the same genomic region (i.e. <code>chr21:28000000-30300000</code>) represented in Hi-C data, loop annotations, signal track data, GWAS data, all along a common gene track and genome label axis:</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">## Load example data</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">BentoBoxData</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="st">"bb_imrHicData"</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="st">"bb_bedpeData"</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="st">"bb_imrH3K27acData"</span><span class="op">)</span>
@@ -371,6 +383,7 @@
 <span class="fu"><a href="../reference/bb_plotHicSquare.html">bb_plotHicSquare</a></span><span class="op">(</span>
     data <span class="op">=</span> <span class="va">bb_imrHicData</span>,
     chrom <span class="op">=</span> <span class="st">"chr21"</span>, chromstart <span class="op">=</span> <span class="fl">28000000</span>, chromend <span class="op">=</span> <span class="fl">30300000</span>,
+    assembly <span class="op">=</span> <span class="st">"hg19"</span>,
     x <span class="op">=</span> <span class="fl">0.5</span>, y <span class="op">=</span> <span class="fl">0.5</span>, width <span class="op">=</span> <span class="fl">2</span>, height <span class="op">=</span> <span class="fl">2</span>,
     just <span class="op">=</span> <span class="fu"><a href="../reference/c.html">c</a></span><span class="op">(</span><span class="st">"left"</span>, <span class="st">"top"</span><span class="op">)</span>, default.units <span class="op">=</span> <span class="st">"inches"</span>
 <span class="op">)</span>
@@ -379,6 +392,7 @@
 <span class="fu"><a href="../reference/bb_plotPairsArches.html">bb_plotPairsArches</a></span><span class="op">(</span>
     data <span class="op">=</span> <span class="va">bb_bedpeData</span>,
     chrom <span class="op">=</span> <span class="st">"chr21"</span>, chromstart <span class="op">=</span> <span class="fl">28000000</span>, chromend <span class="op">=</span> <span class="fl">30300000</span>,
+    assembly <span class="op">=</span> <span class="st">"hg19"</span>,
     x <span class="op">=</span> <span class="fl">0.5</span>, y <span class="op">=</span> <span class="fl">2.5</span>, width <span class="op">=</span> <span class="fl">2</span>, height <span class="op">=</span> <span class="fl">0.25</span>,
     just <span class="op">=</span> <span class="fu"><a href="../reference/c.html">c</a></span><span class="op">(</span><span class="st">"left"</span>, <span class="st">"top"</span><span class="op">)</span>, default.units <span class="op">=</span> <span class="st">"inches"</span>,
     fill <span class="op">=</span> <span class="st">"black"</span>, linecolor <span class="op">=</span> <span class="st">"black"</span>, flip <span class="op">=</span> <span class="cn">TRUE</span>
@@ -388,6 +402,7 @@
 <span class="fu"><a href="../reference/bb_plotSignal.html">bb_plotSignal</a></span><span class="op">(</span>
     data <span class="op">=</span> <span class="va">bb_imrH3K27acData</span>,
     chrom <span class="op">=</span> <span class="st">"chr21"</span>, chromstart <span class="op">=</span> <span class="fl">28000000</span>, chromend <span class="op">=</span> <span class="fl">30300000</span>,
+    assembly <span class="op">=</span> <span class="st">"hg19"</span>,
     x <span class="op">=</span> <span class="fl">0.5</span>, y <span class="op">=</span> <span class="fl">2.75</span>, width <span class="op">=</span> <span class="fl">2</span>, height <span class="op">=</span> <span class="fl">0.5</span>,
     just <span class="op">=</span> <span class="fu"><a href="../reference/c.html">c</a></span><span class="op">(</span><span class="st">"left"</span>, <span class="st">"top"</span><span class="op">)</span>, default.units <span class="op">=</span> <span class="st">"inches"</span>
 <span class="op">)</span>
@@ -396,6 +411,7 @@
 <span class="fu"><a href="../reference/bb_plotManhattan.html">bb_plotManhattan</a></span><span class="op">(</span>
     data <span class="op">=</span> <span class="va">bb_gwasData</span>,
     chrom <span class="op">=</span> <span class="st">"chr21"</span>, chromstart <span class="op">=</span> <span class="fl">28000000</span>, chromend <span class="op">=</span> <span class="fl">30300000</span>,
+    assembly <span class="op">=</span> <span class="st">"hg19"</span>,
     ymax <span class="op">=</span> <span class="fl">1.1</span>, cex <span class="op">=</span> <span class="fl">0.20</span>,
     x <span class="op">=</span> <span class="fl">0.5</span>, y <span class="op">=</span> <span class="fl">3.5</span>, width <span class="op">=</span> <span class="fl">2</span>, height <span class="op">=</span> <span class="fl">0.5</span>,
     just <span class="op">=</span> <span class="fu"><a href="../reference/c.html">c</a></span><span class="op">(</span><span class="st">"left"</span>, <span class="st">"top"</span><span class="op">)</span>, default.units <span class="op">=</span> <span class="st">"inches"</span>
@@ -406,6 +422,7 @@
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">org.Hs.eg.db</span><span class="op">)</span>
 <span class="fu"><a href="../reference/bb_plotGenes.html">bb_plotGenes</a></span><span class="op">(</span>
     chrom <span class="op">=</span> <span class="st">"chr21"</span>, chromstart <span class="op">=</span> <span class="fl">28000000</span>, chromend <span class="op">=</span> <span class="fl">30300000</span>,
+    assembly <span class="op">=</span> <span class="st">"hg19"</span>,
     x <span class="op">=</span> <span class="fl">0.5</span>, y <span class="op">=</span> <span class="fl">4</span>, width <span class="op">=</span> <span class="fl">2</span>, height <span class="op">=</span> <span class="fl">0.5</span>,
     just <span class="op">=</span> <span class="fu"><a href="../reference/c.html">c</a></span><span class="op">(</span><span class="st">"left"</span>, <span class="st">"top"</span><span class="op">)</span>, default.units <span class="op">=</span> <span class="st">"inches"</span>
 <span class="op">)</span>
@@ -413,6 +430,7 @@
 <span class="co">## Plot genome label</span>
 <span class="fu"><a href="../reference/bb_plotGenomeLabel.html">bb_plotGenomeLabel</a></span><span class="op">(</span>
     chrom <span class="op">=</span> <span class="st">"chr21"</span>, chromstart <span class="op">=</span> <span class="fl">28000000</span>, chromend <span class="op">=</span> <span class="fl">30300000</span>,
+    assembly <span class="op">=</span> <span class="st">"hg19"</span>,
     x <span class="op">=</span> <span class="fl">0.5</span>, y <span class="op">=</span> <span class="fl">4.5</span>, length <span class="op">=</span> <span class="fl">2</span>, scale <span class="op">=</span> <span class="st">"Mb"</span>,
     just <span class="op">=</span> <span class="fu"><a href="../reference/c.html">c</a></span><span class="op">(</span><span class="st">"left"</span>, <span class="st">"top"</span><span class="op">)</span>, default.units <span class="op">=</span> <span class="st">"inches"</span>
 <span class="op">)</span></code></pre></div>
@@ -425,6 +443,7 @@
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">params</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/bb_params.html">bb_params</a></span><span class="op">(</span>
     chrom <span class="op">=</span> <span class="st">"chr21"</span>, chromstart <span class="op">=</span> <span class="fl">28000000</span>, chromend <span class="op">=</span> <span class="fl">30300000</span>,
+    assembly <span class="op">=</span> <span class="st">"hg19"</span>,
     x <span class="op">=</span> <span class="fl">0.5</span>, just <span class="op">=</span> <span class="fu"><a href="../reference/c.html">c</a></span><span class="op">(</span><span class="st">"left"</span>, <span class="st">"top"</span><span class="op">)</span>,
     width <span class="op">=</span> <span class="fl">2</span>, length <span class="op">=</span> <span class="fl">2</span>, default.units <span class="op">=</span> <span class="st">"inches"</span>
 <span class="op">)</span></code></pre></div>
@@ -490,6 +509,7 @@
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">params</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/bb_params.html">bb_params</a></span><span class="op">(</span>
     chrom <span class="op">=</span> <span class="st">"chr21"</span>, chromstart <span class="op">=</span> <span class="fl">29000000</span>, chromend <span class="op">=</span> <span class="fl">30000000</span>,
+    assembly <span class="op">=</span> <span class="st">"hg19"</span>,
     x <span class="op">=</span> <span class="fl">0.5</span>, just <span class="op">=</span> <span class="fu"><a href="../reference/c.html">c</a></span><span class="op">(</span><span class="st">"left"</span>, <span class="st">"top"</span><span class="op">)</span>,
     width <span class="op">=</span> <span class="fl">2</span>, length <span class="op">=</span> <span class="fl">2</span>, default.units <span class="op">=</span> <span class="st">"inches"</span>
 <span class="op">)</span></code></pre></div>
@@ -518,6 +538,7 @@
 <span class="co">## bb_params</span>
 <span class="va">params</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/bb_params.html">bb_params</a></span><span class="op">(</span>
     chrom <span class="op">=</span> <span class="st">"chr21"</span>, chromstart <span class="op">=</span> <span class="fl">28000000</span>, chromend <span class="op">=</span> <span class="fl">30300000</span>,
+    assembly <span class="op">=</span> <span class="st">"hg19"</span>,
     x <span class="op">=</span> <span class="fl">0.5</span>, just <span class="op">=</span> <span class="fu"><a href="../reference/c.html">c</a></span><span class="op">(</span><span class="st">"left"</span>, <span class="st">"top"</span><span class="op">)</span>,
     width <span class="op">=</span> <span class="fl">2</span>, length <span class="op">=</span> <span class="fl">2</span>, default.units <span class="op">=</span> <span class="st">"inches"</span>
 <span class="op">)</span>
@@ -579,6 +600,88 @@
 <p><img src="introduction_to_bentobox_files/figure-html/below_y-1.png" width="750" style="display: block; margin: auto;"></p>
 </div>
 </div>
+<div id="bioconductor-integration" class="section level1">
+<h1 class="hasAnchor">
+<a href="#bioconductor-integration" class="anchor"></a>Bioconductor integration</h1>
+<p><code>BentoBox</code> is designed to be flexibly compatible with typical Bioconductor classes of genomic data and libraries to easily integrate genomic data analysis and visualization. In addition to handling various genomic file types and <code>R</code> objects, many <code>BentoBox</code> functions can also handle <code>GRanges</code> objects as input data. Furthermore, <code>BentoBox</code> does not hard-code any genomic assemblies and can utilize <code>TxDb</code>, <code>OrgDb</code>, and <code>BSgenome</code> objects for various genomic annotations, including gene and transcript structures and names, chromosome sizes, and nucleotide sequences. For standard genomic assemblies (i.e. hg19, hg38, mm10), <code>BentoBox</code> uses a set of default packages that can be displayed by calling <code><a href="../reference/bb_defaultPackages.html">bb_defaultPackages()</a></code>:</p>
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/bb_defaultPackages.html">bb_defaultPackages</a></span><span class="op">(</span><span class="st">"hg38"</span><span class="op">)</span>
+<span class="co">#&gt; List of 6</span>
+<span class="co">#&gt;  $ Genome        : chr "hg38"</span>
+<span class="co">#&gt;  $ TxDb          : chr "TxDb.Hsapiens.UCSC.hg38.knownGene"</span>
+<span class="co">#&gt;  $ OrgDb         : chr "org.Hs.eg.db"</span>
+<span class="co">#&gt;  $ gene.id.column: chr "ENTREZID"</span>
+<span class="co">#&gt;  $ display.column: chr "SYMBOL"</span>
+<span class="co">#&gt;  $ BSgenome      : chr "BSgenome.Hsapiens.UCSC.hg38"</span>
+<span class="co">#&gt;  - attr(*, "class")= chr "bb_assembly"</span>
+<span class="fu"><a href="../reference/bb_defaultPackages.html">bb_defaultPackages</a></span><span class="op">(</span><span class="st">"hg19"</span><span class="op">)</span>
+<span class="co">#&gt; List of 6</span>
+<span class="co">#&gt;  $ Genome        : chr "hg19"</span>
+<span class="co">#&gt;  $ TxDb          : chr "TxDb.Hsapiens.UCSC.hg19.knownGene"</span>
+<span class="co">#&gt;  $ OrgDb         : chr "org.Hs.eg.db"</span>
+<span class="co">#&gt;  $ gene.id.column: chr "ENTREZID"</span>
+<span class="co">#&gt;  $ display.column: chr "SYMBOL"</span>
+<span class="co">#&gt;  $ BSgenome      : chr "BSgenome.Hsapiens.UCSC.hg19"</span>
+<span class="co">#&gt;  - attr(*, "class")= chr "bb_assembly"</span>
+<span class="fu"><a href="../reference/bb_defaultPackages.html">bb_defaultPackages</a></span><span class="op">(</span><span class="st">"mm10"</span><span class="op">)</span>
+<span class="co">#&gt; List of 6</span>
+<span class="co">#&gt;  $ Genome        : chr "mm10"</span>
+<span class="co">#&gt;  $ TxDb          : chr "TxDb.Mmusculus.UCSC.mm10.knownGene"</span>
+<span class="co">#&gt;  $ OrgDb         : chr "org.Mm.eg.db"</span>
+<span class="co">#&gt;  $ gene.id.column: chr "ENTREZID"</span>
+<span class="co">#&gt;  $ display.column: chr "SYMBOL"</span>
+<span class="co">#&gt;  $ BSgenome      : chr "BSgenome.Mmusculus.UCSC.mm10"</span>
+<span class="co">#&gt;  - attr(*, "class")= chr "bb_assembly"</span></code></pre></div>
+<p>To see which assemblies have defaults within <code>BentoBox</code>, call <code><a href="../reference/bb_genomes.html">bb_genomes()</a></code>:</p>
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/bb_genomes.html">bb_genomes</a></span><span class="op">(</span><span class="op">)</span>
+<span class="co">#&gt; bosTau8</span>
+<span class="co">#&gt; bosTau9</span>
+<span class="co">#&gt; canFam3</span>
+<span class="co">#&gt; ce6</span>
+<span class="co">#&gt; ce11</span>
+<span class="co">#&gt; danRer10</span>
+<span class="co">#&gt; danRer11</span>
+<span class="co">#&gt; dm3</span>
+<span class="co">#&gt; dm6</span>
+<span class="co">#&gt; galGal4</span>
+<span class="co">#&gt; galGal5</span>
+<span class="co">#&gt; galGal6</span>
+<span class="co">#&gt; hg18</span>
+<span class="co">#&gt; hg19</span>
+<span class="co">#&gt; hg38</span>
+<span class="co">#&gt; mm9</span>
+<span class="co">#&gt; mm10</span>
+<span class="co">#&gt; rheMac3</span>
+<span class="co">#&gt; rheMac8</span>
+<span class="co">#&gt; rehMac10</span>
+<span class="co">#&gt; panTro5</span>
+<span class="co">#&gt; panTro6</span>
+<span class="co">#&gt; rn4</span>
+<span class="co">#&gt; rn5</span>
+<span class="co">#&gt; rn6</span>
+<span class="co">#&gt; sacCer2</span>
+<span class="co">#&gt; sacCer3</span>
+<span class="co">#&gt; susScr3</span>
+<span class="co">#&gt; susScr11</span></code></pre></div>
+<p><code>BentoBox</code> functions default to an “hg38” assembly, but can be customized with any of the other genomic assemblies included or a <code>bb_assembly</code> object. To create custom genomic assemblies and combinations of <code>TxDb</code>, <code>orgDb</code>, and <code>BSgenome</code> packages for use in <code>BentoBox</code> functions, we can use the <code><a href="../reference/bb_assembly.html">bb_assembly()</a></code> constructor. For example, we can create our own <code>TxDb</code> from the current human Ensembl release:</p>
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://bioconductor.org/packages/GenomicFeatures">GenomicFeatures</a></span><span class="op">)</span>
+<span class="va">TxDb.Hsapiens.Ensembl.GrCh38.103</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/GenomicFeatures/man/makeTxDbFromEnsembl.html">makeTxDbFromEnsembl</a></span><span class="op">(</span>
+    organism <span class="op">=</span>
+        <span class="st">"Homo sapiens"</span>
+<span class="op">)</span></code></pre></div>
+<p>We can now create a new <code>bb_assembly</code> with this <code>TxDb</code> and combinations of other Bioconductor packages. The <code>Genome</code> parameter can be any string to name or describe this assembly. Since the <code>TxDb</code> is now from ENSEMBL, we will change the <code>gene.id</code> field to <code>"ENSEMBL"</code> to map gene IDs and symbols between our <code>TxDb</code> and <code>orgDb</code> objects. Most gene ID types can be found by calling <code><a href="https://rdrr.io/pkg/AnnotationDbi/man/AnnotationDb-class.html">AnnotationDbi::keytypes()</a></code> on an <code>orgDb</code>.</p>
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">Ensembl38</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/bb_assembly.html">bb_assembly</a></span><span class="op">(</span>
+    Genome <span class="op">=</span> <span class="st">"Ensembl.GRCh38.103"</span>,
+    TxDb <span class="op">=</span> <span class="va">TxDb.Hsapiens.Ensembl.GrCh38.103</span>,
+    OrgDb <span class="op">=</span> <span class="st">"org.Hs.eg.db"</span>,
+    BSgenome <span class="op">=</span> <span class="st">"BSgenome.Hsapiens.NCBI.GRCh38"</span>,
+    gene.id <span class="op">=</span> <span class="st">"ENSEMBL"</span>, display.column <span class="op">=</span> <span class="st">"SYMBOL"</span>
+<span class="op">)</span></code></pre></div>
+<p>This <code>bb_assembly</code> object can now be easily passed into <code>BentoBox</code> functions through the <code>assembly</code> parameter.</p>
+</div>
 <div id="incorporating-ggplots" class="section level1">
 <h1 class="hasAnchor">
 <a href="#incorporating-ggplots" class="anchor"></a>Incorporating <code>ggplots</code>
@@ -588,7 +691,7 @@
 <ol style="list-style-type: decimal">
 <li>A United States map depicting COVID-19 cases:</li>
 </ol>
-<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://scales.r-lib.org">scales</a></span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="st">"bb_CasesUSA"</span><span class="op">)</span>
@@ -622,7 +725,7 @@
 <ol start="2" style="list-style-type: decimal">
 <li>Line plots showing the accumulation of COVID-19 cases over time:</li>
 </ol>
-<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="st">"bb_CasesNYFL"</span><span class="op">)</span>
 
 <span class="co"># Format y-labels</span>
@@ -683,7 +786,7 @@
 
 <span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">cases_NYline</span><span class="op">)</span></code></pre></div>
 <p><img src="introduction_to_bentobox_files/figure-html/ggplot_02-1.png" width="450" style="display: block; margin: auto;"></p>
-<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">bb_CasesFL</span> <span class="op">&lt;-</span> <span class="va">bb_CasesNYFL</span><span class="op">[</span><span class="va">bb_CasesNYFL</span><span class="op">$</span><span class="va">state</span> <span class="op">==</span> <span class="st">"florida"</span>, <span class="op">]</span>
 <span class="va">bb_CasesFLpoly</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://Rdatatable.gitlab.io/data.table/reference/rbindlist.html">rbind</a></span><span class="op">(</span>
     <span class="va">bb_CasesFL</span>,
@@ -737,7 +840,7 @@
 <ol start="3" style="list-style-type: decimal">
 <li>Pie charts of COVID-19 vaccination status:</li>
 </ol>
-<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="st">"bb_VaccinesNYFL"</span><span class="op">)</span>
 
 <span class="va">vaccines_NYpie</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span>
@@ -767,7 +870,7 @@
 
 <span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">vaccines_NYpie</span><span class="op">)</span></code></pre></div>
 <p><img src="introduction_to_bentobox_files/figure-html/ggplot_04-1.png" width="450" style="display: block; margin: auto;"></p>
-<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">vaccines_FLpie</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span>
     <span class="va">bb_VaccinesNYFL</span><span class="op">[</span><span class="va">bb_VaccinesNYFL</span><span class="op">$</span><span class="va">state</span> <span class="op">==</span> <span class="st">"florida"</span>, <span class="op">]</span>,
     <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">""</span>, y <span class="op">=</span> <span class="va">value</span>, fill <span class="op">=</span> <span class="va">vax_group</span><span class="op">)</span>
@@ -797,7 +900,7 @@
 <span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">vaccines_FLpie</span><span class="op">)</span></code></pre></div>
 <p><img src="introduction_to_bentobox_files/figure-html/ggplot_05-1.png" width="450" style="display: block; margin: auto;"></p>
 <p>We can now easily overlap and size all these <code>ggplots</code> by passing our saved plot objects into <code><a href="../reference/bb_plotGG.html">bb_plotGG()</a></code>:</p>
-<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/bb_pageCreate.html">bb_pageCreate</a></span><span class="op">(</span>width <span class="op">=</span> <span class="fl">9.5</span>, height <span class="op">=</span> <span class="fl">3.5</span>, default.units <span class="op">=</span> <span class="st">"inches"</span><span class="op">)</span>
 
 <span class="fu"><a href="../reference/bb_plotGG.html">bb_plotGG</a></span><span class="op">(</span>
@@ -817,7 +920,7 @@
 <span class="op">)</span></code></pre></div>
 <p><img src="introduction_to_bentobox_files/figure-html/gg_plot05-1.png" width="1725" style="display: block; margin: auto;"></p>
 <p>In particular, <code>BentoBox</code> makes it easy to resize and place our pie charts in a layout that overlaps our line plots without it affecting the sizing of the other plots on the page:</p>
-<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/bb_plotGG.html">bb_plotGG</a></span><span class="op">(</span>
     plot <span class="op">=</span> <span class="va">vaccines_NYpie</span>,
     x <span class="op">=</span> <span class="fl">6.37</span>, y <span class="op">=</span> <span class="op">-</span><span class="fl">0.05</span>,
@@ -830,7 +933,7 @@
 <span class="op">)</span></code></pre></div>
 <p><img src="introduction_to_bentobox_files/figure-html/gg_plot06-1.png" width="1725" style="display: block; margin: auto;"></p>
 <p>We can also easily add additional elements to further enhance our complex <code>ggplot</code> arrangments, like a precise placement of text labels:</p>
-<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/bb_plotText.html">bb_plotText</a></span><span class="op">(</span>
     label <span class="op">=</span> <span class="fu"><a href="../reference/c.html">c</a></span><span class="op">(</span><span class="st">"not"</span>, <span class="st">"partially"</span>, <span class="st">"fully vaccinated"</span><span class="op">)</span>,
     fontfamily <span class="op">=</span> <span class="st">"ProximaNova"</span>, fontcolor <span class="op">=</span> <span class="st">"black"</span>, fontsize <span class="op">=</span> <span class="fl">7</span>,
@@ -845,88 +948,6 @@
 <span class="op">)</span></code></pre></div>
 <p>We are then left with a complex, precise, and elegant arrangement of <code>ggplots</code> as if we had arranged them together with graphic design software:</p>
 <p><img src="introduction_to_bentobox_files/figure-html/gg_plot07-1.png" width="1725" style="display: block; margin: auto;"></p>
-</div>
-<div id="bioconductor-integration" class="section level1">
-<h1 class="hasAnchor">
-<a href="#bioconductor-integration" class="anchor"></a>Bioconductor integration</h1>
-<p><code>BentoBox</code> is designed to be compatible with typical Bioconductor classes of genomic data to easily integrate genomic data analysis and visualization. In addition to handling various genomic file types and <code>R</code> objects, many <code>BentoBox</code> functions can also handle <code>GRanges</code> objects as input data. Internally, <code>BentoBox</code> utilizes <code>TxDb</code>, <code>OrgDb</code>, and <code>BSgenome</code> objects for various genomic annotations, including gene and transcript structures and names, chromosome sizes, and nucleotide sequences. For standard genomic assemblies (i.e. hg19, hg38, mm10), <code>BentoBox</code> uses a set of default packages that can be displayed by calling <code><a href="../reference/bb_defaultPackages.html">bb_defaultPackages()</a></code>:</p>
-<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/bb_defaultPackages.html">bb_defaultPackages</a></span><span class="op">(</span><span class="st">"hg19"</span><span class="op">)</span>
-<span class="co">#&gt; List of 6</span>
-<span class="co">#&gt;  $ Genome        : chr "hg19"</span>
-<span class="co">#&gt;  $ TxDb          : chr "TxDb.Hsapiens.UCSC.hg19.knownGene"</span>
-<span class="co">#&gt;  $ OrgDb         : chr "org.Hs.eg.db"</span>
-<span class="co">#&gt;  $ gene.id.column: chr "ENTREZID"</span>
-<span class="co">#&gt;  $ display.column: chr "SYMBOL"</span>
-<span class="co">#&gt;  $ BSgenome      : chr "BSgenome.Hsapiens.UCSC.hg19"</span>
-<span class="co">#&gt;  - attr(*, "class")= chr "bb_assembly"</span>
-<span class="fu"><a href="../reference/bb_defaultPackages.html">bb_defaultPackages</a></span><span class="op">(</span><span class="st">"hg38"</span><span class="op">)</span>
-<span class="co">#&gt; List of 6</span>
-<span class="co">#&gt;  $ Genome        : chr "hg38"</span>
-<span class="co">#&gt;  $ TxDb          : chr "TxDb.Hsapiens.UCSC.hg38.knownGene"</span>
-<span class="co">#&gt;  $ OrgDb         : chr "org.Hs.eg.db"</span>
-<span class="co">#&gt;  $ gene.id.column: chr "ENTREZID"</span>
-<span class="co">#&gt;  $ display.column: chr "SYMBOL"</span>
-<span class="co">#&gt;  $ BSgenome      : chr "BSgenome.Hsapiens.UCSC.hg38"</span>
-<span class="co">#&gt;  - attr(*, "class")= chr "bb_assembly"</span>
-<span class="fu"><a href="../reference/bb_defaultPackages.html">bb_defaultPackages</a></span><span class="op">(</span><span class="st">"mm10"</span><span class="op">)</span>
-<span class="co">#&gt; List of 6</span>
-<span class="co">#&gt;  $ Genome        : chr "mm10"</span>
-<span class="co">#&gt;  $ TxDb          : chr "TxDb.Mmusculus.UCSC.mm10.knownGene"</span>
-<span class="co">#&gt;  $ OrgDb         : chr "org.Mm.eg.db"</span>
-<span class="co">#&gt;  $ gene.id.column: chr "ENTREZID"</span>
-<span class="co">#&gt;  $ display.column: chr "SYMBOL"</span>
-<span class="co">#&gt;  $ BSgenome      : chr "BSgenome.Mmusculus.UCSC.mm10"</span>
-<span class="co">#&gt;  - attr(*, "class")= chr "bb_assembly"</span></code></pre></div>
-<p>To see which assemblies have defaults within <code>BentoBox</code>, call <code><a href="../reference/bb_genomes.html">bb_genomes()</a></code>:</p>
-<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/bb_genomes.html">bb_genomes</a></span><span class="op">(</span><span class="op">)</span>
-<span class="co">#&gt; bosTau8</span>
-<span class="co">#&gt; bosTau9</span>
-<span class="co">#&gt; canFam3</span>
-<span class="co">#&gt; ce6</span>
-<span class="co">#&gt; ce11</span>
-<span class="co">#&gt; danRer10</span>
-<span class="co">#&gt; danRer11</span>
-<span class="co">#&gt; dm3</span>
-<span class="co">#&gt; dm6</span>
-<span class="co">#&gt; galGal4</span>
-<span class="co">#&gt; galGal5</span>
-<span class="co">#&gt; galGal6</span>
-<span class="co">#&gt; hg18</span>
-<span class="co">#&gt; hg19</span>
-<span class="co">#&gt; hg38</span>
-<span class="co">#&gt; mm9</span>
-<span class="co">#&gt; mm10</span>
-<span class="co">#&gt; rheMac3</span>
-<span class="co">#&gt; rheMac8</span>
-<span class="co">#&gt; rehMac10</span>
-<span class="co">#&gt; panTro5</span>
-<span class="co">#&gt; panTro6</span>
-<span class="co">#&gt; rn4</span>
-<span class="co">#&gt; rn5</span>
-<span class="co">#&gt; rn6</span>
-<span class="co">#&gt; sacCer2</span>
-<span class="co">#&gt; sacCer3</span>
-<span class="co">#&gt; susScr3</span>
-<span class="co">#&gt; susScr11</span></code></pre></div>
-<p><code>BentoBox</code> functions default to an “hg19” assembly. To create custom genomic assemblies and combinations of <code>TxDb</code>, <code>orgDb</code>, and <code>BSgenome</code> packages for use in <code>BentoBox</code> functions, we can use the <code><a href="../reference/bb_assembly.html">bb_assembly()</a></code> constructor. For example, we can create our own <code>TxDb</code> from the current human Ensembl release:</p>
-<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://bioconductor.org/packages/GenomicFeatures">GenomicFeatures</a></span><span class="op">)</span>
-<span class="va">TxDb.Hsapiens.Ensembl.GrCh38.103</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/GenomicFeatures/man/makeTxDbFromEnsembl.html">makeTxDbFromEnsembl</a></span><span class="op">(</span>
-    organism <span class="op">=</span>
-        <span class="st">"Homo sapiens"</span>
-<span class="op">)</span></code></pre></div>
-<p>We can now create a new <code>bb_assembly</code> with this <code>TxDb</code> and combinations of other Bioconductor packages. The <code>Genome</code> parameter can be any string to name or describe this assembly. Since the <code>TxDb</code> is now from ENSEMBL, we will change the <code>gene.id</code> field to <code>"ENSEMBL"</code> to map gene IDs and symbols between our <code>TxDb</code> and <code>orgDb</code> objects. Most gene ID types can be found by calling <code><a href="https://rdrr.io/pkg/AnnotationDbi/man/AnnotationDb-class.html">AnnotationDbi::keytypes()</a></code> on an <code>orgDb</code>.</p>
-<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">Ensembl38</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/bb_assembly.html">bb_assembly</a></span><span class="op">(</span>
-    Genome <span class="op">=</span> <span class="st">"Ensembl.GRCh38.103"</span>,
-    TxDb <span class="op">=</span> <span class="va">TxDb.Hsapiens.Ensembl.GrCh38.103</span>,
-    OrgDb <span class="op">=</span> <span class="st">"org.Hs.eg.db"</span>,
-    BSgenome <span class="op">=</span> <span class="st">"BSgenome.Hsapiens.NCBI.GRCh38"</span>,
-    gene.id <span class="op">=</span> <span class="st">"ENSEMBL"</span>, display.column <span class="op">=</span> <span class="st">"SYMBOL"</span>
-<span class="op">)</span></code></pre></div>
-<p>This <code>bb_assembly</code> object can now be easily passed into <code>BentoBox</code> functions through the <code>assembly</code> parameter.</p>
 </div>
 <div id="future-directions" class="section level1">
 <h1 class="hasAnchor">
@@ -970,7 +991,7 @@
 <span class="co">#&gt; [14] S4Vectors_0.30.0                       </span>
 <span class="co">#&gt; [15] BiocGenerics_0.38.0                    </span>
 <span class="co">#&gt; [16] BentoBoxData_0.0.0.9000                </span>
-<span class="co">#&gt; [17] BentoBox_0.1.2                         </span>
+<span class="co">#&gt; [17] BentoBox_0.1.3                         </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; loaded via a namespace (and not attached):</span>
 <span class="co">#&gt;  [1] bitops_1.0-7                matrixStats_0.59.0         </span>
@@ -998,7 +1019,7 @@
 <span class="co">#&gt; [45] generics_0.1.0              BiocParallel_1.26.0        </span>
 <span class="co">#&gt; [47] dplyr_1.0.6                 RCurl_1.98-1.3             </span>
 <span class="co">#&gt; [49] magrittr_2.0.1              ggplotify_0.0.7            </span>
-<span class="co">#&gt; [51] GenomeInfoDbData_1.2.6      Matrix_1.3-3               </span>
+<span class="co">#&gt; [51] GenomeInfoDbData_1.2.6      Matrix_1.3-4               </span>
 <span class="co">#&gt; [53] Rcpp_1.0.6                  munsell_0.5.0              </span>
 <span class="co">#&gt; [55] fansi_0.5.0                 lifecycle_1.0.0            </span>
 <span class="co">#&gt; [57] stringi_1.6.2               yaml_2.2.1                 </span>

@@ -38,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../../index.html">BentoBox</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.3</span>
       </span>
     </div>
 
@@ -210,10 +210,12 @@
     showGuides <span class="op">=</span> <span class="cn">FALSE</span>, xgrid <span class="op">=</span> <span class="fl">0</span>, ygrid <span class="op">=</span> <span class="fl">0</span>
 <span class="op">)</span>
 
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">BentoBoxData</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="st">"bb_imrH3K27acData"</span><span class="op">)</span>
 <span class="va">signalPlot</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/bb_plotSignal.html">bb_plotSignal</a></span><span class="op">(</span>
     data <span class="op">=</span> <span class="va">bb_imrH3K27acData</span>,
     chrom <span class="op">=</span> <span class="st">"chr21"</span>, chromstart <span class="op">=</span> <span class="fl">28000000</span>, chromend <span class="op">=</span> <span class="fl">30300000</span>,
+    assembly <span class="op">=</span> <span class="st">"hg19"</span>,
     x <span class="op">=</span> <span class="fl">0.5</span>, y <span class="op">=</span> <span class="fl">0.25</span>, width <span class="op">=</span> <span class="fl">4</span>, height <span class="op">=</span> <span class="fl">0.75</span>, default.units <span class="op">=</span> <span class="st">"inches"</span>
 <span class="op">)</span>
 <span class="fu"><a href="../../reference/bb_annoGenomeLabel.html">bb_annoGenomeLabel</a></span><span class="op">(</span>plot <span class="op">=</span> <span class="va">signalPlot</span>, x <span class="op">=</span> <span class="fl">0.5</span>, y <span class="op">=</span> <span class="fl">1.01</span><span class="op">)</span>
@@ -252,6 +254,7 @@
 <p><code>BentoBox</code> also provides the helper function <code><a href="../../reference/bb_pagePlotPlace.html">bb_pagePlotPlace()</a></code> for placing plot objects that have been previously defined:</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">## Load data</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">BentoBoxData</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="st">"bb_imrH3K27acData"</span><span class="op">)</span>
 
 <span class="co">## Create page</span>
@@ -261,6 +264,7 @@
 <span class="va">signalPlot</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/bb_plotSignal.html">bb_plotSignal</a></span><span class="op">(</span>
     data <span class="op">=</span> <span class="va">bb_imrH3K27acData</span>,
     chrom <span class="op">=</span> <span class="st">"chr21"</span>, chromstart <span class="op">=</span> <span class="fl">28000000</span>, chromend <span class="op">=</span> <span class="fl">30300000</span>,
+    assembly <span class="op">=</span> <span class="st">"hg19"</span>,
     draw <span class="op">=</span> <span class="cn">FALSE</span>
 <span class="op">)</span>
 
@@ -274,6 +278,7 @@
 <p>and <code><a href="../../reference/bb_pagePlotRemove.html">bb_pagePlotRemove()</a></code> for removing plots from a page:</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Load data</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">BentoBoxData</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="st">"bb_imrH3K27acData"</span><span class="op">)</span>
 
 <span class="co">## Create page</span>
@@ -283,6 +288,7 @@
 <span class="va">signalPlot</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/bb_plotSignal.html">bb_plotSignal</a></span><span class="op">(</span>
     data <span class="op">=</span> <span class="va">bb_imrH3K27acData</span>,
     chrom <span class="op">=</span> <span class="st">"chr21"</span>, chromstart <span class="op">=</span> <span class="fl">28000000</span>, chromend <span class="op">=</span> <span class="fl">30300000</span>,
+    assembly <span class="op">=</span> <span class="st">"hg19"</span>,
     x <span class="op">=</span> <span class="fl">0.5</span>, y <span class="op">=</span> <span class="fl">0.5</span>, width <span class="op">=</span> <span class="fl">2</span>, height <span class="op">=</span> <span class="fl">1</span>,
     just <span class="op">=</span> <span class="fu"><a href="../../reference/c.html">c</a></span><span class="op">(</span><span class="st">"left"</span>, <span class="st">"top"</span><span class="op">)</span>, default.units <span class="op">=</span> <span class="st">"inches"</span>
 <span class="op">)</span></code></pre></div>
@@ -304,6 +310,7 @@
 <p>This is particularly useful when an object needs to be aligned in reference to another plot object or page marker. For example, in the Hi-C plot below we might want to align the top-right corner of the heatmap legend to the 3-inch mark. There is no need to calculate the top-left position (i.e. <code>3 inches - (legend width)</code>) to determine where to place the heatmap legend. Instead we can change the <code>just</code> parameter to <code>just=c('right', 'top')</code>:</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">## Load example Hi-C data</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">BentoBoxData</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="st">"bb_imrHicData"</span><span class="op">)</span>
 
 <span class="co">## Create a BentoBox page</span>
@@ -313,6 +320,7 @@
 <span class="va">hicPlot</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/bb_plotHicSquare.html">bb_plotHicSquare</a></span><span class="op">(</span>
     data <span class="op">=</span> <span class="va">bb_imrHicData</span>,
     chrom <span class="op">=</span> <span class="st">"chr21"</span>, chromstart <span class="op">=</span> <span class="fl">28000000</span>, chromend <span class="op">=</span> <span class="fl">30300000</span>,
+    assembly <span class="op">=</span> <span class="st">"hg19"</span>,
     x <span class="op">=</span> <span class="fl">0.25</span>, y <span class="op">=</span> <span class="fl">0.25</span>, width <span class="op">=</span> <span class="fl">2.5</span>, height <span class="op">=</span> <span class="fl">2.5</span>, default.units <span class="op">=</span> <span class="st">"inches"</span>
 <span class="op">)</span>
 

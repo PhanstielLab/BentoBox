@@ -83,7 +83,7 @@ BentoBox plot" />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">BentoBox</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.3</span>
       </span>
     </div>
 
@@ -263,6 +263,7 @@ genomic region, placement, and <a href='https://rdrr.io/r/grid/grid.grob.html'>g
 <span class='va'>region</span> <span class='op'>&lt;-</span> <span class='fu'><a href='bb_params.html'>bb_params</a></span><span class='op'>(</span>
     chrom <span class='op'>=</span> <span class='st'>"chr21"</span>,
     chromstart <span class='op'>=</span> <span class='fl'>28000000</span>, chromend <span class='op'>=</span> <span class='fl'>30300000</span>,
+    assembly <span class='op'>=</span> <span class='st'>"hg19"</span>,
     range <span class='op'>=</span> <span class='fu'><a href='c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>45</span><span class='op'>)</span>
 <span class='op'>)</span>
 <span class='va'>signalPlot</span> <span class='op'>&lt;-</span> <span class='fu'><a href='bb_plotSignal.html'>bb_plotSignal</a></span><span class='op'>(</span>
@@ -271,7 +272,7 @@ genomic region, placement, and <a href='https://rdrr.io/r/grid/grid.grob.html'>g
     just <span class='op'>=</span> <span class='fu'><a href='c.html'>c</a></span><span class='op'>(</span><span class='st'>"left"</span>, <span class='st'>"top"</span><span class='op'>)</span>,
     default.units <span class='op'>=</span> <span class='st'>"inches"</span>
 <span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>bb_signal[bb_signal1]</span></div><div class='input'>
+</div><div class='output co'>#&gt; <span class='error'>Error in FUN(X[[i]], ...): object 'region' not found</span></div><div class='input'>
 <span class='co'>## Highlight genomic region on signal plot</span>
 <span class='fu'>bb_annoHighlight</span><span class='op'>(</span>
     plot <span class='op'>=</span> <span class='va'>signalPlot</span>,
@@ -280,7 +281,7 @@ genomic region, placement, and <a href='https://rdrr.io/r/grid/grid.grob.html'>g
     y <span class='op'>=</span> <span class='fl'>0.25</span>, height <span class='op'>=</span> <span class='fl'>1</span>, just <span class='op'>=</span> <span class='fu'><a href='c.html'>c</a></span><span class='op'>(</span><span class='st'>"left"</span>, <span class='st'>"top"</span><span class='op'>)</span>,
     default.units <span class='op'>=</span> <span class='st'>"inches"</span>
 <span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>bb_highlight[bb_highlight1]</span></div><div class='input'>
+</div><div class='output co'>#&gt; <span class='error'>Error in FUN(X[[i]], ...): object 'signalPlot' not found</span></div><div class='input'>
 <span class='co'>## Plot text label</span>
 <span class='fu'><a href='bb_plotText.html'>bb_plotText</a></span><span class='op'>(</span>
     label <span class='op'>=</span> <span class='st'>"region of interest"</span>, fontsize <span class='op'>=</span> <span class='fl'>8</span>, fontcolor <span class='op'>=</span> <span class='st'>"black"</span>,
@@ -291,6 +292,7 @@ genomic region, placement, and <a href='https://rdrr.io/r/grid/grid.grob.html'>g
 <span class='fu'><a href='bb_plotGenomeLabel.html'>bb_plotGenomeLabel</a></span><span class='op'>(</span>
     chrom <span class='op'>=</span> <span class='st'>"chr21"</span>,
     chromstart <span class='op'>=</span> <span class='fl'>28000000</span>, chromend <span class='op'>=</span> <span class='fl'>30300000</span>,
+    assembly <span class='op'>=</span> <span class='st'>"hg19"</span>,
     x <span class='op'>=</span> <span class='fl'>0.5</span>, y <span class='op'>=</span> <span class='fl'>1.3</span>, length <span class='op'>=</span> <span class='fl'>6.5</span>, default.units <span class='op'>=</span> <span class='st'>"inches"</span>
 <span class='op'>)</span>
 </div><div class='output co'>#&gt; <span class='message'>bb_genomeLabel[bb_genomeLabel1]</span></div><div class='img'><img src='bb_annoHighlight-1.png' alt='' width='1230' height='1050' /></div><div class='input'>

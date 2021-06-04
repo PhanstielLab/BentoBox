@@ -80,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">BentoBox</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.3</span>
       </span>
     </div>
 
@@ -163,7 +163,7 @@
   <span class='va'>chrom</span>,
   chromstart <span class='op'>=</span> <span class='cn'>NULL</span>,
   chromend <span class='op'>=</span> <span class='cn'>NULL</span>,
-  assembly <span class='op'>=</span> <span class='st'>"hg19"</span>,
+  assembly <span class='op'>=</span> <span class='st'>"hg38"</span>,
   linecolor <span class='op'>=</span> <span class='st'>"#37a7db"</span>,
   fill <span class='op'>=</span> <span class='cn'>NA</span>,
   ymax <span class='op'>=</span> <span class='fl'>1</span>,
@@ -229,7 +229,7 @@ Default value is <code>negData = FALSE</code>.</p></td>
       <th>assembly</th>
       <td><p>Default genome assembly as a string or a
 <a href='bb_assembly.html'>bb_assembly</a> object.
-Default value is <code>assembly = "hg19"</code>.</p></td>
+Default value is <code>assembly = "hg38"</code>.</p></td>
     </tr>
     <tr>
       <th>linecolor</th>
@@ -369,6 +369,7 @@ signal track by ignoring plot placement parameters:</p><pre>
 <span class='va'>region</span> <span class='op'>&lt;-</span> <span class='fu'><a href='bb_params.html'>bb_params</a></span><span class='op'>(</span>
     chrom <span class='op'>=</span> <span class='st'>"chr21"</span>,
     chromstart <span class='op'>=</span> <span class='fl'>28000000</span>, chromend <span class='op'>=</span> <span class='fl'>30300000</span>,
+    assembly <span class='op'>=</span> <span class='st'>"hg19"</span>,
     range <span class='op'>=</span> <span class='fu'><a href='c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>45</span><span class='op'>)</span>
 <span class='op'>)</span>
 
@@ -378,18 +379,19 @@ signal track by ignoring plot placement parameters:</p><pre>
     x <span class='op'>=</span> <span class='fl'>0.5</span>, y <span class='op'>=</span> <span class='fl'>0.25</span>, width <span class='op'>=</span> <span class='fl'>6.5</span>, height <span class='op'>=</span> <span class='fl'>0.65</span>,
     just <span class='op'>=</span> <span class='fu'><a href='c.html'>c</a></span><span class='op'>(</span><span class='st'>"left"</span>, <span class='st'>"top"</span><span class='op'>)</span>, default.units <span class='op'>=</span> <span class='st'>"inches"</span>
 <span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>bb_signal[bb_signal1]</span></div><div class='input'>
+</div><div class='output co'>#&gt; <span class='error'>Error in FUN(X[[i]], ...): object 'region' not found</span></div><div class='input'>
 <span class='va'>signal2</span> <span class='op'>&lt;-</span> <span class='fu'>bb_plotSignal</span><span class='op'>(</span>
     data <span class='op'>=</span> <span class='va'>bb_gmH3K27acData</span>, params <span class='op'>=</span> <span class='va'>region</span>,
     linecolor <span class='op'>=</span> <span class='st'>"#7ecdbb"</span>,
     x <span class='op'>=</span> <span class='fl'>0.5</span>, y <span class='op'>=</span> <span class='fl'>1</span>, width <span class='op'>=</span> <span class='fl'>6.5</span>, height <span class='op'>=</span> <span class='fl'>0.65</span>,
     just <span class='op'>=</span> <span class='fu'><a href='c.html'>c</a></span><span class='op'>(</span><span class='st'>"left"</span>, <span class='st'>"top"</span><span class='op'>)</span>, default.units <span class='op'>=</span> <span class='st'>"inches"</span>
 <span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>bb_signal[bb_signal2]</span></div><div class='input'>
+</div><div class='output co'>#&gt; <span class='error'>Error in FUN(X[[i]], ...): object 'region' not found</span></div><div class='input'>
 <span class='co'>## Plot genome label</span>
 <span class='fu'><a href='bb_plotGenomeLabel.html'>bb_plotGenomeLabel</a></span><span class='op'>(</span>
     chrom <span class='op'>=</span> <span class='st'>"chr21"</span>,
     chromstart <span class='op'>=</span> <span class='fl'>28000000</span>, chromend <span class='op'>=</span> <span class='fl'>30300000</span>,
+    assembly <span class='op'>=</span> <span class='st'>"hg19"</span>,
     x <span class='op'>=</span> <span class='fl'>0.5</span>, y <span class='op'>=</span> <span class='fl'>1.68</span>, length <span class='op'>=</span> <span class='fl'>6.5</span>,
     default.units <span class='op'>=</span> <span class='st'>"inches"</span>
 <span class='op'>)</span>
