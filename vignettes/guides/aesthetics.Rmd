@@ -263,7 +263,7 @@ heights <- bb_bedpeData$length / max(bb_bedpeData$length)
 bedpePlot <- bb_plotPairsArches(
     data = bb_bedpeData,
     chrom = "chr21", chromstart = 27900000, chromend = 30700000,
-    assembly = "hg19"
+    assembly = "hg19",
     fill = colorRampPalette(c("dodgerblue2", "firebrick2")),
     linecolor = "fill",
     colorby = colorby("length"), archHeight = heights, alpha = 1,
