@@ -910,7 +910,6 @@ bb_plotGenomeLabel <- function(chrom, chromstart = NULL, chromend = NULL,
     }
     
     if (base::length(bb_genomeLabel$chrom) == 1) {
-      
         if (is.null(bb_genomeLabel$chromstart)) stop("argument \"chromstart\" ",
                                                     "is missing, with no ",
                                                     "default.", call. = FALSE)
@@ -1174,7 +1173,6 @@ bb_plotGenomeLabel <- function(chrom, chromstart = NULL, chromend = NULL,
     }
     ##########  END label length and depth
 
-   
     # =========================================================================
     # VIEWPORTS
     # =========================================================================
