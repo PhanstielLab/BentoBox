@@ -20,9 +20,12 @@ library(grid)
 library(BentoBoxData)
 ```
 
-`BentoBox` plots are extremely customizable in appearance. In this section 
+`BentoBox` plots are extremely customizable in appearance. In this article 
 we will outline some of the major aesthetic customizations, including general 
 features and specific plot type customizations.
+
+All the data included in this article can be found in the supplementary
+package `BentoBoxData`.
 
 # `gpar` and common plot customizations
 
@@ -77,6 +80,7 @@ parameter `bg`.
 ```{r eval=FALSE, echo=TRUE}
 bb_plotGenes(
     chrom = "chr8", chromstart = 1000000, chromend = 2000000,
+    assembly = "hg19",
     bg = "#f6f6f6",
     x = 0.5, y = 0.5, width = 2, height = 1, just = c("left", "top"),
     default.units = "inches"
@@ -93,7 +97,8 @@ bb_pageCreate(
 )
 genomicRegion <- bb_params(
     chrom = "chr8",
-    chromstart = 1000000, chromend = 2000000
+    chromstart = 1000000, chromend = 2000000,
+    assembly = "hg19"
 )
 genesPlot <- bb_plotGenes(
     params = genomicRegion, bg = "#f6f6f6",
@@ -112,6 +117,7 @@ be plotted in selective plots with `baseline = TRUE`.
 bb_plotRanges(
     data = bb_bedData,
     chrom = "chr21", chromstart = 29073000, chromend = 29074000,
+    assembly = "hg19",
     fill = c("#7ecdbb", "#37a7db"),
     baseline = TRUE, baseline.color = "black",
     x = 0.5, y = 0.25, width = 6.5, height = 4.25,
@@ -129,6 +135,7 @@ bb_pageCreate(
 pileupPlot <- bb_plotRanges(
     data = bb_bedData,
     chrom = "chr21", chromstart = 29073000, chromend = 29074000,
+    assembly = "hg19",
     fill = c("#7ecdbb", "#37a7db"),
     x = 0.5, y = 0.25, width = 6.5, height = 4.25,
     baseline = TRUE, baseline.color = "black",
@@ -161,6 +168,7 @@ in the order of these factors.
 bb_plotRanges(
     data = bb_bedData,
     chrom = "chr21", chromstart = 29073000, chromend = 29074000,
+    assembly = "hg19",
     fill = c("#7ecdbb", "#37a7db"),
     colorby = colorby("strand"),
     x = 0.5, y = 0.25, width = 6.5, height = 4.25,
@@ -178,6 +186,7 @@ bb_pageCreate(
 bb_plotRanges(
     data = bb_bedData,
     chrom = "chr21", chromstart = 29073000, chromend = 29074000,
+    assembly = "hg19",
     fill = c("#7ecdbb", "#37a7db"),
     colorby = colorby("strand"),
     strandSplit = TRUE,
@@ -209,6 +218,7 @@ bb_pageCreate(
 bb_plotRanges(
     data = bb_bedData,
     chrom = "chr21", chromstart = 29073000, chromend = 29074000,
+    assembly = "hg19",
     fill = c("#7ecdbb", "#37a7db"),
     colorby = colorby("strand"),
     strandSplit = TRUE,
@@ -231,6 +241,7 @@ Now we can set `fill` as a palette to color the BEDPE `length` column by:
 bedpePlot <- bb_plotPairsArches(
     data = bb_bedpeData,
     chrom = "chr21", chromstart = 27900000, chromend = 30700000,
+    assembly = "hg19",
     fill = colorRampPalette(c("dodgerblue2", "firebrick2")),
     linecolor = "fill",
     colorby = colorby("length"),
@@ -252,6 +263,7 @@ heights <- bb_bedpeData$length / max(bb_bedpeData$length)
 bedpePlot <- bb_plotPairsArches(
     data = bb_bedpeData,
     chrom = "chr21", chromstart = 27900000, chromend = 30700000,
+    assembly = "hg19"
     fill = colorRampPalette(c("dodgerblue2", "firebrick2")),
     linecolor = "fill",
     colorby = colorby("length"), archHeight = heights, alpha = 1,
@@ -282,6 +294,7 @@ heights <- bb_bedpeData$length / max(bb_bedpeData$length)
 bedpePlot <- bb_plotPairsArches(
     data = bb_bedpeData,
     chrom = "chr21", chromstart = 27900000, chromend = 30700000,
+    assembly = "hg19",
     fill = colorRampPalette(c("dodgerblue2", "firebrick2")),
     linecolor = "fill",
     colorby = colorby("length"), archHeight = heights, alpha = 1,
@@ -319,6 +332,7 @@ bb_pageCreate(
 )
 genePlot <- bb_plotGenes(
     chrom = "chr2", chromstart = 1000000, chromend = 20000000,
+    assembly = "hg19",
     x = 0.25, y = 0.25, width = 4.75, height = 1
 )
 ```
@@ -338,6 +352,7 @@ bb_pageCreate(
 )
 genePlot <- bb_plotGenes(
     chrom = "chr2", chromstart = 1000000, chromend = 20000000,
+    assembly = "hg19",
     geneOrder = c("MIR3125"),
     x = 0.25, y = 0.25, width = 4.75, height = 1
 )
@@ -381,6 +396,7 @@ bb_pageCreate(
 )
 transcriptPlot <- bb_plotTranscripts(
     chrom = "chr2", chromstart = 1000000, chromend = 20000000,
+    assembly = "hg19",
     labels = "both",
     x = 0.25, y = 0.25, width = 5.5, height = 4.5
 )
@@ -407,6 +423,7 @@ bb_pageCreate(
 )
 genePlot <- bb_plotGenes(
     chrom = "chr2", chromstart = 1000000, chromend = 20000000,
+    assembly = "hg19",
     geneHighlights = geneHighlights, geneBackground = "grey",
     x = 0.25, y = 0.25, width = 4.75, height = 1
 )
@@ -428,6 +445,7 @@ bb_pageCreate(
 )
 genePlot <- bb_plotGenes(
     chrom = "chr2", chromstart = 1000000, chromend = 20000000,
+    assembly = "hg19",
     geneHighlights = geneHighlights, geneBackground = "grey",
     x = 0.25, y = 0.25, width = 4.75, height = 1
 )
@@ -449,6 +467,7 @@ bb_pageCreate(
 )
 transcriptPlot <- bb_plotTranscripts(
     chrom = "chr2", chromstart = 1000000, chromend = 20000000,
+    assembly = "hg19",
     strandSplit = TRUE,
     x = 0.25, y = 0.25, width = 5.5, height = 4.5
 )

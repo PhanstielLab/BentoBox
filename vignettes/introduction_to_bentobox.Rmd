@@ -33,9 +33,10 @@ style="padding-left:20px; background-color:white; border-color: transparent" />
 
 `BentoBox` is a coordinate-based, genomic visualization package for R. 
 Using `grid` graphics, `BentoBox` empowers users to programatically and 
-flexibly generate multi-panel figures. Tailored for genomics, `BentoBox` 
-allows users to visualize large, complex genomic datasets while providing 
-exquisite control over the arrangement of plots.
+flexibly generate multi-panel figures. Tailored for genomics for a variety of
+genomic assemblies, `BentoBox` allows users to visualize large, complex 
+genomic datasets while providing exquisite control over the 
+arrangement of plots.
 
 `BentoBox` functions can be grouped into the following categories:
 
@@ -67,10 +68,13 @@ This vignette provides a best-practices guide for utilizing `BentoBox`.
 It begins with a Quick Start section that outlines usage examples for 
 reading in and plotting the most commonly used genomic data. Then the 
 following sections explore how BentoBox works in more detail, highlighting 
-helpful topics that showcase the capabilities of BentoBox. For detailed 
-usage of each function, see the function-specific reference examples with 
-`?function()` (e.g. `?bb_plotPairs()`).
+helpful topics that showcase the capabilities of BentoBox. For in-depth 
+demonstrations of `BentoBox`'s key features, see the additional articles.
+For detailed usage of each function, see the function-specific reference 
+examples with `?function()` (e.g. `?bb_plotPairs()`).
 
+All the data included in this vignette can be found in the supplementary
+package `BentoBoxData`.
 
 # Quick Start
 
@@ -78,11 +82,11 @@ usage of each function, see the function-specific reference examples with
 
 `BentoBox` handles a wide array of genomic data types in various formats 
 and file types. Not only does it work with `data.frames`, `data.tables`, 
-`tibbles`, and Bioconductor `GRanges` objects, but it can also read in 
-common genomic file types like BED, BEDPE, bigWig, and .hic files. While 
-files can be read directly into `BentoBox` plotting functions, `BentoBox` 
-also provides functions for reading in these large genomic data sets to 
-work with them within the R environment:
+`tibbles`, and Bioconductor `GRanges` and `GInteractions` objects, but 
+it can also read in common genomic file types like BED, BEDPE, bigWig, 
+and .hic files. While files can be read directly into `BentoBox` plotting 
+functions, `BentoBox` also provides functions for reading in these large 
+genomic data sets to work with them within the R environment:
 
 - `bb_readBigwig()`: Read in entire bigWig files, or read in specific 
 genomic regions or strands of bigWig data.
@@ -112,6 +116,7 @@ chrom <- bb_readHic("/path/to/hic",
 chromRegion <- bb_readHic("/path/to/hic",
     chrom = "chr1",
     chromstart = 1000000, chromend = 2000000,
+    assembly = "hg19",
     resolution = 10000, res_scale = "BP", norm = "KR"
 )
 
@@ -162,12 +167,14 @@ as described above.
 library(BentoBox)
 
 ## Load example Hi-C data
+library(BentoBoxData)
 data("bb_imrHicData")
 
 ## Quick plot Hi-C data
 bb_plotHicSquare(
     data = bb_imrHicData,
-    chrom = "chr21", chromstart = 28000000, chromend = 30300000
+    chrom = "chr21", chromstart = 28000000, chromend = 30300000,
+    assembly = "hg19"
 )
 ```
 
@@ -179,12 +186,14 @@ bb_plotHicSquare(
 library(BentoBox)
 
 ## Load example signal data
+library(BentoBoxData)
 data("bb_imrH3K27acData")
 
 ## Quick plot signal data
 bb_plotSignal(
     data = bb_imrH3K27acData,
-    chrom = "chr21", chromstart = 28000000, chromend = 30300000
+    chrom = "chr21", chromstart = 28000000, chromend = 30300000,
+    assembly = "hg19"
 )
 ```
 
@@ -216,11 +225,14 @@ library(BentoBox)
 library(TxDb.Hsapiens.UCSC.hg19.knownGene)
 
 ## Load example GWAS data
+library(BentoBoxData)
 data("bb_gwasData")
 
 ## Quick plot GWAS data
 bb_plotManhattan(
-    data = bb_gwasData, fill = c("steel blue", "grey"),
+    data = bb_gwasData, 
+    assembly = "hg19",
+    fill = c("steel blue", "grey"),
     ymax = 1.1, cex = 0.20
 )
 ```
@@ -244,6 +256,7 @@ data("bb_imrHicData")
 hicPlot <- bb_plotHicSquare(
     data = bb_imrHicData,
     chrom = "chr21", chromstart = 28000000, chromend = 30300000,
+    assembly = "hg19",
     x = 0.25, y = 0.25, width = 2.5, height = 2.5, default.units = "inches"
 )
 ```
@@ -253,6 +266,7 @@ data("bb_imrHicData")
 hicPlot <- bb_plotHicSquare(
     data = bb_imrHicData,
     chrom = "chr21", chromstart = 28000000, chromend = 30300000,
+    assembly = "hg19",
     x = 0.25, y = 0.25, width = 2.5, height = 2.5, default.units = "inches"
 )
 ```
@@ -277,6 +291,7 @@ data("bb_imrHicData")
 hicPlot <- bb_plotHicSquare(
     data = bb_imrHicData,
     chrom = "chr21", chromstart = 28000000, chromend = 30300000,
+    assembly = "hg19",
     x = 0.25, y = 0.25, width = 2.5, height = 2.5, default.units = "inches"
 )
 bb_annoHeatmapLegend(
@@ -311,6 +326,7 @@ data("bb_imrHicData")
 hicPlot <- bb_plotHicSquare(
     data = bb_imrHicData,
     chrom = "chr21", chromstart = 28000000, chromend = 30300000,
+    assembly = "hg19",
     x = 0.25, y = 0.25, width = 2.5, height = 2.5, default.units = "inches"
 )
 bb_annoHeatmapLegend(
@@ -335,6 +351,7 @@ data("bb_imrHicData")
 hicPlot <- bb_plotHicSquare(
     data = bb_imrHicData,
     chrom = "chr21", chromstart = 28000000, chromend = 30300000,
+    assembly = "hg19",
     x = 0.25, y = 0.25, width = 2.5, height = 2.5, default.units = "inches"
 )
 bb_annoHeatmapLegend(
@@ -368,6 +385,7 @@ label axis:
 
 ```{r plotting_example01, echo=TRUE, fig.height=6, fig.width=5, message=FALSE}
 ## Load example data
+library(BentoBoxData)
 data("bb_imrHicData")
 data("bb_bedpeData")
 data("bb_imrH3K27acData")
@@ -383,6 +401,7 @@ bb_pageCreate(
 bb_plotHicSquare(
     data = bb_imrHicData,
     chrom = "chr21", chromstart = 28000000, chromend = 30300000,
+    assembly = "hg19",
     x = 0.5, y = 0.5, width = 2, height = 2,
     just = c("left", "top"), default.units = "inches"
 )
@@ -391,6 +410,7 @@ bb_plotHicSquare(
 bb_plotPairsArches(
     data = bb_bedpeData,
     chrom = "chr21", chromstart = 28000000, chromend = 30300000,
+    assembly = "hg19",
     x = 0.5, y = 2.5, width = 2, height = 0.25,
     just = c("left", "top"), default.units = "inches",
     fill = "black", linecolor = "black", flip = TRUE
@@ -400,6 +420,7 @@ bb_plotPairsArches(
 bb_plotSignal(
     data = bb_imrH3K27acData,
     chrom = "chr21", chromstart = 28000000, chromend = 30300000,
+    assembly = "hg19",
     x = 0.5, y = 2.75, width = 2, height = 0.5,
     just = c("left", "top"), default.units = "inches"
 )
@@ -408,6 +429,7 @@ bb_plotSignal(
 bb_plotManhattan(
     data = bb_gwasData,
     chrom = "chr21", chromstart = 28000000, chromend = 30300000,
+    assembly = "hg19",
     ymax = 1.1, cex = 0.20,
     x = 0.5, y = 3.5, width = 2, height = 0.5,
     just = c("left", "top"), default.units = "inches"
@@ -418,6 +440,7 @@ library(TxDb.Hsapiens.UCSC.hg19.knownGene)
 library(org.Hs.eg.db)
 bb_plotGenes(
     chrom = "chr21", chromstart = 28000000, chromend = 30300000,
+    assembly = "hg19",
     x = 0.5, y = 4, width = 2, height = 0.5,
     just = c("left", "top"), default.units = "inches"
 )
@@ -425,6 +448,7 @@ bb_plotGenes(
 ## Plot genome label
 bb_plotGenomeLabel(
     chrom = "chr21", chromstart = 28000000, chromend = 30300000,
+    assembly = "hg19",
     x = 0.5, y = 4.5, length = 2, scale = "Mb",
     just = c("left", "top"), default.units = "inches"
 )
@@ -441,6 +465,7 @@ region, left-based x-coordinate, and width into a `bb_params` object:
 ```{r eval=TRUE, message=FALSE, echo=TRUE}
 params <- bb_params(
     chrom = "chr21", chromstart = 28000000, chromend = 30300000,
+    assembly = "hg19",
     x = 0.5, just = c("left", "top"),
     width = 2, length = 2, default.units = "inches"
 )
@@ -517,6 +542,7 @@ change the region for the figure above, we can simply put it into the
 ```{r eval=TRUE, echo=TRUE, message=FALSE}
 params <- bb_params(
     chrom = "chr21", chromstart = 29000000, chromend = 30000000,
+    assembly = "hg19",
     x = 0.5, just = c("left", "top"),
     width = 2, length = 2, default.units = "inches"
 )
@@ -673,6 +699,7 @@ data("bb_gwasData")
 ## bb_params
 params <- bb_params(
     chrom = "chr21", chromstart = 28000000, chromend = 30300000,
+    assembly = "hg19",
     x = 0.5, just = c("left", "top"),
     width = 2, length = 2, default.units = "inches"
 )
@@ -732,6 +759,66 @@ bb_plotGenomeLabel(
     scale = "Mb"
 )
 ```
+
+# Bioconductor integration
+
+`BentoBox` is designed to be flexibly compatible with typical Bioconductor 
+classes of genomic data and libraries to easily integrate genomic data 
+analysis and visualization. In addition to handling various genomic file 
+types and `R` objects, many `BentoBox` functions can also handle `GRanges` 
+objects as input data. Furthermore, `BentoBox` does not hard-code any genomic
+assemblies and can utilize `TxDb`, `OrgDb`, and `BSgenome` objects 
+for various genomic annotations, including gene and transcript structures 
+and names, chromosome sizes, and nucleotide sequences. For standard genomic 
+assemblies (i.e. hg19, hg38, mm10), `BentoBox` uses a set of default packages 
+that can be displayed by calling `bb_defaultPackages()`:
+
+```{r echo=TRUE, eval=TRUE}
+bb_defaultPackages("hg38")
+bb_defaultPackages("hg19")
+bb_defaultPackages("mm10")
+```
+
+To see which assemblies have defaults within `BentoBox`, call `bb_genomes()`:
+
+```{r echo=TRUE, eval=TRUE}
+bb_genomes()
+```
+
+`BentoBox` functions default to an "hg38" assembly, but can be customized
+with any of the other genomic assemblies included or a `bb_assembly` object.
+To create custom genomic assemblies and combinations of `TxDb`, `orgDb`, and 
+`BSgenome` packages for use in `BentoBox` functions, we can use the 
+`bb_assembly()` constructor. For example, we can create our own `TxDb` 
+from the current human Ensembl release:
+
+```{r eval=FALSE, echo=TRUE}
+library(GenomicFeatures)
+TxDb.Hsapiens.Ensembl.GrCh38.103 <- makeTxDbFromEnsembl(
+    organism =
+        "Homo sapiens"
+)
+```
+
+We can now create a new `bb_assembly` with this `TxDb` and combinations of 
+other Bioconductor packages. The `Genome` parameter can be any string to name 
+or describe this assembly. Since the `TxDb` is now from ENSEMBL, we will 
+change the `gene.id` field to `"ENSEMBL"` to map gene IDs and symbols between 
+our `TxDb` and `orgDb` objects. Most gene ID types can be found by calling
+`AnnotationDbi::keytypes()` on an `orgDb`.
+
+```{r eval=FALSE, echo=TRUE}
+Ensembl38 <- bb_assembly(
+    Genome = "Ensembl.GRCh38.103",
+    TxDb = TxDb.Hsapiens.Ensembl.GrCh38.103,
+    OrgDb = "org.Hs.eg.db",
+    BSgenome = "BSgenome.Hsapiens.NCBI.GRCh38",
+    gene.id = "ENSEMBL", display.column = "SYMBOL"
+)
+```
+
+This `bb_assembly` object can now be easily passed into `BentoBox` functions 
+through the `assembly` parameter.
 
 # Incorporating `ggplots`
 
@@ -1106,63 +1193,6 @@ bb_plotText(
     y = c(2.47, 2.75, 2.2), just = c("left", "bottom")
 )
 ```
-
-# Bioconductor integration
-
-`BentoBox` is designed to be compatible with typical Bioconductor classes of 
-genomic data to easily integrate genomic data analysis and visualization. 
-In addition to handling various genomic file types and `R` objects, many 
-`BentoBox` functions can also handle `GRanges` objects as input data. 
-Internally, `BentoBox` utilizes `TxDb`, `OrgDb`, and `BSgenome` objects 
-for various genomic annotations, including gene and transcript structures 
-and names, chromosome sizes, and nucleotide sequences. For standard genomic 
-assemblies (i.e. hg19, hg38, mm10), `BentoBox` uses a set of default packages 
-that can be displayed by calling `bb_defaultPackages()`:
-
-```{r echo=TRUE, eval=TRUE}
-bb_defaultPackages("hg19")
-bb_defaultPackages("hg38")
-bb_defaultPackages("mm10")
-```
-
-To see which assemblies have defaults within `BentoBox`, call `bb_genomes()`:
-
-```{r echo=TRUE, eval=TRUE}
-bb_genomes()
-```
-
-`BentoBox` functions default to an "hg19" assembly. To create custom genomic 
-assemblies and combinations of `TxDb`, `orgDb`, and `BSgenome` packages for 
-use in `BentoBox` functions, we can use the `bb_assembly()` constructor. For 
-example, we can create our own `TxDb` from the current human Ensembl release:
-
-```{r eval=FALSE, echo=TRUE}
-library(GenomicFeatures)
-TxDb.Hsapiens.Ensembl.GrCh38.103 <- makeTxDbFromEnsembl(
-    organism =
-        "Homo sapiens"
-)
-```
-
-We can now create a new `bb_assembly` with this `TxDb` and combinations of 
-other Bioconductor packages. The `Genome` parameter can be any string to name 
-or describe this assembly. Since the `TxDb` is now from ENSEMBL, we will 
-change the `gene.id` field to `"ENSEMBL"` to map gene IDs and symbols between 
-our `TxDb` and `orgDb` objects. Most gene ID types can be found by calling
-`AnnotationDbi::keytypes()` on an `orgDb`.
-
-```{r eval=FALSE, echo=TRUE}
-Ensembl38 <- bb_assembly(
-    Genome = "Ensembl.GRCh38.103",
-    TxDb = TxDb.Hsapiens.Ensembl.GrCh38.103,
-    OrgDb = "org.Hs.eg.db",
-    BSgenome = "BSgenome.Hsapiens.NCBI.GRCh38",
-    gene.id = "ENSEMBL", display.column = "SYMBOL"
-)
-```
-
-This `bb_assembly` object can now be easily passed into `BentoBox` functions 
-through the `assembly` parameter.
 
 # Future Directions
 

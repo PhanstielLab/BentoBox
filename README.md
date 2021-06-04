@@ -16,7 +16,9 @@ to the same regions. For more information about BentoBox’s philosophy
 and design, check out the `Our Philosophy` page.
 
 Specialized for genomic data, `BentoBox` also contains functions to read
-and plot multi-omic data quickly and easily. `BentoBox` can address an
+and plot multi-omic data quickly and easily. These functions are
+integrated with Bioconductor packages to flexibly accommodate a large variety 
+of genomic assemblies. `BentoBox` can address an
 endless number of use cases, including: dynamic exploration of genomic
 data, arrangment into multi-omic layouts, and survey plotting for
 quickly viewing data across the genome. Check out our `vignettes` for
@@ -35,6 +37,13 @@ if (!requireNamespace("remotes", quietly = TRUE))
 
 remotes::install_github("PhanstielLab/BentoBox")
 package.version("BentoBox")
+```
+
+Cytoband annotation datasets and example datasets and files are included
+with the package BentoBoxData:
+
+``` r
+remotes::install_github("PhanstielLab/BentoBoxData")
 ```
 
 ## Usage
@@ -100,7 +109,7 @@ bb_annoGenomeLabel(plot = genes_a, params = params_a,
 bb_plotText(label = "B", fontsize = 12,
             x = 3.5, y = 0.25, just = "left", default.units = "inches")
 ## Plot ideogram
-bb_plotIdeogram(chrom = "chr21",
+bb_plotIdeogram(chrom = "chr21", assembly = "hg19",
                 x = 3.5, y = 0.5,
                 width = 3.25, height = 0.15, just = c("left", "top"), default.units = "inches")
 ## Add text to ideogram

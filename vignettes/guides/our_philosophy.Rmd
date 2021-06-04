@@ -124,7 +124,8 @@ bb_pageCreate(width = 3, height = 2, default.units = "inches")
 
 ## Define genomic region with `bb_params`
 genomicRegion <- bb_params(chrom = "chr8", 
-                        chromstart = 1000000, chromend = 2000000)
+                        chromstart = 1000000, chromend = 2000000,
+                        assembly = "hg19")
 
 ## Plot genes with background color highlighting size
 genesPlot <- bb_plotGenes(
@@ -154,6 +155,7 @@ data("bb_imrH3K27acData")
 ## Define genomic region and widths of all plots
 params <- bb_params(
     chrom = "chr21", chromstart = 28000000, chromend = 30300000,
+    assembly = "hg19",
     x = unit(0.5, "inches"), width = unit(2, "inches")
 )
 
@@ -207,6 +209,7 @@ library(TxDb.Hsapiens.UCSC.hg19.knownGene)
 library(org.Hs.eg.db)
 library(ggplot2)
 data(mtcars)
+library(BentoBoxData)
 data("bb_imrHicData")
 head(bb_imrHicData)
 ```
@@ -219,7 +222,8 @@ bb_pageCreate(width = 7, height = 3.5, default.units = "inches")
 
 ## Define genomic region with `bb_params`
 params <- bb_params(chrom = "chr21", 
-                    chromstart = 28000000, chromend = 30300000)
+                    chromstart = 28000000, chromend = 30300000,
+                    assembly = "hg19")
 
 ## Plot Hi-C data
 hicPlot <- bb_plotHicTriangle(
@@ -283,7 +287,8 @@ bb_pageCreate(
 
 ## Define genomic region with `bb_params`
 params <- bb_params(chrom = "chr21", 
-                    chromstart = 28000000, chromend = 30300000)
+                    chromstart = 28000000, chromend = 30300000,
+                    assembly = "hg19")
 
 ## Plot Hi-C data
 hicPlot <- bb_plotHicTriangle(
@@ -364,7 +369,8 @@ bb_pageCreate(
 
 ## Define genomic region with `bb_params`
 params <- bb_params(chrom = "chr21", 
-                    chromstart = 28000000, chromend = 30300000)
+                    chromstart = 28000000, chromend = 30300000,
+                    assembly = "hg19")
 
 ## Plot Hi-C data
 hicPlot <- bb_plotHicTriangle(

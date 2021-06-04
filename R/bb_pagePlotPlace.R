@@ -189,7 +189,8 @@ bb_pagePlotPlace <- function(plot, x = NULL, y = NULL, width = NULL,
 
     bb_place <- parseParams(params = params, 
                             defaultArgs = formals(eval(match.call()[[1]])),
-                            declaredArgs = lapply(match.call()[-1], eval),
+                            declaredArgs = lapply(match.call()[-1], eval.parent,
+                                                n = 2),
                             class = "bb_place")
     
     # =========================================================================

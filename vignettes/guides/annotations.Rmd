@@ -25,9 +25,12 @@ library(BentoBoxData)
 categories of functions. To specify which plot to annotate within an 
 annotation function, each annotation function has a `plot` parameter that 
 accepts `BentoBox` plot objects. This will facilitate in inheriting genomic 
-region and plot location information. In this section we will go through some 
+region and plot location information. In this article we will go through some 
 of the major types of annotations used to create accurate and informative 
 `BentoBox` plots.
+
+All the data included in this article can be found in the supplementary
+package `BentoBoxData`.
 
 ## Genome labels
 
@@ -49,6 +52,7 @@ bb_pageCreate(
 hicPlot <- bb_plotHicSquare(
     data = bb_imrHicData,
     chrom = "chr21", chromstart = 28000000, chromend = 30300000,
+    assembly = "hg19",
     x = 0.25, y = 0.25, width = 2.5, height = 2.5, default.units = "inches"
 )
 
@@ -70,6 +74,7 @@ bb_pageCreate(
 hicPlot <- bb_plotHicSquare(
     data = bb_imrHicData,
     chrom = "chr21", chromstart = 28255554, chromend = 29354665,
+    assembly = "hg19",
     x = 0.25, y = 0.25, width = 2.5, height = 2.5, default.units = "inches"
 )
 bb_annoGenomeLabel(
@@ -89,6 +94,7 @@ bb_pageCreate(
 hicPlot <- bb_plotHicSquare(
     data = bb_imrHicData,
     chrom = "chr21", chromstart = 28255554, chromend = 29354665,
+    assembly = "hg19",
     x = 0.25, y = 0.25, width = 2.5, height = 2.5, default.units = "inches"
 )
 bb_annoGenomeLabel(
@@ -112,6 +118,7 @@ bb_pageCreate(
 )
 geneTrack <- bb_plotGenes(
     chrom = "chr1", chromstart = 110146000, chromend = 110146050,
+    assembly = "hg19",
     x = 0.5, y = 0.25, width = 4, height = 0.75, default.units = "inches"
 )
 bb_annoGenomeLabel(plot = geneTrack, x = 0.5, y = 1.01)
@@ -130,6 +137,7 @@ bb_pageCreate(
 )
 geneTrack <- bb_plotGenes(
     chrom = "chr1", chromstart = 110146000, chromend = 110146025,
+    assembly = "hg19",
     x = 0.5, y = 0.25, width = 4, height = 0.75, default.units = "inches"
 )
 bb_annoGenomeLabel(plot = geneTrack, x = 0.5, y = 1.01)
@@ -147,6 +155,7 @@ bb_pageCreate(
 hicPlot <- bb_plotHicSquare(
     data = bb_imrHicData,
     chrom = "chr21", chromstart = 28000000, chromend = 30300000,
+    assembly = "hg19",
     x = 0.5, y = 0.25, width = 2.5, height = 2.5, default.units = "inches"
 )
 bb_annoGenomeLabel(
@@ -265,6 +274,7 @@ bb_pageCreate(
 hicPlot <- bb_plotHicSquare(
     data = bb_imrHicData, resolution = 10000, zrange = c(0, 70),
     chrom = "chr21", chromstart = 28000000, chromend = 30300000,
+    assembly = "hg19",
     x = 0.25, y = 0.25, width = 2.75, height = 2.75,
     just = c("left", "top"),
     default.units = "inches"

@@ -38,6 +38,7 @@ test_that("Viewport order, naming, and numbering", {
     arches <- suppressMessages(bb_plotPairsArches(
         data = bb_bedpeData,
         chrom = "chr21", chromstart = 28000000, chromend = 30300000,
+        assembly = "hg19",
         x = 0.5, y = 2.5, width = 2, height = 0.25,
         just = c("left", "top"), default.units = "inches",
         fill = "black", linecolor = "black", flip = TRUE
@@ -52,6 +53,7 @@ test_that("Viewport order, naming, and numbering", {
     suppressMessages(bb_plotSignal(
         data = bb_imrH3K27acData,
         chrom = "chr21", chromstart = 28000000, chromend = 30300000,
+        assembly = "hg19",
         x = 0.5, y = 2.75, width = 2, height = 0.5,
         just = c("left", "top"), default.units = "inches"
     ))
@@ -62,6 +64,7 @@ test_that("Viewport order, naming, and numbering", {
     suppressMessages(bb_plotPairsArches(
         data = bb_bedpeData,
         chrom = "chr21", chromstart = 28000000, chromend = 30300000,
+        assembly = "hg19",
         x = 0.5, y = 2.5, width = 2, height = 0.25,
         just = c("left", "top"), default.units = "inches",
         fill = "black", linecolor = "black", flip = TRUE
@@ -86,6 +89,7 @@ test_that("Below-y coordinate calculation", {
         data = bb_imrHicData,
         chrom = "chr21",
         chromstart = 28000000, chromend = 30300000,
+        assembly = "hg19",
         x = 0.5, y = 0.5, width = 2, height = 2,
         just = c("left", "top"), default.units = "inches"
     ))
@@ -100,6 +104,7 @@ test_that("draw parameter and bb_pagePlotPlace", {
     expect_error(signalPlot <- bb_plotSignal(
         data = bb_imrH3K27acData,
         chrom = "chr21", chromstart = 28000000, chromend = 30300000,
+        assembly = "hg19",
         x = 0.25,
         draw = TRUE
     ))
@@ -107,6 +112,7 @@ test_that("draw parameter and bb_pagePlotPlace", {
     signalPlot <- suppressMessages(bb_plotSignal(
         data = bb_imrH3K27acData,
         chrom = "chr21", chromstart = 28000000, chromend = 30300000,
+        assembly = "hg19",
         x = 0.25,
         draw = FALSE
     ))
