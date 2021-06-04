@@ -567,7 +567,7 @@ bb_annoPixels <- function(plot, data, type = "box", half = "inherit",
     # =========================================================================
 
     loops <- read_pairedData(data = bb_loopsInternal$data,
-                             warning = TRUE)
+                            warning = TRUE)
 
     ## Check format of chromosomes in columns 1 and 4
     if (bb_loops$assembly$Genome == "hg19") {

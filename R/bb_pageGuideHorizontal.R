@@ -29,9 +29,9 @@ bb_pageGuideHorizontal <- function(y, default.units = "inches",
     # =========================================================================
 
     bb_hguide <- parseParams(params = params, 
-                             defaultArgs = formals(eval(match.call()[[1]])),
-                             declaredArgs = lapply(match.call()[-1], eval),
-                             class = "bb_hguide")
+                            defaultArgs = formals(eval(match.call()[[1]])),
+                            declaredArgs = lapply(match.call()[-1], eval),
+                            class = "bb_hguide")
 
     ## Set gp
     bb_hguide$gp <- gpar(col = bb_hguide$linecolor)

@@ -1,5 +1,6 @@
 ## Define a function for `bb_params` and parameter parsing logic
-# @param params bb_params object to override default arguments of parent function
+# @param params bb_params object to override default arguments of 
+# parent function
 # @param defaultArgs List of defaults for each argument of parent function
 # @param declaredArgs List of arguments to override all others
 # @param class Name of internal function class
@@ -22,8 +23,10 @@ parseParams <- function(params = params,
     if (!is.null(params)) {
         if (class(params) == "bb_params") {
             ## Replace matching defaultArgs with params
-            matchedParams <- params[na.omit(sort(match(names(defaultArgs), names(params))))]
-            defaultArgs[na.omit(match(names(params), names(defaultArgs)))] <- matchedParams
+            matchedParams <- params[na.omit(sort(match(names(defaultArgs), 
+                                                            names(params))))]
+            defaultArgs[na.omit(match(names(params), 
+                                    names(defaultArgs)))] <- matchedParams
         } else {
             warning("Input object ignored. Object must be a",
                     " \'bb_params\' class object.", call. = FALSE)
@@ -33,13 +36,12 @@ parseParams <- function(params = params,
     ## Replace default args with declared args
     if (length(declaredArgs) != 0) {
         suppressWarnings(defaultArgs[names(defaultArgs) 
-                                     %in% names(declaredArgs)] <- declaredArgs)
+                                    %in% names(declaredArgs)] <- declaredArgs)
     }
     ## Set arguments without default to NULL
     unset <- unlist(lapply(defaultArgs, is.name))
     defaultArgs[unset] <- lapply(lapply(defaultArgs[unset], deparse), as.null)
     
-  
     ## Add arguments to object and evaluate
     object <- structure(.Data = defaultArgs,
                         class = class)
@@ -100,7 +102,7 @@ defaultUnits <- function(object, default.units) {
                 if (is.na(as.numeric(gsub("b", "", object$y)))) {
                     stop("\'below\' y-coordinate does not have a numeric ",
                         "associated with it. Cannot parse y-coordinate.",
-                         call. = FALSE
+                        call. = FALSE
                     )
                 }
                 
@@ -129,7 +131,7 @@ defaultUnits <- function(object, default.units) {
             if (is.null(default.units)) {
                 stop("Width detected as numeric.\'default.units\' must ",
                     "be specified.",
-                     call. = FALSE
+                    call. = FALSE
                 )
             }
             
@@ -145,7 +147,7 @@ defaultUnits <- function(object, default.units) {
             if (is.null(default.units)) {
                 stop("Height detected as numeric.\'default.units\' ",
                     "must be specified.",
-                     call. = FALSE
+                    call. = FALSE
                 )
             }
             

@@ -1,3 +1,4 @@
+# Define a function to read in various kinds of genomic range data
 #' @importFrom plyranges %>%
 read_rangeData <- function(data, chrom = NULL, start = NULL, end = NULL){
     
@@ -7,8 +8,8 @@ read_rangeData <- function(data, chrom = NULL, start = NULL, end = NULL){
                 indexFile <- paste0(data, ".bai")
                 if (!file.exists(indexFile)) {
                     stop("Cannot read in bam file without a ",
-                         "corresponding bam index file (.bai) in the ",
-                         "same directory.", call. = FALSE)
+                        "corresponding bam index file (.bai) in the ",
+                        "same directory.", call. = FALSE)
                 }
                 data <- plyranges::read_bam(data) %>%
                     plyranges::filter_by_overlaps(GenomicRanges::GRanges(
@@ -20,7 +21,7 @@ read_rangeData <- function(data, chrom = NULL, start = NULL, end = NULL){
                     )) %>%
                     dplyr::mutate()
             } else if (file_ext(data) %in% c("bw", "bigWig",
-                                              "bigwig", "bedgraph")) {
+                                            "bigwig", "bedgraph")) {
 
                 data <- bb_readBigwig(
                     file = data,
@@ -39,6 +40,7 @@ read_rangeData <- function(data, chrom = NULL, start = NULL, end = NULL){
     
 }
 
+# Define a function to read in various kinds of genomic paired range data
 read_pairedData <- function(data, warning = FALSE){
     
     if (!"data.frame" %in% class(data)) {
@@ -53,7 +55,7 @@ read_pairedData <- function(data, warning = FALSE){
             )]
             
             data <- data[, which(!colnames(data) %in%
-                                       colnames(dataSubset))]
+                                colnames(dataSubset))]
             data <- cbind(dataSubset, data)
         }
     } else {

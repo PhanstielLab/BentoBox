@@ -236,8 +236,8 @@ bb_annoSegments <- function(x0, y0, x1, y1, plot, default.units = "native",
                 "y-coordinate for bb_annoSegments.", call. = FALSE)
         } else {
             if (!is.numeric(bb_segments$y1)) {
-                stop("y1-coordinate is neither a unit object or a numeric value. ",
-                    "Cannot plot segment.", call. = FALSE)
+                stop("y1-coordinate is neither a unit object or a ",
+                "numeric value. Cannot plot segment.", call. = FALSE)
             }
 
             if (is.null(bb_segmentsInternal$default.units)) {

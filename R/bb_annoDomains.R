@@ -305,11 +305,13 @@ bb_annoDomains <- function(plot, data, half = "inherit",
     # =========================================================================
 
     bb_domainsInternal <- parseParams(params = params,
-                                       defaultArgs = formals(eval(match.call()[[1]])),
-                                       declaredArgs = lapply(match.call()[-1], eval),
-                                       class = "bb_domainsInternal")
+                                defaultArgs = formals(eval(
+                                    match.call()[[1]])),
+                                declaredArgs = lapply(
+                                    match.call()[-1], eval),
+                                class = "bb_domainsInternal")
     bb_domainsInternal$gp <- setGP(gpList = gpar(), 
-                                   params = bb_domainsInternal, ...)
+                                params = bb_domainsInternal, ...)
 
     bb_domainsInternal$gp$col <- bb_domainsInternal$linecolor
     bb_domainsInternal$gp$lineend <- "square"

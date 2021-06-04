@@ -288,9 +288,9 @@ bb_plotRanges <- function(data, chrom, chromstart = NULL, chromend = NULL,
     # =========================================================================
 
     bed <- read_rangeData(data = bb_pileInternal$data,
-                          chrom = pileup_plot$chrom,
-                          start = pileup_plot$chromstart,
-                          end = pileup_plot$chromend)
+                        chrom = pileup_plot$chrom,
+                        start = pileup_plot$chromstart,
+                        end = pileup_plot$chromend)
 
     # =========================================================================
     # CATCH ERRORS

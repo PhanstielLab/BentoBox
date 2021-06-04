@@ -244,9 +244,9 @@ bb_plotSignal <- function(data, binSize = NA, binCap = TRUE, negData = FALSE,
     read_signal <- function(signal, signaltrack) {
 
         signal <- read_rangeData(data = signal,
-                                 chrom = signaltrack$chrom,
-                                 start = signaltrack$chromstart,
-                                 end = signaltrack$chromend)
+                                chrom = signaltrack$chrom,
+                                start = signaltrack$chromstart,
+                                end = signaltrack$chromend)
 
         ## Check for overlapping data ranges
         if (any(IRanges::overlapsAny(

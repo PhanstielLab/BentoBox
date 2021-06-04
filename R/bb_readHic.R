@@ -190,8 +190,8 @@ bb_readHic <- function(file, chrom, chromstart = NULL, chromend = NULL,
                     stop("If giving the same \'chrom\' and \'altchrom\', ",
                     "please specify \'chromstart\', \'chromend\', ",
                     "\'altchromstart\', and \'altchromend\'. ",
-                    "If trying to get all interactions between one chromosome, ",
-                    "just specify \'chrom\'.", call. = FALSE)
+                    "If trying to get all interactions between one ",
+                    "chromosome, just specify \'chrom\'.", call. = FALSE)
                 }
             }
         }
@@ -379,10 +379,10 @@ bb_readHic <- function(file, chrom, chromstart = NULL, chromend = NULL,
     # =========================================================================
 
     bb_rhic <- parseParams(params = params, 
-                           defaultArgs = formals(eval(match.call()[[1]])),
-                           declaredArgs = lapply(match.call()[-1], 
-                                                 eval.parent, n = 2),
-                           class = "bb_rhic")
+                        defaultArgs = formals(eval(match.call()[[1]])),
+                        declaredArgs = lapply(match.call()[-1], 
+                                            eval.parent, n = 2),
+                        class = "bb_rhic")
 
     if (is.null(bb_rhic$file)) stop("argument \"file\" is missing, ",
                                     "with no default.", call. = FALSE)

@@ -120,8 +120,9 @@ bb_plotIdeogram <- function(chrom, assembly = "hg19", orientation = "h",
         assemblyName <- assembly$Genome
 
         if (!any(names(availCytos) %in% assemblyName)) {
-            warning("CytoBand data not available for the given genome assembly. ",
-                "Ideograms can only be plotted for the following assemblies:",
+            warning("CytoBand data not available for the given genome ",
+            "assembly. Ideograms can only be plotted for the following ",
+            "assemblies:",
                 cat(names(availCytos), sep = ", "),
                 call. = FALSE
             )
