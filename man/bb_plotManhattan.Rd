@@ -261,12 +261,10 @@ chr11_manhattanPlot <- bb_plotManhattan(
 bb_plotLegend(
     legend = c(
         "LD Ref Var",
-        expression(paste("0.4", ">", "r"^{
-            paste("2")
-        }, "", ">=", "0.2")),
-        expression(paste("0.2", ">", "r"^{
-            paste("2")
-        }, "", ">=", "0")),
+        paste("0.4", ">", "r^2", 
+        "", ">=", "0.2"),
+        paste("0.2", ">", "r^2", 
+        "", ">=", "0"),
         "no LD data"
     ),
     fill = c("#7ecdbb", "#37a7db", "#1f4297", "grey"), cex = 0.75,

@@ -45,7 +45,7 @@
 #' p1 <- bb_params(gene = "IL1B", assembly = "hg19")
 #'
 #' ## Optionally add more parameters
-#' p2 <- bb_params(fontsize = 10)
+#' p2 <- bb_params(fontsize = 10, assembly = "hg19")
 #'
 #' ## Combine parameters and pass them to a BentoBox function
 #' bb_plotGenes(params = c(p1, p2))
@@ -74,7 +74,7 @@ bb_params <- function() {}
 #' p1 <- bb_params(chrom = "chr1", assembly = "hg19")
 #'
 #' ## Define another set of parameters
-#' p2 <- bb_params(fontsize = 10)
+#' p2 <- bb_params(fontsize = 10, assembly = "hg19")
 #'
 #' ## Combine parameters into one `bb_params` object
 #' pTotal <- c(p1, p2)
