@@ -1,6 +1,7 @@
 # Define a function to read in various kinds of genomic range data
 #' @importFrom plyranges %>%
-read_rangeData <- function(data, chrom = NULL, start = NULL, end = NULL){
+read_rangeData <- function(data, assembly, chrom = NULL, 
+                        start = NULL, end = NULL){
     
     if (!"data.frame" %in% class(data)) {
         if (!"GRanges" %in% class(data)) {
@@ -32,6 +33,11 @@ read_rangeData <- function(data, chrom = NULL, start = NULL, end = NULL){
             } else {
                 data <- data.table::fread(data)
             }
+        } else {
+            
+            ## check GRanges genome with assembly input
+            checkAssemblyMatch(data = data, assembly = assembly)
+            
         }
     }
     
@@ -41,7 +47,7 @@ read_rangeData <- function(data, chrom = NULL, start = NULL, end = NULL){
 }
 
 # Define a function to read in various kinds of genomic paired range data
-read_pairedData <- function(data, warning = FALSE){
+read_pairedData <- function(data, assembly, warning = FALSE){
     
     if (!"data.frame" %in% class(data)) {
         if (!isClass("GInteractions", data)) {
@@ -57,6 +63,10 @@ read_pairedData <- function(data, warning = FALSE){
             data <- data[, which(!colnames(data) %in%
                                 colnames(dataSubset))]
             data <- cbind(dataSubset, data)
+            
+            ## check GInteractions genome with assembly input
+            checkAssemblyMatch(data = data, assembly = assembly)
+                
         }
     } else {
         data <- as.data.frame(data)
@@ -71,4 +81,19 @@ read_pairedData <- function(data, warning = FALSE){
     
     return(data)
     
+    }
+    
+# Define a function that checks matching for GRanges/GInteractions
+# objects and declared BentoBox assembly
+checkAssemblyMatch <- function(data, assembly){
+    
+    genome <- unique(GenomeInfoDb::genome(data))
+    if (!is.na(genome)){
+        if (genome != assembly$Genome){
+            warning("Input data assembly detected as ",
+                    genome, " and BentoBox assembly ",
+                    "detected as ", assembly$Genome, ".",
+                    .call = FALSE)
+        }
+    }    
 }

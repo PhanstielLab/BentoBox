@@ -568,6 +568,7 @@ bb_annoPixels <- function(plot, data, type = "box", half = "inherit",
     # =========================================================================
 
     loops <- read_pairedData(data = bb_loopsInternal$data,
+                            assembly = bb_loops$assembly,
                             warning = TRUE)
 
     ## Check format of chromosomes in columns 1 and 4

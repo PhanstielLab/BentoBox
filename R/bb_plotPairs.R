@@ -273,7 +273,8 @@ bb_plotPairs <- function(data, chrom, chromstart = NULL, chromend = NULL,
     # READ IN FILE OR DATAFRAME
     # =========================================================================
 
-    bedpe <- read_pairedData(data = bb_bedpeInternal$data)
+    bedpe <- read_pairedData(data = bb_bedpeInternal$data,
+                            assembly = bb_bedpe$assembly)
     
     # =========================================================================
     # CATCH ERRORS

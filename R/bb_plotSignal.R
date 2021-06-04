@@ -246,6 +246,7 @@ bb_plotSignal <- function(data, binSize = NA, binCap = TRUE, negData = FALSE,
     read_signal <- function(signal, signaltrack) {
 
         signal <- read_rangeData(data = signal,
+                                assembly = signaltrack$assembly,
                                 chrom = signaltrack$chrom,
                                 start = signaltrack$chromstart,
                                 end = signaltrack$chromend)

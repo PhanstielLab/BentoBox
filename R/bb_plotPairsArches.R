@@ -391,7 +391,8 @@ bb_plotPairsArches <- function(data, chrom, chromstart = NULL, chromend = NULL,
     # READ IN FILE OR DATAFRAME
     # =========================================================================
 
-    bedpe <- read_pairedData(data = bb_archInternal$data)
+    bedpe <- read_pairedData(data = bb_archInternal$data,
+                            assembly = arches_plot$assembly)
     
     # =========================================================================
     # CATCH ERRORS

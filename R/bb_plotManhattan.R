@@ -543,12 +543,19 @@ bb_plotManhattan <- function(data, sigVal = 5e-08, chrom = NULL,
                                         "with no default.", call. = FALSE)
 
     check_placement(object = man_plot)
+    
+    # ========================================================================
+    # PARSE ASSEMBLY
+    # ========================================================================
+    
+    man_plot$assembly <- parse_bbAssembly(assembly = bb_manInternal$assembly)
 
     # =========================================================================
     # READ IN DATA
     # =========================================================================
 
-    bedfile <- read_rangeData(data = bb_manInternal$data)
+    bedfile <- read_rangeData(data = bb_manInternal$data,
+                            assembly = man_plot$assembly)
 
     # =========================================================================
     # CATCH MORE ERRORS
@@ -562,12 +569,6 @@ bb_plotManhattan <- function(data, sigVal = 5e-08, chrom = NULL,
         leadSNP = bb_manInternal$leadSNP,
         scaleLD = bb_manInternal$scaleLD
     )
-
-    # ========================================================================
-    # PARSE ASSEMBLY
-    # ========================================================================
-
-    man_plot$assembly <- parse_bbAssembly(assembly = bb_manInternal$assembly)
 
     # =========================================================================
     # PARSE UNITS
