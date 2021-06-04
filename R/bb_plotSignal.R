@@ -243,18 +243,10 @@ bb_plotSignal <- function(data, binSize = NA, binCap = TRUE, negData = FALSE,
     ## Define a function that reads in signal data for bb_plotSignal
     read_signal <- function(signal, signaltrack) {
 
-        ## if .bw file, read in with bb_readBigwig
-        if (!"data.frame" %in% class(signal)) {
-            if (!"GRanges" %in% class(signal)) {
-                signal <- bb_readBigwig(
-                    file = signal, chrom = signaltrack$chrom,
-                    chromstart = signaltrack$chromstart,
-                    chromend = signaltrack$chromend
-                )
-            }
-        }
-
-        signal <- as.data.frame(signal)
+        signal <- read_rangeData(data = signal,
+                                 chrom = signaltrack$chrom,
+                                 start = signaltrack$chromstart,
+                                 end = signaltrack$chromend)
 
         ## Check for overlapping data ranges
         if (any(IRanges::overlapsAny(
@@ -705,7 +697,7 @@ bb_plotSignal <- function(data, binSize = NA, binCap = TRUE, negData = FALSE,
     # =========================================================================
     # READ IN, FORMAT, FILTER, BIN, LINK AND SORT DATA
     # =========================================================================
-
+    
     if (length(class(bb_sigInternal$data)) == 1 &&
         class(bb_sigInternal$data) == "list") {
         signal <- lapply(bb_sigInternal$data, read_signal,

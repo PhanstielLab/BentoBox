@@ -36,14 +36,20 @@ bb_readBigwig <- function(file, chrom = NULL, chromstart = 1,
     # =========================================================================
     # PARSE PARAMETERS
     # =========================================================================
-
+ 
+    call <- match.call()
+    assign("call", call, envir = globalenv())
+    test <- lapply(match.call()[-1], eval.parent, n = 2)
+    assign("test", test, envir = globalenv())
+        
     bb_bigwig <- parseParams(
         params = params,
         defaultArgs = formals(eval(match.call()[[1]])),
-        declaredArgs = lapply(match.call()[-1], eval),
+        declaredArgs = lapply(match.call()[-1], eval.parent, n = 2),
         class = "bb_bigwig"
     )
 
+    assign("bb_bigwig", bb_bigwig, envir = globalenv())
     # =========================================================================
     # ERRORS
     # =========================================================================

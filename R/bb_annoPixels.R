@@ -566,29 +566,8 @@ bb_annoPixels <- function(plot, data, type = "box", half = "inherit",
     # READ IN FILE, DATAFRAME OR GINTERACTIONS
     # =========================================================================
 
-    loops <- bb_loopsInternal$data
-    if (!"data.frame" %in% class(loops)) {
-        if (!isClass("GInteractions", loops)) {
-            loops <- as.data.frame(data.table::fread(loops))
-        } else {
-
-            ## Reorder GInteractions columns
-            loops <- as.data.frame(loops)
-            loopsSubset <- loops[, c(
-                "seqnames1", "start1", "end1",
-                "seqnames2", "start2", "end2"
-            )]
-
-            loops <- loops[, which(!colnames(loops) %in%
-                colnames(loopsSubset))]
-            loops <- cbind(loopsSubset, loops)
-        }
-
-
-        if (nrow(loops) < 1) {
-            warning("\'data\' input contains no values.", call. = FALSE)
-        }
-    }
+    loops <- read_pairedData(data = bb_loopsInternal$data,
+                             warning = TRUE)
 
     ## Check format of chromosomes in columns 1 and 4
     if (bb_loops$assembly$Genome == "hg19") {

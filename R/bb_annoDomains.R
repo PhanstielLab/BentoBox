@@ -368,14 +368,7 @@ bb_annoDomains <- function(plot, data, half = "inherit",
     # READ IN FILE, DATAFRAME OR GRANGES
     # =========================================================================
 
-    bed <- bb_domainsInternal$data
-    if (!"data.frame" %in% class(bed)) {
-        if (!"GRanges" %in% class(bed)) {
-            bed <- data.table::fread(bed)
-        }
-    }
-
-    bed <- as.data.frame(bed)
+    bed <- read_rangeData(data = bb_domainsInternal$data)
 
     ## Check format of chromosomes in column 1
     if (bb_domains$assembly$Genome == "hg19") {

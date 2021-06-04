@@ -547,15 +547,7 @@ bb_plotManhattan <- function(data, sigVal = 5e-08, chrom = NULL,
     # READ IN DATA
     # =========================================================================
 
-    bedfile <- bb_manInternal$data
-    ## Read in data if it's not a dataframe or data.table
-    if (!"data.frame" %in% class(bedfile)) {
-        if (!"GRanges" %in% class(bedfile)) {
-            bedfile <- fread(bedfile)
-        }
-    }
-
-    bedfile <- as.data.frame(bedfile)
+    bedfile <- read_rangeData(data = bb_manInternal$data)
 
     # =========================================================================
     # CATCH MORE ERRORS

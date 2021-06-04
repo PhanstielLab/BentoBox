@@ -29,18 +29,21 @@ parseParams <- function(params = params,
                     " \'bb_params\' class object.", call. = FALSE)
         }
     }
+    
     ## Replace default args with declared args
     if (length(declaredArgs) != 0) {
-        defaultArgs[names(defaultArgs) %in% names(declaredArgs)] <-  declaredArgs
+        suppressWarnings(defaultArgs[names(defaultArgs) 
+                                     %in% names(declaredArgs)] <- declaredArgs)
     }
     ## Set arguments without default to NULL
     unset <- unlist(lapply(defaultArgs, is.name))
     defaultArgs[unset] <- lapply(lapply(defaultArgs[unset], deparse), as.null)
+    
   
     ## Add arguments to object and evaluate
     object <- structure(.Data = defaultArgs,
                         class = class)
-    object <- lapply(object, eval)
+    object <- lapply(object, eval, rlang::ns_env("BentoBox"))
     
     return(object)
 }

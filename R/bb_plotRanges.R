@@ -122,7 +122,6 @@
 #'               chromstart = NULL, chromend = NULL)
 #' }
 #'
-#' @importFrom plyranges %>%
 #' @export
 bb_plotRanges <- function(data, chrom, chromstart = NULL, chromend = NULL,
                         assembly = "hg19", fill = "#7ecdbb", colorby = NULL,
@@ -288,33 +287,10 @@ bb_plotRanges <- function(data, chrom, chromstart = NULL, chromend = NULL,
     # READ IN FILE OR DATAFRAME
     # =========================================================================
 
-    bed <- bb_pileInternal$data
-    if (!"data.frame" %in% class(bed)) {
-        if (!"GRanges" %in% class(bed)) {
-            if (file_ext(bed) == "bam") {
-                indexFile <- paste0(bed, ".bai")
-                if (!file.exists(indexFile)) {
-                    stop("Cannot read in bam file without a ",
-                        "corresponding bam index file (.bai) in the ",
-                        "same directory.", call. = FALSE)
-                }
-                bed <- plyranges::read_bam(bed) %>%
-                    plyranges::filter_by_overlaps(GenomicRanges::GRanges(
-                        seqnames = pileup_plot$chrom,
-                        ranges = IRanges::IRanges(
-                            start = pileup_plot$chromstart,
-                            end = pileup_plot$chromend
-                        )
-                    )) %>%
-                    dplyr::mutate()
-            } else {
-                bed <- data.table::fread(bed)
-            }
-        }
-    }
-
-    bed <- as.data.frame(bed)
-
+    bed <- read_rangeData(data = bb_pileInternal$data,
+                          chrom = pileup_plot$chrom,
+                          start = pileup_plot$chromstart,
+                          end = pileup_plot$chromend)
 
     # =========================================================================
     # CATCH ERRORS

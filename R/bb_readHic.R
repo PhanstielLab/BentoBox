@@ -380,7 +380,8 @@ bb_readHic <- function(file, chrom, chromstart = NULL, chromend = NULL,
 
     bb_rhic <- parseParams(params = params, 
                            defaultArgs = formals(eval(match.call()[[1]])),
-                           declaredArgs = lapply(match.call()[-1], eval),
+                           declaredArgs = lapply(match.call()[-1], 
+                                                 eval.parent, n = 2),
                            class = "bb_rhic")
 
     if (is.null(bb_rhic$file)) stop("argument \"file\" is missing, ",

@@ -272,25 +272,8 @@ bb_plotPairs <- function(data, chrom, chromstart = NULL, chromend = NULL,
     # READ IN FILE OR DATAFRAME
     # =========================================================================
 
-    if (!"data.frame" %in% class(bb_bedpeInternal$data)) {
-        if (!isClass("GInteractions", bb_bedpeInternal$data)) {
-            bedpe <- as.data.frame(data.table::fread(bb_bedpeInternal$data))
-        } else {
-
-            ## Reorder GInteractions columns
-            bedpe <- as.data.frame(bb_bedpeInternal$data)
-            bedpeSubset <- bedpe[, c(
-                "seqnames1", "start1", "end1",
-                "seqnames2", "start2", "end2"
-            )]
-
-            bedpe <- bedpe[, which(!colnames(bedpe) %in% colnames(bedpeSubset))]
-            bedpe <- cbind(bedpeSubset, bedpe)
-        }
-    } else {
-        bedpe <- as.data.frame(bb_bedpeInternal$data)
-    }
-
+    bedpe <- read_pairedData(data = bb_bedpeInternal$data)
+    
     # =========================================================================
     # CATCH ERRORS
     # =========================================================================
