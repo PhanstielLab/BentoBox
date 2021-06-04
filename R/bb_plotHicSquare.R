@@ -31,7 +31,7 @@
 #' for off-diagonal plotting or interchromosomal plotting.
 #' @param assembly Default genome assembly as a string or a
 #' \link[BentoBox]{bb_assembly} object.
-#' Default value is \code{assembly = "hg19"}.
+#' Default value is \code{assembly = "hg38"}.
 #' @param palette A function describing the color palette to use for
 #' representing scale of interaction scores.
 #' Default value is
@@ -90,6 +90,7 @@
 #'     zrange = c(0, 70),
 #'     chrom = "chr21",
 #'     chromstart = 28000000, chromend = 30300000,
+#'     assembly = "hg19",
 #'     x = 0.5, y = 0.5, width = 2, height = 2,
 #'     just = c("left", "top"),
 #'     default.units = "inches"
@@ -138,7 +139,7 @@ bb_plotHicSquare <- function(data, resolution = "auto", zrange = NULL,
                             chromstart = NULL, chromend = NULL,
                             altchrom = NULL,
                             altchromstart = NULL, altchromend = NULL,
-                            assembly = "hg19",
+                            assembly = "hg38",
                             palette = colorRampPalette(brewer.pal(
                                 n = 9, "YlGnBu"
                             )),

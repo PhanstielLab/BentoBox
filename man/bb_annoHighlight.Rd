@@ -81,6 +81,7 @@ data("bb_imrH3K27acData")
 region <- bb_params(
     chrom = "chr21",
     chromstart = 28000000, chromend = 30300000,
+    assembly = "hg19",
     range = c(0, 45)
 )
 signalPlot <- bb_plotSignal(
@@ -109,6 +110,7 @@ bb_plotText(
 bb_plotGenomeLabel(
     chrom = "chr21",
     chromstart = 28000000, chromend = 30300000,
+    assembly = "hg19",
     x = 0.5, y = 1.3, length = 6.5, default.units = "inches"
 )
 

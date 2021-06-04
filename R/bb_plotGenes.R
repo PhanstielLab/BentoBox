@@ -5,7 +5,7 @@
 #' @param chromend Integer end position on chromosome to be plotted.
 #' @param assembly Default genome assembly as a string or a
 #' \link[BentoBox]{bb_assembly} object.
-#' Default value is \code{assembly = "hg19"}.
+#' Default value is \code{assembly = "hg38"}.
 #' @param fontsize A numeric specifying text fontsize in points.
 #' Default value is \code{fontsize = 8}.
 #' @param fontcolor A character value or vector of length 2 indicating
@@ -142,7 +142,7 @@
 #'
 #' @export
 bb_plotGenes <- function(chrom, chromstart = NULL, chromend = NULL,
-                        assembly = "hg19", fontsize = 8,
+                        assembly = "hg38", fontsize = 8,
                         fontcolor = c("#669fd9", "#abcc8e"),
                         fill = c("#669fd9", "#abcc8e"),
                         geneOrder = NULL, geneHighlights = NULL,

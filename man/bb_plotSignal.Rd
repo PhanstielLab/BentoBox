@@ -12,7 +12,7 @@ bb_plotSignal(
   chrom,
   chromstart = NULL,
   chromend = NULL,
-  assembly = "hg19",
+  assembly = "hg38",
   linecolor = "#37a7db",
   fill = NA,
   ymax = 1,
@@ -60,7 +60,7 @@ Default value is \code{negData = FALSE}.}
 
 \item{assembly}{Default genome assembly as a string or a
 \link[BentoBox]{bb_assembly} object.
-Default value is \code{assembly = "hg19"}.}
+Default value is \code{assembly = "hg38"}.}
 
 \item{linecolor}{A character value or vector of length 2 specifying the
 line color(s) outlining the signal track(s).
@@ -165,6 +165,7 @@ bb_pageCreate(width = 7.5, height = 2.1, default.units = "inches")
 region <- bb_params(
     chrom = "chr21",
     chromstart = 28000000, chromend = 30300000,
+    assembly = "hg19",
     range = c(0, 45)
 )
 
@@ -186,6 +187,7 @@ signal2 <- bb_plotSignal(
 bb_plotGenomeLabel(
     chrom = "chr21",
     chromstart = 28000000, chromend = 30300000,
+    assembly = "hg19",
     x = 0.5, y = 1.68, length = 6.5,
     default.units = "inches"
 )

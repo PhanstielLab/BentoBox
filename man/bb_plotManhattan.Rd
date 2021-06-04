@@ -10,7 +10,7 @@ bb_plotManhattan(
   chrom = NULL,
   chromstart = NULL,
   chromend = NULL,
-  assembly = "hg19",
+  assembly = "hg38",
   fill = "black",
   pch = 19,
   cex = 0.25,
@@ -64,7 +64,7 @@ If left \code{NULL}, all chromosomes found in data will be plotted.}
 
 \item{assembly}{Default genome assembly as a string or a
 \link[BentoBox]{bb_assembly} object.
-Default value is \code{assembly = "hg19"}.}
+Default value is \code{assembly = "hg38"}.}
 
 \item{fill}{Character value(s) as a single value, vector,
 or palette specifying fill colors of data points.
@@ -235,6 +235,7 @@ chr11_manhattanPlot <- bb_plotManhattan(
     data = bb_gwasData, chrom = "chr11",
     chromstart = 60000000,
     chromend = 130000000,
+    assembly = "hg19",
     fill = c(
         "#1f4297",
         "#37a7db", "green",

@@ -4,11 +4,11 @@
 \alias{bb_params}
 \title{bb_params: BentoBox parameters object}
 \usage{
-bb_params(assembly = "hg19", gene = NULL, geneBuffer = NULL, ...)
+bb_params(assembly = "hg38", gene = NULL, geneBuffer = NULL, ...)
 }
 \arguments{
 \item{assembly}{String defining the genome build.
-Default value is \code{assembly = "hg19"}.}
+Default value is \code{assembly = "hg38"}.}
 
 \item{gene}{(optional) String naming a gene used to set the
 chrom, chromstart, and chromend arguments.}

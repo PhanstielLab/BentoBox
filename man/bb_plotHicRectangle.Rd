@@ -13,7 +13,7 @@ bb_plotHicRectangle(
   chrom,
   chromstart = NULL,
   chromend = NULL,
-  assembly = "hg19",
+  assembly = "hg38",
   palette = colorRampPalette(brewer.pal(n = 9, "YlGnBu")),
   colorTrans = "linear",
   x = NULL,
@@ -61,7 +61,7 @@ Default value is \code{matrix = "observed"}. Options are:
 
 \item{assembly}{Default genome assembly as a string or a
 \link[BentoBox]{bb_assembly} object.
-Default value is \code{assembly = "hg19"}.}
+Default value is \code{assembly = "hg38"}.}
 
 \item{palette}{A function describing the color palette to use for
 representing scale of interaction scores. Default value is
@@ -148,6 +148,7 @@ hicPlot <- bb_plotHicRectangle(
     zrange = c(0, 70),
     chrom = "chr21",
     chromstart = 28950000, chromend = 29800000,
+    assembly = "hg19",
     x = 0.5, y = 0.5, width = 5, height = 2.5,
     just = c("left", "top"),
     default.units = "inches"

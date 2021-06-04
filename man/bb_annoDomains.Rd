@@ -74,6 +74,7 @@ hicPlot <- bb_plotHicSquare(
     zrange = c(0, 70),
     chrom = "chr21",
     chromstart = 28000000, chromend = 30300000,
+    assembly = "hg19",
     x = 0.5, y = 0.5, width = 3, height = 3,
     just = c("left", "top"),
     default.units = "inches"

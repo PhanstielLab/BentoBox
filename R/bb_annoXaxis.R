@@ -37,6 +37,7 @@
 #'     chrom = "chr1",
 #'     chromstart = 1000000,
 #'     chromend = 2000000,
+#'     assembly = "hg19",
 #'     x = 0.5, y = 0,
 #'     width = 6.5, height = 4,
 #'     just = c("left", "top"),

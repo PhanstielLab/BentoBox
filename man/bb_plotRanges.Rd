@@ -9,7 +9,7 @@ bb_plotRanges(
   chrom,
   chromstart = NULL,
   chromend = NULL,
-  assembly = "hg19",
+  assembly = "hg38",
   fill = "#7ecdbb",
   colorby = NULL,
   linecolor = NA,
@@ -47,7 +47,7 @@ is in the same directory, or a \link[GenomicRanges]{GRanges} object.}
 
 \item{assembly}{Default genome assembly as a string or a
 \link[BentoBox]{bb_assembly} object.
-Default value is \code{assembly = "hg19"}.}
+Default value is \code{assembly = "hg38"}.}
 
 \item{fill}{Character value(s) as a single value, vector, or palette
 specifying fill colors of range elements.
@@ -161,6 +161,7 @@ bb_pageCreate(width = 7.5, height = 5, default.units = "inches")
 pileupPlot <- bb_plotRanges(
     data = bb_bedData, chrom = "chr21",
     chromstart = 29073000, chromend = 29074000,
+    assembly = "hg19",
     fill = c("#7ecdbb", "#37a7db"),
     strandSplit = TRUE, colorby = colorby("strand"),
     x = 0.5, y = 0.25, width = 6.5, height = 4.25,

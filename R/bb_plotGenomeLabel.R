@@ -133,7 +133,7 @@
 #' bb_pageGuideHide()
 #' @export
 bb_plotGenomeLabel <- function(chrom, chromstart = NULL, chromend = NULL,
-                            assembly = "hg19", fontsize = 10,
+                            assembly = "hg38", fontsize = 10,
                             fontcolor = "black", linecolor = "black",
                             margin = unit(1, "mm"),
                             scale = "bp", commas = TRUE, sequence = TRUE,
@@ -243,7 +243,7 @@ bb_plotGenomeLabel <- function(chrom, chromstart = NULL, chromend = NULL,
             y = convertedPageCoords$y, just = just
         )
 
-        if (length(object$chrom) == 1) {
+        if (base::length(object$chrom) == 1) {
             if (!is.null(seqType)) {
 
                 ## Get x and y coordinates of top left of what
@@ -851,7 +851,7 @@ bb_plotGenomeLabel <- function(chrom, chromstart = NULL, chromend = NULL,
     bb_genomeLabelInternal <- parseParams(
         params = params,
         defaultArgs = formals(eval(match.call()[[1]])),
-        declaredArgs = lapply(match.call()[-1], eval),
+        declaredArgs = lapply(match.call()[-1], eval.parent, n = 2),
         class = "bb_genomeLabelInternal"
     )
 
@@ -872,6 +872,7 @@ bb_plotGenomeLabel <- function(chrom, chromstart = NULL, chromend = NULL,
         gpList = bb_genomeLabelInternal$gp,
         params = bb_genomeLabelInternal, ...
     )
+    
     # =========================================================================
     # INITIALIZE OBJECT
     # =========================================================================
@@ -891,32 +892,38 @@ bb_plotGenomeLabel <- function(chrom, chromstart = NULL, chromend = NULL,
     # =========================================================================
     # CATCH ERRORS
     # =========================================================================
-
+    
     if (is.null(bb_genomeLabel$x)) stop("argument \"x\" is missing, ",
                                         "with no default.", call. = FALSE)
+    
     if (is.null(bb_genomeLabel$y)) stop("argument \"y\" is missing, ",
                                         "with no default.", call. = FALSE)
+    
     if (is.null(bb_genomeLabel$chrom)) stop("argument \"chrom\" is missing, ",
                                             "with no default.", call. = FALSE)
+    
     if (is.null(bb_genomeLabelInternal$length)) {
         stop("argument \"length\" is missing, ",
             "with no default.",
             call. = FALSE
         )
     }
-    if (length(bb_genomeLabel$chrom) == 1) {
+    
+    if (base::length(bb_genomeLabel$chrom) == 1) {
+      
         if (is.null(bb_genomeLabel$chromstart)) stop("argument \"chromstart\" ",
                                                     "is missing, with no ",
                                                     "default.", call. = FALSE)
+
         if (is.null(bb_genomeLabel$chromend)) stop("argument \"chromend\" ",
                                                 "is missing, with no ",
                                                 "default.", call. = FALSE)
     } else {
+        
         if (is.null(bb_genomeLabelInternal$space)) {
             bb_genomeLabelInternal$space <- 0.01
         }
     }
-
 
     check_bbpage(error = "Cannot plot a genome label without a BentoBox page.")
     errorcheck_bb_genomeLabel(
@@ -925,7 +932,8 @@ bb_plotGenomeLabel <- function(chrom, chromstart = NULL, chromend = NULL,
         object = bb_genomeLabel,
         axis = bb_genomeLabelInternal$axis
     )
-
+    
+    
     # =========================================================================
     # PARSE ASSEMBLY
     # =========================================================================
@@ -1024,11 +1032,10 @@ bb_plotGenomeLabel <- function(chrom, chromstart = NULL, chromend = NULL,
         )
     }
 
-
+    
     # =========================================================================
     # SET UP PAGE/SCALE
     # =========================================================================
-
     ## Determine scale of labels
     if (bb_genomeLabelInternal$scale == "bp") {
         fact <- 1
@@ -1063,12 +1070,12 @@ bb_plotGenomeLabel <- function(chrom, chromstart = NULL, chromend = NULL,
     seq_height <- convertHeight(seq_height + 0.05 * seq_height,
         unitTo = get("page_units", envir = bbEnv)
     )
-
+    
     # =========================================================================
     # SET PARAMETERS
     # =========================================================================
     ########## If single chrom/chromstart/chromend label - comma parsing
-    if (length(bb_genomeLabel$chrom) == 1) {
+    if (base::length(bb_genomeLabel$chrom) == 1) {
         commaLabels <- comma_labels(
             object = bb_genomeLabel,
             commas = bb_genomeLabelInternal$commas,
@@ -1078,10 +1085,10 @@ bb_plotGenomeLabel <- function(chrom, chromstart = NULL, chromend = NULL,
         chromendlabel <- commaLabels[[2]]
     }
     ########## END comma parsing
-
+    
     ########## Determine appropriate scaling of nucleotides
     seqType <- NULL
-    if (length(bb_genomeLabel$chrom) == 1 &
+    if (base::length(bb_genomeLabel$chrom) == 1 &
         bb_genomeLabelInternal$sequence == TRUE) {
         if (bb_genomeLabelInternal$axis == "x") {
             labelWidth <- convertWidth(bb_genomeLabelInternal$length,
@@ -1167,7 +1174,7 @@ bb_plotGenomeLabel <- function(chrom, chromstart = NULL, chromend = NULL,
     }
     ##########  END label length and depth
 
-
+   
     # =========================================================================
     # VIEWPORTS
     # =========================================================================
@@ -1175,7 +1182,7 @@ bb_plotGenomeLabel <- function(chrom, chromstart = NULL, chromend = NULL,
     currentViewports <- current_viewports()
     vp_name <- paste0(
         "bb_genomeLabel",
-        length(grep(
+        base::length(grep(
             pattern = "bb_genomeLabel",
             x = currentViewports
         )) + 1
@@ -1198,7 +1205,7 @@ bb_plotGenomeLabel <- function(chrom, chromstart = NULL, chromend = NULL,
     # =========================================================================
 
     ## Chrom/chromstart/chromend grobs
-    if (length(bb_genomeLabel$chrom) == 1) {
+    if (base::length(bb_genomeLabel$chrom) == 1) {
         chrom_grobs(
             tgH = tgH, ticks = bb_genomeLabelInternal$at,
             tickHeight = tick_height, seqType = seqType,

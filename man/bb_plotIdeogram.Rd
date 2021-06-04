@@ -6,7 +6,7 @@
 \usage{
 bb_plotIdeogram(
   chrom,
-  assembly = "hg19",
+  assembly = "hg38",
   orientation = "h",
   showBands = TRUE,
   x = NULL,
@@ -24,7 +24,7 @@ bb_plotIdeogram(
 
 \item{assembly}{Default genome assembly as a string or a
 \link[BentoBox]{bb_assembly} object.
-Default value is \code{assembly = "hg19"}.}
+Default value is \code{assembly = "hg38"}.}
 
 \item{orientation}{Character value indicating the orientation
 of the ideogram. Default value is \code{orientation = "h"}.

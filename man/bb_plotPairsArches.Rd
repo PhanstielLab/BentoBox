@@ -9,7 +9,7 @@ bb_plotPairsArches(
   chrom,
   chromstart = NULL,
   chromend = NULL,
-  assembly = "hg19",
+  assembly = "hg38",
   style = "2D",
   flip = FALSE,
   curvature = 5,
@@ -47,7 +47,7 @@ in BEDPE format specifying data to be plotted, or a
 
 \item{assembly}{Default genome assembly as a string or a
 \link[BentoBox]{bb_assembly} object.
-Default value is \code{assembly = "hg19"}.}
+Default value is \code{assembly = "hg38"}.}
 
 \item{style}{Character value describing the style of arches.
 Default value is \code{style = "2D"}. Options are:
@@ -162,6 +162,7 @@ data("bb_bedpeData")
 params <- bb_params(
     chrom = "chr21",
     chromstart = 27900000, chromend = 30700000,
+    assembly = "hg19",
     width = 7
 )
 

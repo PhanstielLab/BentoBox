@@ -102,7 +102,8 @@ bb_annoYaxis(
 ## Annotate zoom lines for a region on chromsome 21
 zoomRegion <- bb_params(
     chrom = "chr21",
-    chromstart = 28000000, chromend = 30300000
+    chromstart = 28000000, chromend = 30300000,
+    assembly = "hg19"
 )
 bb_annoZoomLines(
     plot = manhattanPlot, params = zoomRegion,
@@ -121,7 +122,8 @@ bb_annoHighlight(
 
 ## Plot Manhattan plot data and signal track under zoom lines
 manhattanPlotZoom <- bb_plotManhattan(
-    data = bb_gwasData, fill = "grey",
+    data = bb_gwasData,
+    fill = "grey",
     sigLine = FALSE,
     baseline = TRUE,
     params = zoomRegion, range = c(0, 14),
@@ -142,6 +144,7 @@ signalPlot <- bb_plotSignal(
 bb_plotGenomeLabel(
     chrom = "chr21",
     chromstart = 28000000, chromend = 30300000,
+    assembly = "hg19",
     x = 0.5, y = 4.4, length = 6.5,
     default.units = "inches"
 )

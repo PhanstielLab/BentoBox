@@ -73,6 +73,7 @@ data("bb_imrHicData")
 hicPlot <- bb_plotHicSquare(
     data = bb_imrHicData, chrom = "chr21",
     chromstart = 28000000, chromend = 29500000,
+    assembly = "hg19",
     zrange = c(0, 70),
     x = 0.5, y = 0.5, width = 3, height = 3,
     just = c("left", "top"),

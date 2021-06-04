@@ -8,7 +8,7 @@ bb_plotGenomeLabel(
   chrom,
   chromstart = NULL,
   chromend = NULL,
-  assembly = "hg19",
+  assembly = "hg38",
   fontsize = 10,
   fontcolor = "black",
   linecolor = "black",

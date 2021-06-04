@@ -5,7 +5,7 @@
 #' @param chromend Integer end position on chromosome to be plotted.
 #' @param assembly Default genome assembly as a string or a
 #' \link[BentoBox]{bb_assembly} object.
-#' Default value is \code{assembly = "hg19"}.
+#' Default value is \code{assembly = "hg38"}.
 #' @param fill Character value(s) as a single value or vector
 #' specifying fill colors of transcripts.
 #' Default value is \code{fill = c("#669fd9", "#abcc8e")}.
@@ -88,6 +88,7 @@
 #' ## Plot genome label
 #' bb_plotGenomeLabel(
 #'     chrom = "chr8", chromstart = 1000000, chromend = 2000000,
+#'     assembly = "hg19",
 #'     x = 0.5, y = 3.03, length = 6.5, default.units = "inches"
 #' )
 #'
@@ -124,7 +125,7 @@
 #'
 #' @export
 bb_plotTranscripts <- function(chrom, chromstart = NULL, chromend = NULL,
-                            assembly = "hg19",
+                            assembly = "hg38",
                             fill = c("#669fd9", "#abcc8e"),
                             colorbyStrand = TRUE, strandSplit = FALSE,
                             boxHeight = unit(2, "mm"), spaceWidth = 0.02,

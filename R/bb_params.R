@@ -27,7 +27,7 @@
 #' will extend the end of the gene.
 #'
 #' @param assembly String defining the genome build.
-#' Default value is \code{assembly = "hg19"}.
+#' Default value is \code{assembly = "hg38"}.
 #'
 #' @param ... This function will take any BentoBox function
 #' parameters and their values.

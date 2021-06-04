@@ -33,6 +33,7 @@ bedpePlot <- bb_plotPairs(
     data = bb_bedpeData,
     chrom = "chr21",
     chromstart = 27900000, chromend = 30700000,
+    assembly = "hg19",
     fill = colorRampPalette(c("dodgerblue2", "firebrick2")),
     colorby = colorby("length"),
     lwd = 2, spaceHeight = .7,

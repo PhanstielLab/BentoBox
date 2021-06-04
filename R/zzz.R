@@ -10,7 +10,7 @@
     allArgs2 <- paste0(paste(x, "=", x), collapse = ",")
 
     ## Change specific argument defaults
-    allArgs1 <- gsub("assembly=NULL", 'assembly="hg19"', allArgs1)
+    allArgs1 <- gsub("assembly=NULL", 'assembly="hg38"', allArgs1)
     allArgs1 <- paste0(allArgs1, ",...")
 
     ## Pass all arguments into function definition

@@ -9,7 +9,7 @@
 #' @param chromend Integer end position on chromosome to be plotted.
 #' @param assembly Default genome assembly as a string or a
 #' \link[BentoBox]{bb_assembly} object.
-#' Default value is \code{assembly = "hg19"}.
+#' Default value is \code{assembly = "hg38"}.
 #' @param fill Character value(s) as a single value, vector, or palette
 #' specifying fill colors of range elements.
 #' Default value is \code{fill = "#7ecdbb"}.
@@ -82,6 +82,7 @@
 #' pileupPlot <- bb_plotRanges(
 #'     data = bb_bedData, chrom = "chr21",
 #'     chromstart = 29073000, chromend = 29074000,
+#'     assembly = "hg19",
 #'     fill = c("#7ecdbb", "#37a7db"),
 #'     strandSplit = TRUE, colorby = colorby("strand"),
 #'     x = 0.5, y = 0.25, width = 6.5, height = 4.25,
@@ -124,7 +125,7 @@
 #'
 #' @export
 bb_plotRanges <- function(data, chrom, chromstart = NULL, chromend = NULL,
-                        assembly = "hg19", fill = "#7ecdbb", colorby = NULL,
+                        assembly = "hg38", fill = "#7ecdbb", colorby = NULL,
                         linecolor = NA, collapse = FALSE,
                         boxHeight = unit(2, "mm"), spaceWidth = 0.02,
                         spaceHeight = 0.3, strandSplit = FALSE, bg = NA,

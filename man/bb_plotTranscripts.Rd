@@ -8,7 +8,7 @@ bb_plotTranscripts(
   chrom,
   chromstart = NULL,
   chromend = NULL,
-  assembly = "hg19",
+  assembly = "hg38",
   fill = c("#669fd9", "#abcc8e"),
   colorbyStrand = TRUE,
   strandSplit = FALSE,
@@ -38,7 +38,7 @@ bb_plotTranscripts(
 
 \item{assembly}{Default genome assembly as a string or a
 \link[BentoBox]{bb_assembly} object.
-Default value is \code{assembly = "hg19"}.}
+Default value is \code{assembly = "hg38"}.}
 
 \item{fill}{Character value(s) as a single value or vector
 specifying fill colors of transcripts.
@@ -161,6 +161,7 @@ bb_plotTranscripts(
 ## Plot genome label
 bb_plotGenomeLabel(
     chrom = "chr8", chromstart = 1000000, chromend = 2000000,
+    assembly = "hg19",
     x = 0.5, y = 3.03, length = 6.5, default.units = "inches"
 )
 

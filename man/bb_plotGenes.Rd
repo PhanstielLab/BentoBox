@@ -8,7 +8,7 @@ bb_plotGenes(
   chrom,
   chromstart = NULL,
   chromend = NULL,
-  assembly = "hg19",
+  assembly = "hg38",
   fontsize = 8,
   fontcolor = c("#669fd9", "#abcc8e"),
   fill = c("#669fd9", "#abcc8e"),
@@ -37,7 +37,7 @@ bb_plotGenes(
 
 \item{assembly}{Default genome assembly as a string or a
 \link[BentoBox]{bb_assembly} object.
-Default value is \code{assembly = "hg19"}.}
+Default value is \code{assembly = "hg38"}.}
 
 \item{fontsize}{A numeric specifying text fontsize in points.
 Default value is \code{fontsize = 8}.}

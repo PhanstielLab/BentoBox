@@ -25,7 +25,7 @@
 #' @param chromend Integer end position on chromosome to be plotted.
 #' @param assembly Default genome assembly as a string or a
 #' \link[BentoBox]{bb_assembly} object.
-#' Default value is \code{assembly = "hg19"}.
+#' Default value is \code{assembly = "hg38"}.
 #' @param palette A function describing the color palette to use for
 #' representing scale of interaction scores. Default value is
 #' \code{palette =  colorRampPalette(brewer.pal(n = 9, "YlGnBu"))}.
@@ -75,6 +75,7 @@
 #'     zrange = c(0, 70),
 #'     chrom = "chr21",
 #'     chromstart = 28000000, chromend = 30300000,
+#'     assembly = "hg19",
 #'     x = 2, y = 0.5, width = 3, height = 1.5,
 #'     just = "top", default.units = "inches"
 #' )
@@ -119,7 +120,7 @@
 bb_plotHicTriangle <- function(data, resolution = "auto", zrange = NULL,
                             norm = "KR", matrix = "observed", chrom,
                             chromstart = NULL, chromend = NULL,
-                            assembly = "hg19",
+                            assembly = "hg38",
                             palette = colorRampPalette(brewer.pal(
                                 n = 9, "YlGnBu"
                             )),

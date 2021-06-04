@@ -18,7 +18,7 @@
 #' @param chromend Integer end position on chromosome to be plotted.
 #' @param assembly Default genome assembly as a string or a
 #' \link[BentoBox]{bb_assembly} object.
-#' Default value is \code{assembly = "hg19"}.
+#' Default value is \code{assembly = "hg38"}.
 #' @param linecolor A character value or vector of length 2 specifying the
 #' line color(s) outlining the signal track(s).
 #' Default value is \code{linecolor = "#37a7db"}.
@@ -84,6 +84,7 @@
 #' region <- bb_params(
 #'     chrom = "chr21",
 #'     chromstart = 28000000, chromend = 30300000,
+#'     assembly = "hg19",
 #'     range = c(0, 45)
 #' )
 #'
@@ -105,6 +106,7 @@
 #' bb_plotGenomeLabel(
 #'     chrom = "chr21",
 #'     chromstart = 28000000, chromend = 30300000,
+#'     assembly = "hg19",
 #'     x = 0.5, y = 1.68, length = 6.5,
 #'     default.units = "inches"
 #' )
@@ -142,7 +144,7 @@
 #' @export
 bb_plotSignal <- function(data, binSize = NA, binCap = TRUE, negData = FALSE,
                         chrom, chromstart = NULL, chromend = NULL,
-                        assembly = "hg19", linecolor = "#37a7db",
+                        assembly = "hg38", linecolor = "#37a7db",
                         fill = NA, ymax = 1, range = NULL, scale = FALSE,
                         bg = NA, baseline = TRUE, baseline.color = "grey",
                         baseline.lwd = 1, orientation = "h",

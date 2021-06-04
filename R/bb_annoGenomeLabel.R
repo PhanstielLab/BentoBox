@@ -119,6 +119,7 @@ bb_annoGenomeLabel <- function(plot, fontsize = 10, fontcolor = "black",
         declaredArgs = lapply(match.call()[-1], eval),
         class = "bb_genomeLabelInternal"
     )
+    
     # =========================================================================
     # CATCH ARGUMENT/PLOT INPUT ERRORS
     # =========================================================================

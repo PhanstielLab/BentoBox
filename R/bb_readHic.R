@@ -12,7 +12,7 @@
 #' for interchromosomal data.
 #' @param assembly Default genome assembly as a string or a
 #' \link[BentoBox]{bb_assembly} object.
-#' Default value is \code{assembly = "hg19"}.
+#' Default value is \code{assembly = "hg38"}.
 #' @param resolution A numeric specifying the width of each pixel.
 #' "auto" will attempt to choose a resolution in basepairs based on
 #' the size of the region.
@@ -51,11 +51,13 @@
 #' ## Read in data for region `chr8:133000000-135000000` at 10Kb bp resolution
 #' hicData10kb <- bb_readHic(file = hicFile, chrom = "chr8",
 #'                      chromstart = 133000000, chromend = 135000000,
+#'                      assembly = "hg19",
 #'                      resolution = 10000)
 #'                      
 #' ## Read in same region at 5Kb bp resolution
 #' hicData5kb <- bb_readHic(file = hicFile, chrom = "chr8",
 #'                      chromstart = 133000000, chromend = 135000000,
+#'                      assembly = "hg19",
 #'                      resolution = 5000)                     
 #'
 #' @seealso \link[strawr]{straw}
@@ -63,7 +65,7 @@
 #' @export
 bb_readHic <- function(file, chrom, chromstart = NULL, chromend = NULL,
                     altchrom = NULL, altchromstart = NULL,
-                    altchromend = NULL, assembly = "hg19",
+                    altchromend = NULL, assembly = "hg38",
                     resolution = "auto", res_scale = "BP",
                     zrange = NULL, norm = "KR", matrix = "observed",
                     params = NULL, quiet = FALSE) {

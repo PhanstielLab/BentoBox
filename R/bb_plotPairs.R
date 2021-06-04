@@ -8,7 +8,7 @@
 #' @param chromend Integer end position on chromosome to be plotted.
 #' @param assembly Default genome assembly as a string or a
 #' \link[BentoBox]{bb_assembly} object.
-#' Default value is \code{assembly = "hg19"}.
+#' Default value is \code{assembly = "hg38"}.
 #' @param fill Character value(s) as a single value, vector, or palette
 #' specifying fill colors of BEDPE elements.
 #' Default value is \code{fill = "#1f4297"}.
@@ -70,6 +70,7 @@
 #' params <- bb_params(
 #'     chrom = "chr21",
 #'     chromstart = 27900000, chromend = 30700000,
+#'     assembly = "hg19",
 #'     width = 7
 #' )
 #'
@@ -125,7 +126,7 @@
 #'
 #' @export
 bb_plotPairs <- function(data, chrom, chromstart = NULL, chromend = NULL,
-                        assembly = "hg19", fill = "#1f4297", colorby = NULL,
+                        assembly = "hg38", fill = "#1f4297", colorby = NULL,
                         linecolor = NA, bg = NA, boxHeight = unit(2, "mm"),
                         spaceWidth = 0.02, spaceHeight = 0.3,
                         baseline = FALSE, baseline.color = "grey",

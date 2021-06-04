@@ -21,7 +21,7 @@
 #' @param chromend Integer end position on chromosome to be plotted.
 #' @param assembly Default genome assembly as a string or a
 #' \link[BentoBox]{bb_assembly} object.
-#' Default value is \code{assembly = "hg19"}.
+#' Default value is \code{assembly = "hg38"}.
 #' @param fill Character value(s) as a single value, vector,
 #' or palette specifying fill colors of data points.
 #' If \code{scaleLD} is supplied, colors will be mapped to
@@ -146,6 +146,7 @@
 #'     data = bb_gwasData, chrom = "chr11",
 #'     chromstart = 60000000,
 #'     chromend = 130000000,
+#'     assembly = "hg19",
 #'     fill = c(
 #'         "#1f4297",
 #'         "#37a7db", "green",
@@ -230,7 +231,7 @@
 #' @export
 bb_plotManhattan <- function(data, sigVal = 5e-08, chrom = NULL,
                             chromstart = NULL, chromend = NULL,
-                            assembly = "hg19", fill = "black", pch = 19,
+                            assembly = "hg38", fill = "black", pch = 19,
                             cex = 0.25, leadSNP = NULL, scaleLD = NULL,
                             sigLine = FALSE, sigCol = NULL, ymax = 1,
                             range = NULL, space = 0.01, bg = NA,

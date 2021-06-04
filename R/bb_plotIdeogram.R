@@ -3,7 +3,7 @@
 #' @param chrom Chromosome to be plotted, as a string.
 #' @param assembly Default genome assembly as a string or a
 #' \link[BentoBox]{bb_assembly} object.
-#' Default value is \code{assembly = "hg19"}.
+#' Default value is \code{assembly = "hg38"}.
 #' @param orientation Character value indicating the orientation
 #' of the ideogram. Default value is \code{orientation = "h"}.
 #' Options are:
@@ -83,7 +83,7 @@
 #' included with the package BentoBoxData.
 #'
 #' @export
-bb_plotIdeogram <- function(chrom, assembly = "hg19", orientation = "h",
+bb_plotIdeogram <- function(chrom, assembly = "hg38", orientation = "h",
                             showBands = TRUE, x = NULL, y = NULL,
                             width = NULL, height = NULL,
                             just = c("left", "top"), default.units = "inches",
