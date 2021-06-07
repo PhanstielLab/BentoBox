@@ -176,7 +176,7 @@ jobs:
           remotes::install_local(dependencies = TRUE, repos = BiocManager::repositories(), build_vignettes = TRUE, upgrade = TRUE, force = TRUE)
 
           ## add extra packages
-          BiocManager::install("PhanstielLab/BentoBoxData")
+          remotes::install_github("PhanstielLab/BentoBoxData")
           
           ## For running the checks
           message(paste('****', Sys.time(), 'installing rcmdcheck and BiocCheck ****'))
