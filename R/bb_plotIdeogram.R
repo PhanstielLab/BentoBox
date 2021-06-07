@@ -197,109 +197,6 @@ bb_plotIdeogram <- function(chrom, assembly = "hg38", orientation = "h",
         }
     }
 
-    ## Define a function to give colors to different gieStains
-    assignColors <- function(data, assembly) {
-        human <- c("hg18", "hg19", "hg38")
-        mouse <- c("mm9", "mm10")
-        rat <- c("rn5", "rn6")
-        fly <- c("dm6")
-        zebrafish <- c("danRer10")
-
-        palette <- colorRampPalette(c("#dee0e4", "#a8adb8"))
-
-        data$color <- palette(5)[5]
-
-        if (assembly %in% human) {
-            if (any(data$gieStain == "acen")) {
-                data[which(
-                    data$gieStain == "acen"
-                ), ]$color <- "#d7e9b4"
-            }
-            if (any(data$gieStain == "stalk")) {
-                data[which(
-                    data$gieStain == "stalk"
-                ), ]$color <- "#c4e3f2"
-            }
-            if (any(data$gieStain == "gneg")) {
-                data[which(
-                    data$gieStain == "gneg"
-                ), ]$color <- "#FFFFFF"
-            }
-            if (any(data$gieStain == "gpos25")) {
-                data[which(
-                    data$gieStain == "gpos25"
-                ), ]$color <- palette(5)[1]
-            }
-            if (any(data$gieStain == "gpos50")) {
-                data[which(
-                    data$gieStain == "gpos50"
-                ), ]$color <- palette(5)[2]
-            }
-            if (any(data$gieStain == "gpos75")) {
-                data[which(
-                    data$gieStain == "gpos75"
-                ), ]$color <- palette(5)[3]
-            }
-            if (any(data$gieStain == "gpos100")) {
-                data[which(
-                    data$gieStain == "gpos100"
-                ), ]$color <- palette(5)[4]
-            }
-        } else if (assembly %in% mouse) {
-            if (any(data$gieStain == "gneg")) {
-                data[which(
-                    data$gieStain == "gneg"
-                ), ]$color <- "#FFFFFF"
-            }
-            if (any(data$gieStain == "gpos33")) {
-                data[which(
-                    data$gieStain == "gpos33"
-                ), ]$color <- palette(5)[1]
-            }
-            if (any(data$gieStain == "gpos66")) {
-                data[which(
-                    data$gieStain == "gpos66"
-                ), ]$color <- palette(5)[2]
-            }
-            if (any(data$gieStain == "gpos75")) {
-                data[which(
-                    data$gieStain == "gpos75"
-                ), ]$color <- palette(5)[3]
-            }
-            if (any(data$gieStain == "gpos100")) {
-                data[which(
-                    data$gieStain == "gpos100"
-                ), ]$color <- palette(5)[4]
-            }
-        } else if (assembly %in% rat) {
-            if (assembly == "rn5") {
-                if (any(data$gieStain == "gneg")) {
-                    data[which(data$gieStain == "gneg"), ]$color <- "#FFFFFF"
-                }
-                if (any(data$gieStain == "gpos")) {
-                    data[which(data$gieStain == "gpos"), ]$color <-
-                        palette(5)[3]
-                }
-            } else {
-                data$color <- rep(
-                    c("#FFFFFF", palette(5)[3]),
-                    ceiling(nrow(data) / 2)
-                )[seq(1, nrow(data))]
-            }
-        } else if (assembly %in% fly) {
-            data$color <- rep(
-                c("#FFFFFF", palette(5)[3]),
-                ceiling(nrow(data) / 2)
-            )[seq(1, nrow(data))]
-        } else {
-            if (any(data$gieStain == "gneg")) {
-                data[which(data$gieStain == "gneg"), ]$color <- "#FFFFFF"
-            }
-        }
-
-        return(data)
-    }
-
     ## Define a function that draws bands that fall within left curved regions
     curvedBands_left <- function(df, xCurve, yCurve, ymax) {
         start <- as.numeric(df[2])
@@ -446,15 +343,6 @@ bb_plotIdeogram <- function(chrom, assembly = "hg38", orientation = "h",
             chromLength <- GenomeInfoDb::seqlengths(genome)[[
             ideogram_plot$chrom]]
             ideogram_plot$chromend <- chromLength
-
-            # =================================================================
-            # ASSIGN COLORS
-            # =================================================================
-
-            data <- assignColors(
-                data = data,
-                assembly = bb_ideoInternal$assembly
-            )
         }
     }
 
