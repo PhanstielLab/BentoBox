@@ -1,6 +1,10 @@
 
 # <img src="man/figures/bento-logotype-singleline-black.png" width="400px" style="background-color:white;border=transparent" /> <img src="man/figures/logo.png" align="right" width="140px" style="padding-left:20px; background-color:white" />
 
+<!-- badges: start -->
+[![R-CMD-check](https://github.com/PhanstielLab/BentoBox/workflows/R-CMD-check/badge.svg)](https://github.com/PhanstielLab/BentoBox/actions)
+<!-- badges: end -->
+
 ## Overview
 
 `BentoBox` is a genomic data vizualization package for R. Using `grid`
