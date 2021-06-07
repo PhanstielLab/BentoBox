@@ -366,7 +366,7 @@ bb_plotIdeogram <- function(chrom, assembly = "hg38", orientation = "h",
     bb_ideoInternal <- parseParams(
         params = params,
         defaultArgs = formals(eval(match.call()[[1]])),
-        declaredArgs = lapply(match.call()[-1], eval),
+        declaredArgs = lapply(match.call()[-1], eval.parent, n = 2),
         class = "bb_ideoInternal"
     )
 

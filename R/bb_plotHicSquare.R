@@ -155,7 +155,7 @@ bb_plotHicSquare <- function(data, resolution = "auto", zrange = NULL,
 
     ## Define a function that catches errors for bb_plothic
     errorcheck_bb_plothic <- function(hic, hic_plot, norm) {
-
+        
         ###### hic/norm #####
 
         ## if it's a dataframe or datatable, it needs to be properly formatted
@@ -508,7 +508,7 @@ bb_plotHicSquare <- function(data, resolution = "auto", zrange = NULL,
     bb_hicInternal <- parseParams(
         params = params,
         defaultArgs = formals(eval(match.call()[[1]])),
-        declaredArgs = lapply(match.call()[-1], eval),
+        declaredArgs = lapply(match.call()[-1], eval.parent, n = 2),
         class = "bb_hicInternal"
     )
 

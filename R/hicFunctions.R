@@ -81,6 +81,7 @@ read_data <- function(hic, hic_plot, norm, assembly, type, quiet) {
                 file = hic, chrom = hic_plot$chrom,
                 chromstart = readchromstart,
                 chromend = readchromend,
+                assembly = assembly,
                 resolution = hic_plot$resolution,
                 zrange = hic_plot$zrange,
                 norm = norm,

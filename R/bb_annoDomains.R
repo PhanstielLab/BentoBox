@@ -309,7 +309,7 @@ bb_annoDomains <- function(plot, data, half = "inherit",
                                 defaultArgs = formals(eval(
                                     match.call()[[1]])),
                                 declaredArgs = lapply(
-                                    match.call()[-1], eval),
+                                    match.call()[-1], eval.parent, n = 2),
                                 class = "bb_domainsInternal")
     bb_domainsInternal$gp <- setGP(gpList = gpar(), 
                                 params = bb_domainsInternal, ...)

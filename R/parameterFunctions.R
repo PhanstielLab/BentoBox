@@ -6,7 +6,8 @@
 # @param class Name of internal function class
 parseParams <- function(params = params,
                         defaultArgs = formals(eval(match.call()[[1]])),
-                        declaredArgs = lapply(match.call()[-1], eval),
+                        declaredArgs = lapply(match.call()[-1], 
+                                            eval.parent, n = 2),
                         class) {
     ## Remove 'params' and '...' from defaultArgs and declaredArgs
     defaultArgs[["params"]] <- NULL

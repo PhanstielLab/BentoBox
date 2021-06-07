@@ -384,7 +384,7 @@ bb_plotHicTriangle <- function(data, resolution = "auto", zrange = NULL,
     bb_thicInternal <- parseParams(
         params = params,
         defaultArgs = formals(eval(match.call()[[1]])),
-        declaredArgs = lapply(match.call()[-1], eval),
+        declaredArgs = lapply(match.call()[-1], eval.parent, n = 2),
         class = "bb_thicInternal"
     )
     # =========================================================================

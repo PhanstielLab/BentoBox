@@ -110,7 +110,7 @@ bb_annoSegments <- function(x0, y0, x1, y1, plot, default.units = "native",
     bb_segmentsInternal <- parseParams(
         params = params,
         defaultArgs = formals(eval(match.call()[[1]])),
-        declaredArgs = lapply(match.call()[-1], eval),
+        declaredArgs = lapply(match.call()[-1], eval.parent, n = 2),
         class = "bb_segmentsInternal"
     )
 

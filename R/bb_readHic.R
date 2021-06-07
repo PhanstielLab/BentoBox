@@ -295,6 +295,7 @@ bb_readHic <- function(file, chrom, chromstart = NULL, chromend = NULL,
 
     ## Define a function to parse chromsome/region for Straw
     parse_region <- function(chrom, chromstart, chromend, assembly) {
+
         if (assembly == "hg19") {
             strawChrom <- gsub("chr", "", chrom)
         } else {
@@ -385,7 +386,7 @@ bb_readHic <- function(file, chrom, chromstart = NULL, chromend = NULL,
                         declaredArgs = lapply(match.call()[-1], 
                                             eval.parent, n = 2),
                         class = "bb_rhic")
-
+    
     if (is.null(bb_rhic$file)) stop("argument \"file\" is missing, ",
                                     "with no default.", call. = FALSE)
     if (is.null(bb_rhic$chrom)) stop("argument \"chrom\" is missing, ",
@@ -484,8 +485,7 @@ bb_readHic <- function(file, chrom, chromstart = NULL, chromend = NULL,
         bb_rhic$matrix <- "oe"
         log <- TRUE
     }
-
-
+    
     upper <-
         tryCatch(strawr::straw(
             norm = bb_rhic$norm,
@@ -498,7 +498,6 @@ bb_readHic <- function(file, chrom, chromstart = NULL, chromend = NULL,
         ),
         error = errorFunction
         )
-
 
     if (log == TRUE) {
         upper[, 3] <- log2(upper[, 3])

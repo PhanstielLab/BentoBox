@@ -307,7 +307,7 @@ bb_plotHicRectangle <- function(data, resolution = "auto", zrange = NULL,
                                     defaultArgs = formals(eval(
                                         match.call()[[1]])),
                                     declaredArgs = lapply(
-                                        match.call()[-1], eval),
+                                        match.call()[-1], eval.parent, n = 2),
                                     class = "bb_rhicInternal")
 
     # =========================================================================

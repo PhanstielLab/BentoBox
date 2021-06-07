@@ -80,7 +80,7 @@ bb_plotRaster <- function(image, x, y, width, height, just = "center",
     bb_rastInternal <- parseParams(
         params = params,
         defaultArgs = formals(eval(match.call()[[1]])),
-        declaredArgs = lapply(match.call()[-1], eval),
+        declaredArgs = lapply(match.call()[-1], eval.parent, n = 2),
         class = "bb_rastInternal"
     )
 

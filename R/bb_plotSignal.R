@@ -571,7 +571,7 @@ bb_plotSignal <- function(data, binSize = NA, binCap = TRUE, negData = FALSE,
     bb_sigInternal <- parseParams(
         params = params,
         defaultArgs = formals(eval(match.call()[[1]])),
-        declaredArgs = lapply(match.call()[-1], eval),
+        declaredArgs = lapply(match.call()[-1], eval.parent, n = 2),
         class = "bb_sigInternal"
     )
 

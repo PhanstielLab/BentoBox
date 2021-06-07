@@ -65,7 +65,7 @@ bb_plotCircle <- function(x, y, r, default.units = "inches",
     bb_circleInternal <- parseParams(
         params = params,
         defaultArgs = formals(eval(match.call()[[1]])),
-        declaredArgs = lapply(match.call()[-1], eval),
+        declaredArgs = lapply(match.call()[-1], eval.parent, n = 2),
         class = "bb_circleInternal"
     )
 
