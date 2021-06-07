@@ -71,8 +71,7 @@ jobs:
         
       - name: Install dependencies pass 2
         run: |
-          remotes::install_local(dependencies = TRUE, repos = BiocManager::repositories(), build_vignettes = FALSE, upgrade = TRUE)
-          remotes::install("PhanstielLab/BentoBox") 
+          remotes::install_github("PhanstielLab/BentoBoxData") 
 
       - name: Check
         env:
