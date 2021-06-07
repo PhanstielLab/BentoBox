@@ -68,12 +68,6 @@ jobs:
           remotes::install_deps(dependencies = TRUE)
           remotes::install_cran("rcmdcheck")
         shell: Rscript {0}
-
-      - name: Install BiocManager
-        run: |
-          message(paste('****', Sys.time(), 'installing BiocManager ****'))
-          remotes::install_cran("BiocManager")
-        shell: Rscript {0}
         
       - name: Install dependencies pass 2
         run: |
