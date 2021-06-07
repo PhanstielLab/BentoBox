@@ -85,8 +85,6 @@ bb_annoDomains <- function(plot, data, half = "inherit",
     # =========================================================================
     # FUNCTIONS
     # =========================================================================
-    ## For more accurate calculation of sqrt(2)
-    two <- mpfr(2, 120)
 
     ## Define a function that checks errors for bb_annoDomains
     errorcheck_bb_annoDomains <- function(hic, half) {
@@ -429,8 +427,8 @@ bb_annoDomains <- function(plot, data, half = "inherit",
         )
 
         vp <- viewport(
-            height = unit(width / sqrt(two), get("page_units", bbEnv)),
-            width = unit(width / sqrt(two), get("page_units", bbEnv)),
+            height = unit(width / sqrt(2), get("page_units", bbEnv)),
+            width = unit(width / sqrt(2), get("page_units", bbEnv)),
             x = unit(0, "npc"), y = unit(0, "npc"),
             xscale = bb_domainsInternal$plot$grobs$vp$xscale,
             yscale = bb_domainsInternal$plot$grobs$vp$yscale,

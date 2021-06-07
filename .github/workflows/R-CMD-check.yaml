@@ -71,7 +71,9 @@ jobs:
         
       - name: Install dependencies pass 2
         run: |
-          remotes::install_github("PhanstielLab/BentoBoxData") 
+          remotes::install_cran("BiocManager")
+          remotes::install_github("PhanstielLab/BentoBoxData")
+          BiocManager::install(c("plyranges", "interactionSet"))
         shell: Rscript {0}   
 
       - name: Check

@@ -134,9 +134,6 @@ bb_plotHicTriangle <- function(data, resolution = "auto", zrange = NULL,
     # FUNCTIONS
     # =========================================================================
 
-    ## For more accurate calculation of sqrt(2)
-    two <- mpfr(2, 120)
-
     ## Define a function that catches errors for bb_plotTriangleHic
     errorcheck_bb_plotTriangleHic <- function(hic, hic_plot, norm, assembly) {
 
@@ -621,7 +618,7 @@ bb_plotHicTriangle <- function(data, resolution = "auto", zrange = NULL,
         vp_side <- (convertWidth(hic_plot$width,
             unitTo = get("page_units", envir = bbEnv),
             valueOnly = TRUE
-        )) / sqrt(two)
+        )) / sqrt(2)
 
         ## Convert coordinates into same units as page for outside vp
         page_coords <- convert_page(object = hic_plot)

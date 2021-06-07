@@ -19,7 +19,6 @@
 #' @importFrom Rcpp sourceCpp
 #' @importFrom data.table fread
 #' @importFrom data.table setDT
-#' @importFrom Rmpfr mpfr
 #' @importFrom ggplotify as.grob
 #' @importFrom ggplotify base2grob
 #' @importFrom RColorBrewer brewer.pal

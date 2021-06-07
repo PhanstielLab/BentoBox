@@ -18,16 +18,18 @@
 #' @return Returns a 6-column dataframe of bigwig information.
 #' 
 #' @examples 
-#' bwFile <- system.file("extdata/test.bw", package="BentoBoxData")
+#' if (.Platform$OS.type != "windows"){
+#'     bwFile <- system.file("extdata/test.bw", package="BentoBoxData")
 #' 
-#' ## Read in entire file
-#' bwData <- bb_readBigwig(file = bwFile)
+#'     ## Read in entire file
+#'     bwData <- bb_readBigwig(file = bwFile)
 #' 
-#' ## Read in specified region
-#' bwRegion <- bb_readBigwig(file = bwFile,
-#'                          chrom = "chr2",
-#'                          chromstart = 1,
-#'                          chromend = 1500)
+#'     ## Read in specified region
+#'     bwRegion <- bb_readBigwig(file = bwFile,
+#'                              chrom = "chr2",
+#'                              chromstart = 1,
+#'                              chromend = 1500)
+#' }
 #' @export
 bb_readBigwig <- function(file, chrom = NULL, chromstart = 1,
                         chromend = .Machine$integer.max,

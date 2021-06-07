@@ -98,9 +98,6 @@ bb_annoPixels <- function(plot, data, type = "box", half = "inherit",
     # =========================================================================
     # FUNCTIONS
     # =========================================================================
-    ## For more accurate calculation of sqrt(2)
-    two <- mpfr(2, 120)
-
     ## Define a function to catch errors for bb_annoPixels
     errorcheck_bb_annoLoops <- function(hic, loops, half, type, quiet) {
 
@@ -634,8 +631,8 @@ bb_annoPixels <- function(plot, data, type = "box", half = "inherit",
         )
 
         vp <- viewport(
-            height = unit(width / sqrt(two), get("page_units", bbEnv)),
-            width = unit(width / sqrt(two), get("page_units", bbEnv)),
+            height = unit(width / sqrt(2), get("page_units", bbEnv)),
+            width = unit(width / sqrt(2), get("page_units", bbEnv)),
             x = bb_loopsInternal$plot$outsideVP$x,
             y = bb_loopsInternal$plot$outsideVP$y,
             xscale = bb_loopsInternal$plot$grobs$vp$xscale,
