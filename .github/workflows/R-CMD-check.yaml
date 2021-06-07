@@ -69,11 +69,21 @@ jobs:
           remotes::install_cran("rcmdcheck")
         shell: Rscript {0}
         
-      - name: Install dependencies pass 2
+      - name: Install BiocManager
         run: |
           remotes::install_cran("BiocManager")
+        shell: Rscript {0}  
+        
+      - name: Set BiocVersion
+        run: |
+          BiocManager::install(version = "${{ matrix.config.bioc }}", ask = FALSE)
+        shell: Rscript {0}
+        
+      - name: Install more dependencies
+        run: |
+          remotes::install_local(dependencies = TRUE, repos = BiocManager::repositories(), build_vignettes = FALSE, upgrade = TRUE)
           remotes::install_github("PhanstielLab/BentoBoxData")
-          BiocManager::install(c("plyranges", "interactionSet"))
+          BiocManager::install(c("plyranges", "InteractionSet"))
         shell: Rscript {0}   
 
       - name: Check
