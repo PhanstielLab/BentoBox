@@ -153,6 +153,11 @@ jobs:
         run: |
           BiocManager::install(version = "${{ matrix.config.bioc }}", ask = FALSE, force = TRUE)
         shell: Rscript {0}
+        
+      - name: Install BentoBoxData
+        run: |
+          remotes::install_github("PhanstielLab/BentoBoxData")
+        shell: Rscript {0}
 
       - name: Install dependencies pass 1
         run: |
@@ -174,9 +179,6 @@ jobs:
           ## Pass #2 at installing dependencies
           message(paste('****', Sys.time(), 'pass number 2 at installing dependencies: any remaining dependencies ****'))
           remotes::install_local(dependencies = TRUE, repos = BiocManager::repositories(), build_vignettes = TRUE, upgrade = TRUE, force = TRUE)
-
-          ## add extra packages
-          remotes::install_github("PhanstielLab/BentoBoxData")
 
           ## For running the checks
           message(paste('****', Sys.time(), 'installing rcmdcheck and BiocCheck ****'))
