@@ -157,6 +157,7 @@ jobs:
       - name: Install BentoBoxData
         run: |
           remotes::install_github("PhanstielLab/BentoBoxData")
+          BiocManager::install("InteractionSet")
         shell: Rscript {0}
 
       - name: Install dependencies pass 1

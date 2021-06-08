@@ -19,7 +19,7 @@ NumericVector readHicBpResolutions(std::string hicFilename)
   if (!readMagicString(fin)) {
     Rcerr << "Hi-C magic string is missing, does not appear to be a hic file" << endl;
     fin.close();
-    return NULL;
+    return 0;
   }
 
   int version;
@@ -27,7 +27,7 @@ NumericVector readHicBpResolutions(std::string hicFilename)
   if (version < 6) {
     Rcerr << "Version " << version << " no longer supported" << endl;
     fin.close();
-    return NULL;
+    return 0;
   }
   long master;
   fin.read((char*)&master, sizeof(long));
