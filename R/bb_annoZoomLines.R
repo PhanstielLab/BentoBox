@@ -227,7 +227,7 @@ bb_annoZoomLines <- function(plot, chrom, chromstart = NULL, chromend = NULL,
     }
 
     ## extend
-    bb_zoom$extend <- misc_defaultUnits(value = bb_extend$y0,
+    bb_zoom$extend <- misc_defaultUnits(value = bb_zoom$extend,
                                     name = "extend",
                                     default.units = 
                                         bb_zoomInternal$default.units)

@@ -948,7 +948,6 @@ bb_plotGenomeLabel <- function(chrom, chromstart = NULL, chromend = NULL,
                                         name = "x",
                                         default.units = 
                                         bb_genomeLabelInternal$default.units)
-    
     bb_genomeLabel$y <- misc_defaultUnits(
         value = bb_genomeLabel$y,
         name = "y",
@@ -957,7 +956,6 @@ bb_plotGenomeLabel <- function(chrom, chromstart = NULL, chromend = NULL,
         value = bb_genomeLabelInternal$length,
         name = "length",
         default.units = bb_genomeLabelInternal$default.units)
-    
     bb_genomeLabelInternal$margin <- misc_defaultUnits(
         value = bb_genomeLabelInternal$margin,
         name = "margin",
