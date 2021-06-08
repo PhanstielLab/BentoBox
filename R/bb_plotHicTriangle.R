@@ -504,6 +504,11 @@ bb_plotHicTriangle <- function(data, resolution = "auto", zrange = NULL,
             hic = bb_thicInternal$data,
             hic_plot = hic_plot
         )
+    } else {
+        hic_plot <- hic_limit(
+            hic = bb_thicInternal$data,
+            hic_plot = hic_plot
+        )
     }
 
     # =========================================================================
@@ -725,17 +730,19 @@ bb_plotHicTriangle <- function(data, resolution = "auto", zrange = NULL,
 
             if (nrow(squares) == 0 & nrow(triangles) == 0) {
                 if (txdbChecks == TRUE) {
-                    warning("No data found in region. ",
-                            "Suggestions: check chromosome, check region.",
-                        call. = FALSE
-                    )
+                    if (!is.na(hic_plot$resolution)){
+                        warning("No data found in region. Suggestions: check that ",
+                                "chromosome names match genome assembly; ",
+                                "check region.", call. = FALSE)
+                    }
                 }
             }
         } else {
-            warning("No data found in region. ",
-                    "Suggestions: check chromosome, check region.",
-                call. = FALSE
-            )
+            if (!is.na(hic_plot$resolution)){
+                warning("No data found in region. Suggestions: check that ",
+                        "chromosome names match genome assembly; ",
+                        "check region.", call. = FALSE)
+            }
         }
     }
 

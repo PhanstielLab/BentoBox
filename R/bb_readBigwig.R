@@ -30,6 +30,11 @@
 #'                              chromstart = 1,
 #'                              chromend = 1500)
 #' }
+#' 
+#' @details This function does not work on Windows.
+#' 
+#' @seealso \link[rtracklayer]{import.bw}
+#' 
 #' @export
 bb_readBigwig <- function(file, chrom = NULL, chromstart = 1,
                         chromend = .Machine$integer.max,

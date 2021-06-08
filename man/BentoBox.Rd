@@ -16,7 +16,7 @@ a page.
 \seealso{
 Useful links:
 \itemize{
-  \item \url{https://phanstiellab.github.io/bentobox}
+  \item \url{https://phanstiellab.github.io/BentoBox}
   \item \url{https://github.com/PhanstielLab/BentoBox}
 }
 

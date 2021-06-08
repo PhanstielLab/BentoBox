@@ -1,4 +1,6 @@
 ## Define a function to adjust/detect resolution based on .hic file/dataframe
+# @param hic hic data argument
+# @param hic_plot hic plot object
 adjust_resolution <- function(hic, hic_plot) {
     if (!("data.frame" %in% class(hic))) {
         if (!is.null(hic_plot$chromstart) & !is.null(hic_plot$chromend)) {
@@ -67,12 +69,50 @@ adjust_resolution <- function(hic, hic_plot) {
     return(hic_plot)
 }
 
+## Define a function that detects bin limit for plotting Hi-C data
+# @param hic hic data argument
+# @param hic_plot hic plot object
+hic_limit <- function(hic, hic_plot){
+    ## Calculate bin number
+    dataRange <- hic_plot$chromend - hic_plot$chromstart
+    binNumber <- dataRange/hic_plot$resolution
+    
+    if (binNumber > 1000){
+        
+        if (!("data.frame" %in% class(hic))) {
+            
+            ## Overwrite manual resolution for Hi-C file
+            hic_plotNew <- adjust_resolution(hic = hic, hic_plot = hic_plot)
+            newRes <- hic_plotNew$resolution
+            hic_plot$resolution <- newRes
+            warning("Attempting to plot too many Hi-C pixels. Adjusting to ",
+                    "a resolution of ", newRes, " BP.", call. = FALSE)
+        } else {
+            warning(hic_plot$resolution, " BP resolution detected in ",
+            "dataframe. Attempting to plot too many Hi-C pixels. Please ",
+            "read in data at a lower resolution before attempting to plot.", 
+            call. = FALSE)
+            hic_plot$resolution <- NA
+        }
+    
+    }
+   
+    return(hic_plot)
+}
+
 ## Define a function that reads in hic data for plotHic functions
+# @param hic hic data argument
+# @param hic_plot hic plot object
+# @param norm normalization factor
+# @param assembly genome assembly
+# @param type matrix type
+# @param quiet message quiet parameter
 read_data <- function(hic, hic_plot, norm, assembly, type, quiet) {
 
     ## if .hic file, read in with bb_rhic
     if (!("data.frame" %in% class(hic))) {
-        if (!is.null(hic_plot$chromstart) & !is.null(hic_plot$chromend)) {
+        if (!is.null(hic_plot$chromstart) & !is.null(hic_plot$chromend) &
+            !is.na(hic_plot$resolution)) {
             readchromstart <- hic_plot$chromstart - hic_plot$resolution
             readchromend <- hic_plot$chromend + hic_plot$resolution
             readaltchromstart <- hic_plot$altchromstart - hic_plot$resolution
@@ -94,7 +134,8 @@ read_data <- function(hic, hic_plot, norm, assembly, type, quiet) {
             hic <- data.frame(matrix(nrow = 0, ncol = 3))
         }
     } else {
-        if (!is.null(hic_plot$chromstart) & !is.null(hic_plot$chromend)) {
+        if (!is.null(hic_plot$chromstart) & !is.null(hic_plot$chromend) &
+            !is.na(hic_plot$resolution)) {
             if (!quiet) {
                 message(
                     "Read in dataframe.  Assuming \'chrom\' in column1 ",
@@ -123,6 +164,8 @@ read_data <- function(hic, hic_plot, norm, assembly, type, quiet) {
 }
 
 ## Define a function that sets the Hi-C zrange
+# @param hic hic data argument
+# @param hic_plot hic plot object
 set_zrange <- function(hic, hic_plot) {
 
     ## no zrange, only one value
@@ -146,6 +189,7 @@ set_zrange <- function(hic, hic_plot) {
 }
 
 ## Define a function that parses an inherited half of a Hi-C plot
+# @param hic hic plot object
 inherit_half <- function(hic) {
     if (class(hic) == "bb_hicSquare") {
         if (is.null(hic$althalf)) {

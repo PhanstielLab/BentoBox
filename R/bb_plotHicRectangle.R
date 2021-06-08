@@ -259,13 +259,11 @@ bb_plotHicRectangle <- function(data, resolution = "auto", zrange = NULL,
             rectChromstart <- NULL
             rectChromend <- NULL
         }
-
-
-
+        
         return(list(rectChromstart, rectChromend))
     }
 
-    ## Define a function that subsets data
+    ## Define a function that subsets data for rectangle Hi-C plot
     subset_data <- function(hic, hic_plot) {
         if (nrow(hic) > 0) {
             hic <- hic[which(hic[, 1] >= floor(hic_plot$chromstart /
@@ -276,7 +274,6 @@ bb_plotHicRectangle <- function(data, resolution = "auto", zrange = NULL,
                     hic_plot$resolution &
                 hic[, 2] < hic_plot$chromend), ]
         }
-
 
         return(hic)
     }
@@ -424,6 +421,11 @@ bb_plotHicRectangle <- function(data, resolution = "auto", zrange = NULL,
 
     if (bb_rhicInternal$resolution == "auto") {
         hic_plot <- adjust_resolution(
+            hic = bb_rhicInternal$data,
+            hic_plot = hic_plot
+        )
+    } else {
+        hic_plot <- hic_limit(
             hic = bb_rhicInternal$data,
             hic_plot = hic_plot
         )
@@ -644,8 +646,11 @@ bb_plotHicRectangle <- function(data, resolution = "auto", zrange = NULL,
                 envir = bbEnv
             )
         } else {
-            warning("No data found in region.  Suggestions: check chromosome, ",
-                    "check region.", call. = FALSE)
+            if (!is.na(hic_plot$resolution)){
+                warning("No data found in region. Suggestions: check that ",
+                        "chromosome names match genome assembly; ",
+                        "check region.", call. = FALSE)
+            }
         }
     }
 

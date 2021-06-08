@@ -543,13 +543,15 @@ bb_readHic <- function(file, chrom, chromstart = NULL, chromend = NULL,
     # RETURN DATAFRAME
     # =========================================================================
     if (nrow(renamed_data) == 0) {
-        warning("No data found in region.", call. = FALSE)
+        warning("No data found in region. Suggestions: check that ",
+                "chromosome names match genome assembly; ",
+                "check region.", call. = FALSE)
     } else {
         if (!bb_rhic$quiet) {
             message(
                 "Read in hic file with ",
                 bb_rhic$norm, " normalization at ",
-                bb_rhic$resolution, bb_rhic$res_scale,
+                bb_rhic$resolution, " ", bb_rhic$res_scale,
                 " resolution."
             )
         }

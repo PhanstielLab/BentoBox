@@ -3,7 +3,7 @@
 
 ## Overview
 
-`BentoBox` is a genomic data vizualization package for R. Using `grid`
+`BentoBox` is a genomic data visualization package for R. Using `grid`
 graphics, `BentoBox` empowers users to programmatically and flexibly
 generate multi-panel figures. `BentoBox` accomplishes these goals by
 utilizing 1) a coordinate-based plotting system, and 2) edge-to-edge

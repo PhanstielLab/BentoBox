@@ -603,6 +603,11 @@ bb_plotHicSquare <- function(data, resolution = "auto", zrange = NULL,
             hic = bb_hicInternal$data,
             hic_plot = hic_plot
         )
+    } else {
+        hic_plot <- hic_limit(
+            hic = bb_hicInternal$data,
+            hic_plot = hic_plot
+        )
     }
 
     # =========================================================================
@@ -780,8 +785,13 @@ bb_plotHicSquare <- function(data, resolution = "auto", zrange = NULL,
                 ))
             }
         } else {
-            warning("No data found in region. ",
-                "Suggestions: check chromosome, check region.", call. = FALSE)
+            
+            if (!is.na(hic_plot$resolution)){
+                warning("No data found in region. Suggestions: check that ",
+                        "chromosome names match genome assembly; ",
+                        "check region.", call. = FALSE)
+            }
+            
         }
     }
 

@@ -162,7 +162,7 @@ jobs:
           ## https://stat.ethz.ch/pipermail/bioc-devel/2020-April/016675.html
           ## https://github.com/r-lib/remotes/issues/296
           ## Ideally, all dependencies should get installed in the first pass.
-
+          
           ## Pass #1 at installing dependencies
           message(paste('****', Sys.time(), 'pass number 1 at installing dependencies: local dependencies ****'))
           remotes::install_local(dependencies = TRUE, repos = BiocManager::repositories(), build_vignettes = TRUE, upgrade = TRUE, force = TRUE)
@@ -177,7 +177,7 @@ jobs:
 
           ## add extra packages
           remotes::install_github("PhanstielLab/BentoBoxData")
-          
+
           ## For running the checks
           message(paste('****', Sys.time(), 'installing rcmdcheck and BiocCheck ****'))
           remotes::install_cran("rcmdcheck")
@@ -233,15 +233,18 @@ jobs:
           BiocGenerics:::testPackage()
         shell: Rscript {0}
 
-      - name: Run BiocCheck
-        run: |
-          BiocCheck::BiocCheck(
-              dir('check', 'tar.gz$', full.names = TRUE),
-              `quit-with-status` = TRUE,
-              `no-check-R-ver` = TRUE,
-              `no-check-bioc-help` = TRUE
-          )
-        shell: Rscript {0}
+      # - name: Run BiocCheck
+      #   run: |
+      #     BiocCheck::BiocCheck(
+      #         dir('check', 'tar.gz$', full.names = TRUE),
+      #         `quit-with-status` = TRUE,
+      #         `no-check-R-ver` = TRUE,
+      #         `no-check-bioc-help` = TRUE,
+      #         `no-check-skip-bioc-tests` = TRUE,
+      #         `no-check-formatting` = TRUE,
+      #         `no-check-function-len` = TRUE
+      #     )
+      #   shell: Rscript {0}
 
       - name: Test coverage
         if: github.ref == 'refs/heads/master' && env.run_covr == 'true' && runner.os == 'Linux'

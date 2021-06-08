@@ -40,6 +40,9 @@ Returns a 6-column dataframe of bigwig information.
 \description{
 Read a bigWig file and return it as a data frame
 }
+\details{
+This function does not work on Windows.
+}
 \examples{
 if (.Platform$OS.type != "windows"){
     bwFile <- system.file("extdata/test.bw", package="BentoBoxData")
@@ -53,4 +56,8 @@ if (.Platform$OS.type != "windows"){
                              chromstart = 1,
                              chromend = 1500)
 }
+
+}
+\seealso{
+\link[rtracklayer]{import.bw}
 }
