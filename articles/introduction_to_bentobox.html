@@ -107,7 +107,7 @@
       <h1 data-toc-skip>Introduction to BentoBox</h1>
                         <h4 class="author">Nicole Kramer, Eric S. Davis, Craig Wenger, Sarah Parker, Erika Deoudes, Douglas H. Phanstiel</h4>
             
-            <h4 class="date">2021-06-04</h4>
+            <h4 class="date">2021-06-08</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/PhanstielLab/BentoBox/blob/master/vignettes/introduction_to_bentobox.Rmd"><code>vignettes/introduction_to_bentobox.Rmd</code></a></small>
       <div class="hidden name"><code>introduction_to_bentobox.Rmd</code></div>
@@ -214,7 +214,7 @@
 <a href="#hi-c-matrices" class="anchor"></a>Hi-C matrices</h3>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">## Load BentoBox</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://phanstiellab.github.io/bentobox">BentoBox</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://phanstiellab.github.io/BentoBox">BentoBox</a></span><span class="op">)</span>
 
 <span class="co">## Load example Hi-C data</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">BentoBoxData</span><span class="op">)</span>
@@ -233,7 +233,7 @@
 <a href="#signal-tracks" class="anchor"></a>Signal tracks</h3>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">## Load BentoBox</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://phanstiellab.github.io/bentobox">BentoBox</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://phanstiellab.github.io/BentoBox">BentoBox</a></span><span class="op">)</span>
 
 <span class="co">## Load example signal data</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">BentoBoxData</span><span class="op">)</span>
@@ -252,7 +252,7 @@
 <a href="#gene-tracks" class="anchor"></a>Gene tracks</h3>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">## Load BentoBox</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://phanstiellab.github.io/bentobox">BentoBox</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://phanstiellab.github.io/BentoBox">BentoBox</a></span><span class="op">)</span>
 
 <span class="co">## Load hg19 genomic annotation packages</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">TxDb.Hsapiens.UCSC.hg19.knownGene</span><span class="op">)</span>
@@ -270,7 +270,7 @@
 <a href="#gwas-manhattan-plots" class="anchor"></a>GWAS Manhattan plots</h3>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">## Load BentoBox</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://phanstiellab.github.io/bentobox">BentoBox</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://phanstiellab.github.io/BentoBox">BentoBox</a></span><span class="op">)</span>
 
 <span class="co">## Load hg19 genomic annotation packages</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">TxDb.Hsapiens.UCSC.hg19.knownGene</span><span class="op">)</span>
@@ -999,48 +999,49 @@
 <span class="co">#&gt;  [5] filelock_1.0.2              progress_1.2.2             </span>
 <span class="co">#&gt;  [7] RColorBrewer_1.1-2          httr_1.4.2                 </span>
 <span class="co">#&gt;  [9] rprojroot_2.0.2             tools_4.1.0                </span>
-<span class="co">#&gt; [11] utf8_1.2.1                  R6_2.5.0                   </span>
-<span class="co">#&gt; [13] DBI_1.1.1                   colorspace_2.0-1           </span>
-<span class="co">#&gt; [15] withr_2.4.2                 prettyunits_1.1.1          </span>
-<span class="co">#&gt; [17] tidyselect_1.1.1            curl_4.3.1                 </span>
-<span class="co">#&gt; [19] bit_4.0.4                   compiler_4.1.0             </span>
-<span class="co">#&gt; [21] textshaping_0.3.4           desc_1.3.0                 </span>
-<span class="co">#&gt; [23] DelayedArray_0.18.0         labeling_0.4.2             </span>
-<span class="co">#&gt; [25] rtracklayer_1.52.0          rappdirs_0.3.3             </span>
-<span class="co">#&gt; [27] pkgdown_1.6.1               systemfonts_1.0.2          </span>
-<span class="co">#&gt; [29] stringr_1.4.0               digest_0.6.27              </span>
-<span class="co">#&gt; [31] Rsamtools_2.8.0             rmarkdown_2.8              </span>
-<span class="co">#&gt; [33] XVector_0.32.0              pkgconfig_2.0.3            </span>
-<span class="co">#&gt; [35] htmltools_0.5.1.1           MatrixGenerics_1.4.0       </span>
-<span class="co">#&gt; [37] dbplyr_2.1.1                fastmap_1.1.0              </span>
-<span class="co">#&gt; [39] highr_0.9                   rlang_0.4.11               </span>
-<span class="co">#&gt; [41] RSQLite_2.2.7               farver_2.1.0               </span>
-<span class="co">#&gt; [43] gridGraphics_0.5-1          BiocIO_1.2.0               </span>
-<span class="co">#&gt; [45] generics_0.1.0              BiocParallel_1.26.0        </span>
-<span class="co">#&gt; [47] dplyr_1.0.6                 RCurl_1.98-1.3             </span>
-<span class="co">#&gt; [49] magrittr_2.0.1              ggplotify_0.0.7            </span>
-<span class="co">#&gt; [51] GenomeInfoDbData_1.2.6      Matrix_1.3-4               </span>
-<span class="co">#&gt; [53] Rcpp_1.0.6                  munsell_0.5.0              </span>
-<span class="co">#&gt; [55] fansi_0.5.0                 lifecycle_1.0.0            </span>
-<span class="co">#&gt; [57] stringi_1.6.2               yaml_2.2.1                 </span>
-<span class="co">#&gt; [59] SummarizedExperiment_1.22.0 zlibbioc_1.38.0            </span>
-<span class="co">#&gt; [61] BiocFileCache_2.0.0         blob_1.2.1                 </span>
-<span class="co">#&gt; [63] crayon_1.4.1                lattice_0.20-44            </span>
-<span class="co">#&gt; [65] Biostrings_2.60.0           hms_1.1.0                  </span>
-<span class="co">#&gt; [67] KEGGREST_1.32.0             knitr_1.33                 </span>
-<span class="co">#&gt; [69] pillar_1.6.1                rjson_0.2.20               </span>
-<span class="co">#&gt; [71] biomaRt_2.48.0              XML_3.99-0.6               </span>
-<span class="co">#&gt; [73] glue_1.4.2                  evaluate_0.14              </span>
-<span class="co">#&gt; [75] data.table_1.14.0           BiocManager_1.30.15        </span>
-<span class="co">#&gt; [77] vctrs_0.3.8                 png_0.1-7                  </span>
-<span class="co">#&gt; [79] gtable_0.3.0                purrr_0.3.4                </span>
-<span class="co">#&gt; [81] assertthat_0.2.1            cachem_1.0.5               </span>
-<span class="co">#&gt; [83] xfun_0.23                   restfulr_0.0.13            </span>
-<span class="co">#&gt; [85] Rmpfr_0.8-4                 ragg_1.1.2                 </span>
-<span class="co">#&gt; [87] tibble_3.1.2                rvcheck_0.1.8              </span>
-<span class="co">#&gt; [89] GenomicAlignments_1.28.0    plyranges_1.12.0           </span>
-<span class="co">#&gt; [91] memoise_2.0.0               gmp_0.6-2                  </span>
-<span class="co">#&gt; [93] ellipsis_0.3.2</span></code></pre></div>
+<span class="co">#&gt; [11] bslib_0.2.5.1               utf8_1.2.1                 </span>
+<span class="co">#&gt; [13] R6_2.5.0                    DBI_1.1.1                  </span>
+<span class="co">#&gt; [15] colorspace_2.0-1            withr_2.4.2                </span>
+<span class="co">#&gt; [17] prettyunits_1.1.1           tidyselect_1.1.1           </span>
+<span class="co">#&gt; [19] curl_4.3.1                  bit_4.0.4                  </span>
+<span class="co">#&gt; [21] compiler_4.1.0              textshaping_0.3.4          </span>
+<span class="co">#&gt; [23] desc_1.3.0                  DelayedArray_0.18.0        </span>
+<span class="co">#&gt; [25] labeling_0.4.2              rtracklayer_1.52.0         </span>
+<span class="co">#&gt; [27] sass_0.4.0                  rappdirs_0.3.3             </span>
+<span class="co">#&gt; [29] pkgdown_1.6.1               systemfonts_1.0.2          </span>
+<span class="co">#&gt; [31] stringr_1.4.0               digest_0.6.27              </span>
+<span class="co">#&gt; [33] Rsamtools_2.8.0             rmarkdown_2.8              </span>
+<span class="co">#&gt; [35] XVector_0.32.0              pkgconfig_2.0.3            </span>
+<span class="co">#&gt; [37] htmltools_0.5.1.1           MatrixGenerics_1.4.0       </span>
+<span class="co">#&gt; [39] dbplyr_2.1.1                fastmap_1.1.0              </span>
+<span class="co">#&gt; [41] highr_0.9                   rlang_0.4.11               </span>
+<span class="co">#&gt; [43] RSQLite_2.2.7               farver_2.1.0               </span>
+<span class="co">#&gt; [45] gridGraphics_0.5-1          jquerylib_0.1.4            </span>
+<span class="co">#&gt; [47] BiocIO_1.2.0                generics_0.1.0             </span>
+<span class="co">#&gt; [49] jsonlite_1.7.2              BiocParallel_1.26.0        </span>
+<span class="co">#&gt; [51] dplyr_1.0.6                 RCurl_1.98-1.3             </span>
+<span class="co">#&gt; [53] magrittr_2.0.1              ggplotify_0.0.7            </span>
+<span class="co">#&gt; [55] GenomeInfoDbData_1.2.6      Matrix_1.3-4               </span>
+<span class="co">#&gt; [57] Rcpp_1.0.6                  munsell_0.5.0              </span>
+<span class="co">#&gt; [59] fansi_0.5.0                 lifecycle_1.0.0            </span>
+<span class="co">#&gt; [61] stringi_1.6.2               yaml_2.2.1                 </span>
+<span class="co">#&gt; [63] SummarizedExperiment_1.22.0 zlibbioc_1.38.0            </span>
+<span class="co">#&gt; [65] BiocFileCache_2.0.0         blob_1.2.1                 </span>
+<span class="co">#&gt; [67] crayon_1.4.1                lattice_0.20-44            </span>
+<span class="co">#&gt; [69] Biostrings_2.60.1           hms_1.1.0                  </span>
+<span class="co">#&gt; [71] KEGGREST_1.32.0             knitr_1.33                 </span>
+<span class="co">#&gt; [73] pillar_1.6.1                rjson_0.2.20               </span>
+<span class="co">#&gt; [75] biomaRt_2.48.0              XML_3.99-0.6               </span>
+<span class="co">#&gt; [77] glue_1.4.2                  evaluate_0.14              </span>
+<span class="co">#&gt; [79] data.table_1.14.0           BiocManager_1.30.15        </span>
+<span class="co">#&gt; [81] png_0.1-7                   vctrs_0.3.8                </span>
+<span class="co">#&gt; [83] gtable_0.3.0                purrr_0.3.4                </span>
+<span class="co">#&gt; [85] assertthat_0.2.1            cachem_1.0.5               </span>
+<span class="co">#&gt; [87] xfun_0.23                   restfulr_0.0.13            </span>
+<span class="co">#&gt; [89] ragg_1.1.2                  tibble_3.1.2               </span>
+<span class="co">#&gt; [91] rvcheck_0.1.8               GenomicAlignments_1.28.0   </span>
+<span class="co">#&gt; [93] plyranges_1.12.0            memoise_2.0.0              </span>
+<span class="co">#&gt; [95] ellipsis_0.3.2</span></code></pre></div>
 </div>
   </div>
 
