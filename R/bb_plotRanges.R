@@ -267,22 +267,12 @@ bb_plotRanges <- function(data, chrom, chromstart = NULL, chromend = NULL,
         object = pileup_plot,
         default.units = bb_pileInternal$default.units
     )
-    if (!"unit" %in% class(bb_pileInternal$boxHeight)) {
-        if (!is.numeric(bb_pileInternal$boxHeight)) {
-            stop("\'boxHeight\' is neither a unit object or a numeric value. ",
-                "Cannot make ranges plot.", call. = FALSE)
-        }
-
-        if (is.null(bb_pileInternal$default.units)) {
-            stop("\'boxHeight\' detected as numeric.\'default.units\' ",
-                "must be specified.", call. = FALSE)
-        }
-
-        bb_pileInternal$boxHeight <- unit(
-            bb_pileInternal$boxHeight,
-            bb_pileInternal$default.units
-        )
-    }
+    
+    bb_pileInternal$boxHeight <- misc_defaultUnits(
+        value = bb_pileInternal$boxHeight,
+        name = "boxHeight",
+        default.units = bb_pileInternal$default.units
+    )
 
     # =========================================================================
     # READ IN FILE OR DATAFRAME

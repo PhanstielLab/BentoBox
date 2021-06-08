@@ -130,55 +130,17 @@ bb_plotText <- function(label, fontcolor = "black", fontsize = 12, rot = 0,
     ## Get page_height and its units from bbEnv through bb_makepage
     page_height <- get("page_height", envir = bbEnv)
     page_units <- get("page_units", envir = bbEnv)
-
-    if (!"unit" %in% class(bb_text$x)) {
-        if (!is.numeric(bb_text$x)) {
-            stop("x-coordinate is neither a unit object or a numeric value. ",
-                "Cannot plot text.", call. = FALSE)
-        }
-
-        if (is.null(bb_textInternal$default.units)) {
-            stop("x-coordinate detected as numeric.\'default.units\' ",
-                "must be specified.", call. = FALSE)
-        }
-
-        bb_text$x <- unit(bb_text$x, bb_textInternal$default.units)
-    }
-
-    if (!"unit" %in% class(bb_text$y)) {
-
-        ## Check for "below" y-coords
-        if (all(grepl("b", bb_text$y)) == TRUE) {
-            if (any(grepl("^[ac-zA-Z]+$", bb_text$y)) == TRUE) {
-                stop("\'below\' y-coordinate(s) detected with additional ",
-                    "letters. Cannot parse y-coordinate(s).", call. = FALSE)
-            }
-
-            if (any(is.na(as.numeric(gsub("b", "", bb_text$y))))) {
-                stop("\'below\' y-coordinate(s) does not have a numeric ",
-                    "associated with it. Cannot parse y-coordinate(s).",
-                    call. = FALSE
-                )
-            }
-
-            bb_text$y <- unit(
-                unlist(lapply(bb_text$y, plot_belowY)),
-                get("page_units", envir = bbEnv)
-            )
-        } else {
-            if (!is.numeric(bb_text$y)) {
-                stop("y-coordinate is neither a unit object or a numeric ",
-                    "value. Cannot plot text.", call. = FALSE)
-            }
-
-            if (is.null(bb_textInternal$default.units)) {
-                stop("y-coordinate detected as numeric.\'default.units\' ",
-                    "must be specified.", call. = FALSE)
-            }
-
-            bb_text$y <- unit(bb_text$y, bb_textInternal$default.units)
-        }
-    }
+    
+    bb_text$x <- misc_defaultUnits(
+        value = bb_text$x,
+        name = "x",
+        default.units = bb_textInternal$default.units
+    )
+    bb_text$y <- misc_defaultUnits(
+        value = bb_text$y,
+        name = "y",
+        default.units = bb_textInternal$default.units
+    )
 
     ## Convert coordinates to page_units
     new_x <- convertX(bb_text$x, unitTo = page_units, valueOnly = TRUE)

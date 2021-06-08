@@ -135,91 +135,12 @@ bb_plotRaster <- function(image, x, y, width, height, just = "center",
     ## Get page_height and its units from bbEnv through bb_makepage
     page_height <- get("page_height", envir = bbEnv)
     page_units <- get("page_units", envir = bbEnv)
-
-    if (!"unit" %in% class(bb_rast$x)) {
-        if (!is.numeric(bb_rast$x)) {
-            stop("x-coordinate is neither a unit object or a numeric value. ",
-                "Cannot plot raster.", call. = FALSE)
-        }
-
-        if (is.null(bb_rastInternal$default.units)) {
-            stop("x-coordinate detected as numeric.\'default.units\' ",
-                "must be specified.", call. = FALSE)
-        }
-
-        bb_rast$x <- unit(bb_rast$x, bb_rastInternal$default.units)
-    }
-
-    if (!"unit" %in% class(bb_rast$y)) {
-
-        ## Check for "below" y-coords
-        if (all(grepl("b", bb_rast$y)) == TRUE) {
-            if (any(grepl("^[ac-zA-Z]+$", bb_rast$y)) == TRUE) {
-                stop("\'below\' y-coordinate(s) detected with ",
-                    "additional letters. Cannot parse y-coordinate(s).",
-                    call. = FALSE
-                )
-            }
-
-            if (any(is.na(as.numeric(gsub("b", "", bb_rast$y))))) {
-                stop("\'below\' y-coordinate(s) does not have a numeric ",
-                    "associated with it. Cannot parse y-coordinate(s).",
-                    call. = FALSE
-                )
-            }
-
-            bb_rast$y <- unit(
-                unlist(lapply(bb_rast$y, plot_belowY)),
-                get("page_units", envir = bbEnv)
-            )
-        } else {
-            if (!is.numeric(bb_rast$y)) {
-                stop("y-coordinate is neither a unit object or a numeric ",
-                    "value. Cannot plot raster.", call. = FALSE)
-            }
-
-            if (is.null(bb_rastInternal$default.units)) {
-                stop("y-coordinate detected as numeric.\'default.units\' ",
-                    "must be specified.", call. = FALSE)
-            }
-
-            bb_rast$y <- unit(bb_rast$y, bb_rastInternal$default.units)
-        }
-    }
-
-    if (!"unit" %in% class(bb_rast$width)) {
-        if (!is.numeric(bb_rast$width)) {
-            stop("width is neither a unit object or a numeric value. ",
-                "Cannot plot raster.", call. = FALSE)
-        }
-
-        if (is.null(bb_rastInternal$default.units)) {
-            stop("width detected as numeric.\'default.units\' must be ",
-                "specified.",
-                call. = FALSE
-            )
-        }
-
-        bb_rast$width <- unit(bb_rast$width, bb_rastInternal$default.units)
-    }
-
-    if (!"unit" %in% class(bb_rast$height)) {
-        if (!is.numeric(bb_rast$height)) {
-            stop("height is neither a unit object or a numeric value. ",
-                "Cannot plot raster.",
-                call. = FALSE
-            )
-        }
-
-        if (is.null(bb_rastInternal$default.units)) {
-            stop("height detected as numeric.\'default.units\' ",
-                "must be specified.",
-                call. = FALSE
-            )
-        }
-
-        bb_rast$height <- unit(bb_rast$height, bb_rastInternal$default.units)
-    }
+    
+    bb_rast <- defaultUnits(
+        object = bb_rast,
+        default.units = bb_rastInternal$default.units
+    )
+    
     ## Convert coordinates to page_units
     new_x <- convertX(bb_rast$x, unitTo = page_units, valueOnly = TRUE)
     new_y <- convertY(bb_rast$y, unitTo = page_units, valueOnly = TRUE)

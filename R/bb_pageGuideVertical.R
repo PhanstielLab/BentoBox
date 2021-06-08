@@ -49,21 +49,18 @@ bb_pageGuideVertical <- function(x, default.units = "inches",
             call. = FALSE
         )
     }
+    
+    # =========================================================================
+    # DEFAULT UNITS
+    # =========================================================================
 
-
-    if (class(bb_vguide$x) != "unit") {
-        if (!is.numeric(bb_vguide$x)) {
-            stop("x-coordinate is neither a unit object or a numeric value. ",
-                "Cannot place object.", call. = FALSE)
-        }
-
-        if (is.null(bb_vguide$default.units)) {
-            stop("x-coordinate detected as numeric.\'default.units\' ",
-                "must be specified.", call. = FALSE)
-        }
-
-        x <- unit(bb_vguide$x, bb_vguide$default.units)
-    }
+    x <- misc_defaultUnits(value = bb_vguide$x, 
+                        name = "x", 
+                        default.units = bb_vguide$default.units)
+    
+    # =========================================================================
+    # MAKE GROB AND ASSIGN TO GTREE
+    # =========================================================================
 
     guide <- grid.segments(
         x0 = x, x1 = x,

@@ -122,71 +122,21 @@ bb_plotCircle <- function(x, y, r, default.units = "inches",
     ## Get page_height and its units from bbEnv through bb_makepage
     page_height <- get("page_height", envir = bbEnv)
     page_units <- get("page_units", envir = bbEnv)
-
-    if (!"unit" %in% class(bb_circle$x)) {
-        if (!is.numeric(bb_circle$x)) {
-            stop("x-coordinate is neither a unit object or a numeric value. ",
-                "Cannot plot circle.", call. = FALSE)
-        }
-
-        if (is.null(bb_circleInternal$default.units)) {
-            stop("x-coordinate detected as numeric.\'default.units\' ",
-                "must be specified.", call. = FALSE)
-        }
-
-        bb_circle$x <- unit(bb_circle$x, bb_circleInternal$default.units)
-    }
-
-    if (!"unit" %in% class(bb_circle$y)) {
-
-        ## Check for "below" y-coords
-        if (all(grepl("b", bb_circle$y)) == TRUE) {
-            if (any(grepl("^[ac-zA-Z]+$", bb_circle$y)) == TRUE) {
-                stop("\'below\' y-coordinate(s) detected with additional ",
-                    "letters. Cannot parse y-coordinate(s).", call. = FALSE)
-            }
-
-            if (any(is.na(as.numeric(gsub("b", "", bb_circle$y))))) {
-                stop("\'below\' y-coordinate(s) does not have a numeric ",
-                    "associated with it. Cannot parse y-coordinate(s).",
-                    call. = FALSE
-                )
-            }
-
-            bb_circle$y <- unit(
-                unlist(lapply(bb_circle$y, plot_belowY)),
-                get("page_units", envir = bbEnv)
-            )
-        } else {
-            if (!is.numeric(bb_circle$y)) {
-                stop("y-coordinate is neither a unit object or a ",
-                    "numeric value. Cannot plot circle.", call. = FALSE)
-            }
-
-            if (is.null(bb_circleInternal$default.units)) {
-                stop("y-coordinate detected as numeric.\'default.units\' ",
-                    "must be specified.", call. = FALSE)
-            }
-
-            bb_circle$y <- unit(bb_circle$y, bb_circleInternal$default.units)
-        }
-    }
-
-    if (!"unit" %in% class(bb_circle$r)) {
-        if (!is.numeric(bb_circle$r)) {
-            stop("Radius is neither a unit object or a numeric value. ",
-                "Cannot plot circle.", call. = FALSE)
-        }
-
-        if (is.null(bb_circleInternal$default.units)) {
-            stop("Radius detected as numeric.\'default.units\' ",
-                "must be specified.",
-                call. = FALSE
-            )
-        }
-
-        bb_circle$r <- unit(bb_circle$r, bb_circleInternal$default.units)
-    }
+    
+    bb_circle$x <- misc_defaultUnits(value = bb_circle$x,
+                                    name = "x",
+                                    default.units = 
+                                        bb_circleInternal$default.units)
+    
+    bb_circle$y <- misc_defaultUnits(value = bb_circle$y,
+                                    name = "y",
+                                    default.units = 
+                                        bb_circleInternal$default.units)
+    
+    bb_circle$r <- misc_defaultUnits(value = bb_circle$r,
+                                    name = "r",
+                                    default.units = 
+                                        bb_circleInternal$default.units)
 
     ## Convert coordinates to page_units
     new_x <- convertX(bb_circle$x, unitTo = page_units, valueOnly = TRUE)

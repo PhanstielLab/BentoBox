@@ -71,7 +71,8 @@ setGP <- function(gpList, params, ...) {
     return(gpList)
 }
 
-## Define a function that converts coordinates/dimensions into default units
+## Define a function that converts coordinates/dimensions 
+## for standard plot objects into default units
 # @param object Function object containing x, y, width, height valus
 # @param default.units String value of default.units
 defaultUnits <- function(object, default.units) {
@@ -111,11 +112,11 @@ defaultUnits <- function(object, default.units) {
             } else {
                 if (!is.numeric(object$y)) {
                     stop("y-coordinate is neither a unit object nor a ",
-                        "numeric value. Cannot place object.", call. = FALSE)
+                        "numeric value. Cannot place plot.", call. = FALSE)
                 }
                 
                 if (is.null(default.units)) {
-                    stop("y-coordinate detected as numeric.\'default.units\' ",
+                    stop("y-coordinate detected as numeric. \'default.units\' ",
                         "must be specified.", call. = FALSE)
                 }
                 
@@ -125,12 +126,12 @@ defaultUnits <- function(object, default.units) {
         
         if (!"unit" %in% class(object$width)) {
             if (!is.numeric(object$width)) {
-                stop("Width is neither a unit object nor a numeric value. ",
-                    "Cannot place object.", call. = FALSE)
+                stop("width is neither a unit object nor a numeric value. ",
+                    "Cannot place plot.", call. = FALSE)
             }
             
             if (is.null(default.units)) {
-                stop("Width detected as numeric.\'default.units\' must ",
+                stop("width detected as numeric. \'default.units\' must ",
                     "be specified.",
                     call. = FALSE
                 )
@@ -141,12 +142,12 @@ defaultUnits <- function(object, default.units) {
         
         if (!"unit" %in% class(object$height)) {
             if (!is.numeric(object$height)) {
-                stop("Height is neither a unit object nor a numeric ",
-                    "value. Cannot place object.", call. = FALSE)
+                stop("height is neither a unit object nor a numeric ",
+                    "value. Cannot place plot.", call. = FALSE)
             }
             
             if (is.null(default.units)) {
-                stop("Height detected as numeric.\'default.units\' ",
+                stop("height detected as numeric.v\'default.units\' ",
                     "must be specified.",
                     call. = FALSE
                 )
@@ -157,4 +158,81 @@ defaultUnits <- function(object, default.units) {
     }
     
     return(object)
+}
+
+## Define a function that converts coordinates/dimensions 
+## for other miscellaneous elements into default units
+# @param value value to be checked/converted
+# @param name string name identifying king of value
+# @param default.units String value of default.units
+# @param funName String value of function name called within
+# @param yBelow Logical indicating whether to allow "below" y coords
+misc_defaultUnits <- function(value, name, default.units, 
+                            funName = NULL, yBelow = TRUE){
+    
+    if (!"unit" %in% class(value)){
+        ## Check for y
+        if (grepl("y", name)){
+            ## Check for "below" y-coord
+            if (all(grepl("b", value))){
+                if (yBelow == FALSE){
+                    stop("\'below\' ", name, "-coordinate detected. Cannot ",
+                        "parse \'below\' ", name, "-coordinate for ", 
+                        funName, ".",
+                        call. = FALSE)
+                } else {
+                    ## "below" y-coord additional letters
+                    if (any(grepl("^[ac-zA-Z]+$", value))){
+                        stop("\below\' ", name, "-coordinate detected with ",
+                            "additional letters. Cannot parse ",
+                            name, "-coordinate.", call. = FALSE)
+                    }
+                    ## "below" y-coord missing a number
+                    if (any(is.na(as.numeric(gsub("b", "", value))))){
+                        stop("\below\' ", name, "-coordinate does not have ",
+                            "a numeric associated with it. Cannot parse ",
+                            name, "-coordinate.", call. = FALSE)
+                    }
+                    
+                    value <- unit(unlist(lapply(value, plot_belowY)),
+                                get("page_units", envir = bbEnv))
+                    
+                }
+            } else {
+                ## y-coord, not detected as "below"
+                if (!is.numeric(value)){
+                    stop(name, "-coordinate is neither a unit object nor a ",
+                        "numeric value. Cannot place plot.", call. = FALSE)
+                }
+                if (is.null(default.units)){
+                    stop(name, "-coordinate detected as numeric. ",
+                        "\'default.units\' must be specified.", call. = FALSE)
+                }
+                value <- unit(value, default.units)
+            }
+            
+            
+        } else {
+            
+            if (grepl("x", name)){
+                name <- paste0(name, "-coordinate")
+            }
+            
+            if (!is.numeric(value)){
+                stop(name, " is neither a unit object nor a ",
+                    "numeric value. Cannot place plot.", call. = FALSE)
+            }
+            if (is.null(default.units)){
+                stop(name, " detected as numeric. ",
+                    "\'default.units\' must be specified.", call. = FALSE)
+            }
+            value <- unit(value, default.units) 
+        }
+        
+        
+        
+        
+    }
+    
+    return(value)
 }

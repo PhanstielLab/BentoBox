@@ -943,94 +943,25 @@ bb_plotGenomeLabel <- function(chrom, chromstart = NULL, chromend = NULL,
     # =========================================================================
     # PARSE UNITS
     # =========================================================================
-    if (!"unit" %in% class(bb_genomeLabel$x)) {
-        if (!is.numeric(bb_genomeLabel$x)) {
-            stop("x-coordinate is neither a unit object or a numeric value. ",
-                "Cannot place object.", call. = FALSE)
-        }
-
-        if (is.null(bb_genomeLabelInternal$default.units)) {
-            stop("x-coordinate detected as numeric.\'default.units\' ",
-                "must be specified.", call. = FALSE)
-        }
-
-        bb_genomeLabel$x <- unit(
-            bb_genomeLabel$x,
-            bb_genomeLabelInternal$default.units
-        )
-    }
-
-    if (!"unit" %in% class(bb_genomeLabel$y)) {
-
-        ## Check for "below" y-coord
-        if (grepl("b", bb_genomeLabel$y) == TRUE) {
-            if (grepl("^[ac-zA-Z]+$", bb_genomeLabel$y) == TRUE) {
-                stop("\'below\' y-coordinate detected with additional ",
-                    "letters. Cannot parse y-coordinate.", call. = FALSE)
-            }
-
-            if (is.na(as.numeric(gsub("b", "", bb_genomeLabel$y)))) {
-                stop("\'below\' y-coordinate does not have a numeric ",
-                    "associated with it. Cannot parse y-coordinate.",
-                    call. = FALSE
-                )
-            }
-
-            bb_genomeLabel$y <- plot_belowY(y_coord = bb_genomeLabel$y)
-        } else {
-            if (!is.numeric(bb_genomeLabel$y)) {
-                stop("y-coordinate is neither a unit object or a numeric ",
-                    "value. Cannot place object.", call. = FALSE)
-            }
-
-            if (is.null(bb_genomeLabelInternal$default.units)) {
-                stop("y-coordinate detected as numeric.\'default.units\' ",
-                    "must be specified.", call. = FALSE)
-            }
-
-            bb_genomeLabel$y <- unit(
-                bb_genomeLabel$y,
-                bb_genomeLabelInternal$default.units
-            )
-        }
-    }
-
-    if (!"unit" %in% class(bb_genomeLabelInternal$length)) {
-        if (!is.numeric(bb_genomeLabelInternal$length)) {
-            stop("Length is neither a unit object or a numeric value. ",
-                "Cannot place object.", call. = FALSE)
-        }
-
-        if (is.null(bb_genomeLabelInternal$default.units)) {
-            stop("Length detected as numeric.\'default.units\' must ",
-                "be specified.", call. = FALSE)
-        }
-
-        bb_genomeLabelInternal$length <- unit(
-            bb_genomeLabelInternal$length,
-            bb_genomeLabelInternal$default.units
-        )
-    }
-
-    if (!"unit" %in% class(bb_genomeLabelInternal$margin)) {
-        if (!is.numeric(bb_genomeLabelInternal$margin)) {
-            stop("Margin is neither a unit object or a numeric value. ",
-                "Cannot place object.", call. = FALSE)
-        }
-
-        if (is.null(bb_genomeLabelInternal$default.units)) {
-            stop("Margin detected as numeric.\'default.units\' ",
-                "must be specified.",
-                call. = FALSE
-            )
-        }
-
-        bb_genomeLabelInternal$margin <- unit(
-            bb_genomeLabelInternal$margin,
-            bb_genomeLabelInternal$default.units
-        )
-    }
-
+    
+    bb_genomeLabel$x <- misc_defaultUnits(value = bb_genomeLabel$x,
+                                        name = "x",
+                                        default.units = 
+                                        bb_genomeLabelInternal$default.units)
+    
+    bb_genomeLabel$y <- misc_defaultUnits(
+        value = bb_genomeLabel$y,
+        name = "y",
+        default.units = bb_genomeLabelInternal$default.units)
+    bb_genomeLabelInternal$length <- misc_defaultUnits(
+        value = bb_genomeLabelInternal$length,
+        name = "length",
+        default.units = bb_genomeLabelInternal$default.units)
+    
+    bb_genomeLabelInternal$margin <- misc_defaultUnits(
+        value = bb_genomeLabelInternal$margin,
+        name = "margin",
+        default.units = bb_genomeLabelInternal$default.units)
     
     # =========================================================================
     # SET UP PAGE/SCALE
@@ -1038,15 +969,12 @@ bb_plotGenomeLabel <- function(chrom, chromstart = NULL, chromend = NULL,
     ## Determine scale of labels
     if (bb_genomeLabelInternal$scale == "bp") {
         fact <- 1
-        # format = "d"
     }
     if (bb_genomeLabelInternal$scale == "Mb") {
         fact <- 1000000
-        # format = NULL
     }
     if (bb_genomeLabelInternal$scale == "Kb") {
         fact <- 1000
-        # format = "d"
     }
 
     margin_height <- convertHeight(bb_genomeLabelInternal$margin,

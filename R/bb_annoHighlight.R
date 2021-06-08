@@ -216,60 +216,14 @@ bb_annoHighlight <- function(plot, chrom, chromstart = NULL, chromend = NULL,
 
     page_units <- get("page_units", envir = bbEnv)
 
-    if (!"unit" %in% class(bb_highlight$y)) {
-
-        ## Check for "below" y-coords
-        if (all(grepl("b", bb_highlight$y)) == TRUE) {
-            if (any(grepl("^[ac-zA-Z]+$", bb_highlight$y)) == TRUE) {
-                stop("\'below\' y-coordinate(s) detected with ",
-                    "additional letters. Cannot parse ",
-                    "y-coordinate(s).", call. = FALSE)
-            }
-
-            if (any(is.na(as.numeric(gsub("b", "", bb_highlight$y))))) {
-                stop("\'below\' y-coordinate(s) does not have a numeric ",
-                    "associated with it. Cannot parse ",
-                    "y-coordinate(s).", call. = FALSE)
-            }
-
-            bb_highlight$y <- unit(
-                unlist(lapply(bb_highlight$y, plot_belowY)),
-                page_units
-            )
-        } else {
-            if (!is.numeric(bb_highlight$y)) {
-                stop("y-coordinate is neither a unit object or a ",
-                    "numeric value. Cannot plot text.", call. = FALSE)
-            }
-
-            if (is.null(bb_highlightInternal$default.units)) {
-                stop("y-coordinate detected as numeric.\'default.units\' ",
-                    "must be specified.", call. = FALSE)
-            }
-
-            bb_highlight$y <- unit(
-                bb_highlight$y,
-                bb_highlightInternal$default.units
-            )
-        }
-    }
-
-    if (!"unit" %in% class(bb_highlight$height)) {
-        if (!is.numeric(bb_highlight$height)) {
-            stop("Height is neither a unit object or a ",
-                "numeric value. Cannot place object.", call. = FALSE)
-        }
-
-        if (is.null(bb_highlightInternal$default.units)) {
-            stop("Height detected as numeric.\'default.units\' ",
-                "must be specified.", call. = FALSE)
-        }
-
-        bb_highlight$height <- unit(
-            bb_highlight$height,
-            bb_highlightInternal$default.units
-        )
-    }
+    bb_highlight$y <- misc_defaultUnits(value = bb_highlight$y,
+                                        name = "y",
+                                        default.units = 
+                                            bb_highlightInternal$default.units)
+    bb_highlight$height <- misc_defaultUnits(value = bb_highlight$height,
+                                        name = "height",
+                                        default.units = 
+                                            bb_highlightInternal$default.units)
 
     if (class(bb_highlightInternal$plot) == "bb_genes") {
         plotVP <- bb_highlightInternal$plot$grobs$children$background$vp

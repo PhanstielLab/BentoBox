@@ -96,7 +96,7 @@ hic_limit <- function(hic, hic_plot){
         }
     
     }
-   
+    
     return(hic_plot)
 }
 

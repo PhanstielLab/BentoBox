@@ -250,25 +250,13 @@ bb_plotPairs <- function(data, chrom, chromstart = NULL, chromend = NULL,
         object = bb_bedpe,
         default.units = bb_bedpeInternal$default.units
     )
-    if (!"unit" %in% class(bb_bedpeInternal$boxHeight)) {
-        if (!is.numeric(bb_bedpeInternal$boxHeight)) {
-            stop("\'boxHeight\' is neither a unit object or a ",
-                "numeric value. Cannot make paired ranges plot.",
-                call. = FALSE
-            )
-        }
-
-        if (is.null(bb_bedpeInternal$default.units)) {
-            stop("\'boxHeight\' detected as numeric.\'default.units\' ",
-                "must be specified.", call. = FALSE)
-        }
-
-        bb_bedpeInternal$boxHeight <- unit(
-            bb_bedpeInternal$boxHeight,
-            bb_bedpeInternal$default.units
-        )
-    }
-
+    
+    bb_bedpeInternal$boxHeight <- misc_defaultUnits(
+        value = bb_bedpeInternal$boxHeight,
+        name = "boxHeight",
+        default.units = bb_bedpeInternal$default.units
+    )
+    
     # =========================================================================
     # READ IN FILE OR DATAFRAME
     # =========================================================================

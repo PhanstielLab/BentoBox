@@ -211,106 +211,25 @@ bb_pagePlotPlace <- function(plot, x = NULL, y = NULL, width = NULL,
     # =========================================================================
 
     if (!is.null(bb_place$x)) {
-        if (!"unit" %in% class(bb_place$x)) {
-            if (!is.numeric(bb_place$x)) {
-                warning("x-coordinate is neither a unit object or a ",
-                        "numeric value. Cannot parse x-coordinate.",
-                    call. = FALSE
-                )
-                bb_place$x <- NULL
-            }
-
-            if (is.null(bb_place$default.units)) {
-                warning("x-coordinate detected as numeric.\'default.units\' ",
-                        "must be specified.", call. = FALSE)
-                bb_place$x <- NULL
-            }
-
-            bb_place$x <- unit(bb_place$x, bb_place$default.units)
-        }
+        bb_place$x <- misc_defaultUnits(value = bb_place$x, 
+                                        name = "x",
+                                        default.units = bb_place$default.units)
     }
-
     if (!is.null(bb_place$y)) {
-        if (!"unit" %in% class(bb_place$y)) {
-
-            ## Check for "below" y-coord
-            if (grepl("b", bb_place$y) == TRUE) {
-                if (grepl("^[ac-zA-Z]+$", bb_place$y) == TRUE) {
-                    warning("\'below\' y-coordinate detected with additional ",
-                            "letters. Cannot parse y-coordinate.",
-                        call. = FALSE
-                    )
-                    bb_place$y <- NULL
-                }
-
-                if (is.na(as.numeric(gsub("b", "", bb_place$y)))) {
-                    warning("\'below\' y-coordinate does not have a ",
-                            "numeric associated with it. ",
-                            "Cannot parse y-coordinate.", call. = FALSE)
-                    bb_place$y <- NULL
-                }
-
-                bb_place$y <- plot_belowY(y_coord = bb_place$y)
-            } else {
-                if (!is.numeric(bb_place$y)) {
-                    warning("y-coordinate is neither a unit object or ",
-                            "a numeric value. Cannot parse y-coordinate.",
-                        call. = FALSE
-                    )
-                    bb_place$y <- NULL
-                }
-
-                if (is.null(bb_place$default.units)) {
-                    warning("y-coordinate detected as numeric. ",
-                            "\'default.units\' must be specified.",
-                        call. = FALSE
-                    )
-                    bb_place$y <- NULL
-                }
-
-                bb_place$y <- unit(bb_place$y, bb_place$default.units)
-            }
-        }
+        bb_place$y <- misc_defaultUnits(value = bb_place$y, 
+                                        name = "y",
+                                        default.units = bb_place$default.units)
     }
-
     if (!is.null(bb_place$width)) {
-        if (!"unit" %in% class(bb_place$width)) {
-            if (!is.numeric(bb_place$width)) {
-                warning("width is neither a unit object or a ",
-                        "numeric value. Cannot parse width.",
-                    call. = FALSE
-                )
-                bb_place$width <- NULL
-            }
-
-            if (is.null(bb_place$default.units)) {
-                warning("width detected as numeric.\'default.units\' ",
-                        "must be specified.", call. = FALSE)
-                bb_place$width <- NULL
-            }
-
-            bb_place$width <- unit(bb_place$width, bb_place$default.units)
-        }
+        bb_place$width <- misc_defaultUnits(value = bb_place$width, 
+                                        name = "width",
+                                        default.units = bb_place$default.units)
     }
-
     if (!is.null(bb_place$height)) {
-        if (!"unit" %in% class(bb_place$height)) {
-            if (!is.numeric(bb_place$height)) {
-                warning("height is neither a unit object or a ",
-                        "numeric value. Cannot parse height.",
-                    call. = FALSE
-                )
-                bb_place$height <- NULL
-            }
-
-            if (is.null(bb_place$default.units)) {
-                warning("height detected as numeric.\'default.units\' ",
-                        "must be specified.", call. = FALSE)
-                bb_place$height <- NULL
-            }
-
-            bb_place$height <- unit(bb_place$height, bb_place$default.units)
-        }
+        bb_place$height <- misc_defaultUnits(value = bb_place$height, 
+                                            name = "height",
+                                            default.units = 
+                                                bb_place$default.units)
     }
 
     # =========================================================================

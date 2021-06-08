@@ -146,85 +146,12 @@ bb_plotRect <- function(x, y, width, height, just = "center",
     ## Get page_height and its units from bbEnv through bb_makepage
     page_height <- get("page_height", envir = bbEnv)
     page_units <- get("page_units", envir = bbEnv)
+    
+    bb_rect <- defaultUnits(
+        object = bb_rectt,
+        default.units = bb_rectInternal$default.units
+    )
 
-    if (!"unit" %in% class(bb_rect$x)) {
-        if (!is.numeric(bb_rect$x)) {
-            stop("x-coordinate is neither a unit object or a numeric ",
-                "value. Cannot plot rectangle.", call. = FALSE)
-        }
-
-        if (is.null(bb_rectInternal$default.units)) {
-            stop("x-coordinate detected as numeric.\'default.units\' ",
-                "must be specified.", call. = FALSE)
-        }
-
-        bb_rect$x <- unit(bb_rect$x, bb_rectInternal$default.units)
-    }
-
-    if (!"unit" %in% class(bb_rect$y)) {
-
-        ## Check for "below" y-coords
-        if (all(grepl("b", bb_rect$y)) == TRUE) {
-            if (any(grepl("^[ac-zA-Z]+$", bb_rect$y)) == TRUE) {
-                stop("\'below\' y-coordinate(s) detected with additional ",
-                    "letters. Cannot parse y-coordinate(s).", call. = FALSE)
-            }
-
-            if (any(is.na(as.numeric(gsub("b", "", bb_rect$y))))) {
-                stop("\'below\' y-coordinate(s) does not have a numeric ",
-                    "associated with it. Cannot parse y-coordinate(s).",
-                    call. = FALSE
-                )
-            }
-
-            bb_rect$y <- unit(
-                unlist(lapply(bb_rect$y, plot_belowY)),
-                get("page_units", envir = bbEnv)
-            )
-        } else {
-            if (!is.numeric(bb_rect$y)) {
-                stop("y-coordinate is neither a unit object or a numeric ",
-                    "value. Cannot plot rectangle.", call. = FALSE)
-            }
-
-            if (is.null(bb_rectInternal$default.units)) {
-                stop("y-coordinate detected as numeric.\'default.units\' ",
-                    "must be specified.", call. = FALSE)
-            }
-
-            bb_rect$y <- unit(bb_rect$y, bb_rectInternal$default.units)
-        }
-    }
-
-    if (!"unit" %in% class(bb_rect$width)) {
-        if (!is.numeric(bb_rect$width)) {
-            stop("width is neither a unit object or a numeric value. ",
-                "Cannot plot rectangle.", call. = FALSE)
-        }
-
-        if (is.null(bb_rectInternal$default.units)) {
-            stop("width detected as numeric.\'default.units\' ",
-                "must be specified.",
-                call. = FALSE
-            )
-        }
-
-        bb_rect$width <- unit(bb_rect$width, bb_rectInternal$default.units)
-    }
-
-    if (!"unit" %in% class(bb_rect$height)) {
-        if (!is.numeric(bb_rect$height)) {
-            stop("height is neither a unit object or a numeric value. ",
-                "Cannot plot rectangle.", call. = FALSE)
-        }
-
-        if (is.null(bb_rectInternal$default.units)) {
-            stop("height detected as numeric.\'default.units\' ",
-                "must be specified.", call. = FALSE)
-        }
-
-        bb_rect$height <- unit(bb_rect$height, bb_rectInternal$default.units)
-    }
     ## Convert coordinates to page_units
     new_x <- convertX(bb_rect$x, unitTo = page_units, valueOnly = TRUE)
     new_y <- convertY(bb_rect$y, unitTo = page_units, valueOnly = TRUE)

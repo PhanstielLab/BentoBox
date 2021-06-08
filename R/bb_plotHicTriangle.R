@@ -731,7 +731,8 @@ bb_plotHicTriangle <- function(data, resolution = "auto", zrange = NULL,
             if (nrow(squares) == 0 & nrow(triangles) == 0) {
                 if (txdbChecks == TRUE) {
                     if (!is.na(hic_plot$resolution)){
-                        warning("No data found in region. Suggestions: check that ",
+                        warning("No data found in region. Suggestions: ",
+                                "check that ",
                                 "chromosome names match genome assembly; ",
                                 "check region.", call. = FALSE)
                     }

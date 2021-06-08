@@ -118,41 +118,17 @@ bb_annoText <- function(label, fontcolor = "black", fontsize = 12, rot = 0,
     ## Get page_height and its units from bbEnv through bb_pageCreate
     page_height <- get("page_height", envir = bbEnv)
     page_units <- get("page_units", envir = bbEnv)
-
-    if (!"unit" %in% class(bb_text$x)) {
-        if (!is.numeric(bb_text$x)) {
-            stop("x-coordinate is neither a unit object or a numeric value. ",
-                "Cannot place object.", call. = FALSE)
-        }
-
-        if (is.null(bb_textInternal$default.units)) {
-            stop("x-coordinate detected as numeric.\'default.units\' ",
-                "must be specified.", call. = FALSE)
-        }
-
-        bb_text$x <- unit(bb_text$x, bb_textInternal$default.units)
-    }
-
-    if (!"unit" %in% class(bb_text$y)) {
-
-        ## Check for "below" y-coord
-        if (grepl("b", bb_text$y) == TRUE) {
-            stop("\'below\' y-coordinate detected. Cannot parse \'below\' ",
-                "y-coordinate for bb_annoText.", call. = FALSE)
-        } else {
-            if (!is.numeric(bb_text$y)) {
-                stop("y-coordinate is neither a unit object or a ",
-                    "numeric value. Cannot place object.", call. = FALSE)
-            }
-
-            if (is.null(bb_textInternal$default.units)) {
-                stop("y-coordinate detected as numeric.\'default.units\' ",
-                    "must be specified.", call. = FALSE)
-            }
-
-            bb_text$y <- unit(bb_text$y, bb_textInternal$default.units)
-        }
-    }
+    
+    bb_text$x <- misc_defaultUnits(value = bb_text$x,
+                                name = "x",
+                                default.units = 
+                                    bb_textInternal$default.units)
+    bb_text$y <- misc_defaultUnits(value = bb_text$y,
+                                name = "y",
+                                default.units = 
+                                    bb_textInternal$default.units,
+                                funName = "bb_annoText",
+                                yBelow = FALSE)
 
     if (class(bb_textInternal$plot) == "bb_genes") {
         plotVP <- bb_textInternal$plot$grobs$children$background$vp

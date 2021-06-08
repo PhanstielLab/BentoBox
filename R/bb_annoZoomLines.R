@@ -203,71 +203,34 @@ bb_annoZoomLines <- function(plot, chrom, chromstart = NULL, chromend = NULL,
     # =========================================================================
 
     ## y0
-    if (!"unit" %in% class(bb_zoom$y0)) {
-
-        ## Check for "below" y0-coords
-        if (all(grepl("b", bb_zoom$y0)) == TRUE) {
-            stop("\'below\' y0-coordinate detected. Cannot parse \'below\' ",
-                "y-coordinate for bb_annoZoomLines.", call. = FALSE)
-        } else {
-            if (!is.numeric(bb_zoom$y0)) {
-                stop("y0-coordinate is neither a unit object or a numeric ",
-                    "value. Cannot annotate zoom lines.", call. = FALSE)
-            }
-
-            if (is.null(bb_zoomInternal$default.units)) {
-                stop("y0-coordinate detected as numeric.\'default.units\' ",
-                    "must be specified.", call. = FALSE)
-            }
-
-            bb_zoom$y0 <- unit(bb_zoom$y0, bb_zoomInternal$default.units)
-        }
-    }
-
+    bb_zoom$y0 <- misc_defaultUnits(value = bb_zoom$y0,
+                                    name = "y0",
+                                    default.units = 
+                                        bb_zoomInternal$default.units,
+                                    funName = "bb_annoZoomLines",
+                                    yBelow = FALSE)
+    
     if (length(bb_zoom$y0) == 1) {
         bb_zoom$y0 <- rep(bb_zoom$y0, 2)
     }
 
     ## y1
-    if (!"unit" %in% class(bb_zoom$y1)) {
-
-        ## Check for "below" y0-coords
-        if (all(grepl("b", bb_zoom$y1)) == TRUE) {
-            stop("\'below\' y1-coordinate detected. Cannot parse \'below\' ",
-                "y-coordinate for bb_annoZoomLines.", call. = FALSE)
-        } else {
-            if (!is.numeric(bb_zoom$y1)) {
-                stop("y1-coordinate is neither a unit object or a numeric ",
-                    "value. Cannot annotate zoom lines.", call. = FALSE)
-            }
-
-            if (is.null(bb_zoomInternal$default.units)) {
-                stop("y1-coordinate detected as numeric.\'default.units\' ",
-                    "must be specified.", call. = FALSE)
-            }
-
-            bb_zoom$y1 <- unit(bb_zoom$y1, bb_zoomInternal$default.units)
-        }
-    }
+    bb_zoom$y1 <- misc_defaultUnits(value = bb_zoom$y1,
+                                    name = "y1",
+                                    default.units = 
+                                        bb_zoomInternal$default.units,
+                                    funName = "bb_annoZoomLines",
+                                    yBelow = FALSE)
 
     if (length(bb_zoom$y1) == 1) {
         bb_zoom$y1 <- rep(bb_zoom$y1, 2)
     }
 
     ## extend
-    if (!"unit" %in% class(bb_zoom$extend)) {
-        if (!is.numeric(bb_zoom$extend)) {
-            stop("\'extend\' is neither a unit object or a numeric value. ",
-                "Cannot annotate zoom lines.", call. = FALSE)
-        }
-
-        if (is.null(bb_zoomInternal$default.units)) {
-            stop("\'extend\' detected as numeric.\'default.units\' must ",
-                "be specified.", call. = FALSE)
-        }
-
-        bb_zoom$extend <- unit(bb_zoom$extend, bb_zoomInternal$default.units)
-    }
+    bb_zoom$extend <- misc_defaultUnits(value = bb_extend$y0,
+                                    name = "extend",
+                                    default.units = 
+                                        bb_zoomInternal$default.units)
 
     if (length(bb_zoom$extend) == 1) {
         bb_zoom$extend <- rep(bb_zoom$extend, 2)

@@ -51,26 +51,11 @@ bb_pageGuideHorizontal <- function(y, default.units = "inches",
     # DEFAULT UNITS
     # =========================================================================
 
-    if (!"unit" %in% class(bb_hguide$y)) {
-
-        ## Check for "below" y-coords
-        if (any(grepl("b", bb_hguide$y)) == TRUE) {
-            stop("\'below\' y-coordinate detected. Cannot parse \'below\' ",
-                "y-coordinate for bb_pageGuideHorizontal.", call. = FALSE)
-        } else {
-            if (!is.numeric(bb_hguide$y)) {
-                stop("y-coordinate is neither a unit object or a ",
-                    "numeric value. Cannot place Hguide.", call. = FALSE)
-            }
-
-            if (is.null(bb_hguide$default.units)) {
-                stop("y-coordinate detected as numeric.\'default.units\' ",
-                    "must be specified.", call. = FALSE)
-            }
-
-            y <- unit(bb_hguide$y, bb_hguide$default.units)
-        }
-    }
+    y <- misc_defaultUnits(value = bb_hguide$y, 
+                        name = "y",
+                        default.units = bb_hguide$default.units,
+                        funName = "bb_pageGuideHorizontal",
+                        yBelow = FALSE)
 
     # =========================================================================
     # MAKE GROB AND ASSIGN TO GTREE

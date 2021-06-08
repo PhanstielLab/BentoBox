@@ -169,89 +169,27 @@ bb_annoSegments <- function(x0, y0, x1, y1, plot, default.units = "native",
     ## Get page_height and its units from bbEnv through bb_pageCreate
     page_height <- get("page_height", envir = bbEnv)
     page_units <- get("page_units", envir = bbEnv)
-
-    if (!"unit" %in% class(bb_segments$x0)) {
-        if (!is.numeric(bb_segments$x0)) {
-            stop("x0-coordinate is neither a unit object or a numeric value. ",
-                "Cannot plot segment.", call. = FALSE)
-        }
-
-        if (is.null(bb_segmentsInternal$default.units)) {
-            stop("x0-coordinate detected as numeric.\'default.units\' must ",
-                "be specified.", call. = FALSE)
-        }
-
-        bb_segments$x0 <- unit(
-            bb_segments$x0,
-            bb_segmentsInternal$default.units
-        )
-    }
-
-    if (!"unit" %in% class(bb_segments$y0)) {
-
-        ## Check for "below" y0-coords
-        if (all(grepl("b", bb_segments$y0)) == TRUE) {
-            stop("\'below\' y0-coordinate detected. Cannot parse \'below\' ",
-                "y-coordinate for bb_annoSegments.", call. = FALSE)
-        } else {
-            if (!is.numeric(bb_segments$y0)) {
-                stop("y0-coordinate is neither a unit object or a ",
-                    "numeric value. Cannot plot segment.", call. = FALSE)
-            }
-
-            if (is.null(bb_segmentsInternal$default.units)) {
-                stop("y0-coordinate detected as numeric.\'default.units\' ",
-                    "must be specified.", call. = FALSE)
-            }
-
-            bb_segments$y0 <- unit(
-                bb_segments$y0,
-                bb_segmentsInternal$default.units
-            )
-        }
-    }
-
-    if (!"unit" %in% class(bb_segments$x1)) {
-        if (!is.numeric(bb_segments$x1)) {
-            stop("x1-coordinate is neither a unit object or a ",
-                "numeric value. Cannot plot segment.", call. = FALSE)
-        }
-
-        if (is.null(bb_segmentsInternal$default.units)) {
-            stop("x1-coordinate detected as numeric.\'default.units\' ",
-                "must be specified.", call. = FALSE)
-        }
-
-        bb_segments$x1 <- unit(
-            bb_segments$x1,
-            bb_segmentsInternal$default.units
-        )
-    }
-
-    if (!"unit" %in% class(bb_segments$y1)) {
-
-        ## Check for "below" y1-coords
-        if (all(grepl("b", bb_segments$y1)) == TRUE) {
-            stop("\'below\' y1-coordinate detected. Cannot parse \'below\' ",
-                "y-coordinate for bb_annoSegments.", call. = FALSE)
-        } else {
-            if (!is.numeric(bb_segments$y1)) {
-                stop("y1-coordinate is neither a unit object or a ",
-                "numeric value. Cannot plot segment.", call. = FALSE)
-            }
-
-            if (is.null(bb_segmentsInternal$default.units)) {
-                stop("y1-coordinate detected as numeric.\'default.units\' ",
-                    "must be specified.", call. = FALSE)
-            }
-
-            bb_segments$y1 <- unit(
-                bb_segments$y1,
-                bb_segmentsInternal$default.units
-            )
-        }
-    }
-
+    
+    bb_segments$x0 <- misc_defaultUnits(value = bb_segments$x0,
+                                        name = "x0",
+                                        default.units = 
+                                            bb_segmentsInternal$default.units)
+    bb_segments$y0 <- misc_defaultUnits(value = bb_segments$y0,
+                                        name = "y0",
+                                        default.units = 
+                                            bb_segmentsInternal$default.units,
+                                        funName = "bb_annoSegments",
+                                        yBelow = FALSE)
+    bb_segments$x1 <- misc_defaultUnits(value = bb_segments$x1,
+                                        name = "x1",
+                                        default.units = 
+                                            bb_segmentsInternal$default.units)
+    bb_segments$y1 <- misc_defaultUnits(value = bb_segments$y1,
+                                        name = "y1",
+                                        default.units = 
+                                            bb_segmentsInternal$default.units,
+                                        funName = "bb_annoSegments",
+                                        yBelow = FALSE)
 
     if (class(bb_segmentsInternal$plot) == "bb_genes") {
         plotVP <- bb_segmentsInternal$plot$grobs$children$background$vp

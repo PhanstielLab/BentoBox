@@ -280,24 +280,13 @@ bb_plotTranscripts <- function(chrom, chromstart = NULL, chromend = NULL,
         object = bb_transcripts,
         default.units = bb_transcriptsInternal$default.units
     )
-    if (!"unit" %in% class(bb_transcriptsInternal$boxHeight)) {
-        if (!is.numeric(bb_transcriptsInternal$boxHeight)) {
-            stop("\'boxHeight\' is neither a unit object or a ",
-                "numeric value. Cannot make transcript plot.", call. = FALSE)
-        }
-
-        if (is.null(bb_transcriptsInternal$default.units)) {
-            stop("\'boxHeight\' detected as numeric.\'default.units\' ",
-                "must be specified.", call. = FALSE)
-        }
-
-        bb_transcriptsInternal$boxHeight <- unit(
-            bb_transcriptsInternal$boxHeight,
-            bb_transcriptsInternal$default.units
-        )
-    }
-
-
+    
+    bb_transcriptsInternal$boxHeight <- misc_defaultUnits(
+        value = bb_transcriptsInternal$boxHeight,
+        name = "boxHeight",
+        default.units = bb_transcriptsInternal$default.units
+    )
+    
     # =========================================================================
     # GET APPROPRIATE BUILD DATA
     # =========================================================================

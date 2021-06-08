@@ -93,7 +93,6 @@ bb_pageCreate <- function(width = 8.5, height = 11, default.units = "inches",
     # DEFAULT UNITS
     # =========================================================================
 
-
     if (!"unit" %in% class(bb_page$width)) {
         if (!is.numeric(bb_page$width)) {
             stop("`width` is neither a unit object nor a numeric value. ",

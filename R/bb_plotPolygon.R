@@ -143,55 +143,18 @@ bb_plotPolygon <- function(x, y, default.units = "inches",
     ## Get page_height and its units from bbEnv through bb_makepage
     page_height <- get("page_height", envir = bbEnv)
     page_units <- get("page_units", envir = bbEnv)
+    
+    bb_polygon$x <- misc_defaultUnits(
+        value = bb_polygon$x,
+        name = "x",
+        default.units = bb_polygonInternal$default.units
+    )
 
-    if (!"unit" %in% class(bb_polygon$x)) {
-        if (!is.numeric(bb_polygon$x)) {
-            stop("x-coordinate is neither a unit object or a ",
-                "numeric value. Cannot plot polygon.", call. = FALSE)
-        }
-
-        if (is.null(bb_polygonInternal$default.units)) {
-            stop("x-coordinate detected as numeric. \'default.units\' ",
-                "must be specified.", call. = FALSE)
-        }
-
-        bb_polygon$x <- unit(bb_polygon$x, bb_polygonInternal$default.units)
-    }
-
-    if (!"unit" %in% class(bb_polygon$y)) {
-
-        ## Check for "below" y-coords
-        if (all(grepl("b", bb_polygon$y)) == TRUE) {
-            if (any(grepl("^[ac-zA-Z]+$", bb_polygon$y)) == TRUE) {
-                stop("\'below\' y-coordinate(s) detected with additional ",
-                    "letters. Cannot parse y-coordinate(s).", call. = FALSE)
-            }
-
-            if (any(is.na(as.numeric(gsub("b", "", bb_polygon$y))))) {
-                stop("\'below\' y-coordinate(s) does not have a numeric ",
-                    "associated with it. Cannot parse y-coordinate(s).",
-                    call. = FALSE
-                )
-            }
-
-            bb_polygon$y <- unit(
-                unlist(lapply(bb_polygon$y, plot_belowY)),
-                get("page_units", envir = bbEnv)
-            )
-        } else {
-            if (!is.numeric(bb_polygon$y)) {
-                stop("y-coordinate is neither a unit object or a ",
-                    "numeric value. Cannot plot polygon.", call. = FALSE)
-            }
-
-            if (is.null(bb_polygonInternal$default.units)) {
-                stop("y-coordinate detected as numeric. \'default.units\' ",
-                    "must be specified.", call. = FALSE)
-            }
-
-            bb_polygon$y <- unit(bb_polygon$y, bb_polygonInternal$default.units)
-        }
-    }
+    bb_polygon$y <- misc_defaultUnits(
+        value = bb_polygon$y,
+        name = "y",
+        default.units = bb_polygonInternal$default.units
+    )
 
     ## Convert coordinates to page_units
     new_x <- convertX(bb_polygon$x, unitTo = page_units, valueOnly = TRUE)
