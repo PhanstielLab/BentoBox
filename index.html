@@ -111,6 +111,8 @@
 <div class="page-header"><h1 class="hasAnchor">
 <a href="#-" class="anchor"></a><img src="reference/figures/bento-logotype-singleline-black.png" width="400px" style="background-color:white;border=transparent"><img src="reference/figures/logo.png" align="right" width="140px" style="padding-left:20px; background-color:white">
 </h1></div>
+<!-- badges: start -->
+
 <div id="overview" class="section level2">
 <h2 class="hasAnchor">
 <a href="#overview" class="anchor"></a>Overview</h2>
@@ -214,8 +216,10 @@
                       assembly <span class="op">=</span> <span class="st">"hg19"</span>,
                       x <span class="op">=</span> <span class="fl">3.5</span>, width <span class="op">=</span> <span class="fl">1.5</span>, default.units <span class="op">=</span> <span class="st">"inches"</span><span class="op">)</span>
 <span class="co">## Set signal track data ranges</span>
-<span class="va">ctcf_range</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/bb_params.html">bb_params</a></span><span class="op">(</span>range <span class="op">=</span> <span class="fu"><a href="reference/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">77</span><span class="op">)</span><span class="op">)</span>
-<span class="va">hk_range</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/bb_params.html">bb_params</a></span><span class="op">(</span>range <span class="op">=</span> <span class="fu"><a href="reference/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">32.6</span><span class="op">)</span><span class="op">)</span>
+<span class="va">ctcf_range</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/bb_params.html">bb_params</a></span><span class="op">(</span>range <span class="op">=</span> <span class="fu"><a href="reference/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">77</span><span class="op">)</span>,
+                        assembly <span class="op">=</span> <span class="st">"hg19"</span><span class="op">)</span>
+<span class="va">hk_range</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/bb_params.html">bb_params</a></span><span class="op">(</span>range <span class="op">=</span> <span class="fu"><a href="reference/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">32.6</span><span class="op">)</span>,
+                      assembly <span class="op">=</span> <span class="st">"hg19"</span><span class="op">)</span>
 <span class="co">## Plot Hi-C triangle</span>
 <span class="va">hic_gm</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/bb_plotHicTriangle.html">bb_plotHicTriangle</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">bb_gmHicData</span>, params <span class="op">=</span> <span class="va">params_c</span>,
                              zrange <span class="op">=</span> <span class="fu"><a href="reference/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">200</span><span class="op">)</span>, resolution <span class="op">=</span> <span class="fl">10000</span>,
@@ -320,7 +324,13 @@
 </ul>
 </div>
 
-  </div>
+  <div class="dev-status">
+<h2>Dev status</h2>
+<ul class="list-unstyled">
+<li><a href="https://github.com/PhanstielLab/BentoBox/actions/workflows/check-bioc.yml"><img src="https://github.com/PhanstielLab/BentoBox/workflows/check-bioc.yml/badge.svg" alt="R-CMD-check"></a></li>
+</ul>
+</div>
+</div>
 </div>
 
 
