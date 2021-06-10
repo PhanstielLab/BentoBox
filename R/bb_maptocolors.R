@@ -1,8 +1,8 @@
-# Maps numeric vector to color palette
-# vec: numeric vector to map to color
-# col: color palette to map to
-# num: number of bins of colors
-# range: range of values to map
+## Maps numeric vector to color palette
+# @param vec numeric vector to map to color
+# @param col color palette to map to
+# @param num number of bins of colors
+# @param range range of values to map
 bb_maptocolors <- function(vec, col, num = 100, range = NULL) {
     if (is.null(range) == TRUE) {
         breaks <- seq(min(vec), max(vec), length.out = num)
@@ -15,4 +15,20 @@ bb_maptocolors <- function(vec, col, num = 100, range = NULL) {
     cols <- col(length(breaks) + 1)
     colvec <- as.character(cut(vec, c(-Inf, breaks, Inf), labels = cols))
     return(colvec)
+}
+
+## Define a function that makes a color transparent
+# @param color color string
+# @param alpha Alpha value of color
+makeTransparent <- function(color, alpha) {
+    if (is.null(alpha)) {
+        alpha <- 1
+    }
+    
+    rgb <- grDevices::col2rgb(color)
+    transp <- rgb(rgb[1], rgb[2], rgb[3],
+                  alpha = alpha * 255,
+                  maxColorValue = 255
+    )
+    return(transp)
 }

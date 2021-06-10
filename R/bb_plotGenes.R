@@ -270,7 +270,7 @@ bb_plotGenes <- function(chrom, chromstart = NULL, chromend = NULL,
     # =========================================================================
 
     buildData <- geneData(object = bb_genes,
-                          objectInternal = bb_genesInternal)
+                        objectInternal = bb_genesInternal)
     bb_genes <- buildData[[1]]
     bb_genesInternal <- buildData[[2]]
     displayCol <- bb_genesInternal$displayCol
@@ -915,4 +915,48 @@ bb_plotGenes <- function(chrom, chromstart = NULL, chromend = NULL,
 
     message("bb_genes[", vp_gene$name, "]")
     invisible(bb_genes)
+}
+
+## Define a function that removes gene and transcript
+## name labels that will be cutoff
+## @param df data.frame of genes in region
+## @param fontsize fontsize of labels
+## @param xscale vector of genomic region of viewport
+## @param vp associated viewport where genes/transcripts are plotted
+## @param unit for bb_plotTranscripts, unit indicator
+cutoffLabel <- function(df, fontsize, xscale, vp, unit) {
+    label <- df[1]
+    location <- df[2]
+    
+    ## Update viewport fontsize for proper text size calculation
+    vp$gp <- gpar(fontsize = fontsize)
+    
+    if (unit == "npc"){
+        downViewport(name = vp$name)
+        labelWidth <- convertWidth(widthDetails(textGrob(
+            label = label,
+            gp = gpar(fontsize = fontsize)
+        )),
+        unitTo = "native", valueOnly = TRUE
+        )
+        upViewport()
+    } else {
+        pushViewport(vp)
+        labelWidth <- convertWidth(widthDetails(textGrob(
+            label = label,
+            gp = gpar(fontsize = fontsize)
+        )),
+        unitTo = "native", valueOnly = TRUE
+        )
+        upViewport()
+    }
+    
+    leftBound <- as.numeric(location) - 0.5 * labelWidth
+    rightBound <- as.numeric(location) + 0.5 * labelWidth
+    
+    if (leftBound < xscale[1] | rightBound > xscale[2]) {
+        return(NA)
+    } else {
+        return(label)
+    }
 }

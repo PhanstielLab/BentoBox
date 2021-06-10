@@ -786,10 +786,10 @@ In each of our signal plotting calls, we will then use the
 
 ```{r echo=TRUE, eval=TRUE}
 params <- bb_params(
-  chrom = "chr21",
-  chromstart = 28000000, chromend = 30300000,
-  assembly = "hg19",
-  range = c(0, maxScore)
+    chrom = "chr21",
+    chromstart = 28000000, chromend = 30300000,
+    assembly = "hg19",
+    range = c(0, maxScore)
 )
 ```
 
@@ -798,41 +798,41 @@ the genomic x-axis and the score y-axis:
 ```{r scale_signal, fig.height=2.1, fig.width=7.5, eval=TRUE, echo=TRUE}
 ## Create a page
 bb_pageCreate(width = 7.5, height = 2.1, default.units = "inches",
-              showGuides = FALSE, xgrid = 0, ygrid = 0)
+            showGuides = FALSE, xgrid = 0, ygrid = 0)
 
 ## Plot and place signal plots
 signal1 <- bb_plotSignal(
-  data = bb_imrH3K27acData, params = params,
-  x = 0.5, y = 0.25, width = 6.5, height = 0.65,
-  just = c("left", "top"), default.units = "inches"
+    data = bb_imrH3K27acData, params = params,
+    x = 0.5, y = 0.25, width = 6.5, height = 0.65,
+    just = c("left", "top"), default.units = "inches"
 )
 
 signal2 <- bb_plotSignal(
-  data = bb_gmH3K27acData, params = params,
-  linecolor = "#7ecdbb",
-  x = 0.5, y = 1, width = 6.5, height = 0.65,
-  just = c("left", "top"), default.units = "inches"
+    data = bb_gmH3K27acData, params = params,
+    linecolor = "#7ecdbb",
+    x = 0.5, y = 1, width = 6.5, height = 0.65,
+    just = c("left", "top"), default.units = "inches"
 )
 
 ## Plot genome label
 bb_plotGenomeLabel(
-  chrom = "chr21",
-  chromstart = 28000000, chromend = 30300000,
-  assembly = "hg19",
-  x = 0.5, y = 1.68, length = 6.5,
-  default.units = "inches"
+    chrom = "chr21",
+    chromstart = 28000000, chromend = 30300000,
+    assembly = "hg19",
+    x = 0.5, y = 1.68, length = 6.5,
+    default.units = "inches"
 )
 
 ## Add text labels
 bb_plotText(
-  label = "IMR90", fonsize = 10, fontcolor = "#37a7db",
-  x = 0.5, y = 0.25, just = c("left", "top"),
-  default.units = "inches"
+    label = "IMR90", fonsize = 10, fontcolor = "#37a7db",
+    x = 0.5, y = 0.25, just = c("left", "top"),
+    default.units = "inches"
 )
 bb_plotText(
-  label = "GM12878", fonsize = 10, fontcolor = "#7ecdbb",
-  x = 0.5, y = 1, just = c("left", "top"),
-  default.units = "inches"
+    label = "GM12878", fonsize = 10, fontcolor = "#7ecdbb",
+    x = 0.5, y = 1, just = c("left", "top"),
+    default.units = "inches"
 )
 ```
 

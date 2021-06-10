@@ -256,7 +256,7 @@ bb_plotTranscripts <- function(chrom, chromstart = NULL, chromend = NULL,
     # =========================================================================
 
     buildData <- geneData(object = bb_transcripts,
-                          objectInternal = bb_transcriptsInternal)
+                        objectInternal = bb_transcriptsInternal)
     bb_transcripts <- buildData[[1]]
     bb_transcriptsInternal <- buildData[[2]]
     data <- bb_transcriptsInternal$data

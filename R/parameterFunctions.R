@@ -71,6 +71,45 @@ setGP <- function(gpList, params, ...) {
     return(gpList)
 }
 
+## Define a function to get the assembly info based on a string (ie default)
+## or bb_assembly object
+# @param assembly assembly input from a plot object
+parse_bbAssembly <- function(assembly) {
+    availDefaults <- c(
+        "bosTau8", "bosTau9", "canFam3", "ce6", "ce11",
+        "danRer10",
+        "danRer11", "dm3", "dm6", "galGal4", "galGal5",
+        "galGal6",
+        "hg18", "hg19", "hg38", "mm9", "mm10", "rheMac3",
+        "rheMac8",
+        "rehMac10", "panTro5", "panTro6", "rn4", "rn5", "rn6",
+        "sacCer2",
+        "sacCer3", "susScr3", "susScr11"
+    )
+    
+    ## If it's just a string, get the default
+    if (class(assembly) == "character") {
+        if (!assembly %in% availDefaults) {
+            stop("\'assembly\' not available as a default. Please make a ",
+                 "bb_assembly object with `bb_assembly()` or pick an assembly ",
+                 "from the defaults listed with `bb_genomes()`.", call. = FALSE)
+        }
+        
+        assemblyData <- getPackages(genome = assembly)
+        
+        ## If it's a bb_assembly object, use those
+    } else if (class(assembly) == "bb_assembly") {
+        assemblyData <- assembly
+    } else {
+        stop("Invalid \'assembly\' type. Please make a bb_assembly object ",
+             "with `bb_assembly()` or input an assembly string from the ",
+             "defaults listed with `bb_genomes()`.", call. = FALSE)
+    }
+    
+    
+    return(assemblyData)
+}
+
 ## Define a function that converts coordinates/dimensions 
 ## for standard plot objects into default units
 # @param object Function object containing x, y, width, height valus

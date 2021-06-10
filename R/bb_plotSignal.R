@@ -813,8 +813,6 @@ bb_plotSignal <- function(data, binSize = NA, binCap = TRUE, negData = FALSE,
                     name = paste0(vp_name, "_v"),
                     angle = 90
                 )
-
-
             }
 
         if (bb_sigInternal$draw == TRUE) {
@@ -825,10 +823,8 @@ bb_plotSignal <- function(data, binSize = NA, binCap = TRUE, negData = FALSE,
 
             grid.newpage()
         }
-
-
+        
         } else {
-
 
         ## Convert coordinates into same units as page
         page_coords <- convert_page(object = signal_track)
@@ -874,9 +870,7 @@ bb_plotSignal <- function(data, binSize = NA, binCap = TRUE, negData = FALSE,
             add_bbViewport(paste0(vp_name, "_vClip"))
         }
 
-
     }
-
 
     # =========================================================================
     # INITIALIZE GTREE FOR GROBS WITH BACKGROUND
@@ -1047,7 +1041,6 @@ bb_plotSignal <- function(data, binSize = NA, binCap = TRUE, negData = FALSE,
         }
     }
 
-
     # =========================================================================
     # IF PLOT == TRUE, DRAW GROBS
     # =========================================================================
@@ -1061,7 +1054,6 @@ bb_plotSignal <- function(data, binSize = NA, binCap = TRUE, negData = FALSE,
         } else if (bb_sigInternal$orientation == "h"){
             grid.draw(get("signal_grobs", envir = bbEnv))
         }
-
 
     }
 

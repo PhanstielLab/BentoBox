@@ -440,7 +440,6 @@ bb_plotPairs <- function(data, chrom, chromstart = NULL, chromend = NULL,
         spaceHeight <- boxHeight * (bb_bedpeInternal$spaceHeight)
     }
 
-
     limit <- floor((as.numeric(vp$height) + spaceHeight) /
         (boxHeight + spaceHeight))
     wiggle <- abs(bb_bedpe$chromend - bb_bedpe$chromstart) *
