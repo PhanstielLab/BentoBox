@@ -1,4 +1,4 @@
-test_that("Plotting fxns produce expected plots", {
+test_that("Standard plotting fxns produce expected plots", {
     skip_on_bioc()
     skip_on_cran()
     

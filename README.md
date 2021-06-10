@@ -1,6 +1,11 @@
 
 # <img src="man/figures/bento-logotype-singleline-black.png" width="400px" style="background-color:white;border=transparent" /> <img src="man/figures/logo.png" align="right" width="140px" style="padding-left:20px; background-color:white" />
 
+<!-- badges: start -->
+[![R-CMD-check](https://github.com/PhanstielLab/BentoBox/workflows/check-bioc.yml/badge.svg)](https://github.com/PhanstielLab/BentoBox/actions/workflows/check-bioc.yml)
+<!-- badges: end -->
+
+
 ## Overview
 
 `BentoBox` is a genomic data visualization package for R. Using `grid`
@@ -126,8 +131,10 @@ params_c <- bb_params(chrom = "chr21", chromstart = 28150000, chromend = 2915000
                       assembly = "hg19",
                       x = 3.5, width = 1.5, default.units = "inches")
 ## Set signal track data ranges
-ctcf_range <- bb_params(range = c(0, 77))
-hk_range <- bb_params(range = c(0, 32.6))
+ctcf_range <- bb_params(range = c(0, 77),
+                        assembly = "hg19")
+hk_range <- bb_params(range = c(0, 32.6),
+                      assembly = "hg19")
 ## Plot Hi-C triangle
 hic_gm <- bb_plotHicTriangle(data = bb_gmHicData, params = params_c,
                              zrange = c(0, 200), resolution = 10000,
