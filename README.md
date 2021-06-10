@@ -2,9 +2,8 @@
 # <img src="man/figures/bento-logotype-singleline-black.png" width="400px" style="background-color:white;border=transparent" /> <img src="man/figures/logo.png" align="right" width="140px" style="padding-left:20px; background-color:white" />
 
 <!-- badges: start -->
-[![R-CMD-check](https://github.com/PhanstielLab/BentoBox/workflows/check-bioc.yml/badge.svg)](https://github.com/PhanstielLab/BentoBox/actions/workflows/check-bioc.yml)
+[![R build status](https://github.com/PhanstielLab/BentoBox/workflows/check-bioc.yml/badge.svg)](https://github.com/PhanstielLab/BentoBox/actions/workflows/check-bioc.yml)
 <!-- badges: end -->
-
 
 ## Overview
 
