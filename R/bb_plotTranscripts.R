@@ -185,42 +185,6 @@ bb_plotTranscripts <- function(chrom, chromstart = NULL, chromend = NULL,
         return(yscale)
     }
 
-    ## Define a function that determines if a label will be cut off
-    cutoffLabel <- function(df, fontsize, xscale, vp, unit) {
-        label <- df[1]
-        location <- df[2]
-
-        if (unit == "npc") {
-            downViewport(name = vp$name)
-            labelWidth <- convertWidth(widthDetails(textGrob(
-                label = label,
-                gp = gpar(fontsize = fontsize)
-            )),
-            unitTo = "native", valueOnly = TRUE
-            )
-            upViewport()
-        } else {
-            pushViewport(vp)
-            labelWidth <- convertWidth(widthDetails(textGrob(
-                label = label,
-                gp = gpar(fontsize = fontsize)
-            )),
-            unitTo = "native", valueOnly = TRUE
-            )
-            upViewport()
-        }
-
-
-        leftBound <- as.numeric(location) - 0.5 * labelWidth
-        rightBound <- as.numeric(location) + 0.5 * labelWidth
-
-        if (leftBound < xscale[1] | rightBound > xscale[2]) {
-            return(NA)
-        } else {
-            return(label)
-        }
-    }
-
     # =========================================================================
     # PARSE PARAMETERS
     # =========================================================================
@@ -291,68 +255,11 @@ bb_plotTranscripts <- function(chrom, chromstart = NULL, chromend = NULL,
     # GET APPROPRIATE BUILD DATA
     # =========================================================================
 
-    if (class(bb_transcripts$assembly$TxDb) == "TxDb") {
-        txdbChecks <- TRUE
-    } else {
-        txdbChecks <- check_loadedPackage(
-            package = bb_transcripts$assembly$TxDb,
-            message = paste(
-                paste0("`", bb_transcripts$assembly$TxDb, "`"),
-                "not loaded. Please install and load
-            to plot gene transcripts."
-            )
-        )
-    }
-
-    orgdbChecks <- check_loadedPackage(
-        package = bb_transcripts$assembly$OrgDb,
-        message = paste(
-            paste0("`", bb_transcripts$assembly$OrgDb, "`"),
-            "not loaded. Please install and load to plot gene transcripts."
-        )
-    )
-    data <- data.frame(matrix(ncol = 22, nrow = 0))
-    xscale <- c(0, 1)
-    if (txdbChecks == TRUE & orgdbChecks == TRUE) {
-        if (class(bb_transcripts$assembly$TxDb) == "TxDb") {
-            tx_db <- bb_transcripts$assembly$TxDb
-        } else {
-            tx_db <- eval(parse(text = bb_transcripts$assembly$TxDb))
-        }
-
-        genome <- GenomeInfoDb::seqlengths(tx_db)
-
-        if (bb_transcripts$assembly$gene.id.column ==
-            bb_transcripts$assembly$display.column) {
-            displayCol <- "GENEID"
-        } else {
-            displayCol <- bb_transcripts$assembly$display.column
-        }
-
-        if (!bb_transcripts$chrom %in% names(genome)) {
-            warning("Chromosome",
-                "'", bb_transcripts$chrom, "'",
-                "not found in",
-                "`", bb_transcripts$assembly$TxDb$packageName, "`",
-                "and gene transcripts cannot be plotted.",
-                call. = FALSE
-            )
-        } else {
-            if (is.null(bb_transcripts$chromstart) &
-                is.null(bb_transcripts$chromend)) {
-                bb_transcripts$chromstart <- 1
-                bb_transcripts$chromend <- genome[[bb_transcripts$chrom]]
-            }
-
-            data <- bb_getExons(
-                assembly = bb_transcripts$assembly,
-                chromosome = bb_transcripts$chrom,
-                start = bb_transcripts$chromstart,
-                stop = bb_transcripts$chromend
-            )
-            xscale <- c(bb_transcripts$chromstart, bb_transcripts$chromend)
-        }
-    }
+    buildData <- geneData(object = bb_transcripts,
+                          objectInternal = bb_transcriptsInternal)
+    bb_transcripts <- buildData[[1]]
+    bb_transcriptsInternal <- buildData[[2]]
+    data <- bb_transcriptsInternal$data
 
     # =========================================================================
     # COLORS
@@ -386,7 +293,6 @@ bb_plotTranscripts <- function(chrom, chromstart = NULL, chromend = NULL,
         minStrand <- data[which(data$TXSTRAND == "-"), ]
     }
 
-
     # =========================================================================
     # VIEWPORTS
     # =========================================================================
@@ -412,7 +318,7 @@ bb_plotTranscripts <- function(chrom, chromstart = NULL, chromend = NULL,
             height = unit(0.5, "snpc"), width = unit(1, "snpc"),
             x = unit(0.5, "npc"), y = unit(0.5, "npc"),
             clip = "on",
-            xscale = xscale,
+            xscale = bb_transcriptsInternal$xscale,
             yscale = yscale,
             just = "center",
             name = vp_name
@@ -445,7 +351,7 @@ bb_plotTranscripts <- function(chrom, chromstart = NULL, chromend = NULL,
             height = page_coords$height, width = page_coords$width,
             x = page_coords$x, y = page_coords$y,
             clip = "on",
-            xscale = xscale,
+            xscale = bb_transcriptsInternal$xscale,
             yscale = yscale,
             just = bb_transcriptsInternal$just,
             name = vp_name
@@ -854,7 +760,7 @@ bb_plotTranscripts <- function(chrom, chromstart = NULL, chromend = NULL,
             ),
             1, cutoffLabel,
             fontsize = bb_transcriptsInternal$fontsize,
-            xscale = xscale,
+            xscale = bb_transcriptsInternal$xscale,
             vp = vp, unit = unit
             )
             transcriptNames$label <- checkedLabels

@@ -288,52 +288,14 @@ bb_plotPairs <- function(data, chrom, chromstart = NULL, chromend = NULL,
     bedpe[, 6] <- stop2
 
     # =========================================================================
-    # WHOLE CHROMOSOME DATA AND XSCALE
+    # GENOMIC SCALE
     # =========================================================================
 
-    if (is.null(bb_bedpe$chromstart) & is.null(bb_bedpe$chromend)) {
-        if (class(bb_bedpe$assembly$TxDb) == "TxDb") {
-            txdbChecks <- TRUE
-        } else {
-            txdbChecks <- check_loadedPackage(
-                package = bb_bedpe$assembly$TxDb,
-                message = paste(
-                    paste0("`", bb_bedpe$assembly$TxDb, "`"),
-                    "not loaded. Please install and load to plot
-                full chromosome paired data."
-                )
-            )
-        }
-
-        xscale <- c(0, 1)
-        if (txdbChecks == TRUE) {
-            if (class(bb_bedpe$assembly$TxDb) == "TxDb") {
-                tx_db <- bb_bedpe$assembly$TxDb
-            } else {
-                tx_db <- eval(parse(text = bb_bedpe$assembly$TxDb))
-            }
-
-            assembly_data <- GenomeInfoDb::seqlengths(tx_db)
-
-            if (!bb_bedpe$chrom %in% names(assembly_data)) {
-                txdbChecks <- FALSE
-                warning("Chromosome",
-                    "'", bb_bedpe$chrom, "'",
-                    "not found in",
-                    "`", bb_bedpe$assembly$TxDb$packageName, "`",
-                    "and data for entire chromosome cannot be plotted.",
-                    call. = FALSE
-                )
-            } else {
-                bb_bedpe$chromstart <- 1
-                bb_bedpe$chromend <- assembly_data[[bb_bedpe$chrom]]
-                xscale <- c(bb_bedpe$chromstart, bb_bedpe$chromend)
-            }
-        }
-    } else {
-        txdbChecks <- TRUE
-        xscale <- c(bb_bedpe$chromstart, bb_bedpe$chromend)
-    }
+    scaleChecks <- genomicScale(object = bb_bedpe,
+                                objectInternal = bb_bedpeInternal,
+                                plotType = "paired data plot")
+    bb_bedpe <- scaleChecks[[1]]
+    bb_bedpeInternal <- scaleChecks[[2]]
 
     # =========================================================================
     # SUBSET DATA FOR CHROMOSOME AND ANY OVERLAPPING REGIONS
@@ -409,7 +371,7 @@ bb_plotPairs <- function(data, chrom, chromstart = NULL, chromend = NULL,
             height = unit(0.5, "snpc"), width = unit(1, "snpc"),
             x = unit(0.5, "npc"), y = unit(0.5, "npc"),
             clip = "on",
-            xscale = xscale,
+            xscale = bb_bedpeInternal$xscale,
             yscale = c(0, 1),
             just = "center",
             name = vp_name
@@ -430,7 +392,7 @@ bb_plotPairs <- function(data, chrom, chromstart = NULL, chromend = NULL,
             height = page_coords$height, width = page_coords$width,
             x = page_coords$x, y = page_coords$y,
             clip = "on",
-            xscale = xscale,
+            xscale = bb_bedpeInternal$xscale,
             yscale = c(0, convertHeight(page_coords$height,
                 unitTo = get("page_units",
                     envir = bbEnv
@@ -651,7 +613,7 @@ bb_plotPairs <- function(data, chrom, chromstart = NULL, chromend = NULL,
             envir = bbEnv
         )
     } else {
-        if (txdbChecks == TRUE) {
+        if (bb_bedpeInternal$txdbChecks == TRUE) {
             warning("Data contains no values.", call. = FALSE)
         }
     }

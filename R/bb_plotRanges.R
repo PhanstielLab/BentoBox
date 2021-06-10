@@ -294,54 +294,14 @@ bb_plotRanges <- function(data, chrom, chromstart = NULL, chromend = NULL,
     )
 
     # =========================================================================
-    # WHOLE CHROMOSOME DATA AND XSCALE
+    # GENOMIC SCALE
     # =========================================================================
-
-    if (is.null(pileup_plot$chromstart) & is.null(pileup_plot$chromend)) {
-        if (class(pileup_plot$assembly$TxDb) == "TxDb") {
-            txdbChecks <- TRUE
-        } else {
-            txdbChecks <- check_loadedPackage(
-                package = pileup_plot$assembly$TxDb,
-                message = paste(
-                    paste0("`", pileup_plot$assembly$TxDb, "`"),
-                    "not loaded. Please install and load to
-                plot full chromosome ranges plot."
-                )
-            )
-        }
-
-        xscale <- c(0, 1)
-        if (txdbChecks == TRUE) {
-            if (class(pileup_plot$assembly$TxDb) == "TxDb") {
-                tx_db <- pileup_plot$assembly$TxDb
-            } else {
-                tx_db <- eval(parse(text = pileup_plot$assembly$TxDb))
-            }
-
-            assembly_data <- GenomeInfoDb::seqlengths(tx_db)
-
-            if (!pileup_plot$chrom %in% names(assembly_data)) {
-                txdbChecks <- FALSE
-                warning("Chromosome",
-                    "'", pileup_plot$chrom, "'",
-                    "not found in",
-                    "`",
-                    pileup_plot$assembly$TxDb$packageName,
-                    "`",
-                    "and data for entire chromosome cannot be plotted.",
-                    call. = FALSE
-                )
-            } else {
-                pileup_plot$chromstart <- 1
-                pileup_plot$chromend <- assembly_data[[pileup_plot$chrom]]
-                xscale <- c(pileup_plot$chromstart, pileup_plot$chromend)
-            }
-        }
-    } else {
-        txdbChecks <- TRUE
-        xscale <- c(pileup_plot$chromstart, pileup_plot$chromend)
-    }
+    
+    scaleChecks <- genomicScale(object = pileup_plot,
+                                objectInternal = bb_pileInternal,
+                                plotType = "ranges plot")
+    pileup_plot <- scaleChecks[[1]]
+    bb_pileInternal <- scaleChecks[[2]]
 
     # =========================================================================
     # SUBSET DATA FOR CHROMOSOME AND ANY OVERLAPPING REGIONS
@@ -423,7 +383,7 @@ bb_plotRanges <- function(data, chrom, chromstart = NULL, chromend = NULL,
             height = unit(0.5, "snpc"), width = unit(1, "snpc"),
             x = unit(0.5, "npc"), y = unit(0.5, "npc"),
             clip = "on",
-            xscale = xscale,
+            xscale = bb_pileInternal$xscale,
             yscale = yscale,
             just = "center",
             name = vp_name
@@ -454,7 +414,7 @@ bb_plotRanges <- function(data, chrom, chromstart = NULL, chromend = NULL,
             height = page_coords$height, width = page_coords$width,
             x = page_coords$x, y = page_coords$y,
             clip = "on",
-            xscale = xscale,
+            xscale = bb_pileInternal$xscale,
             yscale = yscale,
             just = bb_pileInternal$just,
             name = vp_name
@@ -777,7 +737,7 @@ bb_plotRanges <- function(data, chrom, chromstart = NULL, chromend = NULL,
             )
         }
     } else {
-        if (txdbChecks == TRUE) {
+        if (bb_pileInternal$txdbChecks == TRUE) {
             warning("No BED data to plot.", call. = FALSE)
         }
     }

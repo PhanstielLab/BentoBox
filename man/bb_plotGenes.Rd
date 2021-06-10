@@ -135,18 +135,15 @@ citation counts.
 library("TxDb.Hsapiens.UCSC.hg19.knownGene")
 library("org.Hs.eg.db")
 
-## Load BEDPE data
-data("bb_bedpeData")
-
 ## Set genomic coordinates
 paramssmall <- bb_params(
     chrom = "chr8",
-    chromstart = 0000000, chromend = 3000000,
+    chromstart = 1, chromend = 3000000,
     assembly = "hg19", width = 7
 )
 paramsbig <- bb_params(
     chrom = "chr8",
-    chromstart = 0, chromend = 146364022,
+    chromstart = 1, chromend = 146364022,
     assembly = "hg19", width = 7
 )
 ## Set colors

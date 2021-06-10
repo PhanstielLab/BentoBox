@@ -494,3 +494,185 @@ defaultGenePriorities <- function(data, assembly, transcript = FALSE) {
     ## Return data with priorities
     return(updatedData)
 }
+
+## Define a function that checks for whole chromosome data and 
+## sets the plot xscale accordingly
+# @param object plot object
+# @param objectInternal internal plot object
+# @param plotType string of plot type to show up in error message
+genomicScale <- function(object, objectInternal, plotType){
+    
+    if (is.null(object$chromstart) & is.null(object$chromend)){
+        if (class(object$assembly$TxDb) == "TxDb"){
+            txdbChecks <- TRUE
+        } else {
+            txdbChecks <- check_loadedPackage(
+                package = object$assembly$TxDb,
+                message = paste(
+                    paste0("`", object$assembly$TxDb, "`"),
+                    "not loaded. Please install and load to generate",
+                    plotType, "."
+                )
+            )
+        }
+    objectInternal$xscale <- c(0, 1) 
+    if (txdbChecks == TRUE){
+        if (class(object$assembly$TxDb) == "TxDb"){
+            tx_db <- object$assembly$TxDb
+        } else {
+            tx_db <- eval(parse(text = object$assembly$TxDb))
+        }
+    }
+    assembly_data <- GenomeInfoDb::seqlengths(tx_db)
+    if (!object$chrom %in% names(assembly_data)){
+        warning("Chromosome ",
+                "'", object$chrom, "' ",
+                "not found in ",
+                "`", object$assembly$TxDb$packageName, "`",
+                " and data for entire chromosome cannot be plotted.",
+                call. = FALSE)
+    } else {
+        object$chromstart <- 1
+        object$chromend <- assembly_data[[object$chrom]]
+        if (class(object) %in% c("bb_hicTriangle", "bb_hicRectangle")){
+            object$altchromstart <- 1
+            object$altchromend <- assembly_data[[object$chrom]]
+        }
+        objectInternal$xscale <- c(object$chromstart, object$chromend)
+    }
+        
+    } else {
+        txdbChecks <- TRUE
+        objectInternal$xscale <- c(object$chromstart, object$chromend)
+    }
+    
+    objectInternal$txdbChecks <- txdbChecks
+    
+    return(list(object, objectInternal))
+}
+
+## Define a function that checks for and gets gene/transcript data
+# @param object plot object
+# @param objectInternal internal plot object
+geneData <- function(object, objectInternal){
+    
+    ## TxDb 
+    
+    if (class(object$assembly$TxDb) == "TxDb"){
+        txdbChecks <- TRUE
+    } else {
+        txdbChecks <- check_loadedPackage(
+            package = object$assembly$TxDb,
+            message = paste(
+                paste0("`", object$assembly$TxDb, "`"),
+                "not loaded. Please install and load to plot genes 
+                or transcripts."
+            )
+        )
+    }
+    
+    ## orgDb
+    
+    orgdbChecks <- check_loadedPackage(
+        package = object$assembly$OrgDb,
+        message = paste(
+            paste0("`", object$assembly$OrgDb, "`"),
+            "not loaded. Please install and load to plot genes
+            or transcripts"
+        )
+    )
+    
+    ## Data
+    data <- data.frame(matrix(ncol = 22, nrow = 0))
+    xscale <- c(0, 1)
+    
+    if (txdbChecks == TRUE & orgdbChecks == TRUE){
+        
+        ## Load txdb
+        if (class(object$assembly$TxDb) == "TxDb"){
+            tx_db <- object$assembly$TxDb
+        } else {
+            tx_db <- eval(parse(text = object$assembly$TxDb))
+        }
+        
+        genome <- GenomeInfoDb::seqlengths(tx_db)
+        
+        if (object$assembly$gene.id.column ==
+            object$assembly$display.column) {
+            objectInternal$displayCol <- "GENEID"
+        } else {
+            objectInternal$displayCol <- object$assembly$display.column
+        }
+        
+        if (!object$chrom %in% names(genome)) {
+            warning("Chromosome ", "'", object$chrom, "'",
+                    "not found in ", "`", object$assembly$TxDb$packageName, "`",
+                    " and data for entire chromosome cannot be plotted.",
+                    call. = FALSE
+            )
+        } else {
+            if (is.null(object$chromstart) & is.null(object$chromend)) {
+                object$chromstart <- 1
+                object$chromend <- genome[[object$chrom]]
+            }
+            
+            data <- bb_getExons(
+                assembly = object$assembly,
+                chromosome = object$chrom,
+                start = object$chromstart,
+                stop = object$chromend
+            )
+            xscale <- c(object$chromstart, object$chromend)
+        }
+        
+    }
+    
+   objectInternal$xscale <- xscale 
+   objectInternal$data <- data
+   return(list(object, objectInternal))
+    
+}
+
+## Define a function that removes gene and transcript
+## name labels that will be cutoff
+## @param df data.frame of genes in region
+## @param fontsize fontsize of labels
+## @param xscale vector of genomic region of viewport
+## @param vp associated viewport where genes/transcripts are plotted
+## @param unit for bb_plotTranscripts, unit indicator
+cutoffLabel <- function(df, fontsize, xscale, vp, unit) {
+    label <- df[1]
+    location <- df[2]
+    
+    ## Update viewport fontsize for proper text size calculation
+    vp$gp <- gpar(fontsize = fontsize)
+    
+    if (unit == "npc"){
+        downViewport(name = vp$name)
+        labelWidth <- convertWidth(widthDetails(textGrob(
+            label = label,
+            gp = gpar(fontsize = fontsize)
+        )),
+        unitTo = "native", valueOnly = TRUE
+        )
+        upViewport()
+    } else {
+        pushViewport(vp)
+        labelWidth <- convertWidth(widthDetails(textGrob(
+            label = label,
+            gp = gpar(fontsize = fontsize)
+        )),
+        unitTo = "native", valueOnly = TRUE
+        )
+        upViewport()
+    }
+    
+    leftBound <- as.numeric(location) - 0.5 * labelWidth
+    rightBound <- as.numeric(location) + 0.5 * labelWidth
+    
+    if (leftBound < xscale[1] | rightBound > xscale[2]) {
+        return(NA)
+    } else {
+        return(label)
+    }
+}

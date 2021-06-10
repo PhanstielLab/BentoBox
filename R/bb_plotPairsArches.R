@@ -405,52 +405,14 @@ bb_plotPairsArches <- function(data, chrom, chromstart = NULL, chromend = NULL,
     )
 
     # =========================================================================
-    # WHOLE CHROM DATA AND XSCALE
+    # GENOMIC SCALE
     # =========================================================================
 
-    if (is.null(arches_plot$chromstart) & is.null(arches_plot$chromend)) {
-        if (class(arches_plot$assembly$TxDb) == "TxDb") {
-            txdbChecks <- TRUE
-        } else {
-            txdbChecks <- check_loadedPackage(
-                package = arches_plot$assembly$TxDb,
-                message = paste(
-                    paste0("`", arches_plot$assembly$TxDb, "`"),
-                    "not loaded. Please install and load to plot
-                full chromosome paired arches."
-                )
-            )
-        }
-
-        xscale <- c(0, 1)
-        if (txdbChecks == TRUE) {
-            if (class(arches_plot$assembly$TxDb) == "TxDb") {
-                tx_db <- arches_plot$assembly$TxDb
-            } else {
-                tx_db <- eval(parse(text = arches_plot$assembly$TxDb))
-            }
-
-            assembly_data <- GenomeInfoDb::seqlengths(tx_db)
-
-            if (!arches_plot$chrom %in% names(assembly_data)) {
-                txdbChecks <- FALSE
-                warning("Chromosome",
-                    "'", arches_plot$chrom, "'",
-                    "not found in",
-                    "`", arches_plot$assembly$TxDb$packageName, "`",
-                    "and data for entire chromosome cannot be plotted.",
-                    call. = FALSE
-                )
-            } else {
-                arches_plot$chromstart <- 1
-                arches_plot$chromend <- assembly_data[[arches_plot$chrom]]
-                xscale <- c(arches_plot$chromstart, arches_plot$chromend)
-            }
-        }
-    } else {
-        txdbChecks <- TRUE
-        xscale <- c(arches_plot$chromstart, arches_plot$chromend)
-    }
+    scaleChecks <- genomicScale(object = arches_plot,
+                                objectInternal = bb_archInternal,
+                                plotType = "paired data arches")
+    arches_plot <- scaleChecks[[1]]
+    bb_archInternal <- scaleChecks[[2]]
 
     # =========================================================================
     # SUBSET DATA
@@ -563,7 +525,7 @@ bb_plotPairsArches <- function(data, chrom, chromstart = NULL, chromend = NULL,
         vp <- viewport(
             height = unit(0.5, "npc"), width = unit(1, "npc"),
             x = unit(0.5, "npc"), y = unit(0.5, "npc"),
-            xscale = xscale,
+            xscale = bb_archInternal$xscale,
             clip = "on",
             just = "center",
             name = vp_name
@@ -583,7 +545,7 @@ bb_plotPairsArches <- function(data, chrom, chromstart = NULL, chromend = NULL,
         vp <- viewport(
             height = page_coords$height, width = page_coords$width,
             x = page_coords$x, y = page_coords$y,
-            xscale = xscale,
+            xscale = bb_archInternal$xscale,
             clip = "on",
             just = bb_archInternal$just,
             name = vp_name
@@ -664,7 +626,7 @@ bb_plotPairsArches <- function(data, chrom, chromstart = NULL, chromend = NULL,
             transp = bb_archInternal$alpha, gp = bb_archInternal$gp
         ))
     } else {
-        if (txdbChecks == TRUE) {
+        if (bb_archInternal$txdbChecks == TRUE) {
             warning("Data contains no values.", call. = FALSE)
         }
     }

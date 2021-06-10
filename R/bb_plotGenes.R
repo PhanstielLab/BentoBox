@@ -61,18 +61,15 @@
 #' library("TxDb.Hsapiens.UCSC.hg19.knownGene")
 #' library("org.Hs.eg.db")
 #'
-#' ## Load BEDPE data
-#' data("bb_bedpeData")
-#'
 #' ## Set genomic coordinates
 #' paramssmall <- bb_params(
 #'     chrom = "chr8",
-#'     chromstart = 0000000, chromend = 3000000,
+#'     chromstart = 1, chromend = 3000000,
 #'     assembly = "hg19", width = 7
 #' )
 #' paramsbig <- bb_params(
 #'     chrom = "chr8",
-#'     chromstart = 0, chromend = 146364022,
+#'     chromstart = 1, chromend = 146364022,
 #'     assembly = "hg19", width = 7
 #' )
 #' ## Set colors
@@ -212,33 +209,6 @@ bb_plotGenes <- function(chrom, chromstart = NULL, chromend = NULL,
         return(combined)
     }
 
-    ## Define a function that removes geneLabels that will be cutoff
-    cutoffLabel <- function(df, fontsize, xscale, vp) {
-        label <- df[1]
-        location <- df[2]
-
-        ## Update viewport fontsize for proper text size calculation
-        vp$gp <- gpar(fontsize = fontsize)
-
-        pushViewport(vp)
-        labelWidth <- convertWidth(widthDetails(textGrob(
-            label = label,
-            gp = gpar(fontsize = fontsize)
-        )),
-        unitTo = "native", valueOnly = TRUE
-        )
-        upViewport()
-
-        leftBound <- as.numeric(location) - 0.5 * labelWidth
-        rightBound <- as.numeric(location) + 0.5 * labelWidth
-
-        if (leftBound < xscale[1] | rightBound > xscale[2]) {
-            return(NA)
-        } else {
-            return(label)
-        }
-    }
-
     # =========================================================================
     # PARSE PARAMETERS
     # =========================================================================
@@ -299,67 +269,16 @@ bb_plotGenes <- function(chrom, chromstart = NULL, chromend = NULL,
     # GET APPROPRIATE BUILD DATA
     # =========================================================================
 
-    if (class(bb_genes$assembly$TxDb) == "TxDb") {
-        txdbChecks <- TRUE
-    } else {
-        txdbChecks <- check_loadedPackage(
-            package = bb_genes$assembly$TxDb,
-            message = paste(
-                paste0("`", bb_genes$assembly$TxDb, "`"),
-                "not loaded. Please install and load to plot genes."
-            )
-        )
-    }
-
-    orgdbChecks <- check_loadedPackage(
-        package = bb_genes$assembly$OrgDb,
-        message = paste(
-            paste0("`", bb_genes$assembly$OrgDb, "`"),
-            "not loaded. Please install and load to plot genes."
-        )
-    )
-    data <- data.frame(matrix(ncol = 22, nrow = 0))
-    xscale <- c(0, 1)
-    if (txdbChecks == TRUE & orgdbChecks == TRUE) {
-        if (class(bb_genes$assembly$TxDb) == "TxDb") {
-            tx_db <- bb_genes$assembly$TxDb
-        } else {
-            tx_db <- eval(parse(text = bb_genes$assembly$TxDb))
-        }
-        genome <- GenomeInfoDb::seqlengths(tx_db)
-        if (bb_genes$assembly$gene.id.column ==
-            bb_genes$assembly$display.column) {
-            displayCol <- "GENEID"
-        } else {
-            displayCol <- bb_genes$assembly$display.column
-        }
-
-        if (!bb_genes$chrom %in% names(genome)) {
-            warning("Chromosome", "'", bb_genes$chrom, "'",
-                "not found in", "`", bb_genes$assembly$TxDb$packageName, "`",
-                "and genes cannot be plotted.",
-                call. = FALSE
-            )
-        } else {
-            if (is.null(bb_genes$chromstart) & is.null(bb_genes$chromend)) {
-                bb_genes$chromstart <- 1
-                bb_genes$chromend <- genome[[bb_genes$chrom]]
-            }
-
-            data <- bb_getExons(
-                assembly = bb_genes$assembly,
-                chromosome = bb_genes$chrom,
-                start = bb_genes$chromstart,
-                stop = bb_genes$chromend
-            )
-            xscale <- c(bb_genes$chromstart, bb_genes$chromend)
-        }
-    }
+    buildData <- geneData(object = bb_genes,
+                          objectInternal = bb_genesInternal)
+    bb_genes <- buildData[[1]]
+    bb_genesInternal <- buildData[[2]]
+    displayCol <- bb_genesInternal$displayCol
 
     # =========================================================================
     # SUBSET DATA BY STRAND
     # =========================================================================
-
+    data <- bb_genesInternal$data
     ## Genes on plus strand and genes on minus strand
     plus_genes <- data[which(data$TXSTRAND == "+"), ]
     minus_genes <- data[which(data$TXSTRAND == "-"), ]
@@ -495,7 +414,7 @@ bb_plotGenes <- function(chrom, chromstart = NULL, chromend = NULL,
                 width = unit(1, "npc") - vp_labelW,
                 x = vp_labelW, y = unit(0.5, "npc"),
                 clip = "on",
-                xscale = xscale,
+                xscale = bb_genesInternal$xscale,
                 just = "left",
                 name = vp_name
             )
@@ -505,7 +424,7 @@ bb_plotGenes <- function(chrom, chromstart = NULL, chromend = NULL,
                 width = unit(1, "npc"),
                 x = unit(0, "npc"), y = unit(0.5, "npc"),
                 clip = "on",
-                xscale = xscale,
+                xscale = bb_genesInternal$xscale,
                 just = "left",
                 name = vp_name
             )
@@ -531,7 +450,7 @@ bb_plotGenes <- function(chrom, chromstart = NULL, chromend = NULL,
             width = page_coords$width,
             x = page_coords$x, y = page_coords$y,
             clip = "on",
-            xscale = xscale,
+            xscale = bb_genesInternal$xscale,
             just = bb_genesInternal$just,
             name = vp_name
         )
@@ -689,8 +608,6 @@ bb_plotGenes <- function(chrom, chromstart = NULL, chromend = NULL,
                         envir = bbEnv
                     )
                 }
-
-
 
                 assign("gene_grobs",
                     addGrob(get("gene_grobs", envir = bbEnv),
@@ -870,8 +787,9 @@ bb_plotGenes <- function(chrom, chromstart = NULL, chromend = NULL,
             ),
             1, cutoffLabel,
             fontsize = bb_genesInternal$fontsize,
-            xscale = xscale,
-            vp = vp_gene
+            xscale = bb_genesInternal$xscale,
+            vp = vp_gene,
+            unit = "inches"
             )
             plusgeneNames[[displayCol]] <- checkedplusLabels
             plusgeneNames <- plusgeneNames[!is.na(
@@ -908,8 +826,9 @@ bb_plotGenes <- function(chrom, chromstart = NULL, chromend = NULL,
             ),
             1, cutoffLabel,
             fontsize = bb_genesInternal$fontsize,
-            xscale = xscale,
-            vp = vp_gene
+            xscale = bb_genesInternal$xscale,
+            vp = vp_gene,
+            unit = "inches"
             )
             minusgeneNames[[displayCol]] <- checkedminusLabels
             minusgeneNames <- minusgeneNames[!is.na(

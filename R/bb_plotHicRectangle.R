@@ -370,50 +370,14 @@ bb_plotHicRectangle <- function(data, resolution = "auto", zrange = NULL,
     )
 
     # =========================================================================
-    # WHOLE CHROM INFORMATION
+    # GENOMIC SCALE
     # =========================================================================
-
-    if (is.null(hic_plot$chromstart) & is.null(hic_plot$chromend)) {
-        if (class(hic_plot$assembly$TxDb) == "TxDb") {
-            txdbChecks <- TRUE
-        } else {
-            txdbChecks <- check_loadedPackage(
-                package = hic_plot$assembly$TxDb,
-                message = paste(
-                    paste0("`", hic_plot$assembly$TxDb, "`"),
-                    "not loaded. Please install and load to plot
-                full chromosome Hi-C map."
-                )
-            )
-        }
-        if (txdbChecks == TRUE) {
-            if (class(hic_plot$assembly$TxDb) == "TxDb") {
-                tx_db <- hic_plot$assembly$TxDb
-            } else {
-                tx_db <- eval(parse(text = hic_plot$assembly$TxDb))
-            }
-
-            assembly_data <- GenomeInfoDb::seqlengths(tx_db)
-
-            if (!hic_plot$chrom %in% names(assembly_data)) {
-                warning("Chromosome",
-                    "'", hic_plot$chrom, "'",
-                    "not found in",
-                    "`", hic_plot$assembly$TxDb$packageName, "`",
-                    "and data for entire chromosome cannot be plotted.",
-                    call. = FALSE
-                )
-            } else {
-                hic_plot$chromstart <- 1
-                hic_plot$chromend <- assembly_data[[hic_plot$chrom]]
-                hic_plot$altchromstart <- 1
-                hic_plot$altchromend <- assembly_data[[hic_plot$chrom]]
-            }
-        }
-    } else {
-        txdbChecks <- TRUE
-    }
-
+    
+    scaleChecks <- genomicScale(object = hic_plot,
+                                objectInternal = bb_rhicInternal,
+                                plotType = "rectangle Hi-C plot")
+    hic_plot <- scaleChecks[[1]]
+    bb_rhicInternal <- scaleChecks[[2]]
 
     # =========================================================================
     # ADJUST RESOLUTION

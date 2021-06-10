@@ -587,7 +587,11 @@ bb_plotManhattan <- function(data, sigVal = 5e-08, chrom = NULL,
         chromend = man_plot$chromend,
         scaleLD = bb_manInternal$scaleLD
     )
-
+    
+    # =====================================================================
+    # GENOMIC SCALE
+    # =====================================================================
+    
     if (nrow(bed_data) > 0) {
 
         # =====================================================================
@@ -609,7 +613,7 @@ bb_plotManhattan <- function(data, sigVal = 5e-08, chrom = NULL,
                     message = paste(
                         paste0("`", man_plot$assembly$TxDb, "`"),
                         "not loaded. Please install and load to generate
-                    full genome assembly Manhattan plot."
+                    Manhattan plot."
                     )
                 )
             }
@@ -668,63 +672,24 @@ bb_plotManhattan <- function(data, sigVal = 5e-08, chrom = NULL,
             } else {
                 xscale <- c(0, 1)
             }
+            
+            bb_manInternal$xscale <- xscale
+            bb_manInternal$txdbChecks <- txdbChecks
         } else {
 
             # ==================================================================
             # SINGLE CHROMOSOME
             # ==================================================================
             offsetAssembly <- NULL
-
-            ## Whole single chromosome needs chromosome length information
-            if (is.null(man_plot$chromstart) & is.null(man_plot$chromend)) {
-                if (class(man_plot$assembly$TxDb) == "TxDb") {
-                    txdbChecks <- TRUE
-                } else {
-                    txdbChecks <- check_loadedPackage(
-                        package = man_plot$assembly$TxDb,
-                        message = paste(
-                            paste0(
-                                "`",
-                                man_plot$assembly$TxDb,
-                                "`"
-                            ),
-                            "not loaded. Please install and load to generate
-                        full chromosome Manhattan plot."
-                        )
-                    )
-                }
-
-                if (txdbChecks == TRUE) {
-                    if (class(man_plot$assembly$TxDb) == "TxDb") {
-                        tx_db <- man_plot$assembly$TxDb
-                    } else {
-                        tx_db <- eval(parse(text = man_plot$assembly$TxDb))
-                    }
-
-                    assembly_data <- GenomeInfoDb::seqlengths(tx_db)
-
-                    if (!man_plot$chrom %in% names(assembly_data)) {
-                        warning("Chromosome",
-                            "'", man_plot$chrom, "'",
-                            "not found in",
-                            "`", man_plot$assembly$TxDb$packageName, "`",
-                            "and data for entire chromosome cannot be plotted.",
-                            call. = FALSE
-                        )
-                        xscale <- c(0, 1)
-                    } else {
-                        man_plot$chromstart <- 1
-                        man_plot$chromend <- assembly_data[[man_plot$chrom]]
-                        xscale <- c(man_plot$chromstart, man_plot$chromend)
-                    }
-                }
-            } else {
-                xscale <- c(man_plot$chromstart, man_plot$chromend)
-                txdbChecks <- TRUE
-            }
+            
+            scaleChecks <- genomicScale(object = man_plot,
+                                        objectInternal = bb_manInternal,
+                                        plotType = "Manhattan plot")
+            man_plot <- scaleChecks[[1]]
+            bb_manInternal <- scaleChecks[[2]]
         }
 
-        if (txdbChecks != FALSE) {
+        if (bb_manInternal$txdbChecks != FALSE) {
 
             # =================================================================
             # Y-LIMITS
@@ -813,12 +778,12 @@ bb_plotManhattan <- function(data, sigVal = 5e-08, chrom = NULL,
                 colorBed$pch <- rep(bb_manInternal$pch[1], nrow(colorBed))
             }
         } else {
-            xscale <- c(0, 1)
+            bb_manInternal$xscale <- c(0, 1)
             man_plot$range <- c(0, 1)
         }
     } else {
-        txdbChecks <- TRUE
-        xscale <- c(0, 1)
+        bb_manInternal$txdbChecks <- TRUE
+        bb_manInternal$xscale <- c(0, 1)
         man_plot$range <- c(0, 1)
         warning("No data found in region.", call. = FALSE)
     }
@@ -852,7 +817,7 @@ bb_plotManhattan <- function(data, sigVal = 5e-08, chrom = NULL,
             height = unit(0.25, "snpc"), width = unit(1, "snpc"),
             x = unit(0.5, "npc"), y = unit(0.5, "npc"),
             clip = "on",
-            xscale = xscale, yscale = yscale,
+            xscale = bb_manInternal$xscale, yscale = yscale,
             just = "center",
             name = vp_name
         )
@@ -872,7 +837,7 @@ bb_plotManhattan <- function(data, sigVal = 5e-08, chrom = NULL,
             height = page_coords$height, width = page_coords$width,
             x = page_coords$x, y = page_coords$y,
             clip = "on",
-            xscale = xscale, yscale = yscale,
+            xscale = bb_manInternal$xscale, yscale = yscale,
             just = bb_manInternal$just,
             name = vp_name
         )
@@ -889,7 +854,7 @@ bb_plotManhattan <- function(data, sigVal = 5e-08, chrom = NULL,
         envir = bbEnv
     )
 
-    if (nrow(bed_data) > 0 & txdbChecks == TRUE) {
+    if (nrow(bed_data) > 0 & bb_manInternal$txdbChecks == TRUE) {
 
         # =====================================================================
         # SUBSET DATA FOR LEAD SNP

@@ -571,8 +571,9 @@ bb_plotHicSquare <- function(data, resolution = "auto", zrange = NULL,
     )
 
     # =========================================================================
-    # WHOLE CHROM INFORMATION
+    # GENOMIC SCALE
     # =========================================================================
+
 
     if (is.null(hic_plot$chromstart) & is.null(hic_plot$chromend)) {
         chromData <- get_wholeChrom(

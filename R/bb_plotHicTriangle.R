@@ -447,54 +447,15 @@ bb_plotHicTriangle <- function(data, resolution = "auto", zrange = NULL,
     )
 
     # =========================================================================
-    # WHOLE CHROM INFORMATION
+    # GENOMIC SCALE
     # =========================================================================
-
-    if (is.null(hic_plot$chromstart) & is.null(hic_plot$chromend)) {
-        if (class(hic_plot$assembly$TxDb) == "TxDb") {
-            txdbChecks <- TRUE
-        } else {
-            txdbChecks <- check_loadedPackage(
-                package = hic_plot$assembly$TxDb,
-                message = paste(
-                    paste0("`", hic_plot$assembly$TxDb, "`"),
-                    "not loaded. Please install and load to
-                plot full chromosome Hi-C map."
-                )
-            )
-        }
-
-        scale <- c(0, 1)
-        if (txdbChecks == TRUE) {
-            if (class(hic_plot$assembly$TxDb) == "TxDb") {
-                tx_db <- hic_plot$assembly$TxDb
-            } else {
-                tx_db <- eval(parse(text = hic_plot$assembly$TxDb))
-            }
-
-            assembly_data <- GenomeInfoDb::seqlengths(tx_db)
-
-            if (!hic_plot$chrom %in% names(assembly_data)) {
-                warning("Chromosome",
-                    "'", hic_plot$chrom, "'",
-                    "not found in",
-                    "`", hic_plot$assembly$TxDb$packageName, "`",
-                    "and data for entire chromosome cannot be plotted.",
-                    call. = FALSE
-                )
-            } else {
-                hic_plot$chromstart <- 1
-                hic_plot$chromend <- assembly_data[[hic_plot$chrom]]
-                hic_plot$altchromstart <- 1
-                hic_plot$altchromend <- assembly_data[[hic_plot$chrom]]
-                scale <- c(hic_plot$chromstart, hic_plot$chromend)
-            }
-        }
-    } else {
-        txdbChecks <- TRUE
-        scale <- c(hic_plot$chromstart, hic_plot$chromend)
-    }
-
+    
+    scaleChecks <- genomicScale(object = hic_plot,
+                                objectInternal = bb_thicInternal,
+                                plotType = "triangle Hi-C plot")
+    hic_plot <- scaleChecks[[1]]
+    bb_thicInternal <- scaleChecks[[2]]
+    
     # =========================================================================
     # ADJUST RESOLUTION
     # =========================================================================
@@ -592,8 +553,8 @@ bb_plotHicTriangle <- function(data, resolution = "auto", zrange = NULL,
         inside_vp <- viewport(
             height = unit(1, "npc"), width = unit(0.5, "npc"),
             x = unit(0, "npc"), y = unit(0, "npc"),
-            xscale = scale,
-            yscale = scale,
+            xscale = bb_thicInternal$xscale,
+            yscale = bb_thicInternal$xscale,
             just = c("left", "bottom"),
             name = paste0(vp_name, "_inside"),
             angle = -45
@@ -604,7 +565,7 @@ bb_plotHicTriangle <- function(data, resolution = "auto", zrange = NULL,
             width = unit(1.5, "snpc"),
             x = unit(0.125, "npc"),
             y = unit(0.25, "npc"),
-            xscale = scale,
+            xscale = bb_thicInternal$xscale,
             clip = "on",
             just = c("left", "bottom"),
             name = paste0(vp_name, "_outside")
@@ -649,8 +610,8 @@ bb_plotHicTriangle <- function(data, resolution = "auto", zrange = NULL,
             ),
             x = unit(0, "npc"),
             y = unit(0, "npc"),
-            xscale = scale,
-            yscale = scale,
+            xscale = bb_thicInternal$xscale,
+            yscale = bb_thicInternal$xscale,
             just = c("left", "bottom"),
             name = paste0(vp_name, "_inside"),
             angle = -45
@@ -667,7 +628,7 @@ bb_plotHicTriangle <- function(data, resolution = "auto", zrange = NULL,
                 bottom_coords[[2]],
                 get("page_units", envir = bbEnv)
             ),
-            xscale = scale,
+            xscale = bb_thicInternal$xscale,
             clip = "on",
             just = c("left", "bottom"),
             name = paste0(vp_name, "_outside")
@@ -729,7 +690,7 @@ bb_plotHicTriangle <- function(data, resolution = "auto", zrange = NULL,
             }
 
             if (nrow(squares) == 0 & nrow(triangles) == 0) {
-                if (txdbChecks == TRUE) {
+                if (bb_thicInternal$txdbChecks == TRUE) {
                     if (!is.na(hic_plot$resolution)){
                         warning("No data found in region. Suggestions: ",
                                 "check that ",

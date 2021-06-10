@@ -633,49 +633,14 @@ bb_plotSignal <- function(data, binSize = NA, binCap = TRUE, negData = FALSE,
     )
 
     # =========================================================================
-    # WHOLE CHROM
+    # GENOMIC SCALE
     # =========================================================================
 
-    if (is.null(signal_track$chromstart) & is.null(signal_track$chromend)) {
-        if (class(signal_track$assembly$TxDb) == "TxDb") {
-            txdbChecks <- TRUE
-        } else {
-            txdbChecks <- check_loadedPackage(
-                package = signal_track$assembly$TxDb,
-                message = paste(
-                    paste0("`", signal_track$assembly$TxDb, "`"),
-                    "not loaded. Please install and load to generate
-                full chromosome signal track."
-                )
-            )
-        }
-
-        xscale <- c(0, 1)
-        if (txdbChecks == TRUE) {
-            if (class(signal_track$assembly$TxDb) == "TxDb") {
-                tx_db <- signal_track$assembly$TxDb
-            } else {
-                tx_db <- eval(parse(text = signal_track$assembly$TxDb))
-            }
-
-            assembly_data <- GenomeInfoDb::seqlengths(tx_db)
-            if (!signal_track$chrom %in% names(assembly_data)) {
-                warning("Chromosome",
-                    "'", signal_track$chrom, "'",
-                    "not found in",
-                    "`", signal_track$assembly$TxDb$packageName, "`",
-                    "and data for entire chromosome cannot be plotted.",
-                    call. = FALSE
-                )
-            } else {
-                signal_track$chromstart <- 1
-                signal_track$chromend <- assembly_data[[signal_track$chrom]]
-                xscale <- c(signal_track$chromstart, signal_track$chromend)
-            }
-        }
-    } else {
-        xscale <- c(signal_track$chromstart, signal_track$chromend)
-    }
+    scaleChecks <- genomicScale(object = signal_track,
+                                objectInternal = bb_sigInternal,
+                                plotType = "signal track")
+    signal_track <- scaleChecks[[1]]
+    bb_sigInternal <- scaleChecks[[2]]
 
     # =========================================================================
     # SET BINSIZE
@@ -814,7 +779,7 @@ bb_plotSignal <- function(data, binSize = NA, binCap = TRUE, negData = FALSE,
                 height = unit(0.25, "snpc"), width = unit(1, "snpc"),
                 x = unit(0.5, "npc"), y = unit(0.5, "npc"),
                 clip = "on",
-                xscale = xscale,
+                xscale = bb_sigInternal$xscale,
                 yscale = c(signal_track$range[1], signal_track$range[2]),
                 just = "center",
                 name = paste0(vp_name, "_h")
@@ -830,7 +795,7 @@ bb_plotSignal <- function(data, binSize = NA, binCap = TRUE, negData = FALSE,
                     just = "center",
                     clip = "on",
                     xscale = c(signal_track$range[2], signal_track$range[1]),
-                    yscale = xscale,
+                    yscale = bb_sigInternal$xscale,
                     name = paste0(vp_name, "_vClip")
 
                 )
@@ -843,7 +808,7 @@ bb_plotSignal <- function(data, binSize = NA, binCap = TRUE, negData = FALSE,
                     height = height, width = width,
                     x = unit(1, "npc"), y = unit(0, "npc"),
                     just = c("left", "bottom"),
-                    xscale = xscale,
+                    xscale = bb_sigInternal$xscale,
                     yscale = c(signal_track$range[1], signal_track$range[2]),
                     name = paste0(vp_name, "_v"),
                     angle = 90
@@ -875,7 +840,7 @@ bb_plotSignal <- function(data, binSize = NA, binCap = TRUE, negData = FALSE,
                 height = page_coords$height, width = page_coords$width,
                 x = page_coords$x, y = page_coords$y,
                 clip = "on",
-                xscale = xscale,
+                xscale = bb_sigInternal$xscale,
                 yscale = c(signal_track$range[1], signal_track$range[2]),
                 just = bb_sigInternal$just,
                 name = paste0(vp_name, "_h")
@@ -892,7 +857,7 @@ bb_plotSignal <- function(data, binSize = NA, binCap = TRUE, negData = FALSE,
                 just = bb_sigInternal$just,
                 clip = "on",
                 xscale = c(signal_track$range[2], signal_track$range[1]),
-                yscale = xscale,
+                yscale = bb_sigInternal$xscale,
                 name = paste0(vp_name, "_vClip")
 
             )
@@ -901,7 +866,7 @@ bb_plotSignal <- function(data, binSize = NA, binCap = TRUE, negData = FALSE,
                 height = page_coords$width, width = page_coords$height,
                 x = unit(1, "npc"), y = unit(0, "npc"),
                 just = c("left", "bottom"),
-                xscale = xscale,
+                xscale = bb_sigInternal$xscale,
                 yscale = c(signal_track$range[1], signal_track$range[2]),
                 name = paste0(vp_name, "_v"),
                 angle = 90

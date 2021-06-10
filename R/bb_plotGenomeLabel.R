@@ -301,7 +301,7 @@ bb_plotGenomeLabel <- function(chrom, chromstart = NULL, chromend = NULL,
 
     bb_genomeLabelInternal$margin <- 
         convertHeight(bb_genomeLabelInternal$margin,
-                      unitTo = get("page_units", envir = bbEnv)
+                    unitTo = get("page_units", envir = bbEnv)
         )
     bb_genomeLabelInternal$tgH <- convertHeight(heightDetails(textGrob(
         label = bb_genomeLabelInternal$scale,
@@ -317,9 +317,9 @@ bb_plotGenomeLabel <- function(chrom, chromstart = NULL, chromend = NULL,
             bb_genomeLabelInternal$tgH * (bb_genomeLabelInternal$tcl)
         bb_genomeLabelInternal$depth <- 
             convertHeight(bb_genomeLabelInternal$tgH + 
-                              bb_genomeLabelInternal$tick_height + 
-                              0.5 * bb_genomeLabelInternal$tgH + 
-                              bb_genomeLabelInternal$margin,
+                        bb_genomeLabelInternal$tick_height + 
+                        0.5 * bb_genomeLabelInternal$tgH + 
+                        bb_genomeLabelInternal$margin,
             unitTo = get("page_units", envir = bbEnv),
             valueOnly = TRUE
         )
@@ -327,7 +327,7 @@ bb_plotGenomeLabel <- function(chrom, chromstart = NULL, chromend = NULL,
         bb_genomeLabelInternal$tick_height <- NULL
         bb_genomeLabelInternal$depth <- 
             convertHeight(bb_genomeLabelInternal$tgH + 
-                              bb_genomeLabelInternal$margin,
+                        bb_genomeLabelInternal$margin,
             unitTo = get("page_units", envir = bbEnv),
             valueOnly = TRUE
         )
@@ -336,7 +336,7 @@ bb_plotGenomeLabel <- function(chrom, chromstart = NULL, chromend = NULL,
     # =========================================================================
     # GENOME LABEL FOR SINGLE CHROMOSOME
     # =========================================================================
- 
+    
     if (base::length(bb_genomeLabel$chrom) == 1){
         
         vp_name <- bb_plotChromGenomeLabel(bb_genomeLabel = bb_genomeLabel,
@@ -347,7 +347,7 @@ bb_plotGenomeLabel <- function(chrom, chromstart = NULL, chromend = NULL,
     # =========================================================================
     # GENOME LABEL FOR MANHATTAN PLOT
     # =========================================================================
-       vp_name <- bb_plotManhattanGenomeLabel(bb_genomeLabel = bb_genomeLabel,
+        vp_name <- bb_plotManhattanGenomeLabel(bb_genomeLabel = bb_genomeLabel,
                                 bb_genomeLabelInternal = bb_genomeLabelInternal)
         
     }
@@ -417,12 +417,12 @@ bb_plotChromGenomeLabel <- function(bb_genomeLabel,
 
         if (commas == TRUE) {
             chromstartlabel <- formatC(roundedStart,
-                                       format = "f",
-                                       big.mark = ",", digits = digits[1]
+                                    format = "f",
+                                    big.mark = ",", digits = digits[1]
             )
             chromendlabel <- formatC(roundedEnd,
-                                     format = "f",
-                                     big.mark = ",", digits = digits[2]
+                                    format = "f",
+                                    big.mark = ",", digits = digits[2]
             )
         } else {
             chromstartlabel <- roundedStart
@@ -432,8 +432,9 @@ bb_plotChromGenomeLabel <- function(bb_genomeLabel,
         return(list(chromstartlabel, chromendlabel))
     }
     
+    ## Define a function that makes the label viewport
     chrom_viewport <- function(object, length, depth, seqType,
-                               vp_name, seqHeight, just, axis){
+                            vp_name, seqHeight, just, axis){
         
         ## No matter the orientation, convert to page units
         convertedPageCoords <- convert_page(object = structure(list(
@@ -559,12 +560,13 @@ bb_plotChromGenomeLabel <- function(bb_genomeLabel,
             
             if (!is.null(ticks)) {
                 tgH <- convertHeight(object$tgH,
-                                     unitTo = get("page_units", envir = bbEnv),
-                                     valueOnly = TRUE
+                                    unitTo = get("page_units", envir = bbEnv),
+                                    valueOnly = TRUE
                 )
                 tick_height <- convertHeight(object$tick_height,
-                                             unitTo = get("page_units", envir = bbEnv),
-                                             valueOnly = TRUE
+                                            unitTo = get("page_units", 
+                                                        envir = bbEnv),
+                                            valueOnly = TRUE
                 )
                 x_coords <- ticks
                 y0_coord <- height
@@ -613,13 +615,13 @@ bb_plotChromGenomeLabel <- function(bb_genomeLabel,
                 )
                 
                 assign("genomeLabel_grobs",
-                       setChildren(get("genomeLabel_grobs", envir = bbEnv),
-                                   children = gList(
-                                       line, chromLab, startLab,
-                                       endLab, tickGrobs
-                                   )
-                       ),
-                       envir = bbEnv
+                    setChildren(get("genomeLabel_grobs", envir = bbEnv),
+                                    children = gList(
+                                                line, chromLab, startLab,
+                                                endLab, tickGrobs
+                                        )
+                        ),
+                        envir = bbEnv
                 )
             } else {
                 yLabel <- unit(height - margin, "native")
@@ -654,13 +656,13 @@ bb_plotChromGenomeLabel <- function(bb_genomeLabel,
                 )
                 
                 assign("genomeLabel_grobs",
-                       setChildren(get("genomeLabel_grobs", envir = bbEnv),
-                                   children = gList(
-                                       line, chromLab,
-                                       startLab, endLab
-                                   )
-                       ),
-                       envir = bbEnv
+                    setChildren(get("genomeLabel_grobs", envir = bbEnv),
+                            children = gList(
+                                        line, chromLab,
+                                        startLab, endLab
+                                        )
+                    ),
+                    envir = bbEnv
                 )
             }
         } else {
@@ -668,12 +670,13 @@ bb_plotChromGenomeLabel <- function(bb_genomeLabel,
             
             if (!is.null(ticks)) {
                 tgH <- convertHeight(object$tgH,
-                                     unitTo = get("page_units", envir = bbEnv),
-                                     valueOnly = TRUE
+                                    unitTo = get("page_units", envir = bbEnv),
+                                    valueOnly = TRUE
                 )
                 tick_height <- convertHeight(object$tick_height,
-                                             unitTo = get("page_units", envir = bbEnv),
-                                             valueOnly = TRUE
+                                            unitTo = get("page_units", 
+                                                        envir = bbEnv),
+                                            valueOnly = TRUE
                 )
                 x_coords <- ticks
                 
@@ -751,13 +754,13 @@ bb_plotChromGenomeLabel <- function(bb_genomeLabel,
                 }
                 
                 assign("genomeLabel_grobs",
-                       setChildren(get("genomeLabel_grobs", envir = bbEnv),
-                                   children = gList(
-                                       line, chromLab, startLab,
-                                       endLab, tickGrobs
-                                   )
-                       ),
-                       envir = bbEnv
+                    setChildren(get("genomeLabel_grobs", envir = bbEnv),
+                                children = gList(
+                                            line, chromLab, startLab,
+                                            endLab, tickGrobs
+                                        )
+                        ),
+                    envir = bbEnv
                 )
             } else {
                 if (yaxis == TRUE) {
@@ -819,13 +822,13 @@ bb_plotChromGenomeLabel <- function(bb_genomeLabel,
                 
                 
                 assign("genomeLabel_grobs",
-                       setChildren(get("genomeLabel_grobs", envir = bbEnv),
-                                   children = gList(
-                                       line, chromLab,
-                                       startLab, endLab
-                                   )
-                       ),
-                       envir = bbEnv
+                    setChildren(get("genomeLabel_grobs", envir = bbEnv),
+                                children = gList(
+                                            line, chromLab,
+                                            startLab, endLab
+                                )
+                        ),
+                    envir = bbEnv
                 )
             }
         }
@@ -833,7 +836,7 @@ bb_plotChromGenomeLabel <- function(bb_genomeLabel,
     
     ## Define a function that makes sequence grobs (boxes or letters)
     seq_grobs <- function(object, seqHeight, seqType, assembly, chromLabel, vp,
-                          boxWidth, gparParams) {
+                        boxWidth, gparParams) {
         
         bsgenome <- eval(parse(text = object$assembly$BSgenome))
         ## Get sequence in that region
@@ -908,11 +911,11 @@ bb_plotChromGenomeLabel <- function(bb_genomeLabel,
         }
         
         assign("genomeLabel_grobs",
-               addGrob(
-                   gTree = get("genomeLabel_grobs", envir = bbEnv),
-                   child = seqGrobs
-               ),
-               envir = bbEnv
+                addGrob(
+                    gTree = get("genomeLabel_grobs", envir = bbEnv),
+                    child = seqGrobs
+                ),
+                envir = bbEnv
         )
     }
     
@@ -930,7 +933,7 @@ bb_plotChromGenomeLabel <- function(bb_genomeLabel,
     if (bb_genomeLabelInternal$scale == "Kb") {
         fact <- 1000
     }
-   
+    
     commaLabels <- comma_labels(
             object = bb_genomeLabel,
             commas = bb_genomeLabelInternal$commas,
@@ -957,8 +960,8 @@ bb_plotChromGenomeLabel <- function(bb_genomeLabel,
     if (bb_genomeLabelInternal$sequence == TRUE) {
         if (bb_genomeLabelInternal$axis == "x") {
             labelWidth <- convertWidth(bb_genomeLabelInternal$length,
-                                       unitTo = "inches",
-                                       valueOnly = TRUE
+                                    unitTo = "inches",
+                                    valueOnly = TRUE
             )
             bpWidth <- convertWidth(widthDetails(textGrob(
                 label = "A",
@@ -1077,13 +1080,14 @@ bb_plotChromGenomeLabel <- function(bb_genomeLabel,
 # @param bb_genomeLabelInternal bb_genomeLabelInternal object 
 # from bb_plotGenomeLabel
 bb_plotManhattanGenomeLabel <- function(bb_genomeLabel, bb_genomeLabelInternal){
- 
+    
     # =========================================================================
     # FUNCTIONS
     # =========================================================================
     
+    ## Define a function that makes the label viewport
     manhattan_viewport <- function(object, length, depth,
-                                   vp_name, just, axis, space){
+                                vp_name, just, axis, space){
         
         ## Convert to page units
         convertedPageCoords <- convert_page(object = structure(list(
@@ -1137,7 +1141,7 @@ bb_plotManhattanGenomeLabel <- function(bb_genomeLabel, bb_genomeLabelInternal){
             keep.rownames = TRUE
             ))
             assembly_data <- assembly_data[which(assembly_data[, 1] %in%
-                                                     object$chrom), ]
+                                                object$chrom), ]
             ## get the offsets based on spacer for the assembly
             offsetAssembly <- spaceChroms(
                 assemblyData = assembly_data,
@@ -1225,7 +1229,7 @@ bb_plotManhattanGenomeLabel <- function(bb_genomeLabel, bb_genomeLabelInternal){
             keep.rownames = TRUE
             ))
             assembly_data <- assembly_data[which(assembly_data[, 1] %in%
-                                                     object$chrom), ]
+                                                    object$chrom), ]
             ## Get the offsets based on spacer for the assembly
             offsetAssembly <- spaceChroms(
                 assemblyData = assembly_data,
@@ -1254,10 +1258,10 @@ bb_plotManhattanGenomeLabel <- function(bb_genomeLabel, bb_genomeLabelInternal){
                 default.units = "native"
             )
             assign("genomeLabel_grobs",
-                   setChildren(get("genomeLabel_grobs", envir = bbEnv),
-                               children = gList(line, labels)
-                   ),
-                   envir = bbEnv
+                setChildren(get("genomeLabel_grobs", envir = bbEnv),
+                        children = gList(line, labels)
+                    ),
+                envir = bbEnv
             )
         }
     }
@@ -1296,5 +1300,4 @@ bb_plotManhattanGenomeLabel <- function(bb_genomeLabel, bb_genomeLabelInternal){
     )
     
     return(vp_name)
-       
 }
