@@ -6,19 +6,19 @@
 BentoBox plot}
 \usage{
 bb_annoHighlight(
-  plot,
-  chrom,
-  chromstart = NULL,
-  chromend = NULL,
-  fill = "grey",
-  linecolor = NA,
-  alpha = 0.4,
-  y,
-  height,
-  just = c("left", "top"),
-  default.units = "inches",
-  params = NULL,
-  ...
+    plot,
+    chrom,
+    chromstart = NULL,
+    chromend = NULL,
+    fill = "grey",
+    linecolor = NA,
+    alpha = 0.4,
+    y,
+    height,
+    just = c("left", "top"),
+    default.units = "inches",
+    params = NULL,
+    ...
 )
 }
 \arguments{

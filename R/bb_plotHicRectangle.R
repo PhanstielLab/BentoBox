@@ -1,4 +1,27 @@
 #' Plot a triangular Hi-C interaction matrix in a rectangular format
+#' 
+#' @usage bb_plotHicRectangle(
+#'     data,
+#'     resolution = "auto",
+#'     zrange = NULL,
+#'     norm = "KR",
+#'     matrix = "observed",
+#'     chrom,
+#'     chromstart = NULL,
+#'     chromend = NULL,
+#'     assembly = "hg38",
+#'     palette = colorRampPalette(brewer.pal(n = 9, "YlGnBu")),
+#'     colorTrans = "linear",
+#'     x = NULL,
+#'     y = NULL,
+#'     width = NULL,
+#'     height = NULL,
+#'     just = c("left", "top"),
+#'     default.units = "inches",
+#'     draw = TRUE,
+#'     params = NULL,
+#'     quiet = FALSE
+#' )
 #'
 #' @param data Path to .hic file as a string or a 3-column dataframe of
 #' interaction counts in sparse upper triangular format.

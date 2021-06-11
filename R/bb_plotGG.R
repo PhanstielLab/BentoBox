@@ -1,4 +1,15 @@
 #' Plot a ggplot2 plot, gtable, or grob object in a BentoBox layout
+#' 
+#' @usage bb_plotGG(
+#'     plot,
+#'     x,
+#'     y,
+#'     width,
+#'     height,
+#'     just = c("left", "top"),
+#'     default.units = "inches",
+#'     params = NULL
+#' )
 #'
 #' @param plot ggplot, gtable, or grob object.
 #' @param x A numeric or unit object specifying ggplot x-location.

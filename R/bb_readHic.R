@@ -1,4 +1,22 @@
 #' Read a .hic file and return Hi-C data as a dataframe
+#' 
+#' @usage bb_readHic(
+#'     file,
+#'     chrom,
+#'     chromstart = NULL,
+#'     chromend = NULL,
+#'     altchrom = NULL,
+#'     altchromstart = NULL,
+#'     altchromend = NULL,
+#'     assembly = "hg38",
+#'     resolution = "auto",
+#'     res_scale = "BP",
+#'     zrange = NULL,
+#'     norm = "KR",
+#'     matrix = "observed",
+#'     params = NULL,
+#'     quiet = FALSE
+#' )
 #'
 #' @param file A character value specifying the path to the .hic file.
 #' @param chrom Chromosome of data, as a string.
@@ -50,15 +68,15 @@
 #' 
 #' ## Read in data for region `chr8:133000000-135000000` at 10Kb bp resolution
 #' hicData10kb <- bb_readHic(file = hicFile, chrom = "chr8",
-#'                      chromstart = 133000000, chromend = 135000000,
-#'                      assembly = "hg19",
-#'                      resolution = 10000)
-#'                      
+#'                         chromstart = 133000000, chromend = 135000000,
+#'                         assembly = "hg19",
+#'                         resolution = 10000)
+#'                         
 #' ## Read in same region at 5Kb bp resolution
 #' hicData5kb <- bb_readHic(file = hicFile, chrom = "chr8",
-#'                      chromstart = 133000000, chromend = 135000000,
-#'                      assembly = "hg19",
-#'                      resolution = 5000)                     
+#'                         chromstart = 133000000, chromend = 135000000,
+#'                         assembly = "hg19",
+#'                         resolution = 5000)                     
 #'
 #' @seealso \link[strawr]{straw}
 #'

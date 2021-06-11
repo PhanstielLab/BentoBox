@@ -5,16 +5,16 @@
 \title{Plot a raster object within a BentoBox layout}
 \usage{
 bb_plotRaster(
-  image,
-  x,
-  y,
-  width,
-  height,
-  just = "center",
-  default.units = "inches",
-  interpolate = TRUE,
-  params = NULL,
-  ...
+    image,
+    x,
+    y,
+    width,
+    height,
+    just = "center",
+    default.units = "inches",
+    interpolate = TRUE,
+    params = NULL,
+    ...
 )
 }
 \arguments{

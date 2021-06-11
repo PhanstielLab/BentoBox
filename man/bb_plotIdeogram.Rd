@@ -5,18 +5,18 @@
 \title{Plot a chromosome ideogram with or without cytobands}
 \usage{
 bb_plotIdeogram(
-  chrom,
-  assembly = "hg38",
-  orientation = "h",
-  showBands = TRUE,
-  x = NULL,
-  y = NULL,
-  width = NULL,
-  height = NULL,
-  just = c("left", "top"),
-  default.units = "inches",
-  draw = TRUE,
-  params = NULL
+    chrom,
+    assembly = "hg38",
+    orientation = "h",
+    showBands = TRUE,
+    x = NULL,
+    y = NULL,
+    width = NULL,
+    height = NULL,
+    just = c("left", "top"),
+    default.units = "inches",
+    draw = TRUE,
+    params = NULL
 )
 }
 \arguments{

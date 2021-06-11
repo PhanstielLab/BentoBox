@@ -5,36 +5,36 @@
 \title{Plot a Manhattan plot}
 \usage{
 bb_plotManhattan(
-  data,
-  sigVal = 5e-08,
-  chrom = NULL,
-  chromstart = NULL,
-  chromend = NULL,
-  assembly = "hg38",
-  fill = "black",
-  pch = 19,
-  cex = 0.25,
-  leadSNP = NULL,
-  scaleLD = NULL,
-  sigLine = FALSE,
-  sigCol = NULL,
-  ymax = 1,
-  range = NULL,
-  space = 0.01,
-  bg = NA,
-  baseline = FALSE,
-  baseline.color = "grey",
-  baseline.lwd = 1,
-  x = NULL,
-  y = NULL,
-  width = NULL,
-  height = NULL,
-  just = c("left", "top"),
-  flip = FALSE,
-  default.units = "inches",
-  draw = TRUE,
-  params = NULL,
-  ...
+    data,
+    sigVal = 5e-08,
+    chrom = NULL,
+    chromstart = NULL,
+    chromend = NULL,
+    assembly = "hg38",
+    fill = "black",
+    pch = 19,
+    cex = 0.25,
+    leadSNP = NULL,
+    scaleLD = NULL,
+    sigLine = FALSE,
+    sigCol = NULL,
+    ymax = 1,
+    range = NULL,
+    space = 0.01,
+    bg = NA,
+    baseline = FALSE,
+    baseline.color = "grey",
+    baseline.lwd = 1,
+    x = NULL,
+    y = NULL,
+    width = NULL,
+    height = NULL,
+    just = c("left", "top"),
+    flip = FALSE,
+    default.units = "inches",
+    draw = TRUE,
+    params = NULL,
+    ...
 )
 }
 \arguments{
@@ -169,17 +169,17 @@ A Manhattan plot can be placed on a BentoBox coordinate page by
 providing plot placement parameters:
 \preformatted{
 bb_plotManhattan(data,
-                 chrom = NULL,
-                 chromstart = NULL, chromend = NULL,
-                 x, y, width, height, just = c("left", "top"),
-                 default.units = "inches")
+                chrom = NULL,
+                chromstart = NULL, chromend = NULL,
+                x, y, width, height, just = c("left", "top"),
+                default.units = "inches")
 }
 This function can also be used to quickly plot an unannotated
 Manhattan plot by ignoring plot placement parameters:
 \preformatted{
 bb_plotManhattan(data,
-                 chrom = NULL,
-                 chromstart = NULL, chromend = NULL)
+                chrom = NULL,
+                chromstart = NULL, chromend = NULL)
 }
 }
 \examples{

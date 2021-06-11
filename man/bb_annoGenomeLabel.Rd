@@ -5,24 +5,24 @@
 \title{Annotate genomic coordinates along the x or y-axis of a BentoBox plot}
 \usage{
 bb_annoGenomeLabel(
-  plot,
-  fontsize = 10,
-  fontcolor = "black",
-  linecolor = "black",
-  margin = unit(1, "mm"),
-  scale = "bp",
-  commas = TRUE,
-  sequence = TRUE,
-  boxWidth = 0.5,
-  axis = "x",
-  at = NULL,
-  tcl = 0.5,
-  x,
-  y,
-  just = c("left", "top"),
-  default.units = "inches",
-  params = NULL,
-  ...
+    plot,
+    fontsize = 10,
+    fontcolor = "black",
+    linecolor = "black",
+    margin = unit(1, "mm"),
+    scale = "bp",
+    commas = TRUE,
+    sequence = TRUE,
+    boxWidth = 0.5,
+    axis = "x",
+    at = NULL,
+    tcl = 0.5,
+    x,
+    y,
+    just = c("left", "top"),
+    default.units = "inches",
+    params = NULL,
+    ...
 )
 }
 \arguments{
@@ -69,7 +69,7 @@ Options are:
 \item{\code{"x"}: }{Genome label will be plotted along the x-axis.}
 \item{\code{"y"}: }{Genome label will be plotted along the y-axis.
 This is typically used for a square Hi-C plot made with
- \code{bb_plotHicSquare}.}
+\code{bb_plotHicSquare}.}
 }}
 
 \item{at}{A numeric vector of x-value locations for tick marks.}
@@ -90,7 +90,7 @@ If there are two values, the first value specifies horizontal justification
 and the second value specifies vertical justification.
 Possible string values are: \code{"left"}, \code{"right"}, \code{"centre"},
 \code{"center"}, \code{"bottom"}, and \code{"top"}.
- Default value is \code{just = c("left", "top")}.}
+Default value is \code{just = c("left", "top")}.}
 
 \item{default.units}{A string indicating the default units to use
 if \code{x} or \code{y} are only given as numerics.

@@ -5,18 +5,18 @@
 \title{Plot a polygon within a BentoBox layout}
 \usage{
 bb_plotPolygon(
-  x,
-  y,
-  default.units = "inches",
-  linecolor = "black",
-  lwd = 1,
-  lty = 1,
-  fill = NA,
-  alpha = 1,
-  id = NULL,
-  id.lengths = NULL,
-  params = NULL,
-  ...
+    x,
+    y,
+    default.units = "inches",
+    linecolor = "black",
+    lwd = 1,
+    lty = 1,
+    fill = NA,
+    alpha = 1,
+    id = NULL,
+    id.lengths = NULL,
+    params = NULL,
+    ...
 )
 }
 \arguments{

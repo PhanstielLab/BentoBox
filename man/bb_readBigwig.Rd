@@ -5,12 +5,12 @@
 \title{Read a bigWig file and return it as a data frame}
 \usage{
 bb_readBigwig(
-  file,
-  chrom = NULL,
-  chromstart = 1,
-  chromend = .Machine$integer.max,
-  strand = "*",
-  params = NULL
+    file,
+    chrom = NULL,
+    chromstart = 1,
+    chromend = .Machine$integer.max,
+    strand = "*",
+    params = NULL
 )
 }
 \arguments{
@@ -52,9 +52,9 @@ if (.Platform$OS.type != "windows"){
 
     ## Read in specified region
     bwRegion <- bb_readBigwig(file = bwFile,
-                             chrom = "chr2",
-                             chromstart = 1,
-                             chromend = 1500)
+                            chrom = "chr2",
+                            chromstart = 1,
+                            chromend = 1500)
 }
 
 }

@@ -1,4 +1,13 @@
 #' Read a bigWig file and return it as a data frame
+#' 
+#' @usage bb_readBigwig(
+#'     file,
+#'     chrom = NULL,
+#'     chromstart = 1,
+#'     chromend = .Machine$integer.max,
+#'     strand = "*",
+#'     params = NULL
+#' )
 #'
 #' @param file A character value specifying the path to the bigwig file.
 #' @param chrom Chromosome of data as a string, if data for a specific
@@ -26,9 +35,9 @@
 #' 
 #'     ## Read in specified region
 #'     bwRegion <- bb_readBigwig(file = bwFile,
-#'                              chrom = "chr2",
-#'                              chromstart = 1,
-#'                              chromend = 1500)
+#'                             chrom = "chr2",
+#'                             chromstart = 1,
+#'                             chromend = 1500)
 #' }
 #' 
 #' @details This function does not work on Windows.

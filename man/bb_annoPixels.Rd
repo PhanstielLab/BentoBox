@@ -5,14 +5,14 @@
 \title{Annotate pixels in a Hi-C plot}
 \usage{
 bb_annoPixels(
-  plot,
-  data,
-  type = "box",
-  half = "inherit",
-  shift = 4,
-  params = NULL,
-  quiet = FALSE,
-  ...
+    plot,
+    data,
+    type = "box",
+    half = "inherit",
+    shift = 4,
+    params = NULL,
+    quiet = FALSE,
+    ...
 )
 }
 \arguments{

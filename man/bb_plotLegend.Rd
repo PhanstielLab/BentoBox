@@ -5,24 +5,24 @@
 \title{Plot a legend}
 \usage{
 bb_plotLegend(
-  legend,
-  fill = NULL,
-  pch = NULL,
-  lty = NULL,
-  orientation = "v",
-  title = NULL,
-  fontsize = 10,
-  border = TRUE,
-  bg = NA,
-  x = NULL,
-  y = NULL,
-  width = NULL,
-  height = NULL,
-  just = c("left", "top"),
-  default.units = "inches",
-  draw = TRUE,
-  params = NULL,
-  ...
+    legend,
+    fill = NULL,
+    pch = NULL,
+    lty = NULL,
+    orientation = "v",
+    title = NULL,
+    fontsize = 10,
+    border = TRUE,
+    bg = NA,
+    x = NULL,
+    y = NULL,
+    width = NULL,
+    height = NULL,
+    just = c("left", "top"),
+    default.units = "inches",
+    draw = TRUE,
+    params = NULL,
+    ...
 )
 }
 \arguments{

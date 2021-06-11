@@ -5,11 +5,11 @@
 \title{Draw a vertical guideline at a specified x-coordinate on a BentoBox page}
 \usage{
 bb_pageGuideVertical(
-  x,
-  default.units = "inches",
-  linecolor = "grey55",
-  params = NULL,
-  ...
+    x,
+    default.units = "inches",
+    linecolor = "grey55",
+    params = NULL,
+    ...
 )
 }
 \arguments{

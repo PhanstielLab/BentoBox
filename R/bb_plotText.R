@@ -1,4 +1,18 @@
 #' Plot text within a BentoBox layout
+#' 
+#' @usage bb_plotText(
+#'     label,
+#'     fontcolor = "black",
+#'     fontsize = 12,
+#'     rot = 0,
+#'     check.overlap = FALSE,
+#'     x,
+#'     y,
+#'     just = "center",
+#'     default.units = "inches",
+#'     params = NULL,
+#'     ...
+#' )
 #'
 #' @param label Character or expression of text to be plotted.
 #' @param fontcolor A character value specifying text fontcolor.

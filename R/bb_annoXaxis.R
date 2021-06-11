@@ -1,4 +1,15 @@
 #' Add an x-axis to a plot
+#' 
+#' @usage bb_annoXaxis(
+#'     plot,
+#'     at = NULL,
+#'     label = TRUE,
+#'     main = TRUE,
+#'     scipen = 999,
+#'     axisLine = FALSE,
+#'     params = NULL,
+#'     ...
+#' )
 #'
 #' @param plot Plot object to annotate with x-axis.
 #' @param at A numeric vector of x-value locations for tick marks.

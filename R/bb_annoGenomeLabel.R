@@ -1,4 +1,25 @@
 #' Annotate genomic coordinates along the x or y-axis of a BentoBox plot
+#' 
+#' @usage bb_annoGenomeLabel(
+#'     plot,
+#'     fontsize = 10,
+#'     fontcolor = "black",
+#'     linecolor = "black",
+#'     margin = unit(1, "mm"),
+#'     scale = "bp",
+#'     commas = TRUE,
+#'     sequence = TRUE,
+#'     boxWidth = 0.5,
+#'     axis = "x",
+#'     at = NULL,
+#'     tcl = 0.5,
+#'     x,
+#'     y,
+#'     just = c("left", "top"),
+#'     default.units = "inches",
+#'     params = NULL,
+#'     ...
+#' )
 #'
 #' @param plot Input BentoBox plot to annotate genomic coordinates.
 #' Genomic coordinates and assembly will be inherited from \code{plot}.
@@ -34,7 +55,7 @@
 #' \item{\code{"x"}: }{Genome label will be plotted along the x-axis.}
 #' \item{\code{"y"}: }{Genome label will be plotted along the y-axis.
 #' This is typically used for a square Hi-C plot made with
-#'  \code{bb_plotHicSquare}.}
+#' \code{bb_plotHicSquare}.}
 #' }
 #' @param at A numeric vector of x-value locations for tick marks.
 #' @param tcl A numeric specifying the length of tickmarks as a fraction of
@@ -50,7 +71,7 @@
 #' and the second value specifies vertical justification.
 #' Possible string values are: \code{"left"}, \code{"right"}, \code{"centre"},
 #' \code{"center"}, \code{"bottom"}, and \code{"top"}.
-#'  Default value is \code{just = c("left", "top")}.
+#' Default value is \code{just = c("left", "top")}.
 #' @param default.units A string indicating the default units to use
 #' if \code{x} or \code{y} are only given as numerics.
 #' Default value is \code{default.units = "inches"}.

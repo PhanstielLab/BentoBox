@@ -5,17 +5,17 @@
 \title{Plot text within a BentoBox layout}
 \usage{
 bb_plotText(
-  label,
-  fontcolor = "black",
-  fontsize = 12,
-  rot = 0,
-  check.overlap = FALSE,
-  x,
-  y,
-  just = "center",
-  default.units = "inches",
-  params = NULL,
-  ...
+    label,
+    fontcolor = "black",
+    fontsize = 12,
+    rot = 0,
+    check.overlap = FALSE,
+    x,
+    y,
+    just = "center",
+    default.units = "inches",
+    params = NULL,
+    ...
 )
 }
 \arguments{

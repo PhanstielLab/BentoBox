@@ -1,4 +1,31 @@
 #' Plot a Hi-C interaction matrix in a square format
+#' 
+#' @usage bb_plotHicSquare(
+#'     data,
+#'     resolution = "auto",
+#'     zrange = NULL,
+#'     norm = "KR",
+#'     matrix = "observed",
+#'     chrom,
+#'     chromstart = NULL,
+#'     chromend = NULL,
+#'     altchrom = NULL,
+#'     altchromstart = NULL,
+#'     altchromend = NULL,
+#'     assembly = "hg38",
+#'     palette = colorRampPalette(brewer.pal(n = 9, "YlGnBu")),
+#'     colorTrans = "linear",
+#'     half = "both",
+#'     x = NULL,
+#'     y = NULL,
+#'     width = NULL,
+#'     height = NULL,
+#'     just = c("left", "top"),
+#'     default.units = "inches",
+#'     draw = TRUE,
+#'     params = NULL,
+#'     quiet = FALSE
+#' )
 #'
 #' @param data Path to .hic file as a string or a 3-column dataframe of
 #' interaction counts in sparse upper triangular format.
@@ -120,15 +147,15 @@
 #' by providing plot placement parameters:
 #' \preformatted{
 #' bb_plotHicSquare(data, chrom,
-#'                  chromstart = NULL, chromend = NULL,
-#'                  x, y, width, height, just = c("left", "top"),
-#'                  default.units = "inches")
+#'                 chromstart = NULL, chromend = NULL,
+#'                 x, y, width, height, just = c("left", "top"),
+#'                 default.units = "inches")
 #' }
 #' This function can be used to quickly plot an unannotated
 #' square Hi-C plot by ignoring plot placement parameters:
 #' \preformatted{
 #' bb_plotHicSquare(data, chrom,
-#'                  chromstart = NULL, chromend = NULL)
+#'                 chromstart = NULL, chromend = NULL)
 #' }
 #'
 #' @seealso \link[BentoBox]{bb_readHic}

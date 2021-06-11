@@ -1,4 +1,17 @@
 #' Plot a raster object within a BentoBox layout
+#' 
+#' @usage bb_plotRaster(
+#'     image,
+#'     x,
+#'     y,
+#'     width,
+#'     height,
+#'     just = "center",
+#'     default.units = "inches",
+#'     interpolate = TRUE,
+#'     params = NULL,
+#'     ...
+#' )
 #'
 #' @param image Any R object that can be coerced to a raster object.
 #' @param x A numeric vector or unit object specifying raster x-locations.

@@ -5,33 +5,33 @@
 \title{Plot any kind of signal track data for a single chromosome}
 \usage{
 bb_plotSignal(
-  data,
-  binSize = NA,
-  binCap = TRUE,
-  negData = FALSE,
-  chrom,
-  chromstart = NULL,
-  chromend = NULL,
-  assembly = "hg38",
-  linecolor = "#37a7db",
-  fill = NA,
-  ymax = 1,
-  range = NULL,
-  scale = FALSE,
-  bg = NA,
-  baseline = TRUE,
-  baseline.color = "grey",
-  baseline.lwd = 1,
-  orientation = "h",
-  x = NULL,
-  y = NULL,
-  width = NULL,
-  height = NULL,
-  just = c("left", "top"),
-  default.units = "inches",
-  draw = TRUE,
-  params = NULL,
-  ...
+    data,
+    binSize = NA,
+    binCap = TRUE,
+    negData = FALSE,
+    chrom,
+    chromstart = NULL,
+    chromend = NULL,
+    assembly = "hg38",
+    linecolor = "#37a7db",
+    fill = NA,
+    ymax = 1,
+    range = NULL,
+    scale = FALSE,
+    bg = NA,
+    baseline = TRUE,
+    baseline.color = "grey",
+    baseline.lwd = 1,
+    orientation = "h",
+    x = NULL,
+    y = NULL,
+    width = NULL,
+    height = NULL,
+    just = c("left", "top"),
+    default.units = "inches",
+    draw = TRUE,
+    params = NULL,
+    ...
 )
 }
 \arguments{
@@ -141,15 +141,15 @@ Plot any kind of signal track data for a single chromosome
 by providing plot placement parameters:
 \preformatted{
 bb_plotSignal(data, chrom,
-              chromstart = NULL, chromend = NULL,
-              x, y, width, height, just = c("left", "top"),
-              default.units = "inches")
+            chromstart = NULL, chromend = NULL,
+            x, y, width, height, just = c("left", "top"),
+            default.units = "inches")
 }
 This function can also be used to quickly plot an unannotated
 signal track by ignoring plot placement parameters:
 \preformatted{
 bb_plotSignal(data, chrom,
-              chromstart = NULL, chromend = NULL)
+            chromstart = NULL, chromend = NULL)
 }
 }
 \examples{

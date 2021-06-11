@@ -5,14 +5,14 @@
 \title{Add an x-axis to a plot}
 \usage{
 bb_annoXaxis(
-  plot,
-  at = NULL,
-  label = TRUE,
-  main = TRUE,
-  scipen = 999,
-  axisLine = FALSE,
-  params = NULL,
-  ...
+    plot,
+    at = NULL,
+    label = TRUE,
+    main = TRUE,
+    scipen = 999,
+    axisLine = FALSE,
+    params = NULL,
+    ...
 )
 }
 \arguments{

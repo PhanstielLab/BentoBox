@@ -1,4 +1,14 @@
 #' Create a page for a BentoBox layout
+#' 
+#' @usage bb_pageCreate(
+#'     width = 8.5,
+#'     height = 11,
+#'     default.units = "inches",
+#'     xgrid = 0.5,
+#'     ygrid = 0.5,
+#'     showGuides = TRUE,
+#'     params = NULL
+#' )
 #'
 #' @param width A numeric or unit object specifying page width.
 #' Default value is \code{width = 8}.

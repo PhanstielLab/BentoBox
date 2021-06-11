@@ -5,23 +5,23 @@
 \title{Add a color scale legend for heatmap-style plots}
 \usage{
 bb_annoHeatmapLegend(
-  plot,
-  orientation = "v",
-  fontsize = 8,
-  fontcolor = "dark grey",
-  scientific = FALSE,
-  digits = 0,
-  ticks = FALSE,
-  breaks = NULL,
-  border = FALSE,
-  x,
-  y,
-  width,
-  height,
-  just = c("left", "top"),
-  default.units = "inches",
-  params = NULL,
-  ...
+    plot,
+    orientation = "v",
+    fontsize = 8,
+    fontcolor = "dark grey",
+    scientific = FALSE,
+    digits = 0,
+    ticks = FALSE,
+    breaks = NULL,
+    border = FALSE,
+    x,
+    y,
+    width,
+    height,
+    just = c("left", "top"),
+    default.units = "inches",
+    params = NULL,
+    ...
 )
 }
 \arguments{

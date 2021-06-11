@@ -5,32 +5,32 @@
 \title{Plot genomic range elements in a pileup or collapsed format}
 \usage{
 bb_plotRanges(
-  data,
-  chrom,
-  chromstart = NULL,
-  chromend = NULL,
-  assembly = "hg38",
-  fill = "#7ecdbb",
-  colorby = NULL,
-  linecolor = NA,
-  collapse = FALSE,
-  boxHeight = unit(2, "mm"),
-  spaceWidth = 0.02,
-  spaceHeight = 0.3,
-  strandSplit = FALSE,
-  bg = NA,
-  baseline = FALSE,
-  baseline.color = "grey",
-  baseline.lwd = 1,
-  x = NULL,
-  y = NULL,
-  width = NULL,
-  height = NULL,
-  just = c("left", "top"),
-  default.units = "inches",
-  draw = TRUE,
-  params = NULL,
-  ...
+    data,
+    chrom,
+    chromstart = NULL,
+    chromend = NULL,
+    assembly = "hg38",
+    fill = "#7ecdbb",
+    colorby = NULL,
+    linecolor = NA,
+    collapse = FALSE,
+    boxHeight = unit(2, "mm"),
+    spaceWidth = 0.02,
+    spaceHeight = 0.3,
+    strandSplit = FALSE,
+    bg = NA,
+    baseline = FALSE,
+    baseline.color = "grey",
+    baseline.lwd = 1,
+    x = NULL,
+    y = NULL,
+    width = NULL,
+    height = NULL,
+    just = c("left", "top"),
+    default.units = "inches",
+    draw = TRUE,
+    params = NULL,
+    ...
 )
 }
 \arguments{
@@ -138,15 +138,15 @@ A ranges plot can be placed on a BentoBox coordinate page by providing
 plot placement parameters:
 \preformatted{
 bb_plotRanges(data, chrom,
-              chromstart = NULL, chromend = NULL,
-              x, y, width, height, just = c("left", "top"),
-              default.units = "inches")
+            chromstart = NULL, chromend = NULL,
+            x, y, width, height, just = c("left", "top"),
+            default.units = "inches")
 }
 This function can also be used to quickly plot an unannotated BED plot
 by ignoring plot placement parameters:
 \preformatted{
 bb_plotRanges(data, chrom,
-              chromstart = NULL, chromend = NULL)
+            chromstart = NULL, chromend = NULL)
 }
 }
 \examples{

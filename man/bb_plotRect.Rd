@@ -5,19 +5,19 @@
 \title{Plot a rectangle within a BentoBox layout}
 \usage{
 bb_plotRect(
-  x,
-  y,
-  width,
-  height,
-  just = "center",
-  default.units = "inches",
-  linecolor = "black",
-  lwd = 1,
-  lty = 1,
-  fill = NA,
-  alpha = 1,
-  params = NULL,
-  ...
+    x,
+    y,
+    width,
+    height,
+    just = "center",
+    default.units = "inches",
+    linecolor = "black",
+    lwd = 1,
+    lty = 1,
+    fill = NA,
+    alpha = 1,
+    params = NULL,
+    ...
 )
 }
 \arguments{
@@ -38,8 +38,8 @@ the units of the BentoBox page.}
 If there are two values, the first value specifies horizontal justification
 and the second value specifies vertical justification.
 Possible string values are: \code{"left"}, \code{"right"},
- \code{"centre"}, \code{"center"}, \code{"bottom"}, and \code{"top"}.
- Default value is \code{just = "center"}.}
+\code{"centre"}, \code{"center"}, \code{"bottom"}, and \code{"top"}.
+Default value is \code{just = "center"}.}
 
 \item{default.units}{A string indicating the default units to use if
 \code{x}, \code{y}, \code{width}, and \code{height} are only given as

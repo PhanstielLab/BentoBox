@@ -1,4 +1,15 @@
 #' Add a y-axis to a plot
+#' 
+#' @usage bb_annoYaxis(
+#'     plot,
+#'     at = NULL,
+#'     label = TRUE,
+#'     main = TRUE,
+#'     scipen = 999,
+#'     axisLine = FALSE,
+#'     params = NULL,
+#'     ...
+#' )
 #'
 #' @param plot Plot object to annotate with y-axis.
 #' @param at A numeric vector of y-value locations for tick marks.

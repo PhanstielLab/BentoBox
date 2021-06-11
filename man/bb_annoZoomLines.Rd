@@ -5,19 +5,19 @@
 \title{Annotates zoom lines for a specified genomic region of a BentoBox plot}
 \usage{
 bb_annoZoomLines(
-  plot,
-  chrom,
-  chromstart = NULL,
-  chromend = NULL,
-  y0,
-  x1 = NULL,
-  y1,
-  extend = 0,
-  default.units = "inches",
-  linecolor = "grey",
-  lty = 2,
-  params = NULL,
-  ...
+    plot,
+    chrom,
+    chromstart = NULL,
+    chromend = NULL,
+    y0,
+    x1 = NULL,
+    y1,
+    extend = 0,
+    default.units = "inches",
+    linecolor = "grey",
+    lty = 2,
+    params = NULL,
+    ...
 )
 }
 \arguments{

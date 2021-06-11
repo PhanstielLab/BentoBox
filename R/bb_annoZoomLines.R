@@ -1,4 +1,20 @@
 #' Annotates zoom lines for a specified genomic region of a BentoBox plot
+#' 
+#' @usage bb_annoZoomLines(
+#'     plot,
+#'     chrom,
+#'     chromstart = NULL,
+#'     chromend = NULL,
+#'     y0,
+#'     x1 = NULL,
+#'     y1,
+#'     extend = 0,
+#'     default.units = "inches",
+#'     linecolor = "grey",
+#'     lty = 2,
+#'     params = NULL,
+#'     ...
+#' )
 #'
 #' @param plot Input BentoBox plot to annotate genomic region zoom lines from.
 #' @param chrom Chromosome of region to draw zoom lines from, as a string.

@@ -1,5 +1,14 @@
 #' Annotate domains in a Hi-C plot
 #'
+#' @usage bb_annoDomains(
+#'     plot,
+#'     data,
+#'     half = "inherit",
+#'     linecolor = "black",
+#'     params = NULL,
+#'     ...
+#' )
+#'
 #' @param plot Hi-C plot object from \code{bb_plotHicSquare} or
 #' \code{bb_plotHicTriangle} on which to annotate pixels.
 #' @param data A string specifying the BED file path, a dataframe in BED
@@ -97,7 +106,9 @@ bb_annoDomains <- function(plot, data, half = "inherit",
             "bb_hicRectangle"
         )) {
             stop("Input plot must be a plot of class \'bb_hicSquare\', ",
-                "\'bb_hicTriangle\', or \'bb_hicRectangle\'.", call. = FALSE)
+                "\'bb_hicTriangle\', or \'bb_hicRectangle\'.",
+                call. = FALSE
+            )
         }
 
         ###### half #####
@@ -105,7 +116,9 @@ bb_annoDomains <- function(plot, data, half = "inherit",
         ## half needs to be a valid option
         if (!half %in% c("inherit", "both", "top", "bottom")) {
             stop("Invalid \'half\'.  Options are \'inherit\', ",
-                "\'both\', \'top\', or \'bottom\'.", call. = FALSE)
+                "\'both\', \'top\', or \'bottom\'.",
+                call. = FALSE
+            )
         }
 
         ## half needs to be able to align with what kind of hic plot is plotted
@@ -131,7 +144,9 @@ bb_annoDomains <- function(plot, data, half = "inherit",
                 }
             } else {
                 stop("Cannot annotate domains for an intrachromosomal ",
-                    "square Hi-C plot.", call. = FALSE)
+                    "square Hi-C plot.",
+                    call. = FALSE
+                )
             }
         } else if (class(hic) == "bb_hicTriangle" |
             class(hic) == "bb_hicRectangle") {
@@ -303,18 +318,25 @@ bb_annoDomains <- function(plot, data, half = "inherit",
     # PARSE PARAMETERS
     # =========================================================================
 
-    bb_domainsInternal <- parseParams(params = params,
-                                defaultArgs = formals(eval(
-                                    match.call()[[1]])),
-                                declaredArgs = lapply(
-                                    match.call()[-1], eval.parent, n = 2),
-                                class = "bb_domainsInternal")
-    bb_domainsInternal$gp <- setGP(gpList = gpar(), 
-                                params = bb_domainsInternal, ...)
+    bb_domainsInternal <- parseParams(
+        params = params,
+        defaultArgs = formals(eval(
+            match.call()[[1]]
+        )),
+        declaredArgs = lapply(
+            match.call()[-1], eval.parent,
+            n = 2
+        ),
+        class = "bb_domainsInternal"
+    )
+    bb_domainsInternal$gp <- setGP(
+        gpList = gpar(),
+        params = bb_domainsInternal, ...
+    )
 
     bb_domainsInternal$gp$col <- bb_domainsInternal$linecolor
     bb_domainsInternal$gp$lineend <- "square"
-    
+
     # =========================================================================
     # INITIALIZE OBJECT: GET REGION/DIMENSIONS FROM HIC PLOT INPUT
     # =========================================================================
@@ -341,10 +363,18 @@ bb_annoDomains <- function(plot, data, half = "inherit",
 
     check_bbpage(error = "Cannot annotate Hi-C domains without a
                 BentoBox page.")
-    if (is.null(bb_domainsInternal$plot)) stop("argument \"plot\" is missing, ",
-                                            "with no default.", call. = FALSE)
-    if (is.null(bb_domainsInternal$data)) stop("argument \"data\" is missing, ",
-                                            "with no default.", call. = FALSE)
+    if (is.null(bb_domainsInternal$plot)) {
+        stop("argument \"plot\" is missing, ",
+            "with no default.",
+            call. = FALSE
+        )
+    }
+    if (is.null(bb_domainsInternal$data)) {
+        stop("argument \"data\" is missing, ",
+            "with no default.",
+            call. = FALSE
+        )
+    }
 
     errorcheck_bb_annoDomains(
         hic = bb_domainsInternal$plot,
@@ -369,8 +399,10 @@ bb_annoDomains <- function(plot, data, half = "inherit",
     # READ IN FILE, DATAFRAME OR GRANGES
     # =========================================================================
 
-    bed <- read_rangeData(data = bb_domainsInternal$data,
-                        assembly = bb_domains$assembly)
+    bed <- read_rangeData(
+        data = bb_domainsInternal$data,
+        assembly = bb_domains$assembly
+    )
 
     ## Check format of chromosomes in column 1
     if (bb_domains$assembly$Genome == "hg19") {
@@ -382,7 +414,9 @@ bb_annoDomains <- function(plot, data, half = "inherit",
         if (any(col1Checks == FALSE)) {
             stop("Chromosomes in column 1 are in invalid format for ",
                 "hg19 genome assembly. Please specify chromosomes as a string ",
-                "with the following format: 'chr1'.", call. = FALSE)
+                "with the following format: 'chr1'.",
+                call. = FALSE
+            )
         }
     }
 

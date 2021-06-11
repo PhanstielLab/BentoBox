@@ -1,4 +1,34 @@
 #' Plot paired-end genomic range data in an arch style
+#' 
+#' @usage bb_plotPairsArches(
+#'     data,
+#'     chrom,
+#'     chromstart = NULL,
+#'     chromend = NULL,
+#'     assembly = "hg38",
+#'     style = "2D",
+#'     flip = FALSE,
+#'     curvature = 5,
+#'     archHeight = NULL,
+#'     fill = "#1f4297",
+#'     colorby = NULL,
+#'     linecolor = NA,
+#'     alpha = 0.4,
+#'     bg = NA,
+#'     clip = FALSE,
+#'     baseline = FALSE,
+#'     baseline.color = "grey",
+#'     baseline.lwd = 1,
+#'     x = NULL,
+#'     y = NULL,
+#'     width = NULL,
+#'     height = NULL,
+#'     just = c("left", "top"),
+#'     default.units = "inches",
+#'     draw = TRUE,
+#'     params = NULL,
+#'     ...
+#' )
 #'
 #' @param data A string specifying the BEDPE file path, a dataframe
 #' in BEDPE format specifying data to be plotted, or a
@@ -132,15 +162,15 @@
 #' by providing plot placement parameters:
 #' \preformatted{
 #' bb_plotPairsArches(data chrom,
-#'                    chromstart = NULL, chromend = NULL,
-#'                    x, y, width, height, just = c("left", "top"),
-#'                    default.units = "inches")
+#'                 chromstart = NULL, chromend = NULL,
+#'                 x, y, width, height, just = c("left", "top"),
+#'                 default.units = "inches")
 #' }
 #' This function can also be used to quickly plot an unannotated pair
 #' arches plot by ignoring plot placement parameters:
 #' \preformatted{
 #' bb_plotPairsArches(data, chrom,
-#'                    chromstart = NULL, chromend = NULL)
+#'                 chromstart = NULL, chromend = NULL)
 #' }
 #'
 #' @export

@@ -6,12 +6,12 @@
 genomic annotation packages}
 \usage{
 bb_assembly(
-  Genome,
-  TxDb,
-  OrgDb,
-  gene.id.column = "ENTREZID",
-  display.column = "SYMBOL",
-  BSgenome = NULL
+    Genome,
+    TxDb,
+    OrgDb,
+    gene.id.column = "ENTREZID",
+    display.column = "SYMBOL",
+    BSgenome = NULL
 )
 }
 \arguments{

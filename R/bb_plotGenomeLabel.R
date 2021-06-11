@@ -1,4 +1,29 @@
 #' Plot genomic coordinates along the x or y-axis of a BentoBox plot
+#' 
+#' @usage bb_plotGenomeLabel(
+#'     chrom,
+#'     chromstart = NULL,
+#'     chromend = NULL,
+#'     assembly = "hg38",
+#'     fontsize = 10,
+#'     fontcolor = "black",
+#'     linecolor = "black",
+#'     margin = unit(1, "mm"),
+#'     scale = "bp",
+#'     commas = TRUE,
+#'     sequence = TRUE,
+#'     boxWidth = 0.5,
+#'     axis = "x",
+#'     at = NULL,
+#'     tcl = 0.5,
+#'     x,
+#'     y,
+#'     length,
+#'     just = c("left", "top"),
+#'     default.units = "inches",
+#'     params = NULL,
+#'     ...
+#' )
 #'
 #' @param chrom Chromosome of genome label, as a string,
 #' or a character vector of chromosomes for a whole genome Manhattan plot.

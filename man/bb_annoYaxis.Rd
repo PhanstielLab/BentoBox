@@ -5,14 +5,14 @@
 \title{Add a y-axis to a plot}
 \usage{
 bb_annoYaxis(
-  plot,
-  at = NULL,
-  label = TRUE,
-  main = TRUE,
-  scipen = 999,
-  axisLine = FALSE,
-  params = NULL,
-  ...
+    plot,
+    at = NULL,
+    label = TRUE,
+    main = TRUE,
+    scipen = 999,
+    axisLine = FALSE,
+    params = NULL,
+    ...
 )
 }
 \arguments{

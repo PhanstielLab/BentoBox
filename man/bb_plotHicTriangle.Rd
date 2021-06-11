@@ -5,26 +5,26 @@
 \title{Plot a Hi-C interaction matrix in a triangular format}
 \usage{
 bb_plotHicTriangle(
-  data,
-  resolution = "auto",
-  zrange = NULL,
-  norm = "KR",
-  matrix = "observed",
-  chrom,
-  chromstart = NULL,
-  chromend = NULL,
-  assembly = "hg38",
-  palette = colorRampPalette(brewer.pal(n = 9, "YlGnBu")),
-  colorTrans = "linear",
-  x = NULL,
-  y = NULL,
-  width = NULL,
-  height = NULL,
-  just = c("left", "top"),
-  default.units = "inches",
-  draw = TRUE,
-  params = NULL,
-  quiet = FALSE
+    data,
+    resolution = "auto",
+    zrange = NULL,
+    norm = "KR",
+    matrix = "observed",
+    chrom,
+    chromstart = NULL,
+    chromend = NULL,
+    assembly = "hg38",
+    palette = colorRampPalette(brewer.pal(n = 9, "YlGnBu")),
+    colorTrans = "linear",
+    x = NULL,
+    y = NULL,
+    width = NULL,
+    height = NULL,
+    just = c("left", "top"),
+    default.units = "inches",
+    draw = TRUE,
+    params = NULL,
+    quiet = FALSE
 )
 }
 \arguments{
@@ -117,15 +117,15 @@ A triangle Hi-C plot can be placed on a BentoBox coordinate page
 by providing plot placement parameters:
 \preformatted{
 bb_plotHicTriangle(data, chrom,
-                   chromstart = NULL, chromend = NULL,
-                   x, y, width, height, just = c("left", "top"),
-                   default.units = "inches")
+                chromstart = NULL, chromend = NULL,
+                x, y, width, height, just = c("left", "top"),
+                default.units = "inches")
 }
 This function can also be used to quickly plot an unannotated triangle
 Hi-C plot by ignoring plot placement parameters:
 \preformatted{
 bb_plotHicTriangle(data, chrom,
-                   chromstart = NULL, chromend = NULL)
+                chromstart = NULL, chromend = NULL)
 }
 
 If \code{height} is \eqn{<} \eqn{0.5 * sqrt(2)}, the top of the triangle

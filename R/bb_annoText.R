@@ -1,4 +1,19 @@
 #' Annotates text within a BentoBox plot
+#' 
+#' @usage bb_annoText(
+#'     label,
+#'     fontcolor = "black",
+#'     fontsize = 12,
+#'     rot = 0,
+#'     check.overlap = FALSE,
+#'     plot,
+#'     x,
+#'     y,
+#'     just = "center",
+#'     default.units = "native",
+#'     params = NULL,
+#'     ...
+#' )
 #'
 #' @param label Character or expression of text to be plotted.
 #' @param fontcolor A character value specifying text fontcolor.

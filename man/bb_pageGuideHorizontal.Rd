@@ -6,11 +6,11 @@
 on a BentoBox page}
 \usage{
 bb_pageGuideHorizontal(
-  y,
-  default.units = "inches",
-  linecolor = "grey55",
-  params = NULL,
-  ...
+    y,
+    default.units = "inches",
+    linecolor = "grey55",
+    params = NULL,
+    ...
 )
 }
 \arguments{

@@ -6,16 +6,16 @@
 using namespace Rcpp;
 
 // checkRow
-NumericMatrix checkRow(NumericMatrix x, int maxRows, int rowCol, double wiggle);
-RcppExport SEXP _BentoBox_checkRow(SEXP xSEXP, SEXP maxRowsSEXP, SEXP rowColSEXP, SEXP wiggleSEXP) {
+NumericMatrix checkRow(NumericMatrix x, int maxRows, int rowCol, double wig);
+RcppExport SEXP _BentoBox_checkRow(SEXP xSEXP, SEXP maxRowsSEXP, SEXP rowColSEXP, SEXP wigSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< NumericMatrix >::type x(xSEXP);
     Rcpp::traits::input_parameter< int >::type maxRows(maxRowsSEXP);
     Rcpp::traits::input_parameter< int >::type rowCol(rowColSEXP);
-    Rcpp::traits::input_parameter< double >::type wiggle(wiggleSEXP);
-    rcpp_result_gen = Rcpp::wrap(checkRow(x, maxRows, rowCol, wiggle));
+    Rcpp::traits::input_parameter< double >::type wig(wigSEXP);
+    rcpp_result_gen = Rcpp::wrap(checkRow(x, maxRows, rowCol, wig));
     return rcpp_result_gen;
 END_RCPP
 }

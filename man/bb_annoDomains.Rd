@@ -5,12 +5,12 @@
 \title{Annotate domains in a Hi-C plot}
 \usage{
 bb_annoDomains(
-  plot,
-  data,
-  half = "inherit",
-  linecolor = "black",
-  params = NULL,
-  ...
+    plot,
+    data,
+    half = "inherit",
+    linecolor = "black",
+    params = NULL,
+    ...
 )
 }
 \arguments{

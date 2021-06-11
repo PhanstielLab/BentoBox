@@ -1,4 +1,15 @@
 #' Annotate pixels in a Hi-C plot
+#' 
+#' @usage bb_annoPixels(
+#'     plot,
+#'     data,
+#'     type = "box",
+#'     half = "inherit",
+#'     shift = 4,
+#'     params = NULL,
+#'     quiet = FALSE,
+#'     ...
+#' )
 #'
 #' @param plot Hi-C plot object from \code{bb_plotHicSquare} or
 #' \code{bb_plotHicTriangle} on which to annotate pixels.

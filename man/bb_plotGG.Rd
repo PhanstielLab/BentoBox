@@ -5,14 +5,14 @@
 \title{Plot a ggplot2 plot, gtable, or grob object in a BentoBox layout}
 \usage{
 bb_plotGG(
-  plot,
-  x,
-  y,
-  width,
-  height,
-  just = c("left", "top"),
-  default.units = "inches",
-  params = NULL
+    plot,
+    x,
+    y,
+    width,
+    height,
+    just = c("left", "top"),
+    default.units = "inches",
+    params = NULL
 )
 }
 \arguments{

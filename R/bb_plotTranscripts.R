@@ -1,4 +1,29 @@
 #' Plot gene transcripts in a pileup style for a single chromosome
+#' 
+#' @usage bb_plotTranscripts(
+#'     chrom,
+#'     chromstart = NULL,
+#'     chromend = NULL,
+#'     assembly = "hg38",
+#'     fill = c("#669fd9", "#abcc8e"),
+#'     colorbyStrand = TRUE,
+#'     strandSplit = FALSE,
+#'     boxHeight = unit(2, "mm"),
+#'     spaceWidth = 0.02,
+#'     spaceHeight = 0.3,
+#'     fontsize = 8,
+#'     labels = "transcript",
+#'     stroke = 0.1,
+#'     bg = NA,
+#'     x = NULL,
+#'     y = NULL,
+#'     width = NULL,
+#'     height = NULL,
+#'     just = c("left", "top"),
+#'     default.units = "inches",
+#'     draw = TRUE,
+#'     params = NULL
+#' )
 #'
 #' @param chrom Chromosome of region to be plotted, as a string.
 #' @param chromstart Integer start position on chromosome to be plotted.
@@ -107,8 +132,8 @@
 #' by providing plot placement parameters:
 #' \preformatted{
 #' bb_plotTranscripts(chrom, chromstart = NULL, chromend = NULL,
-#'                    x, y, width, height, just = c("left", "top"),
-#'                    default.units = "inches")
+#'                 x, y, width, height, just = c("left", "top"),
+#'                 default.units = "inches")
 #' }
 #' This function can also be used to quickly plot an unannotated
 #' transcripts plot by ignoring plot placement parameters:

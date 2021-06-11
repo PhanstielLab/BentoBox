@@ -5,30 +5,30 @@
 \title{Plot paired-end genomic range elements}
 \usage{
 bb_plotPairs(
-  data,
-  chrom,
-  chromstart = NULL,
-  chromend = NULL,
-  assembly = "hg38",
-  fill = "#1f4297",
-  colorby = NULL,
-  linecolor = NA,
-  bg = NA,
-  boxHeight = unit(2, "mm"),
-  spaceWidth = 0.02,
-  spaceHeight = 0.3,
-  baseline = FALSE,
-  baseline.color = "grey",
-  baseline.lwd = 1,
-  x = NULL,
-  y = NULL,
-  width = NULL,
-  height = NULL,
-  just = c("left", "top"),
-  default.units = "inches",
-  draw = TRUE,
-  params = NULL,
-  ...
+    data,
+    chrom,
+    chromstart = NULL,
+    chromend = NULL,
+    assembly = "hg38",
+    fill = "#1f4297",
+    colorby = NULL,
+    linecolor = NA,
+    bg = NA,
+    boxHeight = unit(2, "mm"),
+    spaceWidth = 0.02,
+    spaceHeight = 0.3,
+    baseline = FALSE,
+    baseline.color = "grey",
+    baseline.lwd = 1,
+    x = NULL,
+    y = NULL,
+    width = NULL,
+    height = NULL,
+    just = c("left", "top"),
+    default.units = "inches",
+    draw = TRUE,
+    params = NULL,
+    ...
 )
 }
 \arguments{
@@ -125,15 +125,15 @@ Plot paired-end genomic range elements
 by providing plot placement parameters:
 \preformatted{
 bb_plotPairs(data, chrom,
-             chromstart = NULL, chromend = NULL,
-             x, y, width, height, just = c("left", "top"),
-             default.units = "inches")
+            chromstart = NULL, chromend = NULL,
+            x, y, width, height, just = c("left", "top"),
+            default.units = "inches")
 }
 This function can also be used to quickly plot an unannotated paired
 ranges plot by ignoring plot placement parameters:
 \preformatted{
 bb_plotPairs(data, chrom,
-             chromstart = NULL, chromend = NULL)
+            chromstart = NULL, chromend = NULL)
 }
 }
 \examples{

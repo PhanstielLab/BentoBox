@@ -1,4 +1,19 @@
 #' Plot a polygon within a BentoBox layout
+#' 
+#' @usage bb_plotPolygon(
+#'     x,
+#'     y,
+#'     default.units = "inches",
+#'     linecolor = "black",
+#'     lwd = 1,
+#'     lty = 1,
+#'     fill = NA,
+#'     alpha = 1,
+#'     id = NULL,
+#'     id.lengths = NULL,
+#'     params = NULL,
+#'     ...
+#' )
 #'
 #' @param x A numeric vector or unit object specifying polygon
 #' vertex x-locations.

@@ -236,16 +236,16 @@ jobs:
           BiocGenerics:::testPackage()
         shell: Rscript {0}
 
-      # - name: Run BiocCheck
-      #   run: |
-      #     BiocCheck::BiocCheck(
-      #         dir('check', 'tar.gz$', full.names = TRUE),
-      #         `quit-with-status` = TRUE,
-      #         `no-check-R-ver` = TRUE,
-      #         `no-check-bioc-help` = TRUE,
-      #         `no-check-skip-bioc-tests` = TRUE
-      #     )
-      #   shell: Rscript {0}
+      - name: Run BiocCheck
+        run: |
+          BiocCheck::BiocCheck(
+              dir('check', 'tar.gz$', full.names = TRUE),
+              `quit-with-status` = TRUE,
+              `no-check-R-ver` = TRUE,
+              `no-check-bioc-help` = TRUE,
+              `no-check-skip-bioc-tests` = TRUE
+          )
+        shell: Rscript {0}
 
       - name: Test coverage
         if: github.ref == 'refs/heads/master' && env.run_covr == 'true' && runner.os == 'Linux'

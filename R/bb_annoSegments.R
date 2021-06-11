@@ -1,4 +1,21 @@
 #' Annotates a line segment within a BentoBox plot
+#' 
+#' @usage bb_annoSegments(
+#'     x0,
+#'     y0,
+#'     x1,
+#'     y1,
+#'     plot,
+#'     default.units = "native",
+#'     linecolor = "black",
+#'     lwd = 1,
+#'     lty = 1,
+#'     lineend = "butt",
+#'     linejoin = "mitre",
+#'     arrow = NULL,
+#'     params = NULL,
+#'     ...
+#' )
 #'
 #' @param x0 A numeric vector or unit object indicating the starting
 #' x-values of the line segments.

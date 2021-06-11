@@ -6,8 +6,33 @@
 #' to visualize large complex genomic datasets and
 #' provides exquisite control over how plots are placed and arranged on
 #' a page.
-#'
-#'
+#' 
+#' @author 
+#' \strong{Maintainer}: Nicole Kramer \email{nekramer@live.unc.edu}
+#' (\href{https://orcid.org/0000-0001-9617-9671}{ORCID})
+#' 
+#' Authors:
+#' \itemize{
+#'     \item Eric S. Davis \email{esdavis@live.unc.edu}
+#'     (\href{https://orcid.org/0000-0003-4051-3217}{ORCID})
+#'     \item Craig Wenger \email{craig.wenger@gmail.com}
+#'     (\href{https://orcid.org/0000-0002-7361-8456}{ORCID})
+#'     \item Douglas H. Phanstiel \email{douglas_phanstiel@med.unc.edu}
+#'     [copyright holder]
+#' }
+#' 
+#' Other contributors:
+#' \itemize{
+#'     \item Sarah Parker \email{sarmae@live.unc.edu} [contributor]
+#'     \item Erika Deoudes \email{ed@erikadudes.com} [artist]
+#' }
+#' 
+#' @seealso 
+#' Useful links:
+#' \itemize{
+#'     \item \url{https://phanstiellab.github.io/BentoBox}
+#'     \item \url{https://github.com/PhanstielLab/BentoBox}
+#' }
 #' @docType package
 #' @name BentoBox
 #' @useDynLib BentoBox

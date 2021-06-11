@@ -1,5 +1,21 @@
 #' Annotates a highlight box around a specified genomic region of a
 #' BentoBox plot
+#' 
+#' @usage bb_annoHighlight(
+#'     plot,
+#'     chrom,
+#'     chromstart = NULL,
+#'     chromend = NULL,
+#'     fill = "grey",
+#'     linecolor = NA,
+#'     alpha = 0.4,
+#'     y,
+#'     height,
+#'     just = c("left", "top"),
+#'     default.units = "inches",
+#'     params = NULL,
+#'     ...
+#' )
 #'
 #' @param plot Input BentoBox plot on which to annotate genomic region.
 #' @param chrom Chromosome of region to be highlighted, as a string.

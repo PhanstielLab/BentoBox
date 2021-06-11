@@ -5,19 +5,19 @@
 \title{Draw a line segment within a BentoBox layout}
 \usage{
 bb_plotSegments(
-  x0,
-  y0,
-  x1,
-  y1,
-  default.units = "inches",
-  linecolor = "black",
-  lwd = 1,
-  lty = 1,
-  lineend = "butt",
-  linejoin = "mitre",
-  arrow = NULL,
-  params = NULL,
-  ...
+    x0,
+    y0,
+    x1,
+    y1,
+    default.units = "inches",
+    linecolor = "black",
+    lwd = 1,
+    lty = 1,
+    lineend = "butt",
+    linejoin = "mitre",
+    arrow = NULL,
+    params = NULL,
+    ...
 )
 }
 \arguments{

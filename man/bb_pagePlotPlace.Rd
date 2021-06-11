@@ -5,15 +5,15 @@
 \title{Place a BentoBox plot that has been previously created but not drawn}
 \usage{
 bb_pagePlotPlace(
-  plot,
-  x = NULL,
-  y = NULL,
-  width = NULL,
-  height = NULL,
-  just = c("left", "top"),
-  default.units = "inches",
-  draw = TRUE,
-  params = NULL
+    plot,
+    x = NULL,
+    y = NULL,
+    width = NULL,
+    height = NULL,
+    just = c("left", "top"),
+    default.units = "inches",
+    draw = TRUE,
+    params = NULL
 )
 }
 \arguments{

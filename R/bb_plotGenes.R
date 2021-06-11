@@ -1,4 +1,28 @@
 #' Plot a gene track for a specified genomic region
+#' 
+#' @usage bb_plotGenes(
+#'     chrom,
+#'     chromstart = NULL,
+#'     chromend = NULL,
+#'     assembly = "hg38",
+#'     fontsize = 8,
+#'     fontcolor = c("#669fd9", "#abcc8e"),
+#'     fill = c("#669fd9", "#abcc8e"),
+#'     geneOrder = NULL,
+#'     geneHighlights = NULL,
+#'     geneBackground = "grey",
+#'     strandLabels = TRUE,
+#'     stroke = 0.1,
+#'     bg = NA,
+#'     x = NULL,
+#'     y = NULL,
+#'     width = NULL,
+#'     height = unit(0.6, "inches"),
+#'     just = c("left", "top"),
+#'     default.units = "inches",
+#'     draw = TRUE,
+#'     params = NULL
+#' )
 #'
 #' @param chrom Chromosome of region to be plotted, as a string.
 #' @param chromstart Integer start position on chromosome to be plotted.
@@ -118,8 +142,8 @@
 #' plot placement parameters:
 #' \preformatted{
 #' bb_plotGenes(chrom, chromstart = NULL, chromend = NULL,
-#'              x, y, width, height, just = c("left", "top"),
-#'              default.units = "inches")
+#'             x, y, width, height, just = c("left", "top"),
+#'             default.units = "inches")
 #' }
 #' This function can be used to quickly plot an unnannotated gene track
 #' by ignoring plot placement parameters:

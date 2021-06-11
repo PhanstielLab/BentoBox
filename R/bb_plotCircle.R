@@ -1,4 +1,18 @@
 #' Plot a circle within a BentoBox layout
+#' 
+#' @usage bb_plotCircle(
+#'     x,
+#'     y,
+#'     r,
+#'     default.units = "inches",
+#'     linecolor = "black",
+#'     lwd = 1,
+#'     lty = 1,
+#'     fill = NA,
+#'     alpha = 1,
+#'     params = NULL,
+#'     ...
+#' )
 #'
 #' @param x A numeric vector or unit object specifying circle
 #' x-locations relative to center.
