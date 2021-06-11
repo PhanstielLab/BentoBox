@@ -155,7 +155,7 @@ bb_annoGenomeLabel <- function(plot, fontsize = 10, fontcolor = "black",
     }
 
     ## Check that input plot is a valid type of plot to be annotated
-    if (class(bb_genomeLabelInternal$plot) != "bb_manhattan") {
+    if (!is(bb_genomeLabelInternal$plot, "bb_manhattan")) {
 
         ## Manhattan plots can do whole genome assembly but other plots can't
         inputNames <- attributes(bb_genomeLabelInternal$plot)$names

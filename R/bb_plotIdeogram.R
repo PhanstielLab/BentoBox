@@ -169,7 +169,7 @@ bb_plotIdeogram <- function(chrom, assembly = "hg38", orientation = "h",
             }
 
             ## Check that TxDb package is loaded
-            if (class(assembly$TxDb) == "TxDb") {
+            if (is(assembly$TxDb, "TxDb")) {
                 txdbChecks <- TRUE
             } else {
                 txdbChecks <- check_loadedPackage(
@@ -180,7 +180,6 @@ bb_plotIdeogram <- function(chrom, assembly = "hg38", orientation = "h",
                     )
                 )
             }
-
 
             if (txdbChecks == FALSE) {
                 genomeData <- NULL
@@ -194,7 +193,7 @@ bb_plotIdeogram <- function(chrom, assembly = "hg38", orientation = "h",
 
     ## Define a function to check that a chromosome name is in a TxDb
     checkChroms <- function(chrom, txdb) {
-        if (class(txdb) == "TxDb") {
+        if (is(txdb, "TxDb")) {
             tx_db <- txdb
         } else {
             tx_db <- eval(parse(text = txdb))
@@ -337,7 +336,7 @@ bb_plotIdeogram <- function(chrom, assembly = "hg38", orientation = "h",
     if (!is.null(genome)) {
         chromCheck <- checkChroms(chrom = bb_ideoInternal$chrom, txdb = genome)
 
-        if (class(genome) != "TxDb") {
+        if (!is(genome, "TxDb")) {
             genome <- eval(parse(text = genome))
         }
     }

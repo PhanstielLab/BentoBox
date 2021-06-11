@@ -45,7 +45,7 @@ bb_assembly <- function(Genome, TxDb, OrgDb, gene.id.column = "ENTREZID",
     class = "bb_assembly"
     )
 
-    if (class(object$TxDb) == "TxDb") {
+    if (is(object$TxDb, "TxDb")) {
         object$TxDb$packageName <- paste0("TxDb.", Genome)
     }
 

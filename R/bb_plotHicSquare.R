@@ -186,12 +186,12 @@ bb_plotHicSquare <- function(data, resolution = "auto", zrange = NULL,
         ###### hic/norm #####
 
         ## if it's a dataframe or datatable, it needs to be properly formatted
-        if ("data.frame" %in% class(hic) && ncol(hic) != 3) {
+        if (is(hic, "data.frame") && ncol(hic) != 3) {
             stop("Invalid dataframe format.  Input a dataframe with ",
                 "3 columns: chrA, chrB, counts.", call. = FALSE)
         }
 
-        if (!"data.frame" %in% class(hic)) {
+        if (!is(hic, "data.frame")) {
 
             ## if it's a file path, it needs to be a .hic file
             if (file_ext(hic) != "hic") {
@@ -370,7 +370,7 @@ bb_plotHicSquare <- function(data, resolution = "auto", zrange = NULL,
         chromstart <- NULL
         chromend <- NULL
 
-        if (class(assembly$TxDb) == "TxDb") {
+        if (is(assembly$TxDb, "TxDb")) {
             txdbChecks <- TRUE
         } else {
             txdbChecks <- check_loadedPackage(
@@ -383,7 +383,7 @@ bb_plotHicSquare <- function(data, resolution = "auto", zrange = NULL,
             )
         }
         if (txdbChecks == TRUE) {
-            if (class(assembly$TxDb) == "TxDb") {
+            if (is(assembly$TxDb, "TxDb")) {
                 tx_db <- assembly$TxDb
             } else {
                 tx_db <- eval(parse(text = assembly$TxDb))

@@ -241,64 +241,33 @@ bb_annoHighlight <- function(plot, chrom, chromstart = NULL, chromend = NULL,
                                         default.units = 
                                             bb_highlightInternal$default.units)
 
-    if (class(bb_highlightInternal$plot) == "bb_genes") {
+    if (is(bb_highlightInternal$plot, "bb_genes")) {
         plotVP <- bb_highlightInternal$plot$grobs$children$background$vp
-    } else if (class(bb_highlightInternal$plot) == "bb_hicTriangle" |
-        class(bb_highlightInternal$plot) == "bb_hicRectangle") {
+    } else if (is(bb_highlightInternal$plot, "bb_hicTriangle")  |
+        is(bb_highlightInternal$plot, "bb_hicRectangle")) {
         plotVP <- bb_highlightInternal$plot$outsideVP
     } else {
         plotVP <- bb_highlightInternal$plot$grobs$vp
     }
 
     # =========================================================================
-    # WHOLE CHROM
+    # WHOLE CHROM GENOMIC SCALE
     # =========================================================================
 
-    if (is.null(bb_highlight$chromstart) & is.null(bb_highlight$chromend)) {
-        if (class(bb_highlight$assembly$TxDb) == "TxDb") {
-            txdbChecks <- TRUE
-        } else {
-            txdbChecks <- check_loadedPackage(
-                package = bb_highlight$assembly$TxDb,
-                message = paste(
-                    paste0("`", bb_highlight$assembly$TxDb, "`"),
-                    "not loaded. Please install and load to annotate
-                full chromosome region of plot."
-                )
-            )
-        }
-
-        if (txdbChecks == TRUE) {
-            if (class(bb_highlight$assembly$TxDb) == "TxDb") {
-                tx_db <- bb_highlight$assembly$TxDb
-            } else {
-                tx_db <- eval(parse(text = bb_highlight$assembly$TxDb))
-            }
-
-            assembly_data <- GenomeInfoDb::seqlengths(tx_db)
-            if (!bb_highlight$chrom %in% names(assembly_data)) {
-                warning("Chromosome", "'", bb_highlight$chrom, "'",
-                    "not found in",
-                    "`", bb_highlight$assembly$TxDb$packageName, "`",
-                    "and data for entire chromosome cannot be highlighted.",
-                    call. = FALSE
-                )
-            } else {
-                bb_highlight$chromstart <- 1
-                bb_highlight$chromend <- assembly_data[[bb_highlight$chrom]]
-            }
-        }
-    }
-
+    scaleChecks <- genomicScale(object = bb_highlight,
+                                objectInternal = bb_highlightInternal,
+                                plotType = "highlight")
+    bb_highlight <- scaleChecks[[1]]
+    
     # =========================================================================
     # DETERMINE X AND WIDTH BASED ON GENOMIC REGION
     # =========================================================================
 
     ## Get plot viewport
-    if (class(bb_highlightInternal$plot) == "bb_genes") {
+    if (is(bb_highlightInternal$plot, "bb_genes")) {
         plotVP <- bb_highlightInternal$plot$grobs$children$background$vp
-    } else if (class(bb_highlightInternal$plot) == "bb_hicTriangle" |
-        class(bb_highlightInternal$plot) == "bb_hicRectangle") {
+    } else if (is(bb_highlightInternal$plot, "bb_hicTriangle")  |
+        is(bb_highlightInternal$plot, "bb_hicRectangle")) {
         plotVP <- bb_highlightInternal$plot$outsideVP
     } else {
         plotVP <- bb_highlightInternal$plot$grobs$vp
@@ -311,7 +280,7 @@ bb_annoHighlight <- function(plot, chrom, chromstart = NULL, chromend = NULL,
     seekViewport(plotVP$name)
 
     if (!is.null(bb_highlight$chromstart) & !is.null(bb_highlight$chromend)) {
-        if (class(bb_highlightInternal$plot) == "bb_manhattan") {
+        if (is(bb_highlightInternal$plot, "bb_manhattan")) {
 
             ## Multiple chromosome manhattan plot
             if (length(bb_highlightInternal$plot$chrom) > 1) {

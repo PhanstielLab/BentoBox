@@ -1,5 +1,5 @@
 bb_getExons <- function(assembly, chromosome, start, stop) {
-    if (class(assembly$TxDb) == "TxDb") {
+    if (is(assembly$TxDb, "TxDb")) {
         tx_db <- assembly$TxDb
     } else {
         tx_db <- eval(parse(text = assembly$TxDb))

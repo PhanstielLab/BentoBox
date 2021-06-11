@@ -24,7 +24,7 @@ parseParams <- function(params = params,
 
     ## If bb_params are supplied override matching defaultArguments
     if (!is.null(params)) {
-        if (class(params) == "bb_params") {
+        if (is(params, "bb_params")) {
             ## Replace matching defaultArgs with params
             matchedParams <- params[na.omit(sort(match(
                 names(defaultArgs),
@@ -98,7 +98,7 @@ parse_bbAssembly <- function(assembly) {
     )
 
     ## If it's just a string, get the default
-    if (class(assembly) == "character") {
+    if (is(assembly, "character")) {
         if (!assembly %in% availDefaults) {
             stop("\'assembly\' not available as a default. Please make a ",
                 "bb_assembly object with `bb_assembly()` or pick an assembly ",
@@ -110,7 +110,7 @@ parse_bbAssembly <- function(assembly) {
         assemblyData <- getPackages(genome = assembly)
 
         ## If it's a bb_assembly object, use those
-    } else if (class(assembly) == "bb_assembly") {
+    } else if (is(assembly, "bb_assembly")) {
         assemblyData <- assembly
     } else {
         stop("Invalid \'assembly\' type. Please make a bb_assembly object ",

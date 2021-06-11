@@ -122,7 +122,7 @@ bb_annoDomains <- function(plot, data, half = "inherit",
         }
 
         ## half needs to be able to align with what kind of hic plot is plotted
-        if (class(hic) == "bb_hicSquare") {
+        if (is(hic, "bb_hicSquare")) {
             if (hic$chrom == hic$altchrom) {
                 if ((hic$half == "top" | hic$half == "bottom") &&
                     (half == "both")) {
@@ -148,8 +148,8 @@ bb_annoDomains <- function(plot, data, half = "inherit",
                     call. = FALSE
                 )
             }
-        } else if (class(hic) == "bb_hicTriangle" |
-            class(hic) == "bb_hicRectangle") {
+        } else if (is(hic, "bb_hicTriangle") |
+            is(hic, "bb_hicRectangle")) {
             if (half == "both" | half == "bottom") {
                 warning("Plot of class \'",
                     class(hic),
@@ -390,8 +390,8 @@ bb_annoDomains <- function(plot, data, half = "inherit",
         half <- inherit_half(hic = bb_domainsInternal$plot)
     }
 
-    if (class(bb_domainsInternal$plot) == "bb_hicTriangle" |
-        class(bb_domainsInternal$plot) == "bb_hicRectangle") {
+    if (is(bb_domainsInternal$plot, "bb_hicTriangle")  |
+        is(bb_domainsInternal$plot, "bb_hicRectangle")) {
         half <- "top"
     }
 
@@ -441,7 +441,7 @@ bb_annoDomains <- function(plot, data, half = "inherit",
         )) + 1
     )
     ## Make viewport based on hic input viewport
-    if (class(bb_domainsInternal$plot) == "bb_hicSquare") {
+    if (is(bb_domainsInternal$plot, "bb_hicSquare")) {
         vp <- viewport(
             height = bb_domainsInternal$plot$grobs$vp$height,
             width = bb_domainsInternal$plot$grobs$vp$width,
@@ -455,7 +455,7 @@ bb_annoDomains <- function(plot, data, half = "inherit",
         )
 
         vpClip <- NULL
-    } else if (class(bb_domainsInternal$plot) == "bb_hicTriangle") {
+    } else if (is(bb_domainsInternal$plot, "bb_hicTriangle")) {
         width <- convertUnit(bb_domainsInternal$plot$outsideVP$width,
             unitTo = get("page_units", bbEnv), valueOnly = TRUE
         )
@@ -480,7 +480,7 @@ bb_annoDomains <- function(plot, data, half = "inherit",
             clip = "on",
             name = paste0(vp_name, "_outside")
         )
-    } else if (class(bb_domainsInternal$plot) == "bb_hicRectangle") {
+    } else if (is(bb_domainsInternal$plot, "bb_hicRectangle")) {
         side <- convertUnit(bb_domainsInternal$plot$grobs$vp$width,
             unitTo = get("page_units", bbEnv)
         )

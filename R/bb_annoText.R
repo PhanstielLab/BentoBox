@@ -145,15 +145,9 @@ bb_annoText <- function(label, fontcolor = "black", fontsize = 12, rot = 0,
                                 funName = "bb_annoText",
                                 yBelow = FALSE)
 
-    if (class(bb_textInternal$plot) == "bb_genes") {
-        plotVP <- bb_textInternal$plot$grobs$children$background$vp
-    } else if (class(bb_textInternal$plot) == "bb_hicTriangle" |
-        class(bb_textInternal$plot) == "bb_hicRectangle") {
-        plotVP <- bb_textInternal$plot$outsideVP
-    } else {
-        plotVP <- bb_textInternal$plot$grobs$vp
-    }
-
+    # Get appropriate plot viewport
+    plotVP <- get_annoViewport(plot = bb_textInternal$plot)
+    
     ## Convert plot viewport to bottom left to get position on entire page
     plotVP_bottomLeft <- vp_bottomLeft(viewport = plotVP)
 

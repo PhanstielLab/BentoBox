@@ -203,7 +203,7 @@ bb_plotSignal <- function(data, binSize = NA, binCap = TRUE, negData = FALSE,
             }
         }
 
-        if (length(class(signal)) == 1 && class(signal) == "list") {
+        if (is(signal, "list")) {
             if (length(signal) > 2) {
                 stop("Invalid signal input. More than 2 signals provided.",
                     call. = FALSE
@@ -696,8 +696,7 @@ bb_plotSignal <- function(data, binSize = NA, binCap = TRUE, negData = FALSE,
     # READ IN, FORMAT, FILTER, BIN, LINK AND SORT DATA
     # =========================================================================
     
-    if (length(class(bb_sigInternal$data)) == 1 &&
-        class(bb_sigInternal$data) == "list") {
+    if (is(bb_sigInternal$data, "list")) {
         signal <- lapply(bb_sigInternal$data, read_signal,
             signaltrack = signal_track
         )

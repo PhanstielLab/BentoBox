@@ -286,15 +286,15 @@ bb_plotManhattan <- function(data, sigVal = 5e-08, chrom = NULL,
         if (!"chr" %in% colnames(bedfile)) {
             stop("\'chr\' column not found in data.", call. = FALSE)
         } else {
-            if (class(bedfile$chr) != "character") {
+            if (!is(bedfile$chr, "character")) {
                 stop("\'chr\' column must be a character.", call. = FALSE)
             }
         }
         if (!"pos" %in% colnames(bedfile)) {
             stop("\'pos\' column not found in data.", call. = FALSE)
         } else {
-            if (class(bedfile$pos) != "numeric" &
-                class(bedfile$pos) != "integer") {
+            if (!is(bedfile$pos, "numeric") &
+                !is(bedfile$pos, "integer")) {
                 stop("\'pos\' column must be an integer or numeric.",
                     call. = FALSE
                 )
@@ -303,7 +303,7 @@ bb_plotManhattan <- function(data, sigVal = 5e-08, chrom = NULL,
         if (!"p" %in% colnames(bedfile)) {
             stop("\'p\' column not found in data.", call. = FALSE)
         } else {
-            if (class(bedfile$p) != "numeric") {
+            if (!is(bedfile$p, "numeric")) {
                 stop("\'p\' column must be numeric.", call. = FALSE)
             }
         }
@@ -383,7 +383,7 @@ bb_plotManhattan <- function(data, sigVal = 5e-08, chrom = NULL,
 
         ## lead SNP
         if (!is.null(leadSNP)) {
-            if (class(leadSNP) != "list") {
+            if (!is(leadSNP, "list")) {
                 stop("\'leadSNP\' must be a list with a \'snp\' name ",
                 "slot and any other aesthetic options for that SNP, ",
                 "like \'fill\', \'pch\', \'cex\', \'fontcolor\', ",
@@ -400,7 +400,7 @@ bb_plotManhattan <- function(data, sigVal = 5e-08, chrom = NULL,
 
         ## scaleLD
         if (!is.null(scaleLD)) {
-            if (class(scaleLD) != "character") {
+            if (!is(scaleLD, "character")) {
                 stop("\'scaleLD\' input must be a character specifying ",
                     "the name of a column in data.", call. = FALSE)
             }
@@ -484,7 +484,7 @@ bb_plotManhattan <- function(data, sigVal = 5e-08, chrom = NULL,
         if (!is.null(offsetAssembly)) {
 
             ## parse type of color input
-            if (class(fillcolor) == "function") {
+            if (is(fillcolor, "function")) {
                 newCol <- fillcolor(nrow(offsetAssembly))
             } else {
                 newCol <- rep(
@@ -518,7 +518,7 @@ bb_plotManhattan <- function(data, sigVal = 5e-08, chrom = NULL,
             colorBed <- apply(offsetAssembly, 1, chromColor, bedData = bedData)
             colorBed <- dplyr::bind_rows(colorBed)
         } else {
-            if (class(fillcolor) == "function") fillcolor <- fillcolor(1)
+            if (is(fillcolor, "function")) fillcolor <- fillcolor(1)
             bedCols <- colnames(bedData)
             colorBed <- cbind(bedData, rep(fillcolor[1], nrow(bedData)))
             colnames(colorBed) <- c(bedCols, "color")
@@ -638,7 +638,7 @@ bb_plotManhattan <- function(data, sigVal = 5e-08, chrom = NULL,
 
             ## Get chrom sizes based on assembly data
 
-            if (class(man_plot$assembly$TxDb) == "TxDb") {
+            if (is(man_plot$assembly$TxDb, "TxDb")) {
                 txdbChecks <- TRUE
             } else {
                 txdbChecks <- check_loadedPackage(
@@ -652,7 +652,7 @@ bb_plotManhattan <- function(data, sigVal = 5e-08, chrom = NULL,
             }
 
             if (txdbChecks == TRUE) {
-                if (class(man_plot$assembly$TxDb) == "TxDb") {
+                if (is(man_plot$assembly$TxDb, "TxDb")) {
                     tx_db <- man_plot$assembly$TxDb
                 } else {
                     tx_db <- eval(parse(text = man_plot$assembly$TxDb))
@@ -758,7 +758,7 @@ bb_plotManhattan <- function(data, sigVal = 5e-08, chrom = NULL,
                 )
 
                 ## Apply fill and pch to LD groups
-                if (class(bb_manInternal$fill) == "function") {
+                if (is(bb_manInternal$fill, "function")) {
                     bb_manInternal$fill <- bb_manInternal$fill(5)
                 }
                 bed_data$color <- bb_manInternal$fill[bed_data$LDgrp]

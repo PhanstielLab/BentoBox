@@ -232,7 +232,7 @@ bb_plotPairs <- function(data, chrom, chromstart = NULL, chromend = NULL,
                                             "with no default.", call. = FALSE)
 
     if (!is.null(bb_bedpeInternal$colorby)) {
-        if (class(bb_bedpeInternal$colorby) != "bb_colorby") {
+        if (!is(bb_bedpeInternal$colorby, "bb_colorby")) {
             stop("\"colorby\" not of class \"bb_colorby\". Input colorby ",
                 "information with \"colorby()\".", call. = FALSE)
         }
@@ -361,7 +361,7 @@ bb_plotPairs <- function(data, chrom, chromstart = NULL, chromend = NULL,
         colorbyCol <- which(colnames(bedpe) == bb_bedpeInternal$colorby$column)
         colorbyCol <- bedpe[, colorbyCol]
 
-        if (class(colorbyCol) != "numeric" & class(colorbyCol) != "integer") {
+        if (!is(colorbyCol, "numeric")  & !is(colorbyCol, "integer")) {
             colorbyCol <- factor(colorbyCol)
             bedpe$colorby <- as.numeric(colorbyCol)
         } else {
@@ -520,7 +520,7 @@ bb_plotPairs <- function(data, chrom, chromstart = NULL, chromend = NULL,
         # =====================================================================
 
         if (is.null(bb_bedpeInternal$colorby)) {
-            if (class(bb_bedpeInternal$fill) == "function") {
+            if (is(bb_bedpeInternal$fill, "function")) {
                 colors <- bb_bedpeInternal$fill(limit)
                 indeces <- rowBedpe$row + 1
                 rowBedpe$color <- colors[indeces]
@@ -540,7 +540,7 @@ bb_plotPairs <- function(data, chrom, chromstart = NULL, chromend = NULL,
                 }
             }
         } else {
-            if (class(bb_bedpeInternal$fill) == "function") {
+            if (is(bb_bedpeInternal$fill, "function")) {
                 rowBedpe$color <- bb_maptocolors(rowBedpe$colorby,
                     bb_bedpeInternal$fill,
                     range = bb_bedpe$zrange

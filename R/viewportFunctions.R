@@ -319,12 +319,29 @@ plot_belowY <- function(y_coord) {
     return(new_y)
 }
 
+## Define a function to distinguish between plots with 
+## multiple viewports for certain annotation functions
+get_annoViewport <- function(plot){
+    
+    if (is(plot, "bb_genes")){
+        plotVP <- plot$grobs$children$background$vp
+    } else if (is(plot, "bb_hicTriangle") |
+            is(plot, "bb_hicRectangle")){
+        plotVP <- plot$outsideVP
+    } else {
+        plotVP <- plot$grobs$vp
+    }
+    
+    return(plotVP)
+    
+}
+
 ## Define a function that converts chromstart/chromend to page units for
 ## multi-chromosome manhattan plot
 convertManhattan <- function(object, manhattanPlot) {
 
     ## Get assembly data
-    if (class(object$assembly$TxDb) == "TxDb") {
+    if (is(object$assembly$TxDb, "TxDb")) {
         txdbChecks <- TRUE
     } else {
         txdbChecks <- suppressWarnings(check_loadedPackage(
@@ -335,7 +352,7 @@ convertManhattan <- function(object, manhattanPlot) {
 
 
     if (txdbChecks == TRUE) {
-        if (class(object$assembly$TxDb) == "TxDb") {
+        if (is(object$assembly$TxDb, "TxDb")) {
             tx_db <- object$assembly$TxDb
         } else {
             tx_db <- eval(parse(text = object$assembly$TxDb))

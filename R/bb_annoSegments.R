@@ -207,15 +207,9 @@ bb_annoSegments <- function(x0, y0, x1, y1, plot, default.units = "native",
                                             bb_segmentsInternal$default.units,
                                         funName = "bb_annoSegments",
                                         yBelow = FALSE)
-
-    if (class(bb_segmentsInternal$plot) == "bb_genes") {
-        plotVP <- bb_segmentsInternal$plot$grobs$children$background$vp
-    } else if (class(bb_segmentsInternal$plot) == "bb_hicTriangle" |
-        class(bb_segmentsInternal$plot) == "bb_hicRectangle") {
-        plotVP <- bb_segmentsInternal$plot$outsideVP
-    } else {
-        plotVP <- bb_segmentsInternal$plot$grobs$vp
-    }
+    
+    ## Get appropriate plot viewport
+    plotVP <- get_annoViewport(plot = bb_segmentsInternal$plot)
 
     ## Convert plot viewport to bottom left to get position on entire page
     plotVP_bottomLeft <- vp_bottomLeft(viewport = plotVP)

@@ -39,6 +39,7 @@
 #' @importFrom grDevices colorRampPalette
 #' @importFrom methods hasArg
 #' @importFrom methods isClass
+#' @importFrom methods is
 #' @importFrom stats na.omit
 #' @importFrom utils str
 #' @importFrom Rcpp sourceCpp

@@ -253,61 +253,22 @@ bb_annoZoomLines <- function(plot, chrom, chromstart = NULL, chromend = NULL,
     }
 
     # =========================================================================
-    # WHOLE CHROM REGION
+    # WHOLE CHROM GENOMIC SCALE
     # =========================================================================
-
-    if (is.null(bb_zoom$chromstart) & is.null(bb_zoom$chromend)) {
-        if (class(bb_zoom$assembly$TxDb) == "TxDb") {
-            txdbChecks <- TRUE
-        } else {
-            txdbChecks <- check_loadedPackage(
-                package = bb_zoom$assembly$TxDb,
-                message = paste(
-                    paste0("`", bb_zoom$assembly$TxDb, "`"),
-                    "not loaded. Please install and load to annotate zoom lines
-                    for full chromosome region of plot."
-                )
-            )
-        }
-
-        if (txdbChecks == TRUE) {
-            if (class(bb_zoom$assembly$TxDb) == "TxDb") {
-                tx_db <- bb_zoom$assembly$TxDb
-            } else {
-                tx_db <- eval(parse(text = bb_zoom$assembly$TxDb))
-            }
-
-            assembly_data <- GenomeInfoDb::seqlengths(tx_db)
-            if (!bb_zoom$chrom %in% names(assembly_data)) {
-                warning("Chromosome",
-                    "'", bb_zoom$chrom, "'",
-                    "not found in",
-                    "`", bb_zoom$assembly$TxDb$packageName, "`",
-                    "and zoom lines for entire chromosome cannot be annotated.",
-                    call. = FALSE
-                )
-            } else {
-                bb_zoom$chromstart <- 1
-                bb_zoom$chromend <- assembly_data[[bb_zoom$chrom]]
-            }
-        }
-    }
+    
+    scaleChecks <- genomicScale(object = bb_zoom,
+                                objectInternal = bb_zoomInternal,
+                                plotType = "zoom lines")
+    bb_zoom <- scaleChecks[[1]]
 
     # =========================================================================
     # PARSE GENOMIC REGION FOR X0
     # =========================================================================
-
-    if (class(bb_zoomInternal$plot) == "bb_genes") {
-        plotVP <- bb_zoomInternal$plot$grobs$children$background$vp
-    } else if (class(bb_zoomInternal$plot) == "bb_hicTriangle" |
-        class(bb_zoomInternal$plot) == "bb_hicRectangle") {
-        plotVP <- bb_zoomInternal$plot$outsideVP
-    } else {
-        plotVP <- bb_zoomInternal$plot$grobs$vp
-    }
-
     page_units <- get("page_units", envir = bbEnv)
-
+    
+    ## Get appropriate plot viewport
+    plotVP <- get_annoViewport(plot = bb_zoomInternal$plot)
+    
     ## Convert plot viewport to bottom left to get left position on entire page
     plotVP_bottomLeft <- vp_bottomLeft(viewport = plotVP)
 
@@ -315,7 +276,7 @@ bb_annoZoomLines <- function(plot, chrom, chromstart = NULL, chromend = NULL,
     seekViewport(plotVP$name)
 
     if (!is.null(bb_zoom$chromstart) & !is.null(bb_zoom$chromend)) {
-        if (class(bb_zoomInternal$plot) == "bb_manhattan") {
+        if (is(bb_zoomInternal$plot, "bb_manhattan")) {
 
             ## Multiple chromosome manhattan plot
             if (length(bb_zoomInternal$plot$chrom) > 1) {

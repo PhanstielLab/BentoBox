@@ -250,7 +250,7 @@ bb_plotRanges <- function(data, chrom, chromstart = NULL, chromend = NULL,
                                             "with no default.", call. = FALSE)
 
     if (!is.null(bb_pileInternal$colorby)) {
-        if (class(bb_pileInternal$colorby) != "bb_colorby") {
+        if (!is(bb_pileInternal$colorby, "bb_colorby")) {
             stop("\"colorby\" not of class \"bb_colorby\". Input colorby ",
                 "information with \"colorby()\".", call. = FALSE)
         }
@@ -352,7 +352,7 @@ bb_plotRanges <- function(data, chrom, chromstart = NULL, chromend = NULL,
         colorbyCol <- which(colnames(bed) == bb_pileInternal$colorby$column)
         colorbyCol <- bed[, colorbyCol]
 
-        if (class(colorbyCol) != "numeric" & class(colorbyCol) != "integer") {
+        if (!is(colorbyCol, "numeric") & !is(colorbyCol, "integer")) {
             colorbyCol <- factor(colorbyCol)
             bed$colorby <- as.numeric(colorbyCol)
         } else {
@@ -679,7 +679,7 @@ bb_plotRanges <- function(data, chrom, chromstart = NULL, chromend = NULL,
         # =====================================================================
 
         if (is.null(bb_pileInternal$colorby)) {
-            if (class(bb_pileInternal$fill) == "function") {
+            if (is(bb_pileInternal$fill, "function")) {
                 colors <- bb_pileInternal$fill(maxRows)
                 indeces <- rowDF$row
                 rowDF$color <- colors[indeces]
@@ -698,7 +698,7 @@ bb_plotRanges <- function(data, chrom, chromstart = NULL, chromend = NULL,
                 }
             }
         } else {
-            if (class(bb_pileInternal$fill) == "function") {
+            if (is(bb_pileInternal$fill, "function")) {
                 rowDF$color <- bb_maptocolors(rowDF$colorby,
                     bb_pileInternal$fill,
                     range = pileup_plot$zrange

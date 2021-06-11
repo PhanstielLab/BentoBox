@@ -155,7 +155,7 @@ bb_annoPixels <- function(plot, data, type = "box", half = "inherit",
         }
 
         ## half needs to be able to align with what kind of hic plot is plotted
-        if (class(hic) == "bb_hicSquare") {
+        if (is(hic, "bb_hicSquare")) {
             if (hic$chrom == hic$altchrom) {
                 if ((hic$half == "top" | hic$half == "bottom") &&
                     (half == "both")) {
@@ -194,8 +194,8 @@ bb_annoPixels <- function(plot, data, type = "box", half = "inherit",
                     }
                 }
             }
-        } else if (class(hic) == "bb_hicTriangle" |
-            class(hic) == "bb_hicRectangle") {
+        } else if (is(hic, "bb_hicTriangle") |
+            is(hic, "bb_hicRectangle")) {
             if (half == "both" | half == "bottom") {
                 warning("Plot of class \'",
                     class(hic),
@@ -221,7 +221,7 @@ bb_annoPixels <- function(plot, data, type = "box", half = "inherit",
         ## chrom always in col1
         ## altchrom always in col4
         ## triangle hic plots will not have altchrom parameters
-        if (class(hic) == "bb_hicTriangle" | class(hic) == "bb_hicRectangle") {
+        if (is(hic, "bb_hicTriangle") | is(hic, "bb_hicRectangle")) {
             loops_subset <- loops[which(loops[, 1] == object$chrom &
                 loops[, 4] == object$chrom &
                 loops[, 2] >= object$chromstart &
@@ -566,8 +566,8 @@ bb_annoPixels <- function(plot, data, type = "box", half = "inherit",
         half <- inherit_half(hic = bb_loopsInternal$plot)
     }
 
-    if (class(bb_loopsInternal$plot) == "bb_hicTriangle" |
-        class(bb_loopsInternal$plot) == "bb_hicRectangle") {
+    if (is(bb_loopsInternal$plot, "bb_hicTriangle")  |
+        is(bb_loopsInternal$plot, "bb_hicRectangle")) {
         half <- "top"
     }
 
@@ -624,7 +624,7 @@ bb_annoPixels <- function(plot, data, type = "box", half = "inherit",
     )
 
     ## Make viewport based on hic input viewport
-    if (class(bb_loopsInternal$plot) == "bb_hicSquare") {
+    if (is(bb_loopsInternal$plot, "bb_hicSquare")) {
         vp <- viewport(
             height = bb_loopsInternal$plot$grobs$vp$height,
             width = bb_loopsInternal$plot$grobs$vp$width,
@@ -636,7 +636,7 @@ bb_annoPixels <- function(plot, data, type = "box", half = "inherit",
             just = bb_loopsInternal$plot$grobs$vp$justification,
             name = vp_name
         )
-    } else if (class(bb_loopsInternal$plot) == "bb_hicTriangle") {
+    } else if (is(bb_loopsInternal$plot, "bb_hicTriangle")) {
         width <- convertUnit(bb_loopsInternal$plot$outsideVP$width,
             unitTo = get("page_units", bbEnv), valueOnly = TRUE
         )
@@ -652,7 +652,7 @@ bb_annoPixels <- function(plot, data, type = "box", half = "inherit",
             name = vp_name,
             angle = -45
         )
-    } else if (class(bb_loopsInternal$plot) == "bb_hicRectangle") {
+    } else if (is(bb_loopsInternal$plot, "bb_hicRectangle")) {
         side <- convertUnit(bb_loopsInternal$plot$grobs$vp$width,
             unitTo = get("page_units", bbEnv)
         )

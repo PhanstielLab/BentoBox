@@ -124,14 +124,9 @@ bb_annoXaxis <- function(plot, at = NULL, label = TRUE, main = TRUE,
     # GET CENTER OF INPUT PLOT VIEWPORT BASED ON INPUT PLOT TYPE AND JUST
     # =========================================================================
 
-    if (class(bb_xInternal$plot) == "bb_genes") {
-        plotVP <- bb_xInternal$plot$grobs$children$background$vp
-    } else if (class(bb_xInternal$plot) == "bb_hicTriangle" |
-        class(bb_xInternal$plot) == "bb_hicRectangle") {
-        plotVP <- bb_xInternal$plot$outsideVP
-    } else {
-        plotVP <- bb_xInternal$plot$grobs$vp
-    }
+    # Get appropriate plot viewport
+    plotVP <- get_annoViewport(plot = bb_xInternal$plot)
+
     adjusted_vp <- adjust_vpCoords(viewport = plotVP)
 
     # =========================================================================

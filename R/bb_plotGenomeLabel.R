@@ -1141,7 +1141,7 @@ bb_plotManhattanGenomeLabel <- function(bb_genomeLabel, bb_genomeLabelInternal){
         
         
         ## Get assembly data
-        if (class(object$assembly$TxDb) == "TxDb") {
+        if (is(object$assembly$TxDb, "TxDb")) {
             txdbChecks <- TRUE
         } else {
             txdbChecks <- check_loadedPackage(
@@ -1154,7 +1154,7 @@ bb_plotManhattanGenomeLabel <- function(bb_genomeLabel, bb_genomeLabelInternal){
         }
         
         if (txdbChecks == TRUE) {
-            if (class(object$assembly$TxDb) == "TxDb") {
+            if (is(object$assembly$TxDb, "TxDb")) {
                 tx_db <- object$assembly$TxDb
             } else {
                 tx_db <- eval(parse(text = object$assembly$TxDb))
@@ -1232,7 +1232,7 @@ bb_plotManhattanGenomeLabel <- function(bb_genomeLabel, bb_genomeLabelInternal){
         assign("genomeLabel_grobs", gTree(vp = vp), envir = bbEnv)
         
         ## Get assembly data
-        if (class(object$assembly$TxDb) == "TxDb") {
+        if (is(object$assembly$TxDb, "TxDb")) {
             txdbChecks <- TRUE
         } else {
             txdbChecks <- suppressWarnings(check_loadedPackage(
@@ -1242,7 +1242,7 @@ bb_plotManhattanGenomeLabel <- function(bb_genomeLabel, bb_genomeLabelInternal){
         }
         
         if (txdbChecks == TRUE) {
-            if (class(object$assembly$TxDb) == "TxDb") {
+            if (is(object$assembly$TxDb, "TxDb")) {
                 tx_db <- object$assembly$TxDb
             } else {
                 tx_db <- eval(parse(text = object$assembly$TxDb))

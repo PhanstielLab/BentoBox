@@ -255,7 +255,7 @@ check_loadedPackage <- function(package, message) {
 # @param plotType string of plot type to show up in error message
 genomicScale <- function(object, objectInternal, plotType) {
     if (is.null(object$chromstart) & is.null(object$chromend)) {
-        if (class(object$assembly$TxDb) == "TxDb") {
+        if (is(object$assembly$TxDb, "TxDb")) {
             txdbChecks <- TRUE
         } else {
             txdbChecks <- check_loadedPackage(
@@ -269,7 +269,7 @@ genomicScale <- function(object, objectInternal, plotType) {
         }
         objectInternal$xscale <- c(0, 1)
         if (txdbChecks == TRUE) {
-            if (class(object$assembly$TxDb) == "TxDb") {
+            if (is(object$assembly$TxDb, "TxDb")) {
                 tx_db <- object$assembly$TxDb
             } else {
                 tx_db <- eval(parse(text = object$assembly$TxDb))
@@ -309,8 +309,7 @@ genomicScale <- function(object, objectInternal, plotType) {
 geneData <- function(object, objectInternal) {
 
     ## TxDb
-
-    if (class(object$assembly$TxDb) == "TxDb") {
+    if (is(object$assembly$TxDb, "TxDb")) {
         txdbChecks <- TRUE
     } else {
         txdbChecks <- check_loadedPackage(
@@ -341,7 +340,7 @@ geneData <- function(object, objectInternal) {
     if (txdbChecks == TRUE & orgdbChecks == TRUE) {
 
         ## Load txdb
-        if (class(object$assembly$TxDb) == "TxDb") {
+        if (is(object$assembly$TxDb, "TxDb")) {
             tx_db <- object$assembly$TxDb
         } else {
             tx_db <- eval(parse(text = object$assembly$TxDb))

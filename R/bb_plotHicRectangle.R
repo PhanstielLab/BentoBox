@@ -168,12 +168,12 @@ bb_plotHicRectangle <- function(data, resolution = "auto", zrange = NULL,
         ###### hic/norm #####
 
         ## if it's a dataframe or datatable, it needs to be properly formatted
-        if ("data.frame" %in% class(hic) && ncol(hic) != 3) {
+        if (is(hic, "data.frame") && ncol(hic) != 3) {
             stop("Invalid dataframe format.  Input a dataframe with 3 ",
                 "columns: chrA, chrB, counts.", call. = FALSE)
         }
 
-        if (!"data.frame" %in% class(hic)) {
+        if (!is(hic, "data.frame")) {
 
             ## if it's a file path, it needs to be a .hic file
             if (file_ext(hic) != "hic") {

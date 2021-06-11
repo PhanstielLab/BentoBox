@@ -36,20 +36,20 @@ bb_pagePlotRemove <- function(plot) {
 
     ## Need to remove outer viewport of bb_hicTriangle/bb_hicRectangle plot
     ## and domain Clips
-    if (class(plot) == "bb_hicTriangle" |
-        class(plot) == "bb_hicRectangle") {
+    if (is(plot, "bb_hicTriangle") |
+        is(plot, "bb_hicRectangle")) {
         vp_name <- plot$grobs$vp$name
         vp_name <- gsub("inside", "outside", vp_name)
         suppressMessages(seekViewport(vp_name))
         suppressMessages(popViewport())
-    } else if (class(plot) == "bb_domain") {
+    } else if (is(plot, "bb_domain")) {
         if (plot$hicClass != "bb_hicSquare") {
             vp_name <- plot$grobs$vp$name
             vp_name <- gsub("inside", "outside", vp_name)
             suppressMessages(seekViewport(vp_name))
             suppressMessages(popViewport())
         }
-    } else if (class(plot) == "bb_signal"){
+    } else if (is(plot, "bb_signal")){
         if (grepl("_v", plot$grobs$vp$name)){
             vp_name <- plot$grobs$vp$name
             vp_name <- gsub("_v", "_vClip", vp_name)

@@ -364,7 +364,7 @@ bb_plotPairsArches <- function(data, chrom, chromstart = NULL, chromend = NULL,
     # CHECK ARGUMENT ERRORS
     # =========================================================================
     if (!is.null(bb_archInternal$colorby)) {
-        if (class(bb_archInternal$colorby) != "bb_colorby") {
+        if (!is(bb_archInternal$colorby, "bb_colorby")) {
             stop("\"colorby\" not of class \"bb_colorby\". ",
                 "Input colorby information with \"colorby()\".",
                 call. = FALSE
@@ -478,7 +478,7 @@ bb_plotPairsArches <- function(data, chrom, chromstart = NULL, chromend = NULL,
         colorbyCol <- which(colnames(bedpe) == bb_archInternal$colorby$column)
         colorbyCol <- bedpe[, colorbyCol]
 
-        if (class(colorbyCol) != "numeric" & class(colorbyCol) != "integer") {
+        if (!is(colorbyCol, "numeric") & !is(colorbyCol, "integer")) {
             colorbyCol <- factor(colorbyCol)
             colorbyCol <- as.numeric(colorbyCol)
         }
@@ -488,7 +488,7 @@ bb_plotPairsArches <- function(data, chrom, chromstart = NULL, chromend = NULL,
             arches_plot$zrange <- colorbyrange
         }
 
-        if (class(bb_archInternal$fill) == "function") {
+        if (is(bb_archInternal$fill, "function")) {
             colors <- bb_maptocolors(colorbyCol, bb_archInternal$fill,
                 range = arches_plot$zrange
             )
@@ -505,7 +505,7 @@ bb_plotPairsArches <- function(data, chrom, chromstart = NULL, chromend = NULL,
             colors <- mappedColors[colorbyColfac]
         }
     } else {
-        if (class(bb_archInternal$fill) == "function") {
+        if (is(bb_archInternal$fill, "function")) {
             colors <- bb_archInternal$fill(nrow(bedpe))
         } else {
             if (length(bb_archInternal$fill) == 1) {

@@ -29,7 +29,7 @@
         ## Parse assembly
         assembly <- parse_bbAssembly(assembly = assembly)
 
-        if (class(assembly$TxDb) == 'TxDb'){
+        if (is(assembly$TxDb, 'TxDb')){
             txdbChecks <- TRUE
         } else {
             txdbChecks <- check_loadedPackage(package = assembly$TxDb,
@@ -43,7 +43,7 @@
 
         if (txdbChecks == TRUE & orgdbChecks == TRUE){
 
-            if (class(assembly$TxDb) == 'TxDb'){
+            if (is(assembly$TxDb, 'TxDb')){
                 tx_db <- assembly$TxDb
         } else {
             tx_db <- eval(parse(text = assembly$TxDb))

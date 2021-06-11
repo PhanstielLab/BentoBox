@@ -191,14 +191,14 @@ set_zrange <- function(hic, hic_plot) {
 ## Define a function that parses an inherited half of a Hi-C plot
 # @param hic hic plot object
 inherit_half <- function(hic) {
-    if (class(hic) == "bb_hicSquare") {
+    if (is(hic, "bb_hicSquare")) {
         if (is.null(hic$althalf)) {
             half <- hic$half
         } else {
             half <- hic$althalf
         }
-    } else if (class(hic) == "bb_hicTriangle" |
-        class(hic) == "bb_hicRectangle") {
+    } else if (is(hic, "bb_hicTriangle") |
+        is(hic, "bb_hicRectangle")) {
         half <- "top"
     }
 

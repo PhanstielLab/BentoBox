@@ -99,7 +99,7 @@ bb_readHic <- function(file, chrom, chromstart = NULL, chromend = NULL,
                                 altchromend, norm, res_scale, assembly) {
 
         ## hic input needs to be a path to a .hic file
-        if (class(hic) != "character") {
+        if (!is(hic, "character")) {
             stop("Invalid input. Input needs to be a path to a .hic file.",
                 call. = FALSE
             )
@@ -351,13 +351,13 @@ bb_readHic <- function(file, chrom, chromstart = NULL, chromend = NULL,
         }
 
         ## CASE 1: two numbers
-        if (all(c(class(chrom), class(altchrom)) == "numeric")) {
+        if (all(is(chrom, "numeric"), is(altchrom, "numeric"))) {
             if (chrom > altchrom) {
                 hic <- hic[, c(2, 1, 3)]
             }
-        } else if (any(c(class(chrom), class(altchrom)) == "numeric")) {
+        } else if (any(is(chrom, "numeric"), is(altchrom, "numeric"))) {
             ## CASE 2: number and X/Y
-            if (class(altchrom) == "numeric") {
+            if (is(altchrom, "numeric")) {
                 hic <- hic[, c(2, 1, 3)]
             }
         } else {
