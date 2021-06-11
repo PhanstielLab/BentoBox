@@ -82,7 +82,6 @@ reference:
       - bb_plotText
   - subtitle: "External"
   - contents:
-      - bb_plotBase
       - bb_plotGG
 
   - title: "Annotation functions"

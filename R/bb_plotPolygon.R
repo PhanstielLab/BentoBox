@@ -178,6 +178,7 @@ bb_plotPolygon <- function(x, y, default.units = "inches",
         y = unit(page_height - new_y, page_units),
         id = bb_polygon$id,
         id.lengths = bb_polygon$id.lengths,
+        name = name,
         gp = bb_polygon$gp
     )
 
