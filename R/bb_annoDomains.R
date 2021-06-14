@@ -403,22 +403,10 @@ bb_annoDomains <- function(plot, data, half = "inherit",
         data = bb_domainsInternal$data,
         assembly = bb_domains$assembly
     )
-
-    ## Check format of chromosomes in column 1
-    if (bb_domains$assembly$Genome == "hg19") {
-        checkChr <- function(chr) {
-            return(grepl("chr", chr))
-        }
-
-        col1Checks <- unlist(lapply(bed[, 1], checkChr))
-        if (any(col1Checks == FALSE)) {
-            stop("Chromosomes in column 1 are in invalid format for ",
-                "hg19 genome assembly. Please specify chromosomes as a string ",
-                "with the following format: 'chr1'.",
-                call. = FALSE
-            )
-        }
-    }
+    
+    ## chrom format and data chrom format
+    chromDataAgreement(data = bed, chrom = bb_domains$chrom,
+                       type = "ranges")
 
     # =========================================================================
     # SUBSET FOR DOMAINS IN REGION

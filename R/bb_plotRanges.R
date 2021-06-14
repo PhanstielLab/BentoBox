@@ -322,6 +322,10 @@ bb_plotRanges <- function(data, chrom, chromstart = NULL, chromend = NULL,
         colorby = bb_pileInternal$colorby
     )
 
+    ## chrom format and data chrom format
+    chromDataAgreement(data = bed, chrom = pileup_plot$chrom,
+                       type = "ranges")
+    
     # =========================================================================
     # GENOMIC SCALE
     # =========================================================================

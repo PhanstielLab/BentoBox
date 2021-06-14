@@ -579,25 +579,9 @@ bb_annoPixels <- function(plot, data, type = "box", half = "inherit",
                             assembly = bb_loops$assembly,
                             warning = TRUE)
 
-    ## Check format of chromosomes in columns 1 and 4
-    if (bb_loops$assembly$Genome == "hg19") {
-        checkChr <- function(chr) {
-            return(grepl("chr", chr))
-        }
-
-        col1Checks <- unlist(lapply(loops[, 1], checkChr))
-        if (any(col1Checks == FALSE)) {
-            stop("Chromosomes in column 1 are in invalid format for ",
-                "hg19 genome assembly. Please specify chromosomes as a string ",
-                "with the following format: 'chr1'.", call. = FALSE)
-        }
-        col4Checks <- unlist(lapply(loops[, 4], checkChr))
-        if (any(col4Checks == FALSE)) {
-            stop("Chromosomes in column 4 are in invalid format for ",
-                "hg19 genome assembly. Please specify chromosomes as a string ",
-                "with the following format: 'chr1'.", call. = FALSE)
-        }
-    }
+    ## chrom format and data chrom format
+    chromDataAgreement(data = loops, chrom = bb_loops$chrom,
+                       type = "pairs")
 
     # =========================================================================
     # SUBSET FOR LOOPS IN REGION

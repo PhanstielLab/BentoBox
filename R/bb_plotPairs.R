@@ -204,6 +204,8 @@ bb_plotPairs <- function(data, chrom, chromstart = NULL, chromend = NULL,
                     "one occurrence.", call. = FALSE)
             }
         }
+        
+        
     }
 
     # =========================================================================
@@ -299,6 +301,10 @@ bb_plotPairs <- function(data, chrom, chromstart = NULL, chromend = NULL,
         bedpe = bedpe, bedpe_plot = bb_bedpe,
         colorby = bb_bedpeInternal$colorby
     )
+    
+    ## chrom format and data chrom format
+    chromDataAgreement(data = bedpe, chrom = bb_bedpe$chrom,
+                        type = "pairs")
 
     # =========================================================================
     # ORGANIZE DATA

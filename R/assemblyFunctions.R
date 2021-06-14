@@ -248,6 +248,29 @@ check_loadedPackage <- function(package, message) {
     }
 }
 
+## Define a function that checks formatting agreement between given chrom
+## and the chromosome in provided data 
+# @param data Input data
+# @param chrom Input chrom
+# @param Type of data, either "ranges" or "pairs"
+chromDataAgreement <- function(data, chrom, type){
+    chrom_chrCheck <- grepl("chr", chrom)
+    if (type == "ranges"){
+        ## Just check first column 
+        data_chrCheck <- all(grepl("chr", data[,1]))
+    } else if (type == "pairs"){
+        ## Check chr1 and chr2 columns
+        data_chrCheck <- all(grepl("chr", data[,1])) &
+            all(grepl("chr", data[,4]))
+    }
+    
+    if (chrom_chrCheck != data_chrCheck){
+        warning("Format of chromosome in data does not match ",
+                "format of `chrom`.", call. = FALSE)
+    }
+    
+}
+
 ## Define a function that checks for whole chromosome data and
 ## sets the plot xscale accordingly
 # @param object plot object
