@@ -65,8 +65,8 @@
 #' 
 #' ## Read in data for all chr22 file at 2.5Mb bp resolution
 #' hicData <- bb_readHic(file = hicFile, chrom = "chr22",
-#'                       assembly = "hg19",
-#'                       resolution = 2500000) 
+#'                     assembly = "hg19",
+#'                     resolution = 2500000) 
 #'                         
 #' ## Read in region `chr22:20000000-47500000` at 100 Kb resolution
 #' hicData10Kb <- bb_readHic(file = hicFile, chrom = "chr22",

@@ -581,7 +581,7 @@ bb_annoPixels <- function(plot, data, type = "box", half = "inherit",
 
     ## chrom format and data chrom format
     chromDataAgreement(data = loops, chrom = bb_loops$chrom,
-                       type = "pairs")
+                    type = "pairs")
 
     # =========================================================================
     # SUBSET FOR LOOPS IN REGION

@@ -406,7 +406,7 @@ bb_annoDomains <- function(plot, data, half = "inherit",
     
     ## chrom format and data chrom format
     chromDataAgreement(data = bed, chrom = bb_domains$chrom,
-                       type = "ranges")
+                    type = "ranges")
 
     # =========================================================================
     # SUBSET FOR DOMAINS IN REGION

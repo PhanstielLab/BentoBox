@@ -903,13 +903,16 @@ library(showtext)
 font_add(
     family = "ProximaNova",
     regular = system.file("extdata",
-        "proximanova-regular.otf",
-        package = "BentoBox"
+                        "proximanova-regular.otf",
+                        package = "BentoBox"
     ),
     bold = system.file("extdata",
-        "proximanova-semibold.otf",
-        package = "BentoBox"
-    )
+                    "proximanova-semibold.otf",
+                    package = "BentoBox"
+    ),
+    italic = system.file("extdata",
+                        "proximanova-regitalic.otf",
+                        package = "BentoBox")
 )
 showtext_auto()
 ```
@@ -1221,6 +1224,11 @@ bb_plotText(
     x = c(6.58, 7.39, 7.435),
     y = c(2.47, 2.75, 2.2), just = c("left", "bottom")
 )
+bb_plotText(label = paste("Sources: The COVID Tracking Project;",
+                        "Johns Hopkins Center for Civic Impact"),
+            fontfamily = "ProximaNova", fontcolor = "black",
+            fontsize = 7, fontface = "italic",
+            x = 0.15, y = 3.45, just = c("left", "bottom"))
 ```
 
 We are then left with a complex, precise, and elegant arrangement of 
@@ -1268,6 +1276,11 @@ bb_plotText(
     x = c(6.58, 7.39, 7.435),
     y = c(2.47, 2.75, 2.2), just = c("left", "bottom")
 )
+bb_plotText(label = paste("Sources: The COVID Tracking Project;",
+                        "Johns Hopkins Center for Civic Impact"),
+            fontfamily = "ProximaNova", fontcolor = "black",
+            fontsize = 7, fontface = "italic",
+            x = 0.15, y = 3.45, just = c("left", "bottom"))
 ```
 
 # Future Directions

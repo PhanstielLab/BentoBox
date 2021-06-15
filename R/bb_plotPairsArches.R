@@ -436,7 +436,7 @@ bb_plotPairsArches <- function(data, chrom, chromstart = NULL, chromend = NULL,
     
     ## chrom format and data chrom format
     chromDataAgreement(data = bedpe, chrom = arches_plot$chrom,
-                       type = "pairs")
+                    type = "pairs")
 
     # =========================================================================
     # GENOMIC SCALE
