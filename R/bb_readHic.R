@@ -61,22 +61,18 @@
 #' \code{counts}.
 #' 
 #' @examples 
-#' hicFile <- system.file("extdata/test.hic.tar.gz", package="BentoBoxData")
-#' tmpdir <- tempdir()
-#' untar(hicFile, exdir = tmpdir)
-#' hicFile <- paste0(tmpdir, "/test.hic")
+#' hicFile <- system.file("extdata/test_chr22.hic", package="BentoBoxData")
 #' 
-#' ## Read in data for region `chr8:133000000-135000000` at 10Kb bp resolution
-#' hicData10kb <- bb_readHic(file = hicFile, chrom = "chr8",
-#'                         chromstart = 133000000, chromend = 135000000,
-#'                         assembly = "hg19",
-#'                         resolution = 10000)
+#' ## Read in data for all chr22 file at 2.5Mb bp resolution
+#' hicData <- bb_readHic(file = hicFile, chrom = "chr22",
+#'                       assembly = "hg19",
+#'                       resolution = 2500000) 
 #'                         
-#' ## Read in same region at 5Kb bp resolution
-#' hicData5kb <- bb_readHic(file = hicFile, chrom = "chr8",
-#'                         chromstart = 133000000, chromend = 135000000,
+#' ## Read in region `chr22:20000000-47500000` at 100 Kb resolution
+#' hicData10Kb <- bb_readHic(file = hicFile, chrom = "chr22",
+#'                         chromstart = 20000000, chromend = 47500000,
 #'                         assembly = "hg19",
-#'                         resolution = 5000)                     
+#'                         resolution = 100000)                     
 #'
 #' @seealso \link[strawr]{straw}
 #'
