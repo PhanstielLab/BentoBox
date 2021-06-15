@@ -107,7 +107,7 @@
       <h1 data-toc-skip>Introduction to BentoBox</h1>
                         <h4 class="author">Nicole Kramer, Eric S. Davis, Craig Wenger, Sarah Parker, Erika Deoudes, Douglas H. Phanstiel</h4>
             
-            <h4 class="date">2021-06-11</h4>
+            <h4 class="date">2021-06-15</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/PhanstielLab/BentoBox/blob/master/vignettes/introduction_to_bentobox.Rmd"><code>vignettes/introduction_to_bentobox.Rmd</code></a></small>
       <div class="hidden name"><code>introduction_to_bentobox.Rmd</code></div>
@@ -1008,7 +1008,12 @@
     fontfamily <span class="op">=</span> <span class="st">"ProximaNova"</span>, fontcolor <span class="op">=</span> <span class="st">"black"</span>, fontsize <span class="op">=</span> <span class="fl">7</span>,
     x <span class="op">=</span> <span class="fu"><a href="../reference/c.html">c</a></span><span class="op">(</span><span class="fl">6.58</span>, <span class="fl">7.39</span>, <span class="fl">7.435</span><span class="op">)</span>,
     y <span class="op">=</span> <span class="fu"><a href="../reference/c.html">c</a></span><span class="op">(</span><span class="fl">2.47</span>, <span class="fl">2.75</span>, <span class="fl">2.2</span><span class="op">)</span>, just <span class="op">=</span> <span class="fu"><a href="../reference/c.html">c</a></span><span class="op">(</span><span class="st">"left"</span>, <span class="st">"bottom"</span><span class="op">)</span>
-<span class="op">)</span></code></pre></div>
+<span class="op">)</span>
+<span class="fu"><a href="../reference/bb_plotText.html">bb_plotText</a></span><span class="op">(</span>label <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span><span class="op">(</span><span class="st">"Sources: The COVID Tracking Project;"</span>,
+                        <span class="st">"Johns Hopkins Center for Civic Impact"</span><span class="op">)</span>,
+            fontfamily <span class="op">=</span> <span class="st">"ProximaNova"</span>, fontcolor <span class="op">=</span> <span class="st">"black"</span>,
+            fontsize <span class="op">=</span> <span class="fl">7</span>, fontface <span class="op">=</span> <span class="st">"italic"</span>,
+            x <span class="op">=</span> <span class="fl">0.15</span>, y <span class="op">=</span> <span class="fl">3.45</span>, just <span class="op">=</span> <span class="fu"><a href="../reference/c.html">c</a></span><span class="op">(</span><span class="st">"left"</span>, <span class="st">"bottom"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p>We are then left with a complex, precise, and elegant arrangement of <code>ggplots</code> as if we had arranged them together with graphic design software:</p>
 <p><img src="introduction_to_bentobox_files/figure-html/gg_plot07-1.png" width="1725" style="display: block; margin: auto;"></p>
 </div>
@@ -1046,14 +1051,14 @@
 <span class="co">#&gt;  [6] org.Hs.eg.db_3.13.0                    </span>
 <span class="co">#&gt;  [7] TxDb.Hsapiens.UCSC.hg19.knownGene_3.2.2</span>
 <span class="co">#&gt;  [8] GenomicFeatures_1.44.0                 </span>
-<span class="co">#&gt;  [9] AnnotationDbi_1.54.0                   </span>
+<span class="co">#&gt;  [9] AnnotationDbi_1.54.1                   </span>
 <span class="co">#&gt; [10] Biobase_2.52.0                         </span>
 <span class="co">#&gt; [11] GenomicRanges_1.44.0                   </span>
 <span class="co">#&gt; [12] GenomeInfoDb_1.28.0                    </span>
 <span class="co">#&gt; [13] IRanges_2.26.0                         </span>
 <span class="co">#&gt; [14] S4Vectors_0.30.0                       </span>
 <span class="co">#&gt; [15] BiocGenerics_0.38.0                    </span>
-<span class="co">#&gt; [16] BentoBoxData_0.0.0.9000                </span>
+<span class="co">#&gt; [16] BentoBoxData_0.99.0                    </span>
 <span class="co">#&gt; [17] BentoBox_0.1.3                         </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; loaded via a namespace (and not attached):</span>
@@ -1067,7 +1072,7 @@
 <span class="co">#&gt; [15] colorspace_2.0-1            withr_2.4.2                </span>
 <span class="co">#&gt; [17] prettyunits_1.1.1           tidyselect_1.1.1           </span>
 <span class="co">#&gt; [19] curl_4.3.1                  bit_4.0.4                  </span>
-<span class="co">#&gt; [21] compiler_4.1.0              textshaping_0.3.4          </span>
+<span class="co">#&gt; [21] compiler_4.1.0              textshaping_0.3.5          </span>
 <span class="co">#&gt; [23] desc_1.3.0                  DelayedArray_0.18.0        </span>
 <span class="co">#&gt; [25] labeling_0.4.2              rtracklayer_1.52.0         </span>
 <span class="co">#&gt; [27] sass_0.4.0                  rappdirs_0.3.3             </span>
@@ -1101,7 +1106,7 @@
 <span class="co">#&gt; [83] gtable_0.3.0                purrr_0.3.4                </span>
 <span class="co">#&gt; [85] assertthat_0.2.1            cachem_1.0.5               </span>
 <span class="co">#&gt; [87] xfun_0.23                   restfulr_0.0.13            </span>
-<span class="co">#&gt; [89] ragg_1.1.2                  tibble_3.1.2               </span>
+<span class="co">#&gt; [89] ragg_1.1.3                  tibble_3.1.2               </span>
 <span class="co">#&gt; [91] rvcheck_0.1.8               GenomicAlignments_1.28.0   </span>
 <span class="co">#&gt; [93] plyranges_1.12.0            memoise_2.0.0              </span>
 <span class="co">#&gt; [95] ellipsis_0.3.2</span></code></pre></div>

@@ -156,33 +156,33 @@
     </div>
 
     <pre class="usage"><span class='fu'>bb_plotSignal</span><span class='op'>(</span>
-  <span class='va'>data</span>,
-  binSize <span class='op'>=</span> <span class='cn'>NA</span>,
-  binCap <span class='op'>=</span> <span class='cn'>TRUE</span>,
-  negData <span class='op'>=</span> <span class='cn'>FALSE</span>,
-  <span class='va'>chrom</span>,
-  chromstart <span class='op'>=</span> <span class='cn'>NULL</span>,
-  chromend <span class='op'>=</span> <span class='cn'>NULL</span>,
-  assembly <span class='op'>=</span> <span class='st'>"hg38"</span>,
-  linecolor <span class='op'>=</span> <span class='st'>"#37a7db"</span>,
-  fill <span class='op'>=</span> <span class='cn'>NA</span>,
-  ymax <span class='op'>=</span> <span class='fl'>1</span>,
-  range <span class='op'>=</span> <span class='cn'>NULL</span>,
-  scale <span class='op'>=</span> <span class='cn'>FALSE</span>,
-  bg <span class='op'>=</span> <span class='cn'>NA</span>,
-  baseline <span class='op'>=</span> <span class='cn'>TRUE</span>,
-  baseline.color <span class='op'>=</span> <span class='st'>"grey"</span>,
-  baseline.lwd <span class='op'>=</span> <span class='fl'>1</span>,
-  orientation <span class='op'>=</span> <span class='st'>"h"</span>,
-  x <span class='op'>=</span> <span class='cn'>NULL</span>,
-  y <span class='op'>=</span> <span class='cn'>NULL</span>,
-  width <span class='op'>=</span> <span class='cn'>NULL</span>,
-  height <span class='op'>=</span> <span class='cn'>NULL</span>,
-  just <span class='op'>=</span> <span class='fu'><a href='c.html'>c</a></span><span class='op'>(</span><span class='st'>"left"</span>, <span class='st'>"top"</span><span class='op'>)</span>,
-  default.units <span class='op'>=</span> <span class='st'>"inches"</span>,
-  draw <span class='op'>=</span> <span class='cn'>TRUE</span>,
-  params <span class='op'>=</span> <span class='cn'>NULL</span>,
-  <span class='va'>...</span>
+    <span class='va'>data</span>,
+    binSize <span class='op'>=</span> <span class='cn'>NA</span>,
+    binCap <span class='op'>=</span> <span class='cn'>TRUE</span>,
+    negData <span class='op'>=</span> <span class='cn'>FALSE</span>,
+    <span class='va'>chrom</span>,
+    chromstart <span class='op'>=</span> <span class='cn'>NULL</span>,
+    chromend <span class='op'>=</span> <span class='cn'>NULL</span>,
+    assembly <span class='op'>=</span> <span class='st'>"hg38"</span>,
+    linecolor <span class='op'>=</span> <span class='st'>"#37a7db"</span>,
+    fill <span class='op'>=</span> <span class='cn'>NA</span>,
+    ymax <span class='op'>=</span> <span class='fl'>1</span>,
+    range <span class='op'>=</span> <span class='cn'>NULL</span>,
+    scale <span class='op'>=</span> <span class='cn'>FALSE</span>,
+    bg <span class='op'>=</span> <span class='cn'>NA</span>,
+    baseline <span class='op'>=</span> <span class='cn'>TRUE</span>,
+    baseline.color <span class='op'>=</span> <span class='st'>"grey"</span>,
+    baseline.lwd <span class='op'>=</span> <span class='fl'>1</span>,
+    orientation <span class='op'>=</span> <span class='st'>"h"</span>,
+    x <span class='op'>=</span> <span class='cn'>NULL</span>,
+    y <span class='op'>=</span> <span class='cn'>NULL</span>,
+    width <span class='op'>=</span> <span class='cn'>NULL</span>,
+    height <span class='op'>=</span> <span class='cn'>NULL</span>,
+    just <span class='op'>=</span> <span class='fu'><a href='c.html'>c</a></span><span class='op'>(</span><span class='st'>"left"</span>, <span class='st'>"top"</span><span class='op'>)</span>,
+    default.units <span class='op'>=</span> <span class='st'>"inches"</span>,
+    draw <span class='op'>=</span> <span class='cn'>TRUE</span>,
+    params <span class='op'>=</span> <span class='cn'>NULL</span>,
+    <span class='va'>...</span>
 <span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -346,13 +346,13 @@ genomic region, placement, and <a href='https://rdrr.io/r/grid/grid.grob.html'>g
     <p>#A signal track can be placed on a BentoBox coordinate page
 by providing plot placement parameters:</p><pre>
 <span class='fu'>bb_plotSignal</span><span class='op'>(</span><span class='va'>data</span>, <span class='va'>chrom</span>,
-              chromstart <span class='op'>=</span> <span class='cn'>NULL</span>, chromend <span class='op'>=</span> <span class='cn'>NULL</span>,
-              <span class='va'>x</span>, <span class='va'>y</span>, <span class='va'>width</span>, <span class='va'>height</span>, just <span class='op'>=</span> <span class='fu'><a href='c.html'>c</a></span><span class='op'>(</span><span class='st'>"left"</span>, <span class='st'>"top"</span><span class='op'>)</span>,
-              default.units <span class='op'>=</span> <span class='st'>"inches"</span><span class='op'>)</span>
+            chromstart <span class='op'>=</span> <span class='cn'>NULL</span>, chromend <span class='op'>=</span> <span class='cn'>NULL</span>,
+            <span class='va'>x</span>, <span class='va'>y</span>, <span class='va'>width</span>, <span class='va'>height</span>, just <span class='op'>=</span> <span class='fu'><a href='c.html'>c</a></span><span class='op'>(</span><span class='st'>"left"</span>, <span class='st'>"top"</span><span class='op'>)</span>,
+            default.units <span class='op'>=</span> <span class='st'>"inches"</span><span class='op'>)</span>
 </pre><p>This function can also be used to quickly plot an unannotated
 signal track by ignoring plot placement parameters:</p><pre>
 <span class='fu'>bb_plotSignal</span><span class='op'>(</span><span class='va'>data</span>, <span class='va'>chrom</span>,
-              chromstart <span class='op'>=</span> <span class='cn'>NULL</span>, chromend <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span>
+            chromstart <span class='op'>=</span> <span class='cn'>NULL</span>, chromend <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span>
 </pre>
 
 
