@@ -312,7 +312,7 @@ bb_plotRanges <- function(data, chrom, chromstart = NULL, chromend = NULL,
                         chrom = pileup_plot$chrom,
                         start = pileup_plot$chromstart,
                         end = pileup_plot$chromend)
-
+    
     # =========================================================================
     # CATCH ERRORS
     # =========================================================================
@@ -335,11 +335,11 @@ bb_plotRanges <- function(data, chrom, chromstart = NULL, chromend = NULL,
                                 plotType = "ranges plot")
     pileup_plot <- scaleChecks[[1]]
     bb_pileInternal <- scaleChecks[[2]]
-
+    
     # =========================================================================
     # SUBSET DATA FOR CHROMOSOME AND ANY OVERLAPPING REGIONS
     # =========================================================================
-
+    
     if (!is.null(pileup_plot$chromstart) & !is.null(pileup_plot$chromend)) {
         bed <- bed[which(bed[, 1] == pileup_plot$chrom & bed[, 2] <=
             pileup_plot$chromend & bed[, 3] >=
@@ -352,24 +352,12 @@ bb_plotRanges <- function(data, chrom, chromstart = NULL, chromend = NULL,
     # SET COLORBY DATA
     # =========================================================================
 
-    if (!is.null(bb_pileInternal$colorby) & nrow(bed) > 0) {
-        colorbyCol <- which(colnames(bed) == bb_pileInternal$colorby$column)
-        colorbyCol <- bed[, colorbyCol]
-
-        if (!is(colorbyCol, "numeric") & !is(colorbyCol, "integer")) {
-            colorbyCol <- factor(colorbyCol)
-            bed$colorby <- as.numeric(colorbyCol)
-        } else {
-            bed$colorby <- colorbyCol
-        }
-
-        if (is.null(bb_pileInternal$colorby$range)) {
-            colorbyrange <- c(min(bed$colorby), max(bed$colorby))
-            pileup_plot$zrange <- colorbyrange
-        }
-    } else {
-        bed$colorby <- rep(NA, nrow(bed))
-    }
+    colorbyInfo <- colorbyCol(data = bed,
+                              object = pileup_plot,
+                              objectInternal = bb_pileInternal)
+    
+    bed <-  colorbyInfo[[1]]
+    pileup_plot <- colorbyInfo[[2]]
 
     # =========================================================================
     # SEPARATE DATA INTO STRANDS
@@ -679,47 +667,15 @@ bb_plotRanges <- function(data, chrom, chromstart = NULL, chromend = NULL,
     if (nrow(rowDF) > 0) {
 
         # =====================================================================
-        # COLORS
+        # SET COLORS
         # =====================================================================
 
-        if (is.null(bb_pileInternal$colorby)) {
-            if (is(bb_pileInternal$fill, "function")) {
-                colors <- bb_pileInternal$fill(maxRows)
-                indeces <- rowDF$row
-                rowDF$color <- colors[indeces]
-            } else {
-                if (length(bb_pileInternal$fill) == 1) {
-                    rowDF$color <- rep(bb_pileInternal$fill, nrow(rowDF))
-                } else {
-                    colors <- rep(
-                        bb_pileInternal$fill,
-                        ceiling(maxRows / length(
-                            bb_pileInternal$fill
-                        ))
-                    )[seq(1, maxRows)]
-                    indeces <- rowDF$row
-                    rowDF$color <- colors[indeces]
-                }
-            }
-        } else {
-            if (is(bb_pileInternal$fill, "function")) {
-                rowDF$color <- bb_maptocolors(rowDF$colorby,
-                    bb_pileInternal$fill,
-                    range = pileup_plot$zrange
-                )
-                pileup_plot$color_palette <- bb_pileInternal$fill
-            } else {
-                colorbyCol <- factor(rowDF$colorby)
-                mappedColors <- rep(
-                    bb_pileInternal$fill,
-                    ceiling(length(levels(colorbyCol)) /
-                        length(bb_pileInternal$fill))
-                )
-                names(mappedColors) <- levels(colorbyCol)
-                rowDF$color <- mappedColors[colorbyCol]
-            }
-        }
-
+        colorData <- mapColorbyCol(data = rowDF,
+                                   object = pileup_plot,
+                                   objectInternal = bb_pileInternal,
+                                   nrow = maxRows)
+        rowDF <- colorData[[1]]
+        pileup_plot <- colorData[[2]]
 
         # =====================================================================
         # MAKE GROBS

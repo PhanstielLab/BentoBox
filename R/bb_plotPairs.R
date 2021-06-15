@@ -363,24 +363,12 @@ bb_plotPairs <- function(data, chrom, chromstart = NULL, chromend = NULL,
     # =========================================================================
     # SET COLORBY DATA
     # =========================================================================
-    if (!is.null(bb_bedpeInternal$colorby) & nrow(bedpe) > 0) {
-        colorbyCol <- which(colnames(bedpe) == bb_bedpeInternal$colorby$column)
-        colorbyCol <- bedpe[, colorbyCol]
-
-        if (!is(colorbyCol, "numeric")  & !is(colorbyCol, "integer")) {
-            colorbyCol <- factor(colorbyCol)
-            bedpe$colorby <- as.numeric(colorbyCol)
-        } else {
-            bedpe$colorby <- colorbyCol
-        }
-
-        if (is.null(bb_bedpeInternal$colorby$range)) {
-            colorbyrange <- c(min(bedpe$colorby), max(bedpe$colorby))
-            bb_bedpe$zrange <- colorbyrange
-        }
-    } else {
-        bedpe$colorby <- rep(NA, nrow(bedpe))
-    }
+    colorbyInfo <- colorbyCol(data = bedpe,
+                              object = bb_bedpe,
+                              objectInternal = bb_bedpeInternal)
+    
+    bedpe <-  colorbyInfo[[1]]
+    bb_bedpe <- colorbyInfo[[2]]
 
     # =========================================================================
     # VIEWPORTS
@@ -522,49 +510,16 @@ bb_plotPairs <- function(data, chrom, chromstart = NULL, chromend = NULL,
         rowBedpe$y <- rowBedpe$row * (boxHeight + spaceHeight)
 
         # =====================================================================
-        # COLORS
+        # SET COLORS
         # =====================================================================
-
-        if (is.null(bb_bedpeInternal$colorby)) {
-            if (is(bb_bedpeInternal$fill, "function")) {
-                colors <- bb_bedpeInternal$fill(limit)
-                indeces <- rowBedpe$row + 1
-                rowBedpe$color <- colors[indeces]
-            } else {
-                if (length(bb_bedpeInternal$fill) == 1) {
-                    rowBedpe$color <- rep(bb_bedpeInternal$fill, nrow(rowBedpe))
-                } else {
-                    colors <- rep(
-                        bb_bedpeInternal$fill,
-                        ceiling(limit /
-                            length(bb_bedpeInternal$fill))
-                    )[seq(
-                        1, limit
-                    )]
-                    indeces <- rowBedpe$row + 1
-                    rowBedpe$color <- colors[indeces]
-                }
-            }
-        } else {
-            if (is(bb_bedpeInternal$fill, "function")) {
-                rowBedpe$color <- bb_maptocolors(rowBedpe$colorby,
-                    bb_bedpeInternal$fill,
-                    range = bb_bedpe$zrange
-                )
-                bb_bedpe$color_palette <- bb_bedpeInternal$fill
-            } else {
-                colorbyCol <- factor(rowBedpe$colorby)
-                mappedColors <- rep(
-                    bb_bedpeInternal$fill,
-                    ceiling(length(levels(colorbyCol)) /
-                        length(bb_bedpeInternal$fill))
-                )
-                names(mappedColors) <- levels(colorbyCol)
-                rowBedpe$color <- mappedColors[colorbyCol]
-            }
-        }
-
-
+        
+        colorData <- mapColorbyCol(data = rowBedpe,
+                                   object = bb_bedpe,
+                                   objectInternal = bb_bedpeInternal,
+                                   nrow = limit)
+        rowBedpe <- colorData[[1]]
+        bb_bedpe <- colorData[[2]]
+        
         # =====================================================================
         # MAKE GROBS
         # =====================================================================
