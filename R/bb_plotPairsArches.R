@@ -475,21 +475,18 @@ bb_plotPairsArches <- function(data, chrom, chromstart = NULL, chromend = NULL,
     arches_plot$bedpe <- bedpe
 
     # =========================================================================
-    # SET COLORS
+    # SET COLORBY AND COLORS
     # =========================================================================
-    
-    colorbyInfo <- mapColorbyCol(data = bedpe,
-                                 object = arches_plot,
-                                 objectInternal = bb_archInternal)
-    
-    bedpe <-  colorbyInfo[[1]]
-    arches_plot <- colorbyInfo[[2]]
-    
-    ## Convert color from rgb
-    bedpe$color <- rgb(red = bedpe$red,
-                         blue = bedpe$blue,
-                         green = bedpe$green,
-                         maxColorValue = 255)
+    colorbyData <- colorbyCol(data = bedpe,
+                              object = arches_plot,
+                              objectInternal = bb_archInternal)
+    colorData <- mapColorbyCol(data = colorbyData[[1]],
+                               object = colorbyData[[2]],
+                               objectInternal = bb_archInternal,
+                               nrow = nrow(colorbyData[[1]]),
+                               rows = FALSE)
+    bedpe <- colorData[[1]]
+    arches_plot <- colorData[[2]]
 
     # Set actual line color to fill color if requested by user
     actuallinecolor <- bb_archInternal$linecolor

@@ -36,8 +36,12 @@ colorby <- function(column, range = NULL) {
     return(colorbyObject)
 }
 
+## The following are colorby() related functions
+# colorbyCol: get the colorbycol and convert as necessary
+# mapColorbyCol: map colors to a colorby column (with no colorby,
+# colors will go in order of visualized data rows)
 
-mapColorbyCol <- function(data, object, objectInternal){
+colorbyCol <- function(data, object, objectInternal){
     
     if (!is.null(objectInternal$colorby) & nrow(data) > 0){
         colorbyCol <- which(colnames(data) == objectInternal$colorby$column)
@@ -46,36 +50,46 @@ mapColorbyCol <- function(data, object, objectInternal){
         if (!is(colorbyCol, "numeric") & !is(colorbyCol, "integer")) {
             colorbyCol <- as.numeric(factor(colorbyCol))
         }
-        #data$colorby <- colorbyCol
+        data$colorby <- colorbyCol
         
         if (is.null(objectInternal$colorby$range)) {
-            colorbyrange <- c(min(colorbyCol), max(colorbyCol))
+            colorbyrange <- c(min(data$colorby), max(data$colorby))
             object$zrange <- colorbyrange
         }
         
-        if (!is.null(objectInternal$colorby)){
-            if (is(objectInternal$fill, "function")) {
-                colors <- bb_maptocolors(colorbyCol,
-                                         objectInternal$fill,
-                                         range = object$zrange
-                )
-                object$color_palette <- objectInternal$fill
-            } else {
-                colorbyCol <- factor(colorbyCol)
-                mappedColors <- rep(
-                    objectInternal$fill,
-                    ceiling(length(levels(colorbyCol)) /
-                                length(objectInternal$fill))
-                )
-                names(mappedColors) <- levels(colorbyCol)
-                colors <- mappedColors[colorbyCol]
-            } 
+    } else {
+        data$colorby <- rep(NA, nrow(data))
+    }
+    
+    return(list(data, object))
+}
+mapColorbyCol <- function(data, object, objectInternal, nrow, rows = TRUE){
+    
+    if (!is.null(objectInternal$colorby)){
+        if (is(objectInternal$fill, "function")) {
+            colors <- bb_maptocolors(data$colorby,
+                                                objectInternal$fill,
+                                                range = object$zrange
+            )
+            object$color_palette <- objectInternal$fill
+        } else {
+            colorbyCol <- factor(data$colorby)
+            mappedColors <- rep(
+                objectInternal$fill,
+                ceiling(length(levels(colorbyCol)) /
+                            length(objectInternal$fill))
+            )
+            names(mappedColors) <- levels(colorbyCol)
+            colors <- mappedColors[colorbyCol]
         }
         
-    } else if (is.null(objectInternal$colorby) & nrow(data) > 0){
-        
+    } else {
         if (is(objectInternal$fill, "function")) {
-            colors <- objectInternal$fill(nrow(data))
+            colors <- objectInternal$fill(nrow)
+            if (rows == TRUE){
+                indeces <- data$row
+                colors <- colors[indeces]
+            }
             
         } else {
             if (length(objectInternal$fill) == 1) {
@@ -83,20 +97,23 @@ mapColorbyCol <- function(data, object, objectInternal){
             } else {
                 colors <- rep(
                     objectInternal$fill,
-                    ceiling(nrow(data) / length(
+                    ceiling(nrow / length(
                         objectInternal$fill
                     ))
-                )[seq(1, nrow(data))]
+                )[seq(1, nrow)]
+                
+                if (rows == TRUE){
+                    indeces <- data$row
+                    colors <- colors[indeces]
+                }
                 
             }
         }
         
-    } else {
-        colors <- rep(NA, nrow(data))
     }
-    
-    colors <- as.data.frame(t(grDevices::col2rgb(colors)))
-    data <- cbind(data, colors)
-    
+    data$color <- colors
     return(list(data, object))
+    
 }
+
+
