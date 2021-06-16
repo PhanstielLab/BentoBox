@@ -337,6 +337,15 @@ bb_plotRanges <- function(data, chrom, chromstart = NULL, chromend = NULL,
     bb_pileInternal <- scaleChecks[[2]]
     
     # =========================================================================
+    # SET COLORS
+    # =========================================================================
+    colorbyInfo <- mapColorbyCol(data = bed,
+                                 object = pileup_plot,
+                                 objectInternal = bb_pileInternal)
+    bed <- colorbyInfo[[1]]
+    pileup_plot <- colorbyInfo[[2]]
+    
+    # =========================================================================
     # SUBSET DATA FOR CHROMOSOME AND ANY OVERLAPPING REGIONS
     # =========================================================================
     
@@ -348,16 +357,6 @@ bb_plotRanges <- function(data, chrom, chromstart = NULL, chromend = NULL,
         bed <- data.frame(matrix(nrow = 0, ncol = 3))
     }
 
-    # =========================================================================
-    # SET COLORBY DATA
-    # =========================================================================
-
-    colorbyInfo <- colorbyCol(data = bed,
-                              object = pileup_plot,
-                              objectInternal = bb_pileInternal)
-    
-    bed <-  colorbyInfo[[1]]
-    pileup_plot <- colorbyInfo[[2]]
 
     # =========================================================================
     # SEPARATE DATA INTO STRANDS
@@ -465,8 +464,6 @@ bb_plotRanges <- function(data, chrom, chromstart = NULL, chromend = NULL,
     # DETERMINE ROWS FOR EACH ELEMENT
     # =========================================================================
 
-    ## Determine how many rows are going to fit based on
-    ## boxHeight and spaceHeight
     if (is.null(pileup_plot$x) & is.null(pileup_plot$y)) {
         pushViewport(vp)
         boxHeight <- convertHeight(bb_pileInternal$boxHeight,
@@ -486,214 +483,97 @@ bb_plotRanges <- function(data, chrom, chromstart = NULL, chromend = NULL,
 
 
     if (bb_pileInternal$collapse == FALSE) {
+        ## Calculate max number of rows that will fit
         maxRows <- floor((as.numeric(vp$height) + spaceHeight) /
             (boxHeight + spaceHeight))
         wiggle <- abs(pileup_plot$chromend - pileup_plot$chromstart) *
             bb_pileInternal$spaceWidth
-
-
-        if (bb_pileInternal$strandSplit == FALSE) {
-            if (nrow(bed) > 0) {
-                bed$row <- 0
-
-                ## Randomize order of data
-                bed <- bed[sample(nrow(bed)), ]
-
-                ## Convert to numeric matrix for Rcpp function parsing
-                bedMatrix <- as.matrix(bed[, c(2, 3, ncol(bed) - 1, ncol(bed))])
-
-                ## Assign a row for each element
-                rowDF <- checkRow(bedMatrix, maxRows, 3, wiggle)
-
-                rowDF <- as.data.frame(rowDF)
-                colnames(rowDF) <- c("start", "stop", "colorby", "row")
-
-
-                if (any(rowDF$row == 0)) {
-                    rowDF <- rowDF[which(rowDF$row != 0), ]
-                    warning("Not enough plotting space for all ",
-                            "provided range elements.",
-                        call. = FALSE
-                    )
-
-                    limitGrob <- textGrob(
-                        label = "+", x = unit(1, "npc"),
-                        y = unit(1, "npc"),
-                        just = c("right", "top"),
-                        gp = gpar(col = "grey", fontsize = 6)
-                    )
-                    assign("pileup_grobs",
-                        addGrob(
-                            gTree = get("pileup_grobs", envir = bbEnv),
-                            child = limitGrob
-                        ),
-                        envir = bbEnv
-                    )
-                }
-
-                ## Change row index to 0
-                rowDF$row <- rowDF$row - 1
-                rowDF$width <- rowDF$stop - rowDF$start
-                rowDF$y <- rowDF$row * (boxHeight + spaceHeight)
-
-                ## Reset row for colors
-                rowDF$row <- rowDF$row + 1
-            } else {
-                rowDF <- data.frame()
-            }
+        
+        if (bb_pileInternal$strandSplit == FALSE){
+            
+            ## Randomize order of data
+            bed <- bed[sample(nrow(bed)), ]
+            rowData <- assignRows(data = bed[,c(2,3,seq(ncol(bed)-2,ncol(bed)))], 
+                                  maxRows = maxRows,
+                                  wiggle = wiggle, rowCol = 5,
+                                  gTree = "pileup_grobs")
+            
+            rowData$y <- rowData$row * (boxHeight + spaceHeight)
         } else {
-            if (nrow(posStrand) > 0) {
-                posStrand <- posStrand[sample(nrow(posStrand)), ]
-                posStrand$row <- 0
-                ## Convert to numeric matrix for Rcpp function parsing
-                posMatrix <- as.matrix(posStrand[, c(
-                    2, 3,
-                    ncol(posStrand) - 1,
-                    ncol(posStrand)
-                )])
-                posDF <- checkRow(posMatrix, maxRows * 0.5, 3, wiggle)
-                posDF <- as.data.frame(posDF)
-                colnames(posDF) <- c("start", "stop", "colorby", "row")
-                if (any(posDF$row == 0)) {
-                    posDF <- posDF[which(posDF$row != 0), ]
-                    warning("Not enough plotting space for all ",
-                            "provided plus strand range elements.",
-                        call. = FALSE
-                    )
-                    limitGrob1 <- textGrob(
-                        label = "+", x = unit(1, "npc"),
-                        y = unit(1, "npc"),
-                        just = c("right", "top"),
-                        gp = gpar(col = "grey", fontsize = 6)
-                    )
-                    assign("pileup_grobs",
-                        addGrob(
-                            gTree = get("pileup_grobs", envir = bbEnv),
-                            child = limitGrob1
-                        ),
-                        envir = bbEnv
-                    )
-                }
-
-
-                posDF$row <- posDF$row - 1
-                posDF$width <- posDF$stop - posDF$start
-                posDF$y <- (0.5 * spaceHeight) + posDF$row *
-                    (boxHeight + spaceHeight)
-                posDF$row <- posDF$row + 1
-                posDF$row <- posDF$row + floor(maxRows / 2)
-            } else {
-                posDF <- data.frame()
-            }
-
-
-            if (nrow(minStrand) > 0) {
-                minStrand <- minStrand[sample(nrow(minStrand)), ]
-                minStrand$row <- 0
-                minMatrix <- as.matrix(minStrand[, c(
-                    2, 3, ncol(minStrand) - 1,
-                    ncol(minStrand)
-                )])
-                minDF <- checkRow(minMatrix, maxRows * 0.5, 3, wiggle)
-                minDF <- as.data.frame(minDF)
-                colnames(minDF) <- c("start", "stop", "colorby", "row")
-                if (any(minDF$row == 0)) {
-                    minDF <- minDF[which(minDF$row != 0), ]
-                    warning("Not enough plotting space for all ",
-                            "provided minus strand range elements.",
-                        call. = FALSE
-                    )
-                    limitGrob2 <- textGrob(
-                        label = "+", x = unit(1, "npc"),
-                        y = unit(0, "npc"),
-                        just = c("right", "bottom"),
-                        gp = gpar(col = "grey", fontsize = 6)
-                    )
-                    assign("pileup_grobs",
-                        addGrob(
-                            gTree = get("pileup_grobs", envir = bbEnv),
-                            child = limitGrob2
-                        ),
-                        envir = bbEnv
-                    )
-                }
-
-                minDF$row <- minDF$row - 1
-                minDF$width <- minDF$stop - minDF$start
-                minDF$y <- ((0.5 * spaceHeight + boxHeight) + minDF$row *
-                    (boxHeight + spaceHeight)) * -1
-                rowIndex <- minDF$row + 1
-                rowRange <- seq(floor(maxRows / 2), 1)
-                minDF$row <- rowRange[rowIndex]
-            } else {
-                minDF <- data.frame()
-            }
-
-            rowDF <- rbind(posDF, minDF)
+            
+            ## Randomize order of data
+            posStrand <- posStrand[sample(nrow(posStrand)), ]
+            negStrand <- negStrand[sample(nrow(negStrand)), ]
+            
+            posData <- assignRows(data = posStrand[,c(2,3,seq(ncol(posStrand)-3,ncol(posStrand)))],
+                                  maxRows = maxRows * 0.5,
+                                  wiggle = wiggle, rowCol = 5,
+                                  gTree = "pileup_grobs")
+            posData$y <- (0.5 * spaceHeight) + posData$row *
+                                     (boxHeight + spaceHeight)
+            negData <- assignRows(data = negStrand[,c(2,3,seq(ncol(negStrand)-3,ncol(negStrand)))],
+                                  maxRows = maxRows * 0.5,
+                                  wiggle = wiggle, rowCol = 5, side = "bottom",
+                                  gTree = "pileup_grobs")
+            
+            negData$y <- ((0.5 * spaceHeight + boxHeight) + negData$row *
+                                                (boxHeight + spaceHeight)) * -1
+            rowData <- rbind(posData, negData)
+            
         }
+
+        rowData$width <- rowData[,2] - rowData[,1]
     } else {
         if (bb_pileInternal$strandSplit == FALSE) {
-            maxRows <- 1
-            bed$row <- rep(1, nrow(bed))
-            rowDF <- bed[, c(2, 3, ncol(bed) - 1, ncol(bed))]
-            colnames(rowDF) <- c("start", "stop", "colorby", "row")
-            rowDF$width <- rowDF$stop - rowDF$start
-            rowDF$y <- 0
+            rowData <- bed
+            rowData$y <- rep(0, nrow(rowData))
             boxHeight <- as.numeric(vp$height)
         } else {
-            maxRows <- 2
             boxHeight <- (1 - spaceHeight) * as.numeric(vp$height) * 0.5
             if (nrow(posStrand) > 0) {
-                posStrand$row <- rep(2, nrow(posStrand))
                 posStrand$y <- as.numeric(vp$yscale[2]) - boxHeight
             } else {
                 posStrand <- data.frame()
             }
-
-
             if (nrow(minStrand) > 0) {
-                minStrand$row <- rep(1, nrow(minStrand))
+
                 minStrand$y <- as.numeric(vp$yscale[1])
             } else {
                 minStrand <- data.frame()
             }
 
-            rowDF <- rbind(posStrand, minStrand)
-            rowDF$width <- rowDF$end - rowDF$start
+            rowData <- rbind(posStrand, minStrand)
+            rowData$width <- rowData[,3] - rowData[,2]
         }
     }
+    
+    # =====================================================================
+    # MAKE GROBS
+    # =====================================================================
 
+    if (nrow(rowData) > 0) {
+        
+        ## Convert color from rgb
+        rowData$color <- rgb(red = rowData$red,
+                           blue = rowData$blue,
+                           green = rowData$green,
+                           maxColorValue = 255)
+        
 
-    if (nrow(rowDF) > 0) {
-
-        # =====================================================================
-        # SET COLORS
-        # =====================================================================
-
-        colorData <- mapColorbyCol(data = rowDF,
-                                   object = pileup_plot,
-                                   objectInternal = bb_pileInternal,
-                                   nrow = maxRows)
-        rowDF <- colorData[[1]]
-        pileup_plot <- colorData[[2]]
-
-        # =====================================================================
-        # MAKE GROBS
-        # =====================================================================
         alpha <- 1
         if ("alpha" %in% names(bb_pileInternal$gp)) {
             alpha <- bb_pileInternal$gp$alpha
         }
 
         bedRects <- rectGrob(
-            x = rowDF$start,
-            y = rowDF$y,
-            width = rowDF$width,
+            x = rowData$start,
+            y = rowData$y,
+            width = rowData$width,
             height = boxHeight,
             just = c("left", "bottom"),
             default.units = "native",
             gp = gpar(
-                fill = rowDF$color,
+                fill = rowData$color,
                 col = bb_pileInternal$linecolor,
                 alpha = alpha
             )
@@ -727,7 +607,7 @@ bb_plotRanges <- function(data, chrom, chromstart = NULL, chromend = NULL,
         }
     } else {
         if (bb_pileInternal$txdbChecks == TRUE) {
-            warning("No BED data to plot.", call. = FALSE)
+            warning("No range data to plot.", call. = FALSE)
         }
     }
 

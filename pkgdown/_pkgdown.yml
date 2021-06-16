@@ -37,8 +37,6 @@ navbar:
           href: articles/guides/aesthetics.html
     - text: Reference
       href: reference/index.html
-    - text: News
-      href: news/index.html
   right:
     - icon: fab fa-github fa-lg
       href: https://github.com/PhanstielLab/BentoBox

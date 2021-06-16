@@ -71,3 +71,56 @@ validUnits <- c(
     "bigpts", "picas", "dida",
     "cicero", "scaledpts", "char", "lines", "snpc"
 )
+
+## Define a function to assign rows for pileup-style data
+assignRows <- function(data, maxRows, wiggle, rowCol, side = "top",
+                       gTree){
+    
+    if (nrow(data) > 0){
+        ## Initialize a row column
+        data$row <- 0
+        
+        ## Convert to numeric matrix for Rcpp function parsing
+        dataMatrix <- as.matrix(data)
+        ## Assign a row for each element
+        rowData <- as.data.frame(checkRow(dataMatrix, maxRows, rowCol, wiggle))
+        colnames(rowData) <- colnames(data)
+        
+        if (any(rowData$row == 0)){
+            rowData <- rowData[which(rowData$row != 0), ]
+            warning("Not enough plotting space for all provided elements.",
+                    call. = FALSE)
+            
+            if (side == "top"){
+                y <- unit(1, "npc")
+                just <- c("right", "top")
+            } else{
+                y <- unit(0, "npc")
+                just <- c("right", "bottom")
+            }
+            
+            limitGrob <- textGrob(
+                label = "+", x = unit(1, "npc"),
+                y = y,
+                just = just,
+                gp = gpar(col = "grey", fontsize = 6)
+            )
+            assign(gTree,
+                   addGrob(
+                       gTree = get(gTree, envir = bbEnv),
+                       child = limitGrob
+                   ),
+                   envir = bbEnv
+            )
+        }
+        
+        ## Change row index to 0 to calculate y
+        rowData$row <- rowData$row - 1
+        #rowData$width <- rowData[,2] - rowData[,1]
+    } else {
+        rowData <- data.frame()
+    }
+    
+    return(rowData)
+    
+}
