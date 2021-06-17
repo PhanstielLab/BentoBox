@@ -163,8 +163,24 @@ bb_plotRect <- function(x, y, width, height, just = "center",
     page_height <- get("page_height", envir = bbEnv)
     page_units <- get("page_units", envir = bbEnv)
     
-    bb_rect <- defaultUnits(
-        object = bb_rect,
+    bb_rect$x <- misc_defaultUnits(
+        value = bb_rect$x,
+        name = "x",
+        default.units = bb_rectInternal$default.units
+    )
+    bb_rect$y <- misc_defaultUnits(
+        value = bb_rect$y,
+        name = "y",
+        default.units = bb_rectInternal$default.units
+    )
+    bb_rect$width <- misc_defaultUnits(
+        value = bb_rect$width,
+        name = "width",
+        default.units = bb_rectInternal$default.units
+    )
+    bb_rect$height <- misc_defaultUnits(
+        value = bb_rect$height,
+        name = "height",
         default.units = bb_rectInternal$default.units
     )
 
