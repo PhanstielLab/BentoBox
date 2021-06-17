@@ -80,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">BentoBox</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.4</span>
       </span>
     </div>
 
@@ -162,7 +162,6 @@
     chromend <span class='op'>=</span> <span class='cn'>NULL</span>,
     assembly <span class='op'>=</span> <span class='st'>"hg38"</span>,
     fill <span class='op'>=</span> <span class='st'>"#1f4297"</span>,
-    colorby <span class='op'>=</span> <span class='cn'>NULL</span>,
     linecolor <span class='op'>=</span> <span class='cn'>NA</span>,
     bg <span class='op'>=</span> <span class='cn'>NA</span>,
     boxHeight <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/grid/unit.html'>unit</a></span><span class='op'>(</span><span class='fl'>2</span>, <span class='st'>"mm"</span><span class='op'>)</span>,
@@ -211,14 +210,9 @@ Default value is <code>assembly = "hg38"</code>.</p></td>
     </tr>
     <tr>
       <th>fill</th>
-      <td><p>Character value(s) as a single value, vector, or palette
-specifying fill colors of BEDPE elements.
-Default value is <code>fill = "#1f4297"</code>.</p></td>
-    </tr>
-    <tr>
-      <th>colorby</th>
-      <td><p>A "<a href='colorby.html'>colorby</a>" object specifying
-information for scaling colors in data.</p></td>
+      <td><p>A single character value, a vector, or 
+a <a href='colorby.html'>colorby</a> object specifying fill colors of
+paired range elements. Default value is <code>fill = "#1f4297"</code>.</p></td>
     </tr>
     <tr>
       <th>linecolor</th>
@@ -357,8 +351,8 @@ ranges plot by ignoring plot placement parameters:</p><pre>
 <span class='co'>## Plot the data</span>
 <span class='va'>bedpePlot</span> <span class='op'>&lt;-</span> <span class='fu'>bb_plotPairs</span><span class='op'>(</span>
     data <span class='op'>=</span> <span class='va'>bb_bedpeData</span>, params <span class='op'>=</span> <span class='va'>params</span>,
-    fill <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/grDevices/colorRamp.html'>colorRampPalette</a></span><span class='op'>(</span><span class='fu'><a href='c.html'>c</a></span><span class='op'>(</span><span class='st'>"dodgerblue2"</span>, <span class='st'>"firebrick2"</span><span class='op'>)</span><span class='op'>)</span>,
-    colorby <span class='op'>=</span> <span class='fu'><a href='colorby.html'>colorby</a></span><span class='op'>(</span><span class='st'>"length"</span><span class='op'>)</span>,
+    fill <span class='op'>=</span> <span class='fu'><a href='colorby.html'>colorby</a></span><span class='op'>(</span><span class='st'>"length"</span>, palette <span class='op'>=</span> 
+                <span class='fu'><a href='https://rdrr.io/r/grDevices/colorRamp.html'>colorRampPalette</a></span><span class='op'>(</span><span class='fu'><a href='c.html'>c</a></span><span class='op'>(</span><span class='st'>"dodgerblue2"</span>, <span class='st'>"firebrick2"</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>,
     lwd <span class='op'>=</span> <span class='fl'>2</span>, spaceHeight <span class='op'>=</span> <span class='fl'>.7</span>,
     x <span class='op'>=</span> <span class='fl'>0.25</span>, y <span class='op'>=</span> <span class='fl'>0.25</span>, height <span class='op'>=</span> <span class='fl'>1.5</span>,
     just <span class='op'>=</span> <span class='fu'><a href='c.html'>c</a></span><span class='op'>(</span><span class='st'>"left"</span>, <span class='st'>"top"</span><span class='op'>)</span>, default.units <span class='op'>=</span> <span class='st'>"inches"</span>
