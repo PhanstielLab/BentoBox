@@ -5,7 +5,9 @@
 #' \code{bb_plotPairsArches}, and \code{bb_plotRanges}.
 #'
 #' @param column String specifying name of data column to scale colors by.
-#' @param range A numeric vector specifying the range of values to
+#' @param palette (optional) A function describing the color palette to use for
+#' color scaling.
+#' @param range (optional) A numeric vector specifying the range of values to
 #' apply a color scale to.
 #'
 #' @return Returns a "\code{bb_colorby}" object.
@@ -24,13 +26,14 @@
 #'     chrom = "chr21",
 #'     chromstart = 27900000, chromend = 30700000,
 #'     assembly = "hg19",
-#'     fill = colorRampPalette(c("dodgerblue2", "firebrick2")),
-#'     colorby = colorby("length"),
+#'     fill = colorby("length", palette = 
+#'                 colorRampPalette(c("dodgerblue2", "firebrick2"))),
 #'     lwd = 2, spaceHeight = .7,
 #' )
 #' @export
-colorby <- function(column, range = NULL) {
-    colorbyObject <- structure(list(column = column, range = range),
+colorby <- function(column, palette = NULL, range = NULL) {
+    colorbyObject <- structure(list(column = column, palette = palette, 
+                                    range = range),
         class = "bb_colorby"
     )
     return(colorbyObject)

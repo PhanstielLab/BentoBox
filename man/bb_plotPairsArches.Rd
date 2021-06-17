@@ -15,7 +15,6 @@ bb_plotPairsArches(
     curvature = 5,
     archHeight = NULL,
     fill = "#1f4297",
-    colorby = NULL,
     linecolor = NA,
     alpha = 0.4,
     bg = NA,
@@ -66,11 +65,9 @@ arch curvature. Default value is \code{curvature = 5}.}
 the arch heights. When NULL, all arches will be the same height,
 filling up the given plot area}
 
-\item{fill}{Character value(s) as a single value, vector, or palette
-specifying fill colors of arches. Default value is \code{fill = #1f4297"}.}
-
-\item{colorby}{A "\link[BentoBox]{colorby}" object specifying
-information for scaling colors in data.}
+\item{fill}{A single character value, a vector, or a 
+\link[BentoBox]{colorby} object specifying fill colors of arches.
+Default value is \code{fill = #1f4297"}.}
 
 \item{linecolor}{A character value specifying the color of the lines
 outlining arches. Default value is \code{linecolor = NA}.
@@ -178,9 +175,9 @@ heights <- bb_bedpeData$length / max(bb_bedpeData$length)
 ## Plot the data
 archPlot <- bb_plotPairsArches(
     data = bb_bedpeData, params = params,
-    fill = colorRampPalette(c("dodgerblue2", "firebrick2")),
+    fill = colorby("length", palette = 
+                colorRampPalette(c("dodgerblue2", "firebrick2"))),
     linecolor = "fill",
-    colorby = colorby("length"),
     archHeight = heights, alpha = 1,
     x = 0.25, y = 0.25, height = 1.5,
     just = c("left", "top"),

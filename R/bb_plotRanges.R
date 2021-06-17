@@ -7,7 +7,6 @@
 #'     chromend = NULL,
 #'     assembly = "hg38",
 #'     fill = "#7ecdbb",
-#'     colorby = NULL,
 #'     linecolor = NA,
 #'     collapse = FALSE,
 #'     boxHeight = unit(2, "mm"),
@@ -39,11 +38,9 @@
 #' @param assembly Default genome assembly as a string or a
 #' \link[BentoBox]{bb_assembly} object.
 #' Default value is \code{assembly = "hg38"}.
-#' @param fill Character value(s) as a single value, vector, or palette
-#' specifying fill colors of range elements.
+#' @param fill A single character value, a vector, or a 
+#' \link[BentoBox]{colorby} object specifying fill colors of range elements.
 #' Default value is \code{fill = "#7ecdbb"}.
-#' @param colorby A "\link[BentoBox]{colorby}" object specifying information
-#' for scaling colors in \code{data}.
 #' @param linecolor A character value specifying the color of the lines
 #' outlining range elements. Default value is \code{linecolor = NA}.
 #' @param collapse A logical value indicating whether to collapse
@@ -112,8 +109,9 @@
 #'     data = bb_bedData, chrom = "chr21",
 #'     chromstart = 29073000, chromend = 29074000,
 #'     assembly = "hg19",
-#'     fill = c("#7ecdbb", "#37a7db"),
-#'     strandSplit = TRUE, colorby = colorby("strand"),
+#'     fill = colorby("strand", palette = 
+#'                 colorRampPalette(c("#7ecdbb", "#37a7db"))),
+#'     strandSplit = TRUE, 
 #'     x = 0.5, y = 0.25, width = 6.5, height = 4.25,
 #'     just = c("left", "top"), default.units = "inches"
 #' )
@@ -154,7 +152,7 @@
 #'
 #' @export
 bb_plotRanges <- function(data, chrom, chromstart = NULL, chromend = NULL,
-                        assembly = "hg38", fill = "#7ecdbb", colorby = NULL,
+                        assembly = "hg38", fill = "#7ecdbb",
                         linecolor = NA, collapse = FALSE,
                         boxHeight = unit(2, "mm"), spaceWidth = 0.02,
                         spaceHeight = 0.3, strandSplit = FALSE, bg = NA,
@@ -169,8 +167,7 @@ bb_plotRanges <- function(data, chrom, chromstart = NULL, chromend = NULL,
     # =========================================================================
 
     ## Define a function that catches errors
-    errorcheck_bb_plotpileup <- function(pileup_plot, colorby) {
-
+    errorcheck_bb_plotpileup <- function(pileup_plot, fill) {
 
         ## Can't have only one NULL chromstart or chromend
         if ((is.null(pileup_plot$chromstart) &
@@ -195,21 +192,30 @@ bb_plotRanges <- function(data, chrom, chromstart = NULL, chromend = NULL,
                 )
             }
         }
-
-        if (!is.null(colorby)) {
-            if (!any(colnames(bed) == colorby$column)) {
-                stop("Colorby column", "`", colorby$column, "`",
-                    "not found in data. Check colorby column name.",
+        
+        if (!is(fill, "character") & !is(fill, "factor")){
+            ## Check proper class
+            if (!is(fill, "bb_colorby")){
+                stop("`colorby` not of class \"bb_colorby\". Input colorby ",
+                    "information with `colorby()`.", call. = FALSE)
+            }
+            
+            ## Check for `colorby` column
+            if (!any(colnames(bed) == fill$column)) {
+                stop("`colorby` column not found in data. Check ",
+                    "`colorby` column name.",
                     call. = FALSE
                 )
             }
-
-            if (length(which(colnames(bed) == colorby$column)) > 1) {
-                stop("Multiple matching colorby columns found in data. ",
-                    "Please provide colorby column name with ",
-                    "only one occurrence.", call. = FALSE)
+            
+            if (length(which(colnames(bed) == fill$column)) > 1) {
+                stop("Multiple matching `colorby` columns found in data. ",
+                    "Please provide `colorby` column name with only ",
+                    "one occurrence.", call. = FALSE)
             }
+            
         }
+        
     }
 
     ## Define a function that parses the yscale based on split strands
@@ -248,14 +254,7 @@ bb_plotRanges <- function(data, chrom, chromstart = NULL, chromend = NULL,
                                             "with no default.", call. = FALSE)
     if (is.null(bb_pileInternal$chrom)) stop("argument \"chrom\" is missing, ",
                                             "with no default.", call. = FALSE)
-
-    if (!is.null(bb_pileInternal$colorby)) {
-        if (!is(bb_pileInternal$colorby, "bb_colorby")) {
-            stop("\"colorby\" not of class \"bb_colorby\". Input colorby ",
-                "information with \"colorby()\".", call. = FALSE)
-        }
-    }
-
+    
     # =========================================================================
     # INITIALIZE OBJECT
     # =========================================================================
@@ -266,7 +265,7 @@ bb_plotRanges <- function(data, chrom, chromstart = NULL, chromend = NULL,
         chromend = bb_pileInternal$chromend,
         assembly = bb_pileInternal$assembly,
         color_palette = NULL,
-        zrange = bb_pileInternal$colorby$range,
+        zrange = NULL,
         x = bb_pileInternal$x, y = bb_pileInternal$y,
         width = bb_pileInternal$width,
         height = bb_pileInternal$height,
@@ -319,7 +318,7 @@ bb_plotRanges <- function(data, chrom, chromstart = NULL, chromend = NULL,
 
     errorcheck_bb_plotpileup(
         pileup_plot = pileup_plot,
-        colorby = bb_pileInternal$colorby
+        fill = bb_pileInternal$fill
     )
 
     ## chrom format and data chrom format
@@ -337,10 +336,15 @@ bb_plotRanges <- function(data, chrom, chromstart = NULL, chromend = NULL,
     bb_pileInternal <- scaleChecks[[2]]
     
     # =========================================================================
-    # SET COLORS
+    # COLORS
     # =========================================================================
     
-
+    rangeColors <- bb_parseColors(data = bed,
+                                fill = bb_pileInternal$fill,
+                                object = pileup_plot)
+    bed$color <- rangeColors[[1]]
+    pileup_plot <- rangeColors[[2]]
+    
     # =========================================================================
     # SUBSET DATA FOR CHROMOSOME AND ANY OVERLAPPING REGIONS
     # =========================================================================
@@ -349,32 +353,10 @@ bb_plotRanges <- function(data, chrom, chromstart = NULL, chromend = NULL,
         bed <- bed[which(bed[, 1] == pileup_plot$chrom & bed[, 2] <=
             pileup_plot$chromend & bed[, 3] >=
             pileup_plot$chromstart), ]
+        colnames(bed)[seq(1,3)] <- c("chrom", "start", "end")
     } else {
         bed <- data.frame(matrix(nrow = 0, ncol = 3))
     }
-
-    # # =========================================================================
-    # # SET COLORBY DATA
-    # # =========================================================================
-    # 
-    # if (!is.null(bb_pileInternal$colorby) & nrow(bed) > 0) {
-    #     colorbyCol <- which(colnames(bed) == bb_pileInternal$colorby$column)
-    #     colorbyCol <- bed[, colorbyCol]
-    # 
-    #     if (!is(colorbyCol, "numeric") & !is(colorbyCol, "integer")) {
-    #         colorbyCol <- factor(colorbyCol)
-    #         bed$colorby <- as.numeric(colorbyCol)
-    #     } else {
-    #         bed$colorby <- colorbyCol
-    #     }
-    # 
-    #     if (is.null(bb_pileInternal$colorby$range)) {
-    #         colorbyrange <- c(min(bed$colorby), max(bed$colorby))
-    #         pileup_plot$zrange <- colorbyrange
-    #     }
-    # } else {
-    #     bed$colorby <- rep(NA, nrow(bed))
-    # }
 
     # =========================================================================
     # SEPARATE DATA INTO STRANDS
@@ -459,7 +441,6 @@ bb_plotRanges <- function(data, chrom, chromstart = NULL, chromend = NULL,
         )
     }
 
-
     # =========================================================================
     # INITIALIZE GTREE FOR GROBS WITH BACKGROUND
     # =========================================================================
@@ -515,10 +496,12 @@ bb_plotRanges <- function(data, chrom, chromstart = NULL, chromend = NULL,
             
             ## Assign rows
             rowData <- assignRows(data = bed[,c(2,3)], 
-                                  maxRows = maxRows,
-                                  wiggle = wiggle, rowCol = 2,
-                                  gTree = "pileup_grobs",
-                                  extraData = bed[,c("color")])
+                                maxRows = maxRows,
+                                wiggle = wiggle, rowCol = 2,
+                                gTree = "pileup_grobs",
+                                extraData = bed[,c("color")],
+                                colNames = "color")
+            
             ## Calculate y-coordinates
             rowData$y <- rowData$row * (boxHeight + spaceHeight)
             
@@ -530,22 +513,24 @@ bb_plotRanges <- function(data, chrom, chromstart = NULL, chromend = NULL,
             
             ## Assign rows
             posData <- assignRows(data = posStrand[,c(2,3)],
-                                  maxRows = maxRows * 0.5,
-                                  wiggle = wiggle, rowCol = 2,
-                                  gTree = "pileup_grobs",
-                                  extraData = posStrand[,c("color")])
+                                maxRows = maxRows * 0.5,
+                                wiggle = wiggle, rowCol = 2,
+                                gTree = "pileup_grobs",
+                                extraData = posStrand[,c("color")],
+                                colNames = "color")
             minData <- assignRows(data = minStrand[,c(2,3)],
-                                  maxRows = maxRows * 0.5,
-                                  wiggle = wiggle, rowCol = 2, 
-                                  side = "bottom",
-                                  gTree = "pileup_grobs",
-                                  extraData = minStrand[,c("color")])
+                                maxRows = maxRows * 0.5,
+                                wiggle = wiggle, rowCol = 2, 
+                                side = "bottom",
+                                gTree = "pileup_grobs",
+                                extraData = minStrand[,c("color")],
+                                colNames = "color")
             
             ## Calculate y-coordinates
             posData$y <- (0.5 * spaceHeight) + posData$row *
                 (boxHeight + spaceHeight)
             minData$y <- ((0.5 * spaceHeight + boxHeight) + minData$row *
-                              (boxHeight + spaceHeight)) * -1
+                                (boxHeight + spaceHeight)) * -1
             
             ## Combine plus and minus strand data
             rowData <- rbind(posData, minData)
@@ -556,7 +541,7 @@ bb_plotRanges <- function(data, chrom, chromstart = NULL, chromend = NULL,
         
     } else {
         if (bb_pileInternal$strandSplit == FALSE) {
-            boxHeight <- as.numeric(vp$height)]
+            boxHeight <- as.numeric(vp$height)
             rowData <- bed
             ## y-coordinates all the same
             rowData$y <- rep(0, nrow(rowData))
@@ -578,56 +563,13 @@ bb_plotRanges <- function(data, chrom, chromstart = NULL, chromend = NULL,
             rowData$width <- rowData[,3] - rowData[,2]
         }
     }
-
+    
+    # =====================================================================
+    # MAKE GROBS
+    # =====================================================================
 
     if (nrow(rowData) > 0) {
 
-        # # =====================================================================
-        # # COLORS
-        # # =====================================================================
-        # 
-        # if (is.null(bb_pileInternal$colorby)) {
-        #     if (is(bb_pileInternal$fill, "function")) {
-        #         colors <- bb_pileInternal$fill(maxRows)
-        #         indeces <- rowDF$row
-        #         rowDF$color <- colors[indeces]
-        #     } else {
-        #         if (length(bb_pileInternal$fill) == 1) {
-        #             rowDF$color <- rep(bb_pileInternal$fill, nrow(rowDF))
-        #         } else {
-        #             colors <- rep(
-        #                 bb_pileInternal$fill,
-        #                 ceiling(maxRows / length(
-        #                     bb_pileInternal$fill
-        #                 ))
-        #             )[seq(1, maxRows)]
-        #             indeces <- rowDF$row
-        #             rowDF$color <- colors[indeces]
-        #         }
-        #     }
-        # } else {
-        #     if (is(bb_pileInternal$fill, "function")) {
-        #         rowDF$color <- bb_maptocolors(rowDF$colorby,
-        #             bb_pileInternal$fill,
-        #             range = pileup_plot$zrange
-        #         )
-        #         pileup_plot$color_palette <- bb_pileInternal$fill
-        #     } else {
-        #         colorbyCol <- factor(rowDF$colorby)
-        #         mappedColors <- rep(
-        #             bb_pileInternal$fill,
-        #             ceiling(length(levels(colorbyCol)) /
-        #                 length(bb_pileInternal$fill))
-        #         )
-        #         names(mappedColors) <- levels(colorbyCol)
-        #         rowDF$color <- mappedColors[colorbyCol]
-        #     }
-        # }
-        # 
-
-        # =====================================================================
-        # MAKE GROBS
-        # =====================================================================
         alpha <- 1
         if ("alpha" %in% names(bb_pileInternal$gp)) {
             alpha <- bb_pileInternal$gp$alpha

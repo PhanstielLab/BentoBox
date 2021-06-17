@@ -287,6 +287,7 @@ bb_plotTranscripts <- function(chrom, chromstart = NULL, chromend = NULL,
     data <- bb_transcriptsInternal$data
     ## Get transcript lengths
     data$length <- data$TXEND - data$TXSTART
+    
     # =========================================================================
     # COLORS
     # =========================================================================
@@ -456,10 +457,10 @@ bb_plotTranscripts <- function(chrom, chromstart = NULL, chromend = NULL,
         
         ## Assign rows
         rowData <- assignRows(data = repData[,c("TXSTART", "TXEND", "TXID")],
-                              maxRows = maxRows,
-                              wiggle = wiggle, 
-                              rowCol = 3,
-                              gTree = "transcript_grobs")
+                            maxRows = maxRows,
+                            wiggle = wiggle, 
+                            rowCol = 3,
+                            gTree = "transcript_grobs")
         
         ## Recombine row data with original data with all transcript details
         rowData <- suppressMessages(dplyr::left_join(
@@ -471,9 +472,6 @@ bb_plotTranscripts <- function(chrom, chromstart = NULL, chromend = NULL,
         ## Calculate y-coordinates
         rowData$y <- rowData$row * (boxHeight + spaceHeight + textHeight +
                                         0.25 * textHeight)
-        
-        ## Reset rows for colors
-        rowData$row <- rowData$row + 1
     } else {
         
         ## Get one rep set of data per unique transcript for ordering
@@ -494,14 +492,14 @@ bb_plotTranscripts <- function(chrom, chromstart = NULL, chromend = NULL,
         
         ## Assign rows
         posData <- assignRows(data = repPos[,c("TXSTART", "TXEND", "TXID")],
-                              maxRows = floor(maxRows / 2),
-                              wiggle = wiggle, rowCol = 3,
-                              gTree = "transcript_grobs")
+                            maxRows = floor(maxRows / 2),
+                            wiggle = wiggle, rowCol = 3,
+                            gTree = "transcript_grobs")
         minData <- assignRows(data = repMin[,c("TXSTART", "TXEND", "TXID")],
-                              maxRows = floor(maxRows / 2),
-                              wiggle = wiggle, rowCol = 3,
-                              gTree = "transcript_grobs",
-                              side = "bottom")
+                            maxRows = floor(maxRows / 2),
+                            wiggle = wiggle, rowCol = 3,
+                            gTree = "transcript_grobs",
+                            side = "bottom")
         
         ## Recombine row data with original data
         posData <- suppressMessages(dplyr::left_join(
@@ -519,34 +517,13 @@ bb_plotTranscripts <- function(chrom, chromstart = NULL, chromend = NULL,
         posData$y <- (0.5 * spaceHeight) + posData$row *
             (boxHeight + spaceHeight + textHeight + 0.25 * textHeight)
         minData$y <- ((0.5 * spaceHeight + boxHeight + textHeight +
-                           0.25 * textHeight) + minData$row *
-                          (boxHeight + spaceHeight +
-                               textHeight + 0.25 * textHeight)) * -1
-        
-        ## Reset rows for colors
-        posData$row <- posData$row + 1 + floor(maxRows/2)
-        
-        rowIndex <- minData$row + 1
-        rowRange <- seq(floor(maxRows / 2), 1)
-        minData$row <- rowRange[rowIndex]
+                        0.25 * textHeight) + minData$row *
+                            (boxHeight + spaceHeight +
+                                textHeight + 0.25 * textHeight)) * -1
         
         ## Combine pos and neg strand data into one 
         rowData <- rbind(posData, minData)
         
-    }
-
-    # =========================================================================
-    # UPDATE COLORS IF NECESSARY
-    # =========================================================================
-
-    if (bb_transcriptsInternal$colorbyStrand == FALSE &
-        length(bb_transcriptsInternal$fill) > 1) {
-        colors <- rep(
-            bb_transcriptsInternal$fill,
-            ceiling(maxRows / length(bb_transcriptsInternal$fill))
-        )[seq(1, maxRows)]
-        indeces <- rowData$row
-        rowData$color <- colors[indeces]
     }
 
     # =========================================================================

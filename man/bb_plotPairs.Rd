@@ -11,7 +11,6 @@ bb_plotPairs(
     chromend = NULL,
     assembly = "hg38",
     fill = "#1f4297",
-    colorby = NULL,
     linecolor = NA,
     bg = NA,
     boxHeight = unit(2, "mm"),
@@ -46,12 +45,9 @@ in BEDPE format specifying data to be plotted, or a
 \link[BentoBox]{bb_assembly} object.
 Default value is \code{assembly = "hg38"}.}
 
-\item{fill}{Character value(s) as a single value, vector, or palette
-specifying fill colors of BEDPE elements.
-Default value is \code{fill = "#1f4297"}.}
-
-\item{colorby}{A "\link[BentoBox]{colorby}" object specifying
-information for scaling colors in data.}
+\item{fill}{A single character value, a vector, or 
+a \link[BentoBox]{colorby} object specifying fill colors of
+paired range elements. Default value is \code{fill = "#1f4297"}.}
 
 \item{linecolor}{A character value specifying the color of the
 lines outlining paired range elements.
@@ -158,8 +154,8 @@ bb_bedpeData$length <- (bb_bedpeData$start2 - bb_bedpeData$start1) / 1000
 ## Plot the data
 bedpePlot <- bb_plotPairs(
     data = bb_bedpeData, params = params,
-    fill = colorRampPalette(c("dodgerblue2", "firebrick2")),
-    colorby = colorby("length"),
+    fill = colorby("length", palette = 
+                colorRampPalette(c("dodgerblue2", "firebrick2"))),
     lwd = 2, spaceHeight = .7,
     x = 0.25, y = 0.25, height = 1.5,
     just = c("left", "top"), default.units = "inches"

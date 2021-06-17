@@ -11,7 +11,6 @@
 #'     curvature = 5,
 #'     archHeight = NULL,
 #'     fill = "#1f4297",
-#'     colorby = NULL,
 #'     linecolor = NA,
 #'     alpha = 0.4,
 #'     bg = NA,
@@ -52,10 +51,9 @@
 #' @param archHeight Single numeric value or numeric vector specifying
 #' the arch heights. When NULL, all arches will be the same height,
 #' filling up the given plot area
-#' @param fill Character value(s) as a single value, vector, or palette
-#' specifying fill colors of arches. Default value is \code{fill = #1f4297"}.
-#' @param colorby A "\link[BentoBox]{colorby}" object specifying
-#' information for scaling colors in data.
+#' @param fill A single character value, a vector, or a 
+#' \link[BentoBox]{colorby} object specifying fill colors of arches.
+#' Default value is \code{fill = #1f4297"}.
 #' @param linecolor A character value specifying the color of the lines
 #' outlining arches. Default value is \code{linecolor = NA}.
 #' Special options include:
@@ -127,9 +125,9 @@
 #' ## Plot the data
 #' archPlot <- bb_plotPairsArches(
 #'     data = bb_bedpeData, params = params,
-#'     fill = colorRampPalette(c("dodgerblue2", "firebrick2")),
+#'     fill = colorby("length", palette = 
+#'                 colorRampPalette(c("dodgerblue2", "firebrick2"))),
 #'     linecolor = "fill",
-#'     colorby = colorby("length"),
 #'     archHeight = heights, alpha = 1,
 #'     x = 0.25, y = 0.25, height = 1.5,
 #'     just = c("left", "top"),
@@ -177,7 +175,7 @@
 bb_plotPairsArches <- function(data, chrom, chromstart = NULL, chromend = NULL,
                             assembly = "hg38", style = "2D", flip = FALSE,
                             curvature = 5, archHeight = NULL,
-                            fill = "#1f4297", colorby = NULL,
+                            fill = "#1f4297",
                             linecolor = NA, alpha = 0.4, bg = NA,
                             clip = FALSE, baseline = FALSE,
                             baseline.color = "grey", baseline.lwd = 1,
@@ -191,7 +189,7 @@ bb_plotPairsArches <- function(data, chrom, chromstart = NULL, chromend = NULL,
     # =========================================================================
 
     ## Define a function that catches errors
-    errorcheck_bbArches <- function(bedpe, arches_plot, style, colorby) {
+    errorcheck_bbArches <- function(bedpe, arches_plot, style, fill) {
         ## Can't have only one NULL chromstart or chromend
         if ((is.null(arches_plot$chromstart) &
             !is.null(arches_plot$chromend)) |
@@ -222,19 +220,28 @@ bb_plotPairsArches <- function(data, chrom, chromstart = NULL, chromend = NULL,
             )
         }
 
-        if (!is.null(colorby)) {
-            if (!any(colnames(bedpe) == colorby$column)) {
-                stop("Colorby column not found in data. Check ",
-                    "colorby column name.",
+        if(!is(fill, "character") & !is(fill, "factor")){
+            ## Check proper class
+            if(!is(fill, "bb_colorby")){
+                stop("`colorby` not of class \"bb_colorby\". Input colorby ",
+                    "information with `colorby()`.", call. = FALSE)
+            }
+            
+            ## Check for `colorby` column
+            if (!any(colnames(bedpe) == fill$column)) {
+                stop("`colorby` column not found in data. Check ",
+                    "`colorby` column name.",
                     call. = FALSE
                 )
-            }
-
-            if (length(which(colnames(bedpe) == colorby$column)) > 1) {
-                stop("Multiple matching colorby columns found in data. ",
-                    "Please provide colorby column name with only ",
+            
+        }
+            if (length(which(colnames(bedpe) == fill$column)) > 1) {
+                stop("Multiple matching `colorby` columns found in data. ",
+                    "Please provide `colorby` column name with only ",
                     "one occurrence.", call. = FALSE)
             }
+
+
         }
     }
 
@@ -274,8 +281,8 @@ bb_plotPairsArches <- function(data, chrom, chromstart = NULL, chromend = NULL,
         x2 <- df[[3]]
         y1 <- df[[5]]
         y2 <- df[[6]]
-        fillCol <- df[[7]]
-        lineCol <- df$linecolor
+        fillCol <- df[["color"]]
+        lineCol <- df[["linecolor"]]
         outerHeight <- as.numeric(df[[length(df)]])
         innerHeight <- outerHeight - 0.01
         gp$fill <- fillCol
@@ -363,15 +370,6 @@ bb_plotPairsArches <- function(data, chrom, chromstart = NULL, chromend = NULL,
     # =========================================================================
     # CHECK ARGUMENT ERRORS
     # =========================================================================
-    if (!is.null(bb_archInternal$colorby)) {
-        if (!is(bb_archInternal$colorby, "bb_colorby")) {
-            stop("\"colorby\" not of class \"bb_colorby\". ",
-                "Input colorby information with \"colorby()\".",
-                call. = FALSE
-            )
-        }
-    }
-
     if (is.null(bb_archInternal$data)) stop("argument \"data\" is missing, ",
                                             "with no default.", call. = FALSE)
     if (is.null(bb_archInternal$chrom)) stop("argument \"chrom\" is missing, ",
@@ -386,7 +384,7 @@ bb_plotPairsArches <- function(data, chrom, chromstart = NULL, chromend = NULL,
         chromend = bb_archInternal$chromend,
         assembly = bb_archInternal$assembly,
         color_palette = NULL,
-        zrange = bb_archInternal$colorby$range,
+        zrange = NULL,
         x = bb_archInternal$x, y = bb_archInternal$y,
         width = bb_archInternal$width,
         height = bb_archInternal$height,
@@ -431,7 +429,7 @@ bb_plotPairsArches <- function(data, chrom, chromstart = NULL, chromend = NULL,
     errorcheck_bbArches(
         bedpe = bedpe, arches_plot = arches_plot,
         style = bb_archInternal$style,
-        colorby = bb_archInternal$colorby
+        fill = bb_archInternal$fill
     )
     
     ## chrom format and data chrom format
@@ -447,6 +445,29 @@ bb_plotPairsArches <- function(data, chrom, chromstart = NULL, chromend = NULL,
                                 plotType = "paired data arches")
     arches_plot <- scaleChecks[[1]]
     bb_archInternal <- scaleChecks[[2]]
+    
+    # =========================================================================
+    # COLORS
+    # =========================================================================
+    
+    archColors <- bb_parseColors(data = bedpe,
+                                fill = bb_archInternal$fill,
+                                object = arches_plot)
+    
+    bedpe$color <- archColors[[1]]
+    arches_plot <- archColors[[2]]
+    
+    # Set actual line color to fill color if requested by user
+    actuallinecolor <- bb_archInternal$linecolor
+    if (is.na(bb_archInternal$linecolor) == FALSE) {
+        if (bb_archInternal$linecolor == "fill") {
+            actuallinecolor <- bedpe$color
+        }
+    }
+    if (is.null(bb_archInternal$linecolor) == TRUE) {
+        actuallinecolor <- NA
+    }
+    bedpe$linecolor <- actuallinecolor
 
     # =========================================================================
     # SUBSET DATA
@@ -472,71 +493,7 @@ bb_plotPairsArches <- function(data, chrom, chromstart = NULL, chromend = NULL,
         bedpe <- data.frame(matrix(nrow = 0, ncol = 6))
     }
 
-    arches_plot$bedpe <- bedpe
-
-    # # =========================================================================
-    # # COLORBY AND COLORS
-    # # =========================================================================
-    # 
-    # if (!is.null(bb_archInternal$colorby) & nrow(bedpe) > 0) {
-    #     colorbyCol <- which(colnames(bedpe) == bb_archInternal$colorby$column)
-    #     colorbyCol <- bedpe[, colorbyCol]
-    # 
-    #     if (!is(colorbyCol, "numeric") & !is(colorbyCol, "integer")) {
-    #         colorbyCol <- factor(colorbyCol)
-    #         colorbyCol <- as.numeric(colorbyCol)
-    #     }
-    # 
-    #     if (is.null(bb_archInternal$colorby$range)) {
-    #         colorbyrange <- c(min(colorbyCol), max(colorbyCol))
-    #         arches_plot$zrange <- colorbyrange
-    #     }
-    # 
-    #     if (is(bb_archInternal$fill, "function")) {
-    #         colors <- bb_maptocolors(colorbyCol, bb_archInternal$fill,
-    #             range = arches_plot$zrange
-    #         )
-    #         arches_plot$color_palette <- bb_archInternal$fill
-    #     } else {
-    #         colorbyColfac <- factor(colorbyCol)
-    #         mappedColors <- rep(
-    #             bb_archInternal$fill,
-    #             ceiling(length(levels(colorbyColfac)) /
-    #                 length(bb_archInternal$fill))
-    #         )
-    # 
-    #         names(mappedColors) <- levels(colorbyColfac)
-    #         colors <- mappedColors[colorbyColfac]
-    #     }
-    # } else {
-    #     if (is(bb_archInternal$fill, "function")) {
-    #         colors <- bb_archInternal$fill(nrow(bedpe))
-    #     } else {
-    #         if (length(bb_archInternal$fill) == 1) {
-    #             colors <- rep(bb_archInternal$fill, nrow(bedpe))
-    #         } else {
-    #             colors <- rep(
-    #                 bb_archInternal$fill,
-    #                 ceiling(nrow(bedpe) / length(bb_archInternal$fill))
-    #             )[seq(1, nrow(bedpe))]
-    #         }
-    #     }
-    # }
-    # 
-    # bedpe <- bedpe[, c(seq(1, 6))]
-    # bedpe$color <- colors
-
-    # Set actual line color to fill color if requested by user
-    actuallinecolor <- bb_archInternal$linecolor
-    if (is.na(bb_archInternal$linecolor) == FALSE) {
-        if (bb_archInternal$linecolor == "fill") {
-            actuallinecolor <- bedpe$color
-        }
-    }
-    if (is.null(bb_archInternal$linecolor) == TRUE) {
-        actuallinecolor <- NA
-    }
-    bedpe$linecolor <- actuallinecolor
+    arches_plot$bedpe <- bedpe[,c(seq(1, 6))]
 
     # =========================================================================
     # VIEWPORTS

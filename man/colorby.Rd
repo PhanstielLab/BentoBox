@@ -4,12 +4,15 @@
 \alias{colorby}
 \title{Handle BentoBox color scaling parameters}
 \usage{
-colorby(column, range = NULL)
+colorby(column, palette = NULL, range = NULL)
 }
 \arguments{
 \item{column}{String specifying name of data column to scale colors by.}
 
-\item{range}{A numeric vector specifying the range of values to
+\item{palette}{(optional) A function describing the color palette to use for
+color scaling.}
+
+\item{range}{(optional) A numeric vector specifying the range of values to
 apply a color scale to.}
 }
 \value{
@@ -34,8 +37,8 @@ bedpePlot <- bb_plotPairs(
     chrom = "chr21",
     chromstart = 27900000, chromend = 30700000,
     assembly = "hg19",
-    fill = colorRampPalette(c("dodgerblue2", "firebrick2")),
-    colorby = colorby("length"),
+    fill = colorby("length", palette = 
+                colorRampPalette(c("dodgerblue2", "firebrick2"))),
     lwd = 2, spaceHeight = .7,
 )
 }

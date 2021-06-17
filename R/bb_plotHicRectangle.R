@@ -494,15 +494,13 @@ bb_plotHicRectangle <- function(data, resolution = "auto", zrange = NULL,
 
 
             hic$counts <- log(hic$counts, base = logBase)
-            hic$color <- bb_maptocolors(hic$counts,
-                col = bb_rhicInternal$palette,
-                num = 100,
+            hic$color <- bb_mapColors(vector = hic$counts,
+                palette = bb_rhicInternal$palette,
                 range = log(hic_plot$zrange, logBase)
             )
         } else {
-            hic$color <- bb_maptocolors(hic$counts,
-                col = bb_rhicInternal$palette,
-                num = 100,
+            hic$color <- bb_mapColors(vector = hic$counts,
+                palette = bb_rhicInternal$palette,
                 range = hic_plot$zrange
             )
         }
