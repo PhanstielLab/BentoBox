@@ -273,9 +273,9 @@ bb_annoHeatmapLegend <- function(plot, orientation = "v", fontsize = 8,
         }
     }
 
-    color_scale <- bb_maptocolors(
-        vec = seq(minVal, maxVal, length.out = 100),
-        col = bb_heatmapLegend$color_palette
+    color_scale <- bb_mapColors(
+        vector = seq(minVal, maxVal, length.out = 100),
+        palette = bb_heatmapLegend$color_palette
     )
 
     # =========================================================================

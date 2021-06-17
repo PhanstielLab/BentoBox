@@ -149,7 +149,10 @@ The `colorby` constructor allows us to color the data elements in `BentoBox`
 plots by various data features. These features can be a numerical range, like 
 some kind of score value, or categorical values, like positive or negative 
 strand. The `colorby` object is constructed by specifying the name of the data 
-column to color by and an optional range for numerical values.
+column to color by, an optional color palette function, and an optional range 
+for numerical values. If not specified, `BentoBox` will use the `RColorBrewer`
+"YlGnBl" palette for mapping numerical data and the "Pairs" palette for 
+qualitative data.
 
 For example, if we revist the BED plot above, `bb_bedData` has an additional 
 `strand` column for each BED element: 
@@ -161,16 +164,15 @@ head(bb_bedData)
 
 Thus, we can use the `colorby` constructor to color BED elements by positive 
 or negative strand. The `strand` column will be converted to a factor with a 
-`-` level and `+` level. These values will be assigned to the `fill` colors 
-in the order of these factors.
+`-` level and `+` level. These values will be mapped to our input `palette`:
 
 ```{r eval=FALSE, echo=TRUE}
 bb_plotRanges(
     data = bb_bedData,
     chrom = "chr21", chromstart = 29073000, chromend = 29074000,
     assembly = "hg19",
-    fill = c("#7ecdbb", "#37a7db"),
-    colorby = colorby("strand"),
+    fill = colorby("strand", palette = 
+                       colorRampPalette(c("#7ecdbb", "#37a7db"))),
     x = 0.5, y = 0.25, width = 6.5, height = 4.25,
     just = c("left", "top"), default.units = "inches"
 )
@@ -187,27 +189,25 @@ bb_plotRanges(
     data = bb_bedData,
     chrom = "chr21", chromstart = 29073000, chromend = 29074000,
     assembly = "hg19",
-    fill = c("#7ecdbb", "#37a7db"),
-    colorby = colorby("strand"),
+    fill = colorby("strand", palette = 
+                       colorRampPalette(c("#7ecdbb", "#37a7db"))),
     strandSplit = TRUE,
     x = 0.5, y = 0.25, width = 6.5, height = 4.25,
     just = c("left", "top"), default.units = "inches"
 )
 ```
 
-To further control the order of color assignment, we can set our categorical 
+To further control the order of color mapping, we can set our categorical 
 `colorby` column as a factor with our own order of levels before plotting:
 
 ```{r eval=TRUE, echo=TRUE}
 data("bb_bedData")
-bb_bedData$strand <- as.factor(bb_bedData$strand)
-levels(bb_bedData$strand) <- c("+", "-")
+bb_bedData$strand <- factor(bb_bedData$strand, levels = c("+", "-"))
 head(bb_bedData$strand)
 ```
 
-Now we've set the `+` level as our first level, so the first value in `fill` 
-will color the plus-stranded elements and the second `fill` value will color
-the minus-stranded elements:
+Now we've set the `+` level as our first level, so our `palette` will map
+colors in the opposite order from before:
 
 ```{r aes_04, echo=FALSE, fig.height=6, fig.width=9.5}
 
@@ -219,8 +219,8 @@ bb_plotRanges(
     data = bb_bedData,
     chrom = "chr21", chromstart = 29073000, chromend = 29074000,
     assembly = "hg19",
-    fill = c("#7ecdbb", "#37a7db"),
-    colorby = colorby("strand"),
+    fill = colorby("strand", palette = 
+                       colorRampPalette(c("#7ecdbb", "#37a7db"))),
     strandSplit = TRUE,
     x = 0.5, y = 0.25, width = 6.5, height = 4.25,
     just = c("left", "top"), default.units = "inches"
@@ -236,15 +236,15 @@ bb_bedpeData$length <- (bb_bedpeData$start2 - bb_bedpeData$start1) / 1000
 head(bb_bedpeData$length)
 ```
 
-Now we can set `fill` as a palette to color the BEDPE `length` column by:
+Now we can set `fill` as a `colorby` object to color the BEDPE `length` column by:
 ```{r eval=FALSE, echo=TRUE}
 bedpePlot <- bb_plotPairsArches(
     data = bb_bedpeData,
     chrom = "chr21", chromstart = 27900000, chromend = 30700000,
     assembly = "hg19",
-    fill = colorRampPalette(c("dodgerblue2", "firebrick2")),
+    fill = colorby("length", 
+                   palette = colorRampPalette(c("dodgerblue2", "firebrick2"))),
     linecolor = "fill",
-    colorby = colorby("length"),
     archHeight = bb_bedpeData$length / max(bb_bedpeData$length),
     alpha = 1,
     x = 0.25, y = 0.25, width = 7, height = 1.5,
@@ -264,9 +264,10 @@ bedpePlot <- bb_plotPairsArches(
     data = bb_bedpeData,
     chrom = "chr21", chromstart = 27900000, chromend = 30700000,
     assembly = "hg19",
-    fill = colorRampPalette(c("dodgerblue2", "firebrick2")),
+    fill = colorby("length", 
+                   palette = colorRampPalette(c("dodgerblue2", "firebrick2"))),
     linecolor = "fill",
-    colorby = colorby("length"), archHeight = heights, alpha = 1,
+    archHeight = heights, alpha = 1,
     x = 0.25, y = 0.25, width = 7, height = 1.5,
     just = c("left", "top"),
     default.units = "inches"
@@ -295,9 +296,10 @@ bedpePlot <- bb_plotPairsArches(
     data = bb_bedpeData,
     chrom = "chr21", chromstart = 27900000, chromend = 30700000,
     assembly = "hg19",
-    fill = colorRampPalette(c("dodgerblue2", "firebrick2")),
+    fill = colorby("length", 
+                   palette = colorRampPalette(c("dodgerblue2", "firebrick2"))),
     linecolor = "fill",
-    colorby = colorby("length"), archHeight = heights, alpha = 1,
+    archHeight = heights, alpha = 1,
     x = 0.25, y = 0.25, width = 7, height = 1.5,
     just = c("left", "top"),
     default.units = "inches"

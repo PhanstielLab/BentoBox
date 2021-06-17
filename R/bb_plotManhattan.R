@@ -479,7 +479,7 @@ bb_plotManhattan <- function(data, sigVal = 5e-08, chrom = NULL,
         return(object)
     }
 
-    ## Define a function that parses colors
+    ## Define a function that parses colors specifically for bb_plotManhattan
     parse_color <- function(fillcolor, offsetAssembly, bedData) {
         if (!is.null(offsetAssembly)) {
 

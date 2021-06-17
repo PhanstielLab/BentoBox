@@ -542,15 +542,13 @@ bb_plotHicTriangle <- function(data, resolution = "auto", zrange = NULL,
 
 
             hic$counts <- log(hic$counts, base = logBase)
-            hic$color <- bb_maptocolors(hic$counts,
-                col = bb_thicInternal$palette,
-                num = 100,
+            hic$color <- bb_mapColors(vector = hic$counts,
+                palette = bb_thicInternal$palette,
                 range = log(hic_plot$zrange, logBase)
             )
         } else {
-            hic$color <- bb_maptocolors(hic$counts,
-                col = bb_thicInternal$palette,
-                num = 100,
+            hic$color <- bb_mapColors(hic$counts,
+                palette = bb_thicInternal$palette,
                 range = hic_plot$zrange
             )
         }

@@ -285,7 +285,9 @@ bb_plotTranscripts <- function(chrom, chromstart = NULL, chromend = NULL,
     bb_transcripts <- buildData[[1]]
     bb_transcriptsInternal <- buildData[[2]]
     data <- bb_transcriptsInternal$data
-
+    ## Get transcript lengths
+    data$length <- data$TXEND - data$TXSTART
+    
     # =========================================================================
     # COLORS
     # =========================================================================
@@ -442,212 +444,87 @@ bb_plotTranscripts <- function(chrom, chromstart = NULL, chromend = NULL,
         bb_transcriptsInternal$spaceWidth
 
     if (bb_transcriptsInternal$strandSplit == FALSE) {
-        if (nrow(data) > 0) {
-
-            ## Get one representative row per transcript
-            repData <- data[duplicated(data$TXNAME) == FALSE, ]
-
-            repData$row <- 0
-
-            repData$length <- repData$TXEND - repData$TXSTART
-
-            ## Access default transcript prioritization
-            repData <- defaultGenePriorities(
-                data = repData,
-                assembly = bb_transcripts$assembly,
-                transcript = TRUE
-            )
-
-            ## Convert to numeric matrix
-            dataMatrix <- as.matrix(repData[c("TXSTART", "TXEND", "row")])
-
-            ## Assign a row for each representative element
-            rowData <- checkRow(dataMatrix, maxRows, 2, wiggle)
-            rowData <- as.data.frame(rowData)
-
-            ## Recombine assigned rows with original data
-            rowData <- cbind(rowData[c("row")], repData$TXNAME)
-            colnames(rowData) <- c("row", "TXNAME")
-            rowData <- suppressMessages(dplyr::left_join(
-                x = data,
-                y = rowData,
-                by = "TXNAME"
-            ))
-
-
-            if (any(rowData$row == 0)) {
-                rowData <- rowData[which(rowData$row != 0), ]
-                warning("Not all transcripts shown.", call. = FALSE)
-
-                limitGrob <- textGrob(
-                    label = "+", x = unit(1, "npc"),
-                    y = unit(1, "npc"),
-                    just = c("right", "top"),
-                    gp = gpar(col = "grey", fontsize = 6)
-                )
-                assign("transcript_grobs",
-                    addGrob(
-                        gTree = get("transcript_grobs", envir = bbEnv),
-                        child = limitGrob
-                    ),
-                    envir = bbEnv
-                )
-            }
-
-            ## Change row index to 0 for y-coordinate setting
-            rowData$row <- rowData$row - 1
-            rowData$y <- rowData$row * (boxHeight + spaceHeight + textHeight +
-                0.25 * textHeight)
-
-            ## Reset rows for colors
-            rowData$row <- rowData$row + 1
-        } else {
-            rowData <- data.frame()
-        }
+        
+        ## Get one representative row per transcript for ordering
+        repData <- data[duplicated(data$TXNAME) == FALSE, ]
+        
+        ## Access default transcript prioritization
+        repData <- defaultGenePriorities(
+            data = repData,
+            assembly = bb_transcripts$assembly,
+            transcript = TRUE
+        )
+        
+        ## Assign rows
+        rowData <- assignRows(data = repData[,c("TXSTART", "TXEND", "TXID")],
+                            maxRows = maxRows,
+                            wiggle = wiggle, 
+                            rowCol = 3,
+                            gTree = "transcript_grobs")
+        
+        ## Recombine row data with original data with all transcript details
+        rowData <- suppressMessages(dplyr::left_join(
+            x = data,
+            y = rowData[,c("row", "TXID")],
+            by = "TXID"
+        ))
+        
+        ## Calculate y-coordinates
+        rowData$y <- rowData$row * (boxHeight + spaceHeight + textHeight +
+                                        0.25 * textHeight)
     } else {
-        if (nrow(posStrand) > 0) {
-
-            ## Get one representative row per transcript
-            repPosData <- posStrand[duplicated(posStrand$TXNAME) == FALSE, ]
-
-            repPosData$row <- 0
-
-            repPosData$length <- repPosData$TXEND - repPosData$TXSTART
-            ## Access default transcript prioritization
-            repPosData <- defaultGenePriorities(
-                data = repPosData,
-                assembly = bb_transcripts$assembly,
-                transcript = TRUE
-            )
-
-            ## Convert to numeric matrix
-            posMatrix <- as.matrix(repPosData[c("TXSTART", "TXEND", "row")])
-
-            ## Assign a row for each representative element
-            posRowData <- checkRow(posMatrix, floor(maxRows / 2), 2, wiggle)
-            posRowData <- as.data.frame(posRowData)
-
-            ## Recombine assigned rows with original data
-            posRowData <- cbind(posRowData[c("row")], repPosData$TXNAME)
-            colnames(posRowData) <- c("row", "TXNAME")
-            posRowData <- suppressMessages(dplyr::left_join(
-                x = posStrand,
-                y = posRowData,
-                by = "TXNAME"
-            ))
-
-            if (any(posRowData$row == 0)) {
-                posRowData <- posRowData[which(posRowData$row != 0), ]
-                warning("Not all plus strand transcripts shown.", call. = FALSE)
-                limitGrob1 <- textGrob(
-                    label = "+", x = unit(1, "npc"),
-                    y = unit(1, "npc"),
-                    just = c("right", "top"),
-                    gp = gpar(col = "grey", fontsize = 6)
-                )
-                assign("transcript_grobs",
-                    addGrob(
-                        gTree = get("transcript_grobs", envir = bbEnv),
-                        child = limitGrob1
-                    ),
-                    envir = bbEnv
-                )
-            }
-
-            ## Set row index to 0 for y-coordinate setting
-            posRowData$row <- posRowData$row - 1
-            posRowData$y <- (0.5 * spaceHeight) + posRowData$row *
-                (boxHeight + spaceHeight + textHeight + 0.25 * textHeight)
-
-            ## Reset rows for colors
-            posRowData$row <- posRowData$row + 1
-            posRowData$row <- posRowData$row + floor(maxRows / 2)
-        } else {
-            posRowData <- data.frame()
-        }
-
-        if (nrow(minStrand) > 0) {
-
-            ## Get one representative row per transcript
-            repMinData <- minStrand[duplicated(minStrand$TXNAME) == FALSE, ]
-
-            repMinData$row <- 0
-
-            repMinData$length <- repMinData$TXEND - repMinData$TXSTART
-            ## Access default transcript prioritization based
-            repMinData <- defaultGenePriorities(
-                data = repMinData,
-                assembly = bb_transcripts$assembly,
-                transcript = TRUE
-            )
-            ## Convert to numeric matrix
-            minMatrix <- as.matrix(repMinData[c("TXSTART", "TXEND", "row")])
-
-            ## Assign a row for each representative element
-            minRowData <- checkRow(minMatrix, floor(maxRows / 2), 2, wiggle)
-            minRowData <- as.data.frame(minRowData)
-
-            ## Recombine assigned rows with original data
-            minRowData <- cbind(minRowData[c("row")], repMinData$TXNAME)
-            colnames(minRowData) <- c("row", "TXNAME")
-            minRowData <- suppressMessages(dplyr::left_join(
-                x = minStrand,
-                y = minRowData,
-                by = "TXNAME"
-            ))
-
-            if (any(minRowData$row == 0)) {
-                minRowData <- minRowData[which(minRowData$row != 0), ]
-                warning("Not all minus strand transcripts shown.",
-                    call. = FALSE
-                )
-                limitGrob2 <- textGrob(
-                    label = "+", x = unit(1, "npc"),
-                    y = unit(0, "npc"),
-                    just = c("right", "bottom"),
-                    gp = gpar(col = "grey", fontsize = 6)
-                )
-                assign("transcript_grobs",
-                    addGrob(
-                        gTree = get("transcript_grobs", envir = bbEnv),
-                        child = limitGrob2
-                    ),
-                    envir = bbEnv
-                )
-            }
-
-            ## Set row index to 0 for y-coordinate setting
-            minRowData$row <- minRowData$row - 1
-            minRowData$y <- ((0.5 * spaceHeight + boxHeight + textHeight +
-                0.25 * textHeight) + minRowData$row *
-                (boxHeight + spaceHeight +
-                    textHeight + 0.25 * textHeight)) * -1
-
-            ## Reset rows for colors
-            rowIndex <- minRowData$row + 1
-            rowRange <- seq(floor(maxRows / 2), 1)
-            minRowData$row <- rowRange[rowIndex]
-        } else {
-            minRowData <- data.frame()
-        }
-
-        rowData <- rbind(posRowData, minRowData)
+        
+        ## Get one rep set of data per unique transcript for ordering
+        repPos <- posStrand[duplicated(posStrand$TXNAME) == FALSE, ]
+        repMin <- minStrand[duplicated(minStrand$TXNAME) == FALSE, ]
+        
+        ## Order transcripts based on gene priorities
+        repPos <- defaultGenePriorities(
+            data = repPos,
+            assembly = bb_transcripts$assembly,
+            transcript = TRUE
+        )
+        repMin <- defaultGenePriorities(
+            data = repMin,
+            assembly = bb_transcripts$assembly,
+            transcript = TRUE
+        )
+        
+        ## Assign rows
+        posData <- assignRows(data = repPos[,c("TXSTART", "TXEND", "TXID")],
+                            maxRows = floor(maxRows / 2),
+                            wiggle = wiggle, rowCol = 3,
+                            gTree = "transcript_grobs")
+        minData <- assignRows(data = repMin[,c("TXSTART", "TXEND", "TXID")],
+                            maxRows = floor(maxRows / 2),
+                            wiggle = wiggle, rowCol = 3,
+                            gTree = "transcript_grobs",
+                            side = "bottom")
+        
+        ## Recombine row data with original data
+        posData <- suppressMessages(dplyr::left_join(
+            x = posStrand,
+            y = posData[,c("row", "TXID")],
+            by = "TXID"
+        ))
+        minData <- suppressMessages(dplyr::left_join(
+            x = minStrand,
+            y = minData[,c("row", "TXID")],
+            by = "TXID"
+        ))
+        
+        ## Calculate y-coordinates
+        posData$y <- (0.5 * spaceHeight) + posData$row *
+            (boxHeight + spaceHeight + textHeight + 0.25 * textHeight)
+        minData$y <- ((0.5 * spaceHeight + boxHeight + textHeight +
+                        0.25 * textHeight) + minData$row *
+                            (boxHeight + spaceHeight +
+                                textHeight + 0.25 * textHeight)) * -1
+        
+        ## Combine pos and neg strand data into one 
+        rowData <- rbind(posData, minData)
+        
     }
-
-    # =========================================================================
-    # UPDATE COLORS IF NECESSARY
-    # =========================================================================
-
-    if (bb_transcriptsInternal$colorbyStrand == FALSE &
-        length(bb_transcriptsInternal$fill) > 1) {
-        colors <- rep(
-            bb_transcriptsInternal$fill,
-            ceiling(maxRows / length(bb_transcriptsInternal$fill))
-        )[seq(1, maxRows)]
-        indeces <- rowData$row
-        rowData$color <- colors[indeces]
-    }
-
 
     # =========================================================================
     # MAKE GROBS

@@ -11,7 +11,6 @@ bb_plotRanges(
     chromend = NULL,
     assembly = "hg38",
     fill = "#7ecdbb",
-    colorby = NULL,
     linecolor = NA,
     collapse = FALSE,
     boxHeight = unit(2, "mm"),
@@ -49,12 +48,9 @@ is in the same directory, or a \link[GenomicRanges]{GRanges} object.}
 \link[BentoBox]{bb_assembly} object.
 Default value is \code{assembly = "hg38"}.}
 
-\item{fill}{Character value(s) as a single value, vector, or palette
-specifying fill colors of range elements.
+\item{fill}{A single character value, a vector, or a 
+\link[BentoBox]{colorby} object specifying fill colors of range elements.
 Default value is \code{fill = "#7ecdbb"}.}
-
-\item{colorby}{A "\link[BentoBox]{colorby}" object specifying information
-for scaling colors in \code{data}.}
 
 \item{linecolor}{A character value specifying the color of the lines
 outlining range elements. Default value is \code{linecolor = NA}.}
@@ -162,8 +158,9 @@ pileupPlot <- bb_plotRanges(
     data = bb_bedData, chrom = "chr21",
     chromstart = 29073000, chromend = 29074000,
     assembly = "hg19",
-    fill = c("#7ecdbb", "#37a7db"),
-    strandSplit = TRUE, colorby = colorby("strand"),
+    fill = colorby("strand", palette = 
+                colorRampPalette(c("#7ecdbb", "#37a7db"))),
+    strandSplit = TRUE, 
     x = 0.5, y = 0.25, width = 6.5, height = 4.25,
     just = c("left", "top"), default.units = "inches"
 )
