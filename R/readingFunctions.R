@@ -53,6 +53,9 @@ read_pairedData <- function(data, assembly, warning = FALSE){
         if (!isClass("GInteractions", data)) {
             data <- as.data.frame(data.table::fread(data))
         } else {
+            ## check GInteractions genome with assembly input
+            checkAssemblyMatch(data = data, assembly = assembly)
+            
             ## Reorder GInteractions columns
             data <- as.data.frame(data)
             dataSubset <- data[, c(
@@ -63,10 +66,6 @@ read_pairedData <- function(data, assembly, warning = FALSE){
             data <- data[, which(!colnames(data) %in%
                                 colnames(dataSubset))]
             data <- cbind(dataSubset, data)
-            
-            ## check GInteractions genome with assembly input
-            checkAssemblyMatch(data = data, assembly = assembly)
-                
         }
     } else {
         data <- as.data.frame(data)

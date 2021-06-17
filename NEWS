@@ -1,3 +1,17 @@
+CHANGES IN VERSION 0.1.4
+-------------------------
+
+SIGNIFICANT USER-VISIBLE CHANGES
+
+    o `colorby` constructor now includes optional palette specification.
+    o `bb_plotPairs`, `bb_plotPairsArches`, and `bb_plotRanges` `fill` parameter
+    now accepts a single value, a vector of colors, or a `colorby` object.
+    
+BUG FIXES    
+
+    o `GInteractions` assembly match checking moved before dataframe 
+    conversion.
+
 CHANGES IN VERSION 0.1.3
 -------------------------
 
