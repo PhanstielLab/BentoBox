@@ -474,57 +474,57 @@ bb_plotPairsArches <- function(data, chrom, chromstart = NULL, chromend = NULL,
 
     arches_plot$bedpe <- bedpe
 
-    # =========================================================================
-    # COLORBY AND COLORS
-    # =========================================================================
-
-    if (!is.null(bb_archInternal$colorby) & nrow(bedpe) > 0) {
-        colorbyCol <- which(colnames(bedpe) == bb_archInternal$colorby$column)
-        colorbyCol <- bedpe[, colorbyCol]
-
-        if (!is(colorbyCol, "numeric") & !is(colorbyCol, "integer")) {
-            colorbyCol <- factor(colorbyCol)
-            colorbyCol <- as.numeric(colorbyCol)
-        }
-
-        if (is.null(bb_archInternal$colorby$range)) {
-            colorbyrange <- c(min(colorbyCol), max(colorbyCol))
-            arches_plot$zrange <- colorbyrange
-        }
-
-        if (is(bb_archInternal$fill, "function")) {
-            colors <- bb_maptocolors(colorbyCol, bb_archInternal$fill,
-                range = arches_plot$zrange
-            )
-            arches_plot$color_palette <- bb_archInternal$fill
-        } else {
-            colorbyColfac <- factor(colorbyCol)
-            mappedColors <- rep(
-                bb_archInternal$fill,
-                ceiling(length(levels(colorbyColfac)) /
-                    length(bb_archInternal$fill))
-            )
-
-            names(mappedColors) <- levels(colorbyColfac)
-            colors <- mappedColors[colorbyColfac]
-        }
-    } else {
-        if (is(bb_archInternal$fill, "function")) {
-            colors <- bb_archInternal$fill(nrow(bedpe))
-        } else {
-            if (length(bb_archInternal$fill) == 1) {
-                colors <- rep(bb_archInternal$fill, nrow(bedpe))
-            } else {
-                colors <- rep(
-                    bb_archInternal$fill,
-                    ceiling(nrow(bedpe) / length(bb_archInternal$fill))
-                )[seq(1, nrow(bedpe))]
-            }
-        }
-    }
-
-    bedpe <- bedpe[, c(seq(1, 6))]
-    bedpe$color <- colors
+    # # =========================================================================
+    # # COLORBY AND COLORS
+    # # =========================================================================
+    # 
+    # if (!is.null(bb_archInternal$colorby) & nrow(bedpe) > 0) {
+    #     colorbyCol <- which(colnames(bedpe) == bb_archInternal$colorby$column)
+    #     colorbyCol <- bedpe[, colorbyCol]
+    # 
+    #     if (!is(colorbyCol, "numeric") & !is(colorbyCol, "integer")) {
+    #         colorbyCol <- factor(colorbyCol)
+    #         colorbyCol <- as.numeric(colorbyCol)
+    #     }
+    # 
+    #     if (is.null(bb_archInternal$colorby$range)) {
+    #         colorbyrange <- c(min(colorbyCol), max(colorbyCol))
+    #         arches_plot$zrange <- colorbyrange
+    #     }
+    # 
+    #     if (is(bb_archInternal$fill, "function")) {
+    #         colors <- bb_maptocolors(colorbyCol, bb_archInternal$fill,
+    #             range = arches_plot$zrange
+    #         )
+    #         arches_plot$color_palette <- bb_archInternal$fill
+    #     } else {
+    #         colorbyColfac <- factor(colorbyCol)
+    #         mappedColors <- rep(
+    #             bb_archInternal$fill,
+    #             ceiling(length(levels(colorbyColfac)) /
+    #                 length(bb_archInternal$fill))
+    #         )
+    # 
+    #         names(mappedColors) <- levels(colorbyColfac)
+    #         colors <- mappedColors[colorbyColfac]
+    #     }
+    # } else {
+    #     if (is(bb_archInternal$fill, "function")) {
+    #         colors <- bb_archInternal$fill(nrow(bedpe))
+    #     } else {
+    #         if (length(bb_archInternal$fill) == 1) {
+    #             colors <- rep(bb_archInternal$fill, nrow(bedpe))
+    #         } else {
+    #             colors <- rep(
+    #                 bb_archInternal$fill,
+    #                 ceiling(nrow(bedpe) / length(bb_archInternal$fill))
+    #             )[seq(1, nrow(bedpe))]
+    #         }
+    #     }
+    # }
+    # 
+    # bedpe <- bedpe[, c(seq(1, 6))]
+    # bedpe$color <- colors
 
     # Set actual line color to fill color if requested by user
     actuallinecolor <- bb_archInternal$linecolor

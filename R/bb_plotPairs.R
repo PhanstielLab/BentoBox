@@ -360,27 +360,27 @@ bb_plotPairs <- function(data, chrom, chromstart = NULL, chromend = NULL,
 
     bedpe <- bedpe[order(bedpe$distance, decreasing = TRUE), ]
 
-    # =========================================================================
-    # SET COLORBY DATA
-    # =========================================================================
-    if (!is.null(bb_bedpeInternal$colorby) & nrow(bedpe) > 0) {
-        colorbyCol <- which(colnames(bedpe) == bb_bedpeInternal$colorby$column)
-        colorbyCol <- bedpe[, colorbyCol]
-
-        if (!is(colorbyCol, "numeric")  & !is(colorbyCol, "integer")) {
-            colorbyCol <- factor(colorbyCol)
-            bedpe$colorby <- as.numeric(colorbyCol)
-        } else {
-            bedpe$colorby <- colorbyCol
-        }
-
-        if (is.null(bb_bedpeInternal$colorby$range)) {
-            colorbyrange <- c(min(bedpe$colorby), max(bedpe$colorby))
-            bb_bedpe$zrange <- colorbyrange
-        }
-    } else {
-        bedpe$colorby <- rep(NA, nrow(bedpe))
-    }
+    # # =========================================================================
+    # # SET COLORBY DATA
+    # # =========================================================================
+    # if (!is.null(bb_bedpeInternal$colorby) & nrow(bedpe) > 0) {
+    #     colorbyCol <- which(colnames(bedpe) == bb_bedpeInternal$colorby$column)
+    #     colorbyCol <- bedpe[, colorbyCol]
+    # 
+    #     if (!is(colorbyCol, "numeric")  & !is(colorbyCol, "integer")) {
+    #         colorbyCol <- factor(colorbyCol)
+    #         bedpe$colorby <- as.numeric(colorbyCol)
+    #     } else {
+    #         bedpe$colorby <- colorbyCol
+    #     }
+    # 
+    #     if (is.null(bb_bedpeInternal$colorby$range)) {
+    #         colorbyrange <- c(min(bedpe$colorby), max(bedpe$colorby))
+    #         bb_bedpe$zrange <- colorbyrange
+    #     }
+    # } else {
+    #     bedpe$colorby <- rep(NA, nrow(bedpe))
+    # }
 
     # =========================================================================
     # VIEWPORTS
@@ -455,114 +455,85 @@ bb_plotPairs <- function(data, chrom, chromstart = NULL, chromend = NULL,
     # =========================================================================
     # DETERMINE ROWS FOR EACH ELEMENT
     # =========================================================================
-
-    ## Determine how many bepe elements are going to fit based on
-    ## boxHeight and space
-    if (is.null(bb_bedpe$x) & is.null(bb_bedpe$y)) {
-        pushViewport(vp)
-        boxHeight <- convertHeight(bb_bedpeInternal$boxHeight,
-            unitTo = "npc", valueOnly = TRUE
-        )
-        spaceHeight <- boxHeight * (bb_bedpeInternal$spaceHeight)
-        upViewport()
-    } else {
-        boxHeight <- convertHeight(bb_bedpeInternal$boxHeight,
-            unitTo = get("page_units", envir = bbEnv),
-            valueOnly = TRUE
-        )
-        spaceHeight <- boxHeight * (bb_bedpeInternal$spaceHeight)
-    }
-
-    limit <- floor((as.numeric(vp$height) + spaceHeight) /
-        (boxHeight + spaceHeight))
-    wiggle <- abs(bb_bedpe$chromend - bb_bedpe$chromstart) *
-        bb_bedpeInternal$spaceWidth
-
-
     if (nrow(bedpe) > 0) {
-        bedpe$row <- 0
-
-        ## Convert to numeric matrix for Rcpp function parsing
-        bedpeMatrix <- as.matrix(bedpe[, c(
-            2, 6, 5,
-            seq((ncol(bedpe) - 6), ncol(bedpe))
-        )])
-
-        ## Assign a row for each element
-        rowBedpe <- checkRow(bedpeMatrix, limit, 9, wiggle)
-
-        rowBedpe <- as.data.frame(rowBedpe)
-        colnames(rowBedpe) <- c(
-            "start1", "stop2", "start2", "width1", "width2",
-            "pos1", "pos2", "distance", "colorby", "row"
-        )
-
-        if (any(rowBedpe$row == 0)) {
-            rowBedpe <- rowBedpe[which(rowBedpe$row != 0), ]
-            warning("Not enough plotting space for all provided pair elements.",
-                call. = FALSE
+        
+        if (is.null(bb_bedpe$x) & is.null(bb_bedpe$y)) {
+            pushViewport(vp)
+            boxHeight <- convertHeight(bb_bedpeInternal$boxHeight,
+                                       unitTo = "npc", valueOnly = TRUE
             )
-
-            limitGrob <- textGrob(
-                label = "+", x = unit(1, "npc"),
-                y = unit(1, "npc"), just = c("right", "top"),
-                gp = gpar(col = "grey", fontsize = 6)
-            )
-            assign("bedpe_grobs",
-                addGrob(
-                    gTree = get("bedpe_grobs", envir = bbEnv),
-                    child = limitGrob
-                ),
-                envir = bbEnv
-            )
-        }
-
-        ## Change row index to 0
-        rowBedpe$row <- rowBedpe$row - 1
-        rowBedpe$y <- rowBedpe$row * (boxHeight + spaceHeight)
-
-        # =====================================================================
-        # COLORS
-        # =====================================================================
-
-        if (is.null(bb_bedpeInternal$colorby)) {
-            if (is(bb_bedpeInternal$fill, "function")) {
-                colors <- bb_bedpeInternal$fill(limit)
-                indeces <- rowBedpe$row + 1
-                rowBedpe$color <- colors[indeces]
-            } else {
-                if (length(bb_bedpeInternal$fill) == 1) {
-                    rowBedpe$color <- rep(bb_bedpeInternal$fill, nrow(rowBedpe))
-                } else {
-                    colors <- rep(
-                        bb_bedpeInternal$fill,
-                        ceiling(limit /
-                            length(bb_bedpeInternal$fill))
-                    )[seq(
-                        1, limit
-                    )]
-                    indeces <- rowBedpe$row + 1
-                    rowBedpe$color <- colors[indeces]
-                }
-            }
+            spaceHeight <- boxHeight * (bb_bedpeInternal$spaceHeight)
+            upViewport()
         } else {
-            if (is(bb_bedpeInternal$fill, "function")) {
-                rowBedpe$color <- bb_maptocolors(rowBedpe$colorby,
-                    bb_bedpeInternal$fill,
-                    range = bb_bedpe$zrange
-                )
-                bb_bedpe$color_palette <- bb_bedpeInternal$fill
-            } else {
-                colorbyCol <- factor(rowBedpe$colorby)
-                mappedColors <- rep(
-                    bb_bedpeInternal$fill,
-                    ceiling(length(levels(colorbyCol)) /
-                        length(bb_bedpeInternal$fill))
-                )
-                names(mappedColors) <- levels(colorbyCol)
-                rowBedpe$color <- mappedColors[colorbyCol]
-            }
+            boxHeight <- convertHeight(bb_bedpeInternal$boxHeight,
+                                       unitTo = get("page_units", envir = bbEnv),
+                                       valueOnly = TRUE
+            )
+            spaceHeight <- boxHeight * (bb_bedpeInternal$spaceHeight)
         }
+        
+        ## Determine how many pair elements are going to fit
+        maxRows <- floor((as.numeric(vp$height) + spaceHeight) /
+                             (boxHeight + spaceHeight))
+        wiggle <- abs(bb_bedpe$chromend - bb_bedpe$chromstart) *
+            bb_bedpeInternal$spaceWidth
+        
+        ## Assign rows
+        rowData <- assignRows(data = bedpe[,c(2,6,5)],
+                              maxRows = maxRows,
+                              wiggle = wiggle,
+                              rowCol = 3,
+                              gTree = "bedpe_grobs",
+                              extraData = bedpe[,c("color", "width1",
+                                                   "width2", "pos1",
+                                                   "pos2", "distance")])
+        
+        ## Calculate y-coordinates
+        rowData$y <- rowData$row * (boxHeight + spaceHeight)
+
+# 
+#         # =====================================================================
+#         # COLORS
+#         # =====================================================================
+# 
+#         if (is.null(bb_bedpeInternal$colorby)) {
+#             if (is(bb_bedpeInternal$fill, "function")) {
+#                 colors <- bb_bedpeInternal$fill(limit)
+#                 indeces <- rowBedpe$row + 1
+#                 rowBedpe$color <- colors[indeces]
+#             } else {
+#                 if (length(bb_bedpeInternal$fill) == 1) {
+#                     rowBedpe$color <- rep(bb_bedpeInternal$fill, nrow(rowBedpe))
+#                 } else {
+#                     colors <- rep(
+#                         bb_bedpeInternal$fill,
+#                         ceiling(limit /
+#                             length(bb_bedpeInternal$fill))
+#                     )[seq(
+#                         1, limit
+#                     )]
+#                     indeces <- rowBedpe$row + 1
+#                     rowBedpe$color <- colors[indeces]
+#                 }
+#             }
+#         } else {
+#             if (is(bb_bedpeInternal$fill, "function")) {
+#                 rowBedpe$color <- bb_maptocolors(rowBedpe$colorby,
+#                     bb_bedpeInternal$fill,
+#                     range = bb_bedpe$zrange
+#                 )
+#                 bb_bedpe$color_palette <- bb_bedpeInternal$fill
+#             } else {
+#                 colorbyCol <- factor(rowBedpe$colorby)
+#                 mappedColors <- rep(
+#                     bb_bedpeInternal$fill,
+#                     ceiling(length(levels(colorbyCol)) /
+#                         length(bb_bedpeInternal$fill))
+#                 )
+#                 names(mappedColors) <- levels(colorbyCol)
+#                 rowBedpe$color <- mappedColors[colorbyCol]
+#             }
+#         }
 
 
         # =====================================================================
@@ -588,13 +559,13 @@ bb_plotPairs <- function(data, chrom, chromstart = NULL, chromend = NULL,
             )
         }
 
-        bb_bedpeInternal$gp$fill <- rowBedpe$color
+        bb_bedpeInternal$gp$fill <- rowData$color
         bb_bedpeInternal$gp$col <- bb_bedpeInternal$linecolor
 
         bedpeRect1 <- rectGrob(
-            x = rowBedpe$start1,
-            y = rowBedpe$y,
-            width = rowBedpe$width1,
+            x = rowData[,2],
+            y = rowData$y,
+            width = rowData$width1,
             height = boxHeight,
             just = c("left", "bottom"),
             default.units = "native",
@@ -602,23 +573,23 @@ bb_plotPairs <- function(data, chrom, chromstart = NULL, chromend = NULL,
         )
 
         bedpeRect2 <- rectGrob(
-            x = rowBedpe$start2,
-            y = rowBedpe$y,
-            width = rowBedpe$width2,
+            x = rowData[,4],
+            y = rowData$y,
+            width = rowData$width2,
             height = boxHeight,
             just = c("left", "bottom"),
             default.units = "native",
             gp = bb_bedpeInternal$gp
         )
 
-        bb_bedpeInternal$gp$col <- rowBedpe$color
+        bb_bedpeInternal$gp$col <- rowData$color
         bb_bedpeInternal$gp$lineend <- "butt"
 
         bedpeLine <- segmentsGrob(
-            x0 = rowBedpe$pos1,
-            y0 = rowBedpe$y + 0.5 * boxHeight,
-            x1 = rowBedpe$pos2,
-            y1 = rowBedpe$y + 0.5 * boxHeight,
+            x0 = rowData$pos1,
+            y0 = rowData$y + 0.5 * boxHeight,
+            x1 = rowData$pos2,
+            y1 = rowData$y + 0.5 * boxHeight,
             default.units = "native",
             gp = bb_bedpeInternal$gp
         )
