@@ -1009,7 +1009,7 @@ cases_NYline <- ggplot(
         axis.line.y = element_line(size = 0.1, color = "#8F9BB3"),
         axis.text.x = element_text(
             size = 7, hjust = 0.5,
-            vjust = 7.75, color = "black"
+            margin = margin(t = -10), color = "black"
         ),
         axis.title.x = element_blank(),
         axis.ticks.x = element_line(size = 0.2, color = "black"),
@@ -1064,7 +1064,7 @@ cases_FLline <- ggplot(
         axis.text.y = element_text(size = 7, color = "black"),
         axis.text.x = element_text(
             size = 7, hjust = 0.5,
-            vjust = 7.75, color = "black"
+            margin = margin(t = -10), color = "black"
         ),
         axis.ticks = element_line(color = "black", size = 0.2),
         axis.ticks.y = element_blank(),

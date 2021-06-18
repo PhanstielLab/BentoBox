@@ -40,7 +40,7 @@ if (!requireNamespace("remotes", quietly = TRUE))
     BiocManager::install("remotes")
 
 remotes::install_github("PhanstielLab/BentoBox")
-package.version("BentoBox")
+packageVersion("BentoBox")
 ```
 
 Cytoband annotation datasets and example datasets and files are included
