@@ -230,7 +230,8 @@
 <span class="co">#&gt; 15554867 chr21 28000500 28000536      +</span></code></pre></div>
 <p>Thus, we can use the <code>colorby</code> constructor to color BED elements by positive or negative strand. The <code>strand</code> column will be converted to a factor with a <code><a href="https://rdrr.io/r/base/Arithmetic.html">-</a></code> level and <code><a href="https://rdrr.io/r/base/Arithmetic.html">+</a></code> level. These values will be mapped to our input <code>palette</code>:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../../reference/bb_plotRanges.html">bb_plotRanges</a></span><span class="op">(</span>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">bb_bedData</span><span class="op">)</span><span class="op">)</span>
+<span class="fu"><a href="../../reference/bb_plotRanges.html">bb_plotRanges</a></span><span class="op">(</span>
     data <span class="op">=</span> <span class="va">bb_bedData</span>,
     chrom <span class="op">=</span> <span class="st">"chr21"</span>, chromstart <span class="op">=</span> <span class="fl">29073000</span>, chromend <span class="op">=</span> <span class="fl">29074000</span>,
     assembly <span class="op">=</span> <span class="st">"hg19"</span>,
