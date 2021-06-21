@@ -4,7 +4,7 @@ read_rangeData <- function(data, assembly, chrom = NULL,
                         start = NULL, end = NULL){
     
     if (!"data.frame" %in% class(data)) {
-        if (!"GRanges" %in% class(data)) {
+        if (!isClass("GRanges", data)) {
             if (file_ext(data) == "bam") {
                 indexFile <- paste0(data, ".bai")
                 if (!file.exists(indexFile)) {
