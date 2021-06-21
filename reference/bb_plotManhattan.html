@@ -80,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">BentoBox</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.5</span>
       </span>
     </div>
 
@@ -88,7 +88,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa-home fa-lg"></span>
+    <span class="fa fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -121,9 +121,6 @@
 </li>
 <li>
   <a href="../reference/index.html">Reference</a>
-</li>
-<li>
-  <a href="../news/index.html">News</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -166,7 +163,6 @@
     pch <span class='op'>=</span> <span class='fl'>19</span>,
     cex <span class='op'>=</span> <span class='fl'>0.25</span>,
     leadSNP <span class='op'>=</span> <span class='cn'>NULL</span>,
-    scaleLD <span class='op'>=</span> <span class='cn'>NULL</span>,
     sigLine <span class='op'>=</span> <span class='cn'>FALSE</span>,
     sigCol <span class='op'>=</span> <span class='cn'>NULL</span>,
     ymax <span class='op'>=</span> <span class='fl'>1</span>,
@@ -232,19 +228,18 @@ Default value is <code>assembly = "hg38"</code>.</p></td>
     </tr>
     <tr>
       <th>fill</th>
-      <td><p>Character value(s) as a single value, vector,
-or palette specifying fill colors of data points.
-If <code>scaleLD</code> is supplied, colors will be mapped to
-<code>scaleLD</code> values. If <code>scaleLD</code> is not supplied,
-color vectors and palettes will
-only be mapped to different chromosomes of a multi-chromosomal plot.
+      <td><p>A single character value, a vector, or a 
+<a href='colorby.html'>colorby</a> object specifying fill colors of data points.
+For a Manhattan plot with multiple chromosomes, a vector of colors 
+will be used to color points of different chromosomes.
 Default value is <code>fill = "black"</code>.</p></td>
     </tr>
     <tr>
       <th>pch</th>
       <td><p>A numeric value or numeric vector specifying point symbols.
-If <code>scaleLD</code> is supplied, point symbols will be mapped to
-<code>scaleLD</code> values. Default value is <code>pch = 19</code>.</p></td>
+If <a href='colorby.html'>colorby</a> object is supplied for <code>fill</code>,
+point symbols will be mapped to
+<code>colorby</code> values. Default value is <code>pch = 19</code>.</p></td>
     </tr>
     <tr>
       <th>cex</th>
@@ -259,13 +254,6 @@ The lead SNP should be specified as a character with the name slot
 <code>"snp"</code> in the list. Accepted lead SNP aesthetic
 features in the list include
 <code>fill</code>, <code>pch</code>, <code>cex</code>, <code>fontcolor</code>, and <code>fontsize</code>.</p></td>
-    </tr>
-    <tr>
-      <th>scaleLD</th>
-      <td><p>A character value specifying the <code>data</code> column name of
-linkage disequilibrium (LD) scores to apply <code>fill</code> and/or
-<code>pch</code> vectors or functions to. LD scores will be grouped into the
-following ranges: 0-0.2, 0.2-0.4, 0.4-0.6, 0.6-0.8, 0.8-1.</p></td>
     </tr>
     <tr>
       <th>sigLine</th>
@@ -439,6 +427,13 @@ Manhattan plot by ignoring plot placement parameters:</p><pre>
 
 <span class='co'>## Plot GWAS data zooming in on chromosome 11</span>
 <span class='co'>## highlighting a lead SNP, and coloring by LD score</span>
+<span class='va'>bb_gwasData</span><span class='op'>$</span><span class='va'>LD</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>as.numeric</a></span><span class='op'>(</span><span class='va'>bb_gwasData</span><span class='op'>$</span><span class='va'>LD</span><span class='op'>)</span>
+<span class='co'>## Group LD column into LD ranges</span>
+<span class='va'>bb_gwasData</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/as.data.frame.html'>as.data.frame</a></span><span class='op'>(</span><span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>bb_gwasData</span>,
+                                        LDgrp <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/cut.html'>cut</a></span><span class='op'>(</span>
+                                        <span class='va'>bb_gwasData</span><span class='op'>$</span><span class='va'>LD</span>,
+                                        <span class='fu'><a href='c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>0.2</span>, <span class='fl'>0.4</span>, <span class='fl'>0.6</span>, <span class='fl'>0.8</span>, <span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
+<span class='va'>bb_gwasData</span><span class='op'>$</span><span class='va'>LDgrp</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>addNA</a></span><span class='op'>(</span><span class='va'>bb_gwasData</span><span class='op'>$</span><span class='va'>LDgrp</span><span class='op'>)</span>
 <span class='va'>leadSNP_p</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>min</a></span><span class='op'>(</span><span class='va'>bb_gwasData</span><span class='op'>[</span><span class='fu'><a href='https://rdrr.io/r/base/which.html'>which</a></span><span class='op'>(</span><span class='va'>bb_gwasData</span><span class='op'>$</span><span class='va'>chr</span> <span class='op'>==</span> <span class='st'>"chr11"</span><span class='op'>)</span>, <span class='op'>]</span><span class='op'>$</span><span class='va'>p</span><span class='op'>)</span>
 <span class='va'>leadSNP</span> <span class='op'>&lt;-</span> <span class='va'>bb_gwasData</span><span class='op'>[</span><span class='fu'><a href='https://rdrr.io/r/base/which.html'>which</a></span><span class='op'>(</span><span class='va'>bb_gwasData</span><span class='op'>$</span><span class='va'>p</span> <span class='op'>==</span> <span class='va'>leadSNP_p</span><span class='op'>)</span>, <span class='op'>]</span><span class='op'>$</span><span class='va'>snp</span>
 <span class='va'>chr11_manhattanPlot</span> <span class='op'>&lt;-</span> <span class='fu'>bb_plotManhattan</span><span class='op'>(</span>
@@ -446,11 +441,12 @@ Manhattan plot by ignoring plot placement parameters:</p><pre>
     chromstart <span class='op'>=</span> <span class='fl'>60000000</span>,
     chromend <span class='op'>=</span> <span class='fl'>130000000</span>,
     assembly <span class='op'>=</span> <span class='st'>"hg19"</span>,
-    fill <span class='op'>=</span> <span class='fu'><a href='c.html'>c</a></span><span class='op'>(</span>
+    fill <span class='op'>=</span> <span class='fu'><a href='colorby.html'>colorby</a></span><span class='op'>(</span><span class='st'>"LDgrp"</span>,
+    palette <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/grDevices/colorRamp.html'>colorRampPalette</a></span><span class='op'>(</span><span class='fu'><a href='c.html'>c</a></span><span class='op'>(</span>
         <span class='st'>"#1f4297"</span>,
         <span class='st'>"#37a7db"</span>, <span class='st'>"green"</span>,
-        <span class='st'>"orange"</span>, <span class='st'>"red"</span>
-    <span class='op'>)</span>,
+        <span class='st'>"orange"</span>, <span class='st'>"red"</span>, <span class='st'>"grey"</span>
+    <span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>,
     sigLine <span class='op'>=</span> <span class='cn'>TRUE</span>, col <span class='op'>=</span> <span class='st'>"grey"</span>,
     lty <span class='op'>=</span> <span class='fl'>2</span>, range <span class='op'>=</span> <span class='fu'><a href='c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>16</span><span class='op'>)</span>,
     leadSNP <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>
