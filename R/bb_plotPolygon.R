@@ -149,7 +149,9 @@ bb_plotPolygon <- function(x, y, default.units = "inches",
             call. = FALSE
         )
     }
-
+    
+    bb_checkColorby(fill = bb_polygon$gp$fill,
+                    colorby = FALSE)
 
     # =========================================================================
     # DEFINE PARAMETERS

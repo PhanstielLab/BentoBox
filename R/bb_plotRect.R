@@ -153,7 +153,9 @@ bb_plotRect <- function(x, y, width, height, just = "center",
             call. = FALSE
         )
     }
-
+    
+    bb_checkColorby(fill = bb_rect$gp$fill,
+                    colorby = FALSE)
 
     # =========================================================================
     # DEFINE PARAMETERS

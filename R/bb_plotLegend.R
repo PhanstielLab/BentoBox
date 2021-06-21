@@ -159,6 +159,9 @@ bb_plotLegend <- function(legend, fill = NULL, pch = NULL, lty = NULL,
                                             "with no default.", call. = FALSE)
 
     check_placement(object = legend_plot)
+    
+    bb_checkColorby(fill = bb_legInternal$fill,
+                    colorby = FALSE)
 
     # =========================================================================
     # PARSE UNITS

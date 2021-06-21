@@ -187,28 +187,10 @@ bb_plotPairs <- function(data, chrom, chromstart = NULL, chromend = NULL,
             }
         }
         
-        ## Check if fill is `colorby`
-        if (!is(fill, "character") & !is(fill, "factor")){
-            ## Check proper class
-            if (!is(fill, "bb_colorby")){
-                stop("`colorby` not of class \"bb_colorby\". Input colorby ",
-                    "information with `colorby()`.", call. = FALSE)
-            }
-            
-            ## Check for `colorby` column
-            if (!any(colnames(bedpe) == fill$column)){
-                stop("`colorby` column not found in data. ",
-                    "Check `colorby` column name.", call. = FALSE
-                )
-            }
-            
-            if (length(which(colnames(bedpe) == fill$column)) > 1){
-                stop("Multiple matching `colorby` columns found in data. ",
-                    "Please provide `colorby` column name with only ",
-                    "one occurrence.", call. = FALSE)
-            }
-                
-            }
+        ## Fill colorby checks
+        bb_checkColorby(fill = fill,
+                        colorby = TRUE,
+                        data = bedpe)
             
         }
         

@@ -105,7 +105,7 @@ bb_annoHighlight <- function(plot, chrom, chromstart = NULL, chromend = NULL,
     # =========================================================================
 
     ## Define a function that catches errors for bb_annoHighlight
-    bb_errorcheck_annoHighlight <- function(object) {
+    bb_errorcheck_annoHighlight <- function(object, fill) {
         if (!object$chrom %in% object$plot$chrom) {
             stop(object$chrom,
                 "not found in input plot. Cannot annotate highlight.",
@@ -117,6 +117,9 @@ bb_annoHighlight <- function(plot, chrom, chromstart = NULL, chromend = NULL,
             stop("Cannot highlight multiple chromosome ",
             "regions in one function call.", call. = FALSE)
         }
+        
+        bb_checkColorby(fill = fill,
+                        colorby = FALSE)
     }
 
     ## Define a function that resets y to a top-based justification
@@ -224,7 +227,8 @@ bb_annoHighlight <- function(plot, chrom, chromstart = NULL, chromend = NULL,
             call. = FALSE
         )
     }
-    bb_errorcheck_annoHighlight(object = bb_highlightInternal)
+    bb_errorcheck_annoHighlight(object = bb_highlightInternal,
+                                fill = bb_highlightInternal$gp$fill)
 
     # =========================================================================
     # PARSE UNITS

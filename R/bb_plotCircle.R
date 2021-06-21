@@ -128,6 +128,9 @@ bb_plotCircle <- function(x, y, r, default.units = "inches",
             call. = FALSE
         )
     }
+    
+    bb_checkColorby(fill = bb_circle$gp$fill,
+                colorby = FALSE)
 
     # =========================================================================
     # DEFINE PARAMETERS

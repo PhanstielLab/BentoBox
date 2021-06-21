@@ -178,7 +178,7 @@ bb_plotGenes <- function(chrom, chromstart = NULL, chromend = NULL,
     # =========================================================================
 
     ## Define a function that checks errors for bb_plotGenes
-    errorcheck_bb_plotGenes <- function(chromstart, chromend) {
+    errorcheck_bb_plotGenes <- function(chromstart, chromend, fill) {
         if (!is.null(chromstart) & is.null(chromend)) {
             stop("If specifying \'chromstart\', need to provide \'chromend\'.",
                 call. = FALSE
@@ -204,6 +204,12 @@ bb_plotGenes <- function(chrom, chromstart = NULL, chromend = NULL,
                 )
             }
         }
+        
+        ## Make sure fill isn't colorby
+        bb_checkColorby(fill = fill,
+                        colorby = FALSE)
+        
+        
     }
 
     ## Define a function that gets total lengths and centers of genes
@@ -270,7 +276,8 @@ bb_plotGenes <- function(chrom, chromstart = NULL, chromend = NULL,
                                     "with no default.", call. = FALSE)
     errorcheck_bb_plotGenes(
         chromstart = bb_genes$chromstart,
-        chromend = bb_genes$chromend
+        chromend = bb_genes$chromend,
+        fill = bb_genesInternal$fill
     )
     check_placement(object = bb_genes)
 

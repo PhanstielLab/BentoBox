@@ -88,6 +88,7 @@ bb_parseColors <- function(data, fill, object){
     
     ## `colorby` class
     if (is(fill, "bb_colorby")){
+        
         colorbyCol <- which(colnames(data) == fill$column)
         colorbyCol <- data[, colorbyCol]
         

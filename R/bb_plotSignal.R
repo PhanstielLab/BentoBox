@@ -188,7 +188,7 @@ bb_plotSignal <- function(data, binSize = NA, binCap = TRUE, negData = FALSE,
     # =========================================================================
 
     ## Define a function that catches errors for bb_plotSignal
-    errorcheck_bb_signaltrack <- function(signal, signaltrack) {
+    errorcheck_bb_signaltrack <- function(signal, signaltrack, fill) {
         dfChecks <- function(signal) {
             if (!"data.frame" %in% class(signal)) {
                 if (!"GRanges" %in% class(signal)) {
@@ -267,9 +267,9 @@ bb_plotSignal <- function(data, binSize = NA, binCap = TRUE, negData = FALSE,
                 )
             }
         }
-
-
-
+        
+        bb_checkColorby(fill = fill,
+                        colorby = FALSE)
     }
 
     ## Define a function that reads in signal data for bb_plotSignal
@@ -644,7 +644,8 @@ bb_plotSignal <- function(data, binSize = NA, binCap = TRUE, negData = FALSE,
     check_placement(object = signal_track)
     errorcheck_bb_signaltrack(
         signal = bb_sigInternal$data,
-        signaltrack = signal_track
+        signaltrack = signal_track,
+        fill = bb_sigInternal$fill
     )
 
     # =========================================================================

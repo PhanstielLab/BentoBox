@@ -1,3 +1,11 @@
+CHANGES IN VERSION 0.1.5
+-------------------------
+
+SIGNIFICANT USER-VISIBLE CHANGES
+
+    o `bb_plotManhattan` `fill` paramete now accepts a single value, 
+    a vector of colors, or a `colorby` object.
+
 CHANGES IN VERSION 0.1.4
 -------------------------
 

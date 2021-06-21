@@ -11,7 +11,6 @@
 #'     pch = 19,
 #'     cex = 0.25,
 #'     leadSNP = NULL,
-#'     scaleLD = NULL,
 #'     sigLine = FALSE,
 #'     sigCol = NULL,
 #'     ymax = 1,
@@ -55,16 +54,15 @@
 #' @param assembly Default genome assembly as a string or a
 #' \link[BentoBox]{bb_assembly} object.
 #' Default value is \code{assembly = "hg38"}.
-#' @param fill Character value(s) as a single value, vector,
-#' or palette specifying fill colors of data points.
-#' If \code{scaleLD} is supplied, colors will be mapped to
-#' \code{scaleLD} values. If \code{scaleLD} is not supplied,
-#' color vectors and palettes will
-#' only be mapped to different chromosomes of a multi-chromosomal plot.
+#' @param fill A single character value, a vector, or a 
+#' \link[BentoBox]{colorby} object specifying fill colors of data points.
+#' For a Manhattan plot with multiple chromosomes, a vector of colors 
+#' will be used to color points of different chromosomes.
 #' Default value is \code{fill = "black"}.
 #' @param pch A numeric value or numeric vector specifying point symbols.
-#' If \code{scaleLD} is supplied, point symbols will be mapped to
-#' \code{scaleLD} values. Default value is \code{pch = 19}.
+#' If \link[BentoBox]{colorby} object is supplied for \code{fill},
+#' point symbols will be mapped to
+#' \code{colorby} values. Default value is \code{pch = 19}.
 #' @param cex A numeric indicating the amount by which points should be
 #' scaled relative to the default. Default value is \code{cex = 0.25}.
 #' @param leadSNP A list specifying the lead SNP in the desired region and
@@ -73,10 +71,6 @@
 #' \code{"snp"} in the list. Accepted lead SNP aesthetic
 #' features in the list include
 #' \code{fill}, \code{pch}, \code{cex}, \code{fontcolor}, and \code{fontsize}.
-#' @param scaleLD A character value specifying the \code{data} column name of
-#' linkage disequilibrium (LD) scores to apply \code{fill} and/or
-#' \code{pch} vectors or functions to. LD scores will be grouped into the
-#' following ranges: 0-0.2, 0.2-0.4, 0.4-0.6, 0.6-0.8, 0.8-1.
 #' @param sigLine Logical value indicating whether to draw a line at the
 #' significance level indicated with \code{sigVal}.
 #' Default value is \code{sigLine = FALSE}.
@@ -173,6 +167,13 @@
 #'
 #' ## Plot GWAS data zooming in on chromosome 11
 #' ## highlighting a lead SNP, and coloring by LD score
+#' bb_gwasData$LD <- as.numeric(bb_gwasData$LD)
+#' ## Group LD column into LD ranges
+#' bb_gwasData <- as.data.frame(dplyr::group_by(bb_gwasData,
+#'                                         LDgrp = cut(
+#'                                         bb_gwasData$LD,
+#'                                         c(0, 0.2, 0.4, 0.6, 0.8, 1))))
+#' bb_gwasData$LDgrp <- addNA(bb_gwasData$LDgrp)
 #' leadSNP_p <- min(bb_gwasData[which(bb_gwasData$chr == "chr11"), ]$p)
 #' leadSNP <- bb_gwasData[which(bb_gwasData$p == leadSNP_p), ]$snp
 #' chr11_manhattanPlot <- bb_plotManhattan(
@@ -180,11 +181,12 @@
 #'     chromstart = 60000000,
 #'     chromend = 130000000,
 #'     assembly = "hg19",
-#'     fill = c(
+#'     fill = colorby("LDgrp",
+#'     palette = colorRampPalette(c(
 #'         "#1f4297",
 #'         "#37a7db", "green",
-#'         "orange", "red"
-#'     ),
+#'         "orange", "red", "grey"
+#'     ))),
 #'     sigLine = TRUE, col = "grey",
 #'     lty = 2, range = c(0, 16),
 #'     leadSNP = list(
@@ -263,7 +265,7 @@
 bb_plotManhattan <- function(data, sigVal = 5e-08, chrom = NULL,
                             chromstart = NULL, chromend = NULL,
                             assembly = "hg38", fill = "black", pch = 19,
-                            cex = 0.25, leadSNP = NULL, scaleLD = NULL,
+                            cex = 0.25, leadSNP = NULL,
                             sigLine = FALSE, sigCol = NULL, ymax = 1,
                             range = NULL, space = 0.01, bg = NA,
                             baseline = FALSE, baseline.color = "grey",
@@ -280,7 +282,7 @@ bb_plotManhattan <- function(data, sigVal = 5e-08, chrom = NULL,
     ## Define a function that checks for errors in bb_plotManhattan
     errorcheck_bb_plotmanhattan <- function(bedfile, chrom, chromstart,
                                             chromend, object,
-                                            leadSNP, scaleLD) {
+                                            leadSNP, fill) {
 
         ## check bedfile columns
         if (!"chr" %in% colnames(bedfile)) {
@@ -397,21 +399,15 @@ bb_plotManhattan <- function(data, sigVal = 5e-08, chrom = NULL,
                 "and \'fontsize\'.", call. = FALSE)
             }
         }
-
-        ## scaleLD
-        if (!is.null(scaleLD)) {
-            if (!is(scaleLD, "character")) {
-                stop("\'scaleLD\' input must be a character specifying ",
-                    "the name of a column in data.", call. = FALSE)
-            }
-            if (!scaleLD %in% colnames(bedfile)) {
-                stop(scaleLD, "not found in data.", call. = FALSE)
-            }
-        }
+        
+        ## Colorby
+        bb_checkColorby(fill = fill,
+                        colorby = TRUE,
+                        data = bedfile)
     }
 
     ## Define a function that parses the data into an internal format
-    parse_data <- function(bedfile, chrom, chromstart, chromend, scaleLD) {
+    parse_data <- function(bedfile, fill) {
 
         ## Parse 'chr', 'pos', and 'p' columns
         chrCol <- which(colnames(bedfile) == "chr")
@@ -428,26 +424,33 @@ bb_plotManhattan <- function(data, sigVal = 5e-08, chrom = NULL,
         data$pos <- as.numeric(data$pos)
         data$p <- as.numeric(data$p)
 
-        ## Parse optional 'snp' and scaleLD columns
+        ## Parse optional 'snp' column
         if ("snp" %in% colnames(bedfile)) {
             snpCol <- which(colnames(bedfile) == "snp")
             data$snp <- bedfile[, snpCol]
         }
 
-        if (!is.null(scaleLD)) {
-            ldCol <- which(colnames(bedfile) == scaleLD)
-            data$ld <- bedfile[, ldCol]
+        ## Get colorby column if applicable
+        if (is(fill, "bb_colorby")){
+            colorbyCol <- bedfile[,which(colnames(bedfile) == fill$column)]
+            data[[fill$column]] <- colorbyCol
         }
+        
+        
+        # if (!is.null(scaleLD)) {
+        #     ldCol <- which(colnames(bedfile) == scaleLD)
+        #     data$ld <- bedfile[, ldCol]
+        # }
 
 
-        ## Subset data
-        if (!is.null(chrom)) {
-            data <- data[which(data$chr == chrom), ]
-            if (!is.null(chromstart) & !is.null(chromend)) {
-                data <- data[which(data$pos >= chromstart &
-                    data$pos <= chromend), ]
-            }
-        }
+        # ## Subset data
+        # if (!is.null(chrom)) {
+        #     data <- data[which(data$chr == chrom), ]
+        #     if (!is.null(chromstart) & !is.null(chromend)) {
+        #         data <- data[which(data$pos >= chromstart &
+        #             data$pos <= chromend), ]
+        #     }
+        # }
         return(data)
     }
 
@@ -478,53 +481,56 @@ bb_plotManhattan <- function(data, sigVal = 5e-08, chrom = NULL,
 
         return(object)
     }
-
-    ## Define a function that parses colors specifically for bb_plotManhattan
-    parse_color <- function(fillcolor, offsetAssembly, bedData) {
-        if (!is.null(offsetAssembly)) {
-
-            ## parse type of color input
-            if (is(fillcolor, "function")) {
-                newCol <- fillcolor(nrow(offsetAssembly))
-            } else {
-                newCol <- rep(
-                    fillcolor,
-                    ceiling(nrow(offsetAssembly) / length(fillcolor))
-                )
-            }
-
-            ## Assign associated color number
-            colNum <- length(newCol)
-            colNum_vector <- rep_len(seq(1, colNum),
-                length.out = nrow(offsetAssembly)
-            )
-
-            ## Get color based on number
-            colVec <- newCol[colNum_vector]
-            offsetAssembly <- cbind(offsetAssembly, colVec)
-
-            ## Get associated chroms in bedfile and assign the color
-            chromColor <- function(offsetChrom, bedData) {
-                chromMatch <- as.character(offsetChrom[1])
-                chromCol <- as.character(offsetChrom[5])
-                bedMatches <- bedData[which(bedData[, 1] == chromMatch), ]
-                bedCols <- colnames(bedMatches)
-                bedMatches <- cbind(bedMatches, rep(chromCol, nrow(bedMatches)))
-                colnames(bedMatches) <- c(bedCols, "color")
-                return(bedMatches)
-            }
-
-
-            colorBed <- apply(offsetAssembly, 1, chromColor, bedData = bedData)
-            colorBed <- dplyr::bind_rows(colorBed)
-        } else {
-            if (is(fillcolor, "function")) fillcolor <- fillcolor(1)
-            bedCols <- colnames(bedData)
-            colorBed <- cbind(bedData, rep(fillcolor[1], nrow(bedData)))
-            colnames(colorBed) <- c(bedCols, "color")
+    
+    ## Define a function that maps colors to a multi-chrom Manhattan plot
+    genome_color <- function(fill, offsetAssembly, bedData){
+        
+        newCol <- rep(
+            fill,
+            ceiling(nrow(offsetAssembly) / length(fill))
+        )
+        
+        ## Assign associated color number
+        colNum <- length(newCol)
+        colNum_vector <- rep_len(seq(1, colNum),
+                            length.out = nrow(offsetAssembly)
+        )
+        
+        ## Get color based on number
+        colVec <- newCol[colNum_vector]
+        offsetAssembly <- cbind(offsetAssembly, colVec)
+        
+        ## Get associated chroms in bedfile and assign the color
+        chromColor <- function(offsetChrom, bedData) {
+            chromMatch <- as.character(offsetChrom[1])
+            chromCol <- as.character(offsetChrom[5])
+            bedMatches <- bedData[which(bedData[, 1] == chromMatch), ]
+            bedCols <- colnames(bedMatches)
+            bedMatches <- cbind(bedMatches, rep(chromCol, nrow(bedMatches)))
+            colnames(bedMatches) <- c(bedCols, "color")
+            return(bedMatches)
         }
-
+        
+        colorBed <- apply(offsetAssembly, 1, chromColor, bedData = bedData)
+        colorBed <- dplyr::bind_rows(colorBed)
         return(colorBed)
+        
+    }
+    
+    ## Define a function that maps a vector of pch values to a colorby column
+    mapPch <- function(bedData, fill, pch){
+        ## Map pch to unique colorby column levels
+        pchCol <- bedData[,which(colnames(bedData) == fill$column)]
+        if (!is(pchCol, "factor")){
+            pchCol <- as.factor(pchCol)
+        }
+        pch <- rep(pch,
+                    ceiling(length(levels(pchCol)) / length(pch))
+        )[seq(1, length(pchCol))]
+        names(pch) <- levels(pchCol)
+        bedData$pch <- pch[pchCol]
+        
+        return(bedData)
     }
 
     # =========================================================================
@@ -544,7 +550,7 @@ bb_plotManhattan <- function(data, sigVal = 5e-08, chrom = NULL,
         gpList = bb_manInternal$gp,
         params = bb_manInternal, ...
     )
-
+    bb_manInternal$gp$fill <- NA
     # =========================================================================
     # INITIALIZE OBJECT
     # =========================================================================
@@ -557,6 +563,8 @@ bb_plotManhattan <- function(data, sigVal = 5e-08, chrom = NULL,
         range = bb_manInternal$range,
         ymax = bb_manInternal$ymax,
         space = bb_manInternal$space,
+        color_palette = NULL,
+        zrange = NULL,
         x = bb_manInternal$x, y = bb_manInternal$y,
         width = bb_manInternal$width,
         height = bb_manInternal$height,
@@ -587,7 +595,7 @@ bb_plotManhattan <- function(data, sigVal = 5e-08, chrom = NULL,
 
     bedfile <- read_rangeData(data = bb_manInternal$data,
                             assembly = man_plot$assembly)
-
+    
     # =========================================================================
     # CATCH MORE ERRORS
     # =========================================================================
@@ -598,9 +606,18 @@ bb_plotManhattan <- function(data, sigVal = 5e-08, chrom = NULL,
         chromend = man_plot$chromend,
         object = man_plot,
         leadSNP = bb_manInternal$leadSNP,
-        scaleLD = bb_manInternal$scaleLD
+        fill = bb_manInternal$fill
     )
 
+    # =========================================================================
+    # FORMAT DATA
+    # =========================================================================
+    
+    bed_data <- parse_data(
+        bedfile = bedfile,
+        fill = bb_manInternal$fill
+    )
+    
     # =========================================================================
     # PARSE UNITS
     # =========================================================================
@@ -608,17 +625,6 @@ bb_plotManhattan <- function(data, sigVal = 5e-08, chrom = NULL,
     man_plot <- defaultUnits(
         object = man_plot,
         default.units = bb_manInternal$default.units
-    )
-
-    # =========================================================================
-    # READ AND SUBSET DATA
-    # =========================================================================
-
-    bed_data <- parse_data(
-        bedfile = bedfile, chrom = man_plot$chrom,
-        chromstart = man_plot$chromstart,
-        chromend = man_plot$chromend,
-        scaleLD = bb_manInternal$scaleLD
     )
     
     # =====================================================================
@@ -702,6 +708,29 @@ bb_plotManhattan <- function(data, sigVal = 5e-08, chrom = NULL,
                 )))] * bb_manInternal$space
 
                 xscale <- c(0, max(offsetAssembly[, 4]) + spacer)
+                
+                # =============================================================
+                # COLORS
+                # =============================================================
+                
+                ## Vector of colors behaves differently for multi-chrom 
+                ## Manhattan plot
+                if (!is(bb_manInternal$fill, "bb_colorby")){
+                    
+                    if (length(bb_manInternal$fill) > 1){
+                        bed_data <- genome_color(fill = bb_manInternal$fill,
+                                            offsetAssembly = offsetAssembly,
+                                            bedData = bed_data)
+                    }
+                    
+                } else {
+                    multichromColors <- bb_parseColors(data = bed_data,
+                                                fill = bb_manInternal$fill,
+                                                object = man_plot)
+                    bed_data$color <- multichromColors[[1]]
+                    man_plot <- multichromColors[[2]]
+                }
+                
             } else {
                 xscale <- c(0, 1)
             }
@@ -713,103 +742,67 @@ bb_plotManhattan <- function(data, sigVal = 5e-08, chrom = NULL,
             # ==================================================================
             # SINGLE CHROMOSOME
             # ==================================================================
-            offsetAssembly <- NULL
             
             scaleChecks <- genomicScale(object = man_plot,
                                         objectInternal = bb_manInternal,
                                         plotType = "Manhattan plot")
             man_plot <- scaleChecks[[1]]
             bb_manInternal <- scaleChecks[[2]]
+            
+            # ==================================================================
+            # COLORS
+            # ==================================================================
+            
+            ## Apply fill/colorby for a single chromosome
+            chromColors <- bb_parseColors(data = bed_data,
+                                        fill = bb_manInternal$fill,
+                                        object = man_plot)
+            bed_data$color <- chromColors[[1]]
+            man_plot <- chromColors[[2]]
+            
+            # ==================================================================
+            # SUBSET DATA
+            # ==================================================================
+            
+            bed_data <- bed_data[which(bed_data$chr == man_plot$chrom), ]
+            if (!is.null(man_plot$chromstart) & !is.null(man_plot$chromend)) {
+                bed_data <- bed_data[which(
+                    bed_data$pos >= man_plot$chromstart &
+                        bed_data$pos <= man_plot$chromend), ]
+            }
         }
-
+        
         if (bb_manInternal$txdbChecks != FALSE) {
+            
+            # =================================================================
+            # PCH
+            # =================================================================
+            
+            if (is(bb_manInternal$fill, "bb_colorby")){
+                ## Map pch to colorby column values
+                bed_data <- mapPch(bedData = bed_data,
+                                fill = bb_manInternal$fill,
+                                pch = bb_manInternal$pch)
+            } else {
+                bed_data$pch <- rep(bb_manInternal$pch[1], nrow(bed_data))
+            }
+            
+            # =================================================================
+            # SIGNIFICANCE COLORING
+            # =================================================================
+            
+            ## Significance coloring with sigCol
+            if (!is.null(bb_manInternal$sigCol)){
+                bed_data[bed_data$p <= bb_manInternal$sigVal, ]$color <- 
+                    bb_manInternal$sigCol[1]
+            }
 
             # =================================================================
             # Y-LIMITS
             # =================================================================
 
             man_plot <- manhattan_range(bedData = bed_data, object = man_plot)
-
-            # =================================================================
-            # LD COLORING VS SIGNFICANCE COLORING
-            # =================================================================
-
-            if (!is.null(bb_manInternal$scaleLD)) {
-                ## Make sure LD column is numeric
-                bed_data$ld <- as.numeric(bed_data$ld)
-
-                leadSNP_data <- NULL
-                if ("snp" %in% colnames(bed_data)) {
-                    ## Remove lead SNP from data
-                    leadSNP_data <- bed_data[which(
-                        bed_data$snp == bb_manInternal$leadSNP$snp
-                    ), ]
-                    bed_data <- suppressMessages(dplyr::anti_join(
-                        bed_data, leadSNP_data
-                    ))
-                }
-
-                ## Group LD column into LD ranges
-                bed_data <- dplyr::group_by(bed_data,
-                    LDgrp = cut(
-                        bed_data$ld,
-                        c(0, 0.2, 0.4, 0.6, 0.8, 1)
-                    )
-                )
-
-                ## Apply fill and pch to LD groups
-                if (is(bb_manInternal$fill, "function")) {
-                    bb_manInternal$fill <- bb_manInternal$fill(5)
-                }
-                bed_data$color <- bb_manInternal$fill[bed_data$LDgrp]
-
-                if (length(bb_manInternal$pch) > 1) {
-                    bed_data$pch <- bb_manInternal$pch[bed_data$LDgrp]
-                } else {
-                    bed_data$pch <- rep(bb_manInternal$pch, nrow(bed_data))
-                }
-
-                ## If any are NA, set to "grey"
-                bed_data[which(is.na(bed_data$color)), ]$color <- "grey"
-
-                colorBed <- rbind(bed_data, leadSNP_data)
-            } else {
-
-                # =============================================================
-                # SPLIT DATA INTO SIG AND NON-SIG VALUES FOR ADDITIONAL COLORING
-                # =============================================================
-
-                sigBed <- bed_data[bed_data$p <= bb_manInternal$sigVal, ]
-                nonsigBed <- bed_data[bed_data$p > bb_manInternal$sigVal, ]
-
-                # =============================================================
-                # SIGNFICANT COLORING
-                # =============================================================
-
-                color_nonsig <- parse_color(
-                    fillcolor = bb_manInternal$fill,
-                    offsetAssembly = offsetAssembly,
-                    bedData = nonsigBed
-                )
-
-                if (!is.null(bb_manInternal$sigCol)) {
-                    color_sig <- parse_color(
-                        fillcolor = bb_manInternal$sigCol,
-                        offsetAssembly = offsetAssembly,
-                        bedData = sigBed
-                    )
-                } else {
-                    color_sig <- parse_color(
-                        fillcolor = bb_manInternal$fill,
-                        offsetAssembly = offsetAssembly,
-                        bedData = sigBed
-                    )
-                }
-
-
-                colorBed <- rbind(color_nonsig, color_sig)
-                colorBed$pch <- rep(bb_manInternal$pch[1], nrow(colorBed))
-            }
+            
         } else {
             bb_manInternal$xscale <- c(0, 1)
             man_plot$range <- c(0, 1)
@@ -894,16 +887,16 @@ bb_plotManhattan <- function(data, sigVal = 5e-08, chrom = NULL,
         # =====================================================================
         leadSNP_row <- data.frame(matrix(nrow = 0, ncol = 1))
         if (!is.null(bb_manInternal$leadSNP)) {
-            if ("snp" %in% colnames(colorBed)) {
+            if ("snp" %in% colnames(bed_data)) {
                 # Find index SNP in data
-                leadSNP_row <- colorBed[which(
-                    colorBed$snp == bb_manInternal$leadSNP$snp
+                leadSNP_row <- bed_data[which(
+                    bed_data$snp == bb_manInternal$leadSNP$snp
                 ), ]
                 if (nrow(leadSNP_row) > 0) {
 
                     ## Remove from data to plot separately
-                    colorBed <- suppressMessages(dplyr::anti_join(
-                        colorBed, leadSNP_row
+                    bed_data <- suppressMessages(dplyr::anti_join(
+                        bed_data, leadSNP_row
                     ))
                 } else {
                     warning("Specified lead SNP not found in data.",
@@ -915,17 +908,17 @@ bb_plotManhattan <- function(data, sigVal = 5e-08, chrom = NULL,
         # =====================================================================
         # POINTS
         # =====================================================================
-
+        
         if ("col" %in% names(bb_manInternal$gp)) {
             bb_manInternal$gp$linecolor <- bb_manInternal$gp$col
         }
-
-        bb_manInternal$gp$col <- colorBed$color
-
+        
+        ## Assign color column to gp
+        bb_manInternal$gp$col <- bed_data$color
 
         points <- pointsGrob(
-            x = colorBed$pos, y = -log10(colorBed$p),
-            pch = colorBed$pch,
+            x = bed_data$pos, y = -log10(bed_data$p),
+            pch = bed_data$pch,
             gp = bb_manInternal$gp,
             default.units = "native"
         )

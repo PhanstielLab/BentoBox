@@ -166,7 +166,7 @@ bb_plotTranscripts <- function(chrom, chromstart = NULL, chromend = NULL,
     # =========================================================================
 
     ## Define a function that checks errors for bb_plotTranscripts
-    errorcheck_bb_plotTranscripts <- function(transcript_plot, labels) {
+    errorcheck_bb_plotTranscripts <- function(transcript_plot, labels, fill) {
 
         ## Can't have only one NULL chromstart or chromend
         if ((is.null(transcript_plot$chromstart) &
@@ -197,6 +197,9 @@ bb_plotTranscripts <- function(chrom, chromstart = NULL, chromend = NULL,
             stop("Invalid \'labels\' input. Options are \'NULL\', ",
                 "\'transcript\', \'gene\', or \'both\'.", call. = FALSE)
         }
+        
+        bb_checkColorby(fill = fill,
+                        colorby = FALSE)
     }
 
     ## Define a function that parses the yscale based on split strands
@@ -251,7 +254,8 @@ bb_plotTranscripts <- function(chrom, chromstart = NULL, chromend = NULL,
     check_placement(object = bb_transcripts)
     errorcheck_bb_plotTranscripts(
         transcript_plot = bb_transcripts,
-        labels = bb_transcriptsInternal$labels
+        labels = bb_transcriptsInternal$labels,
+        fill = bb_transcriptsInternal$fill
     )
 
     # =========================================================================

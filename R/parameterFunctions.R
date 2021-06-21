@@ -309,3 +309,43 @@ misc_defaultUnits <- function(value, name, default.units,
 
     return(value)
 }
+
+## Define a function to catch errors for functions that don't handle
+## colorby and for colorby related errors
+bb_checkColorby <- function(fill, colorby = TRUE, data = NULL){
+    
+    ## colorby not allowed for some functions
+    if (colorby == FALSE){
+        if (is(fill, "bb_colorby")){
+            stop("`fill` cannot be a `bb_colorby` object for this function.",
+                call. = FALSE)
+        }
+    } else {
+        ## If colorby allowed, check for appropriate colorby class,
+        ## column in data, and number of colorby column in data
+        if (!is(fill, "character") & !is(fill, "factor")){
+            
+            if (!is(fill, "bb_colorby")){
+                stop("`colorby` not of class \"bb_colorby\". Input colorby ",
+                    "information with `colorby()`.", call. = FALSE)
+            }
+            
+            ## Check for `colorby` column
+            if (!any(colnames(data) == fill$column)) {
+                stop("`colorby` column not found in data. Check ",
+                    "`colorby` column name.",
+                    call. = FALSE
+                )
+            }
+            
+            if (length(which(colnames(data) == fill$column)) > 1) {
+                stop("Multiple matching `colorby` columns found in data. ",
+                    "Please provide `colorby` column name with only ",
+                    "one occurrence.", call. = FALSE)
+            }
+            
+        }
+        
+    }
+    
+}

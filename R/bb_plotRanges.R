@@ -167,7 +167,7 @@ bb_plotRanges <- function(data, chrom, chromstart = NULL, chromend = NULL,
     # =========================================================================
 
     ## Define a function that catches errors
-    errorcheck_bb_plotpileup <- function(pileup_plot, fill) {
+    errorcheck_bb_plotpileup <- function(pileup_plot, fill, bed) {
 
         ## Can't have only one NULL chromstart or chromend
         if ((is.null(pileup_plot$chromstart) &
@@ -193,29 +193,10 @@ bb_plotRanges <- function(data, chrom, chromstart = NULL, chromend = NULL,
             }
         }
         
-        if (!is(fill, "character") & !is(fill, "factor")){
-            ## Check proper class
-            if (!is(fill, "bb_colorby")){
-                stop("`colorby` not of class \"bb_colorby\". Input colorby ",
-                    "information with `colorby()`.", call. = FALSE)
-            }
-            
-            ## Check for `colorby` column
-            if (!any(colnames(bed) == fill$column)) {
-                stop("`colorby` column not found in data. Check ",
-                    "`colorby` column name.",
-                    call. = FALSE
-                )
-            }
-            
-            if (length(which(colnames(bed) == fill$column)) > 1) {
-                stop("Multiple matching `colorby` columns found in data. ",
-                    "Please provide `colorby` column name with only ",
-                    "one occurrence.", call. = FALSE)
-            }
-            
-        }
-        
+        ## Fill/colorby checks
+        bb_checkColorby(fill = fill,
+                        colorby = TRUE,
+                        data = bed)
     }
 
     ## Define a function that parses the yscale based on split strands
@@ -318,7 +299,8 @@ bb_plotRanges <- function(data, chrom, chromstart = NULL, chromend = NULL,
 
     errorcheck_bb_plotpileup(
         pileup_plot = pileup_plot,
-        fill = bb_pileInternal$fill
+        fill = bb_pileInternal$fill,
+        bed = bed
     )
 
     ## chrom format and data chrom format

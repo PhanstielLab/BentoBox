@@ -15,7 +15,6 @@ bb_plotManhattan(
     pch = 19,
     cex = 0.25,
     leadSNP = NULL,
-    scaleLD = NULL,
     sigLine = FALSE,
     sigCol = NULL,
     ymax = 1,
@@ -66,17 +65,16 @@ If left \code{NULL}, all chromosomes found in data will be plotted.}
 \link[BentoBox]{bb_assembly} object.
 Default value is \code{assembly = "hg38"}.}
 
-\item{fill}{Character value(s) as a single value, vector,
-or palette specifying fill colors of data points.
-If \code{scaleLD} is supplied, colors will be mapped to
-\code{scaleLD} values. If \code{scaleLD} is not supplied,
-color vectors and palettes will
-only be mapped to different chromosomes of a multi-chromosomal plot.
+\item{fill}{A single character value, a vector, or a 
+\link[BentoBox]{colorby} object specifying fill colors of data points.
+For a Manhattan plot with multiple chromosomes, a vector of colors 
+will be used to color points of different chromosomes.
 Default value is \code{fill = "black"}.}
 
 \item{pch}{A numeric value or numeric vector specifying point symbols.
-If \code{scaleLD} is supplied, point symbols will be mapped to
-\code{scaleLD} values. Default value is \code{pch = 19}.}
+If \link[BentoBox]{colorby} object is supplied for \code{fill},
+point symbols will be mapped to
+\code{colorby} values. Default value is \code{pch = 19}.}
 
 \item{cex}{A numeric indicating the amount by which points should be
 scaled relative to the default. Default value is \code{cex = 0.25}.}
@@ -87,11 +85,6 @@ The lead SNP should be specified as a character with the name slot
 \code{"snp"} in the list. Accepted lead SNP aesthetic
 features in the list include
 \code{fill}, \code{pch}, \code{cex}, \code{fontcolor}, and \code{fontsize}.}
-
-\item{scaleLD}{A character value specifying the \code{data} column name of
-linkage disequilibrium (LD) scores to apply \code{fill} and/or
-\code{pch} vectors or functions to. LD scores will be grouped into the
-following ranges: 0-0.2, 0.2-0.4, 0.4-0.6, 0.6-0.8, 0.8-1.}
 
 \item{sigLine}{Logical value indicating whether to draw a line at the
 significance level indicated with \code{sigVal}.
@@ -229,6 +222,13 @@ bb_plotText(
 
 ## Plot GWAS data zooming in on chromosome 11
 ## highlighting a lead SNP, and coloring by LD score
+bb_gwasData$LD <- as.numeric(bb_gwasData$LD)
+## Group LD column into LD ranges
+bb_gwasData <- as.data.frame(dplyr::group_by(bb_gwasData,
+                                        LDgrp = cut(
+                                        bb_gwasData$LD,
+                                        c(0, 0.2, 0.4, 0.6, 0.8, 1))))
+bb_gwasData$LDgrp <- addNA(bb_gwasData$LDgrp)
 leadSNP_p <- min(bb_gwasData[which(bb_gwasData$chr == "chr11"), ]$p)
 leadSNP <- bb_gwasData[which(bb_gwasData$p == leadSNP_p), ]$snp
 chr11_manhattanPlot <- bb_plotManhattan(
@@ -236,11 +236,12 @@ chr11_manhattanPlot <- bb_plotManhattan(
     chromstart = 60000000,
     chromend = 130000000,
     assembly = "hg19",
-    fill = c(
+    fill = colorby("LDgrp",
+    palette = colorRampPalette(c(
         "#1f4297",
         "#37a7db", "green",
-        "orange", "red"
-    ),
+        "orange", "red", "grey"
+    ))),
     sigLine = TRUE, col = "grey",
     lty = 2, range = c(0, 16),
     leadSNP = list(
