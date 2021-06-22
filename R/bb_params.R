@@ -28,10 +28,126 @@
 #'
 #' @param assembly String defining the genome build.
 #' Default value is \code{assembly = "hg38"}.
+#' 
 #'
 #' @param ... This function will take any BentoBox function
-#' parameters and their values.
-#'
+#' parameters and their values:
+#' \itemize{
+#' \item{\code{alpha}}
+#' \item{\code{altchrom}}
+#' \item{\code{altchromend}}
+#' \item{\code{altchromstart}}
+#' \item{\code{archHeight}}
+#' \item{\code{arrow}}
+#' \item{\code{at}}
+#' \item{\code{axis}}
+#' \item{\code{axisLine}}
+#' \item{\code{baseline}}
+#' \item{\code{baseline.color}}
+#' \item{\code{baseline.lwd}}
+#' \item{\code{bg}}
+#' \item{\code{binCap}}
+#' \item{\code{binSize}}
+#' \item{\code{border}}
+#' \item{\code{boxHeight}}
+#' \item{\code{boxWidth}}
+#' \item{\code{breaks}}
+#' \item{\code{BSgenome}}
+#' \item{\code{cex}}
+#' \item{\code{check.overlap}}
+#' \item{\code{chrom}}
+#' \item{\code{chromend}}
+#' \item{\code{chromstart}}
+#' \item{\code{clip}}
+#' \item{\code{collapse}}
+#' \item{\code{colorbyStrand}}
+#' \item{\code{colorTrans}}
+#' \item{\code{column}}
+#' \item{\code{commas}}
+#' \item{\code{curvature}}
+#' \item{\code{data}}
+#' \item{\code{default.units}}
+#' \item{\code{digits}}
+#' \item{\code{display.column}}
+#' \item{\code{draw}}
+#' \item{\code{extend}}
+#' \item{\code{file}}
+#' \item{\code{fill}}
+#' \item{\code{flip}}
+#' \item{\code{fontcolor}}
+#' \item{\code{fontsize}}
+#' \item{\code{geneBackground}}
+#' \item{\code{geneHighlights}}
+#' \item{\code{gene.id.column}}
+#' \item{\code{geneOrder}}
+#' \item{\code{Genome}}
+#' \item{\code{half}}
+#' \item{\code{height}}
+#' \item{\code{id}}
+#' \item{\code{id.lengths}}
+#' \item{\code{image}}
+#' \item{\code{interpolate}}
+#' \item{\code{just}}
+#' \item{\code{label}}
+#' \item{\code{labels}}
+#' \item{\code{leadSNP}}
+#' \item{\code{legend}}
+#' \item{\code{length}}
+#' \item{\code{linecolor}}
+#' \item{\code{lineend}}
+#' \item{\code{linejoin}}
+#' \item{\code{lty}}
+#' \item{\code{lwd}}
+#' \item{\code{main}}
+#' \item{\code{margin}}
+#' \item{\code{matrix}}
+#' \item{\code{negData}}
+#' \item{\code{norm}}
+#' \item{\code{OrgDb}}
+#' \item{\code{orientation}}
+#' \item{\code{palette}}
+#' \item{\code{pch}}
+#' \item{\code{plot}}
+#' \item{\code{quiet}}
+#' \item{\code{r}}
+#' \item{\code{range}}
+#' \item{\code{resolution}}
+#' \item{\code{res_scale}}
+#' \item{\code{rot}}
+#' \item{\code{scale}}
+#' \item{\code{scientific}}
+#' \item{\code{scipen}}
+#' \item{\code{sequence}}
+#' \item{\code{shift}} 
+#' \item{\code{showBands}}
+#' \item{\code{showGuides}}
+#' \item{\code{sigCol}}
+#' \item{\code{sigLine}}
+#' \item{\code{sigVal}}
+#' \item{\code{spaceHeight}}
+#' \item{\code{spaceWidth}}
+#' \item{\code{strand}}
+#' \item{\code{strandLabels}}
+#' \item{\code{strandSplit}}
+#' \item{\code{stroke}}
+#' \item{\code{style}}
+#' \item{\code{tcl}}
+#' \item{\code{ticks}}
+#' \item{\code{title}}
+#' \item{\code{TxDb}}
+#' \item{\code{type}}
+#' \item{\code{width}}
+#' \item{\code{x}}
+#' \item{\code{xgrid}}
+#' \item{\code{x0}}
+#' \item{\code{x1}}
+#' \item{\code{y}}
+#' \item{\code{ygrid}}
+#' \item{\code{ymax}}
+#' \item{\code{y0}}
+#' \item{\code{y1}}
+#' \item{\code{zrange}}
+#' }
 #'
 #' @return Returns an object of class \code{bb_params}
 #' containing BentoBox function arguments.
