@@ -74,6 +74,10 @@ Default value is \code{spaceWidth = 0.02}.}
 range element boxes on different rows, as a fraction of boxHeight.
 Default value is \code{spaceHeight = 0.3}.}
 
+\item{limitLabel}{A logical value indicating whether to draw a "+"
+when not all elements can be plotted in the plotting space. Default 
+value is \code{limitLabel = TRUE}.}
+
 \item{strandSplit}{A logical value indicating whether plus and
 minus-stranded elements should be separated. Elements can only be
 split by strand if a \code{strand} column is found in \code{data}.

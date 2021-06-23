@@ -80,6 +80,8 @@ validUnits <- c(
 # @param rowCol Number of column in `data` that corresponds to 
 # the row column. This will depend on the number of columns included
 # in `data`. This is indexed from 0 for C++ syntax.
+# @param limitLabel Logical whether to plot '+' when some elements
+# can't fit.
 # @param side Side of a plot that rows are being assigned.
 # @param gTree Name of gTree of associated fxn for adding limit grobs,
 # if necessary
@@ -87,7 +89,7 @@ validUnits <- c(
 # been assigned. This is so non-numeric columns can be conserved.
 # @param colNames A vector of column names for the extraData for
 # appropriate column naming after row assignment and data combining.
-assignRows <- function(data, maxRows, wiggle, rowCol, side = "top",
+assignRows <- function(data, maxRows, wiggle, rowCol, limitLabel, side = "top",
                     gTree, extraData = NULL, colNames = NULL){
     
     if (nrow(data) > 0){
@@ -114,30 +116,41 @@ assignRows <- function(data, maxRows, wiggle, rowCol, side = "top",
         ## Remove and warn if any data does not get assigned a row
         if (any(rowData$row == 0)){
             rowData <- rowData[which(rowData$row != 0), ]
-            warning("Not enough plotting space for all provided elements.",
-                    call. = FALSE)
+            message <- "Not enough plotting space for all provided elements."
             
-            if (side == "top"){
-                y <- unit(1, "npc")
-                just <- c("right", "top")
-            } else{
-                y <- unit(0, "npc")
-                just <- c("right", "bottom")
+            if (limitLabel == TRUE){
+                
+                message <- paste("Not enough plotting space for all provided",
+                    "elements. ('+' indicates elements not shown.)")
+                
+                if (side == "top"){
+                    y <- unit(1, "npc")
+                    just <- c("right", "top")
+                } else{
+                    y <- unit(0, "npc")
+                    just <- c("right", "bottom")
+                }
+                
+                limitGrob <- textGrob(
+                    label = "+", x = unit(1, "npc"),
+                    y = y,
+                    just = just,
+                    gp = gpar(col = "grey", fontsize = 6)
+                )
+                assign(gTree,
+                       addGrob(
+                           gTree = get(gTree, envir = bbEnv),
+                           child = limitGrob
+                       ),
+                       envir = bbEnv
+                )
+                
             }
             
-            limitGrob <- textGrob(
-                label = "+", x = unit(1, "npc"),
-                y = y,
-                just = just,
-                gp = gpar(col = "grey", fontsize = 6)
-            )
-            assign(gTree,
-                    addGrob(
-                        gTree = get(gTree, envir = bbEnv),
-                        child = limitGrob
-                    ),
-                envir = bbEnv
-            )
+            
+            warning(message, call. = FALSE)
+            
+            
         }
         
         ## Change row index to 0 to calculate y

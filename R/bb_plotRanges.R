@@ -58,6 +58,9 @@
 #' @param spaceHeight A numeric value specifying the height of spacing between
 #' range element boxes on different rows, as a fraction of boxHeight.
 #' Default value is \code{spaceHeight = 0.3}.
+#' @param limitLabel A logical value indicating whether to draw a "+"
+#' when not all elements can be plotted in the plotting space. Default 
+#' value is \code{limitLabel = TRUE}.
 #' @param strandSplit A logical value indicating whether plus and
 #' minus-stranded elements should be separated. Elements can only be
 #' split by strand if a \code{strand} column is found in \code{data}.
@@ -153,9 +156,10 @@
 #' @export
 bb_plotRanges <- function(data, chrom, chromstart = NULL, chromend = NULL,
                         assembly = "hg38", fill = "#7ecdbb",
-                        linecolor = NA, collapse = FALSE,
+                        linecolor = NA, collapse = FALSE, 
                         boxHeight = unit(2, "mm"), spaceWidth = 0.02,
-                        spaceHeight = 0.3, strandSplit = FALSE, bg = NA,
+                        spaceHeight = 0.3, limitLabel = TRUE,
+                        strandSplit = FALSE, bg = NA,
                         baseline = FALSE, baseline.color = "grey",
                         baseline.lwd = 1,
                         x = NULL, y = NULL, width = NULL, height = NULL,
@@ -480,6 +484,7 @@ bb_plotRanges <- function(data, chrom, chromstart = NULL, chromend = NULL,
             rowData <- assignRows(data = bed[,c(2,3)], 
                                 maxRows = maxRows,
                                 wiggle = wiggle, rowCol = 2,
+                                limitLabel = bb_pileInternal$limitLabel,
                                 gTree = "pileup_grobs",
                                 extraData = bed[,c("color")],
                                 colNames = "color")
@@ -497,12 +502,14 @@ bb_plotRanges <- function(data, chrom, chromstart = NULL, chromend = NULL,
             posData <- assignRows(data = posStrand[,c(2,3)],
                                 maxRows = maxRows * 0.5,
                                 wiggle = wiggle, rowCol = 2,
+                                limitLabel = bb_pileInternal$limitLabel,
                                 gTree = "pileup_grobs",
                                 extraData = posStrand[,c("color")],
                                 colNames = "color")
             minData <- assignRows(data = minStrand[,c(2,3)],
                                 maxRows = maxRows * 0.5,
-                                wiggle = wiggle, rowCol = 2, 
+                                wiggle = wiggle, rowCol = 2,
+                                limitLabel = bb_pileInternal$limitLabel,
                                 side = "bottom",
                                 gTree = "pileup_grobs",
                                 extraData = minStrand[,c("color")],

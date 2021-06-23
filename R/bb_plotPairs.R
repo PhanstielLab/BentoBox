@@ -52,6 +52,9 @@
 #' @param spaceHeight A numeric specifying the height of space between
 #' boxes of paired range elements on different rows.
 #' Default value is \code{spaceHeight = 0.3}.
+#' @param limitLabel A logical value indicating whether to draw a "+"
+#' when not all elements can be plotted in the plotting space. Default 
+#' value is \code{limitLabel = TRUE}.
 #' @param baseline Logical value indicating whether to include a baseline
 #' along the x-axis. Default value is \code{baseline = FALSE}.
 #' @param baseline.color Baseline color.
@@ -153,6 +156,7 @@ bb_plotPairs <- function(data, chrom, chromstart = NULL, chromend = NULL,
                         assembly = "hg38", fill = "#1f4297",
                         linecolor = NA, bg = NA, boxHeight = unit(2, "mm"),
                         spaceWidth = 0.02, spaceHeight = 0.3,
+                        limitLabel = TRUE,
                         baseline = FALSE, baseline.color = "grey",
                         baseline.lwd = 1,
                         x = NULL, y = NULL, width = NULL, height = NULL,
@@ -451,6 +455,7 @@ bb_plotPairs <- function(data, chrom, chromstart = NULL, chromend = NULL,
                             maxRows = maxRows,
                             wiggle = wiggle,
                             rowCol = 3,
+                            limitLabel = bb_bedpeInternal$limitLabel,
                             gTree = "bedpe_grobs",
                             extraData = bedpe[,c("color", "width1",
                                                 "width2", "pos1",

@@ -52,6 +52,9 @@
 #' @param spaceHeight A numeric value specifying the height of spacing
 #' between transcripts on different rows, as a fraction of \code{boxHeight}.
 #' Default value is \code{spaceHeight = 0.3}.
+#' @param limitLabel A logical value indicating whether to draw a "+"
+#' when not all elements can be plotted in the plotting space. Default 
+#' value is \code{limitLabel = TRUE}.
 #' @param fontsize A numeric specifying text fontsize in points.
 #' Default value is \code{fontsize = 8}.
 #' @param labels A character value describing the format of
@@ -154,7 +157,8 @@ bb_plotTranscripts <- function(chrom, chromstart = NULL, chromend = NULL,
                             fill = c("#669fd9", "#abcc8e"),
                             colorbyStrand = TRUE, strandSplit = FALSE,
                             boxHeight = unit(2, "mm"), spaceWidth = 0.02,
-                            spaceHeight = 0.3, fontsize = 8,
+                            spaceHeight = 0.3, limitLabel = TRUE, 
+                            fontsize = 8,
                             labels = "transcript", stroke = 0.1, bg = NA,
                             x = NULL, y = NULL, width = NULL,
                             height = NULL, just = c("left", "top"),
@@ -464,6 +468,7 @@ bb_plotTranscripts <- function(chrom, chromstart = NULL, chromend = NULL,
                             maxRows = maxRows,
                             wiggle = wiggle, 
                             rowCol = 3,
+                            limitLabel = bb_transcriptsInternal$limitLabel,
                             gTree = "transcript_grobs")
         
         ## Recombine row data with original data with all transcript details
@@ -498,10 +503,12 @@ bb_plotTranscripts <- function(chrom, chromstart = NULL, chromend = NULL,
         posData <- assignRows(data = repPos[,c("TXSTART", "TXEND", "TXID")],
                             maxRows = floor(maxRows / 2),
                             wiggle = wiggle, rowCol = 3,
+                            limitLabel = bb_transcriptsInternal$limitLabel,
                             gTree = "transcript_grobs")
         minData <- assignRows(data = repMin[,c("TXSTART", "TXEND", "TXID")],
                             maxRows = floor(maxRows / 2),
                             wiggle = wiggle, rowCol = 3,
+                            limitLabel = bb_transcriptsInternal$limitLabel,
                             gTree = "transcript_grobs",
                             side = "bottom")
         

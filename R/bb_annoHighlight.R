@@ -130,7 +130,7 @@ bb_annoHighlight <- function(plot, chrom, chromstart = NULL, chromend = NULL,
         - convertY(y, unitTo = page_units), unitTo = page_units)
         height <- convertHeight(height, unitTo = page_units)
 
-        if (length(just == 2)) {
+        if (length(just) == 2) {
             if ("left" %in% just & "center" %in% just) {
                 topy <- y + 0.5 * height
             } else if ("right" %in% just & "center" %in% just) {
@@ -150,7 +150,7 @@ bb_annoHighlight <- function(plot, chrom, chromstart = NULL, chromend = NULL,
             } else {
                 topy <- y + 0.5 * height
             }
-        } else if (length(just == 1)) {
+        } else if (length(just) == 1) {
             if (just == "left") {
                 topy <- y + 0.5 * height
             } else if (just == "right") {
@@ -344,13 +344,27 @@ bb_annoHighlight <- function(plot, chrom, chromstart = NULL, chromend = NULL,
     )
 
     if (!is.null(bb_highlight$chromstart) & !is.null(bb_highlight$chromend)) {
-        highlightGrob <- grid.rect(
-            x = unit(start, page_units), y = top_y,
-            width = unit(width, page_units),
-            height = bb_highlight$height,
-            just = c("left", "top"),
-            gp = bb_highlightInternal$gp, name = name
-        )
+        
+        if (width == 0){
+            
+            bb_highlightInternal$gp$col <- bb_highlightInternal$gp$fill
+            
+            highlightGrob <- grid.segments(
+                x0 = unit(start, page_units), 
+                x1 = unit(start, page_units),
+                y0 = top_y,
+                y1 = top_y - bb_highlight$height,
+                gp = bb_highlightInternal$gp, name = name
+            )
+        } else {
+            highlightGrob <- grid.rect(
+                x = unit(start, page_units), y = top_y,
+                width = unit(width, page_units),
+                height = bb_highlight$height,
+                just = c("left", "top"),
+                gp = bb_highlightInternal$gp, name = name
+            )
+        }
         bb_highlight$grobs <- highlightGrob
     }
 

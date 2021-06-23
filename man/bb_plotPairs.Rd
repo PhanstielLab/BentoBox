@@ -68,6 +68,10 @@ Default value is \code{spaceWidth = 0.02}.}
 boxes of paired range elements on different rows.
 Default value is \code{spaceHeight = 0.3}.}
 
+\item{limitLabel}{A logical value indicating whether to draw a "+"
+when not all elements can be plotted in the plotting space. Default 
+value is \code{limitLabel = TRUE}.}
+
 \item{baseline}{Logical value indicating whether to include a baseline
 along the x-axis. Default value is \code{baseline = FALSE}.}
 

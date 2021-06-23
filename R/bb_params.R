@@ -93,6 +93,7 @@
 #' \item{\code{leadSNP}}
 #' \item{\code{legend}}
 #' \item{\code{length}}
+#' \item{\code{limitLabel}}
 #' \item{\code{linecolor}}
 #' \item{\code{lineend}}
 #' \item{\code{linejoin}}

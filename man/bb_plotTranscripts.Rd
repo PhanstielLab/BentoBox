@@ -67,6 +67,10 @@ Default value is \code{spaceWidth = 0.02}.}
 between transcripts on different rows, as a fraction of \code{boxHeight}.
 Default value is \code{spaceHeight = 0.3}.}
 
+\item{limitLabel}{A logical value indicating whether to draw a "+"
+when not all elements can be plotted in the plotting space. Default 
+value is \code{limitLabel = TRUE}.}
+
 \item{fontsize}{A numeric specifying text fontsize in points.
 Default value is \code{fontsize = 8}.}
 
