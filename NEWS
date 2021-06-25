@@ -1,3 +1,15 @@
+CHANGES IN VERSION 0.1.6
+-------------------------
+
+BUG FIXES 
+
+    o R version requirement changed to (R >= 4.1.0) for proper plot placement.
+    
+NEW FEATURES
+
+    o `colorby` object now has a `scalePerRegion` parameter to scale numerical
+    `colorby` data to the range of data in a plotted genomic region.
+
 CHANGES IN VERSION 0.1.5
 -------------------------
 

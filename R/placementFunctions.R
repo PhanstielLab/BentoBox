@@ -59,8 +59,8 @@ check_placement <- function(object) {
 
 
             ## 3. Need a bb_page
-            check_bbpage(error = "Must make a BentoBox page with",
-                        " `bb_pageCreate()` before placing a plot.")
+            check_bbpage(error = paste("Must make a BentoBox page with",
+                                    "`bb_pageCreate()` before placing a plot."))
         }
     }
 }
