@@ -331,11 +331,11 @@ bb_plotPairs <- function(data, chrom, chromstart = NULL, chromend = NULL,
 
     if (!is.null(bb_bedpe$chromstart) & !is.null(bb_bedpe$chromend)) {
         bedpe <- bedpe[which(bedpe[, 1] == bb_bedpe$chrom &
-                                 bedpe[, 4] == bb_bedpe$chrom &
-                                 ((bedpe[, 3] >= bb_bedpe$chromstart &
-                                       bedpe[, 3] <= bb_bedpe$chromend) |
-                                      (bedpe[, 5] <= bb_bedpe$chromstart &
-                                           bedpe[, 5] >= bb_bedpe$chromend))), ]
+                            bedpe[, 4] == bb_bedpe$chrom &
+                            ((bedpe[, 3] >= bb_bedpe$chromstart &
+                            bedpe[, 3] <= bb_bedpe$chromend) |
+                            (bedpe[, 5] <= bb_bedpe$chromstart &
+                            bedpe[, 5] >= bb_bedpe$chromend))), ]
     } else {
         bedpe <- data.frame(matrix(nrow = 0, ncol = 6))
     }
