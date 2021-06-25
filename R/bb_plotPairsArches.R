@@ -431,10 +431,16 @@ bb_plotPairsArches <- function(data, chrom, chromstart = NULL, chromend = NULL,
     # COLORS
     # =========================================================================
     
+    if (bb_archInternal$clip == TRUE){
+        subset <- "pairs_clip"
+    } else {
+        subset <- "pairs"
+    }
+    
     archColors <- bb_parseColors(data = bedpe,
                                 fill = bb_archInternal$fill,
                                 object = arches_plot,
-                                subset = "pairs")
+                                subset = subset)
     
     bedpe$color <- archColors[[1]]
     arches_plot <- archColors[[2]]
@@ -476,7 +482,6 @@ bb_plotPairsArches <- function(data, chrom, chromstart = NULL, chromend = NULL,
     }
 
     arches_plot$bedpe <- bedpe[,c(seq(1, 6))]
-
     # =========================================================================
     # VIEWPORTS
     # =========================================================================

@@ -106,8 +106,18 @@ bb_parseColors <- function(data, fill, object, subset = NULL){
                 } else if (subset == "pairs"){
                     subData <- data[which(data[,1] == object$chrom &
                                             data[,4] == object$chrom &
-                                            data[,2] <= object$chromend &
-                                            data[,6] >= object$chromstart),]
+                                              ((data[,3] >= object$chromstart &
+                                                    data[,3] <= object$chromend) |
+                                                   (data[,5] <= object$chromstart &
+                                                        data[,5] >= object$chromend))),]
+                } else if (subset == "pairs_clip"){
+                    subData <- data[which(data[,1] == object$chrom &
+                                              data[,4] == object$chrom &
+                                              data[,2] >= object$chromstart &
+                                              data[,3] <= object$chromend &
+                                              data[,5] >= object$chromstart &
+                                              data[,6] <= object$chromend),]
+                    
                 } else if (subset == "manhattan"){
                     subData <- data[which(data[,1] == object$chrom &
                                             data[,2] >= object$chromstart &
