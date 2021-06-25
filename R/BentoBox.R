@@ -56,4 +56,6 @@
 #' @importFrom dplyr group_by
 #' @importFrom purrr map
 #' @import grid
+#' @importFrom strawr straw
+#' @importFrom strawr readHicBpResolutions
 "_PACKAGE"

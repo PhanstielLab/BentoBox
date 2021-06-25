@@ -138,11 +138,11 @@ assignRows <- function(data, maxRows, wiggle, rowCol, limitLabel, side = "top",
                     gp = gpar(col = "grey", fontsize = 6)
                 )
                 assign(gTree,
-                       addGrob(
-                           gTree = get(gTree, envir = bbEnv),
-                           child = limitGrob
-                       ),
-                       envir = bbEnv
+                        addGrob(
+                            gTree = get(gTree, envir = bbEnv),
+                            child = limitGrob
+                        ),
+                        envir = bbEnv
                 )
                 
             }

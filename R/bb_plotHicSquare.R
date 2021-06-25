@@ -346,7 +346,7 @@ bb_plotHicSquare <- function(data, resolution = "auto", zrange = NULL,
         }
 
 
-        ###### half/althalf #####
+        ###### half #####
 
         if (is.null(hic_plot$altchrom)) {
             if (!(hic_plot$half %in% c("both", "top", "bottom"))) {
@@ -362,6 +362,7 @@ bb_plotHicSquare <- function(data, resolution = "auto", zrange = NULL,
                     "or \'bottom\'.", call. = FALSE)
             }
         }
+        
     }
 
     ## Define a function that checks for and gets whole chromosome
@@ -596,7 +597,23 @@ bb_plotHicSquare <- function(data, resolution = "auto", zrange = NULL,
         object = hic_plot,
         default.units = bb_hicInternal$default.units
     )
-
+    
+    if (!is.null(hic_plot$x) & !is.null(hic_plot$y)){
+        
+        ## Convert width and height to same unit to check that they're the same
+        width <- convertWidth(hic_plot$width, unitTo = get("page_units", 
+                                                           envir = bbEnv))
+        height <- convertHeight(hic_plot$height, unitTo = get("page_units",
+                                                              envir = bbEnv))
+        
+        if (!identical(width, height)){
+            stop("Attempting to plot square Hi-C plot with different width and",
+                 " height. Use `bb_plotHicTriangle` or `bb_plotHicRectangle` for",
+                 " non-square Hi-C plots.", call. = FALSE)
+        }
+        
+    }
+    
     # =========================================================================
     # GENOMIC SCALE
     # =========================================================================

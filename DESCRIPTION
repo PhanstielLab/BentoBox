@@ -28,7 +28,7 @@ Description:
     the ability to programmatically produce complex, multi-paneled figures. Tailored for
     genomics, BentoBox allows users to visualize large complex genomic datasets and
     provides exquisite control over how plots are placed and arranged on a page. 
-Depends: R (>= 3.5.0)
+Depends: R (>= 4.1.0)
 License: MIT + file LICENSE
 URL: https://phanstiellab.github.io/BentoBox, https://github.com/PhanstielLab/BentoBox
 Encoding: UTF-8
@@ -49,7 +49,6 @@ Imports:
     strawr,
     tools,
     utils
-Remotes: PhanstielLab/straw/R
 biocViews: 
     Visualization, 
     GenomeAnnotation, 

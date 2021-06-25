@@ -590,7 +590,7 @@ bb_plotPairsArches <- function(data, chrom, chromstart = NULL, chromend = NULL,
                 envir = bbEnv
             )
         }
-
+        
         invisible(apply(bedpe, 1, drawRibbons,
             style = bb_archInternal$style,
             arch = bb_archInternal$curvature,

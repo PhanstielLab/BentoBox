@@ -4,7 +4,7 @@
 adjust_resolution <- function(hic, hic_plot) {
     if (!("data.frame" %in% class(hic))) {
         if (!is.null(hic_plot$chromstart) & !is.null(hic_plot$chromend)) {
-            fileResolutions <- readHicBpResolutions(hic)
+            fileResolutions <- strawr::readHicBpResolutions(hic)
 
             ## Get range of data and try to pick a resolution
             dataRange <- hic_plot$chromend - hic_plot$chromstart

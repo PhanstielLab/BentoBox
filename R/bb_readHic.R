@@ -252,7 +252,7 @@ bb_readHic <- function(file, chrom, chromstart = NULL, chromend = NULL,
 
     ## Define a function that determines a best resolution for size of region
     auto_resolution <- function(file, chromstart, chromend) {
-        fileResolutions <- readHicBpResolutions(file)
+        fileResolutions <- strawr::readHicBpResolutions(file)
         if (is.null(chromstart) & is.null(chromend)) {
             autoRes <- max(fileResolutions)
         } else {

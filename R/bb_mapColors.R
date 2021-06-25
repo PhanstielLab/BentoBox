@@ -102,7 +102,6 @@ bb_parseColors <- function(data, fill, object){
         colors <- bb_mapColors(vector = colorbyCol,
                             palette = object$color_palette,
                             range = object$zrange)
-        
     } else {
         
         if (length(fill) == 1){
