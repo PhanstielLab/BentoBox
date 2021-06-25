@@ -752,11 +752,11 @@ bb_plotManhattan <- function(data, sigVal = 5e-08, chrom = NULL,
             # ==================================================================
             # COLORS
             # ==================================================================
-            
             ## Apply fill/colorby for a single chromosome
             chromColors <- bb_parseColors(data = bed_data,
                                         fill = bb_manInternal$fill,
-                                        object = man_plot)
+                                        object = man_plot,
+                                        subset = "manhattan")
             bed_data$color <- chromColors[[1]]
             man_plot <- chromColors[[2]]
             

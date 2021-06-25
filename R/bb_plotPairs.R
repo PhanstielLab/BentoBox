@@ -320,7 +320,8 @@ bb_plotPairs <- function(data, chrom, chromstart = NULL, chromend = NULL,
     
     pairColors <- bb_parseColors(data = bedpe,
                                 fill = bb_bedpeInternal$fill,
-                                object = bb_bedpe)
+                                object = bb_bedpe,
+                                subset = "pairs")
     bedpe$color <- pairColors[[1]]
     bb_bedpe <- pairColors[[2]]
 

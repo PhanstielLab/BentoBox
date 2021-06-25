@@ -9,6 +9,9 @@
 #' color scaling.
 #' @param range (optional) A numeric vector specifying the range of values to
 #' apply a color scale to.
+#' @param scalePerRegion A logical value indicating whether to adjust 
+#' NULL range of numerical `colorby` values to subset of data in a plotted
+#' genomic regoin. Default value is \code{scalePerRegion = FALSE}.
 #'
 #' @return Returns a "\code{bb_colorby}" object.
 #'
@@ -31,9 +34,11 @@
 #'     lwd = 2, spaceHeight = .7,
 #' )
 #' @export
-colorby <- function(column, palette = NULL, range = NULL) {
+colorby <- function(column, palette = NULL, range = NULL, 
+                    scalePerRegion = FALSE) {
     colorbyObject <- structure(list(column = column, palette = palette, 
-                                    range = range),
+                                    range = range, 
+                                    scalePerRegion = scalePerRegion),
         class = "bb_colorby"
     )
     return(colorbyObject)

@@ -328,7 +328,8 @@ bb_plotRanges <- function(data, chrom, chromstart = NULL, chromend = NULL,
     
     rangeColors <- bb_parseColors(data = bed,
                                 fill = bb_pileInternal$fill,
-                                object = pileup_plot)
+                                object = pileup_plot,
+                                subset = "ranges")
     bed$color <- rangeColors[[1]]
     pileup_plot <- rangeColors[[2]]
     

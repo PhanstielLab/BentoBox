@@ -4,7 +4,7 @@
 \alias{colorby}
 \title{Handle BentoBox color scaling parameters}
 \usage{
-colorby(column, palette = NULL, range = NULL)
+colorby(column, palette = NULL, range = NULL, scalePerRegion = FALSE)
 }
 \arguments{
 \item{column}{String specifying name of data column to scale colors by.}
@@ -14,6 +14,10 @@ color scaling.}
 
 \item{range}{(optional) A numeric vector specifying the range of values to
 apply a color scale to.}
+
+\item{scalePerRegion}{A logical value indicating whether to adjust NULL range of
+numerical `colorby` values to subset of data in a plotted genomic regoin.
+Default value is \code{scalePerRegion = FALSE}.}
 }
 \value{
 Returns a "\code{bb_colorby}" object.

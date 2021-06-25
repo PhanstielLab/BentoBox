@@ -42,7 +42,6 @@ bb_mapColors <- function(vector, palette, range = NULL){
 ## Color palette and range default assignments for bb_mapColors
 ## Returns an updated object with the color palette and range
 bb_colorDefaults <- function(vector, palette = NULL, range = NULL, object){
-    
     if (is(vector, "numeric") | is(vector, "integer")){
         
         if (is.null(palette)){
@@ -84,13 +83,43 @@ bb_colorDefaults <- function(vector, palette = NULL, range = NULL, object){
 # a colorby object
 # @param object The plot object, to be updated with any color_palette
 # and zrange information
-bb_parseColors <- function(data, fill, object){
+# @param subset A string describing the type of data, which will determine
+# how to subset it. Options are ranges, pairs, or manhattan.
+bb_parseColors <- function(data, fill, object, subset = NULL){
     
     ## `colorby` class
     if (is(fill, "bb_colorby")){
         
-        colorbyCol <- which(colnames(data) == fill$column)
-        colorbyCol <- data[, colorbyCol]
+        colorbyColNo <- which(colnames(data) == fill$column)
+        colorbyCol <- data[, colorbyColNo]
+        
+        ## Scale numeric colorby data by the subsetted plotted region
+        if ((is(colorbyCol, "numeric") | is(colorbyCol, "integer")) 
+                & is.null(object$zrange)){
+            
+            if (fill$scalePerRegion == TRUE){
+                if (subset == "ranges"){
+                    subData <- data[which(data[,1] == object$chrom &
+                                            data[,2] <= object$chromend &
+                                            data[,3] >= object$chromstart),] 
+                    
+                } else if (subset == "pairs"){
+                    subData <- data[which(data[,1] == object$chrom &
+                                            data[,4] == object$chrom &
+                                            data[,2] <= object$chromend &
+                                            data[,6] >= object$chromstart),]
+                } else if (subset == "manhattan"){
+                    subData <- data[which(data[,1] == object$chrom &
+                                            data[,2] >= object$chromstart &
+                                            data[,2] <= object$chromend),]
+                } else {
+                    subData <- data
+                }
+                
+                fill$range <- range(subData[,colorbyColNo])
+            }
+            
+        }
         
         ## Default palette and range
         object <- bb_colorDefaults(vector = colorbyCol,

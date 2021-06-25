@@ -602,14 +602,14 @@ bb_plotHicSquare <- function(data, resolution = "auto", zrange = NULL,
         
         ## Convert width and height to same unit to check that they're the same
         width <- convertWidth(hic_plot$width, unitTo = get("page_units", 
-                                                           envir = bbEnv))
+                                                        envir = bbEnv))
         height <- convertHeight(hic_plot$height, unitTo = get("page_units",
-                                                              envir = bbEnv))
+                                                            envir = bbEnv))
         
         if (!identical(width, height)){
             stop("Attempting to plot square Hi-C plot with different width and",
-                 " height. Use `bb_plotHicTriangle` or `bb_plotHicRectangle` for",
-                 " non-square Hi-C plots.", call. = FALSE)
+                " height. Use `bb_plotHicTriangle` or `bb_plotHicRectangle` ",
+                " for non-square Hi-C plots.", call. = FALSE)
         }
         
     }

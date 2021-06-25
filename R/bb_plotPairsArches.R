@@ -433,7 +433,8 @@ bb_plotPairsArches <- function(data, chrom, chromstart = NULL, chromend = NULL,
     
     archColors <- bb_parseColors(data = bedpe,
                                 fill = bb_archInternal$fill,
-                                object = arches_plot)
+                                object = arches_plot,
+                                subset = "pairs")
     
     bedpe$color <- archColors[[1]]
     arches_plot <- archColors[[2]]
