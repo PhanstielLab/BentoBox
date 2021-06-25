@@ -16,6 +16,7 @@ bb_plotPairs(
     boxHeight = unit(2, "mm"),
     spaceWidth = 0.02,
     spaceHeight = 0.3,
+    limitLabel = TRUE,
     baseline = FALSE,
     baseline.color = "grey",
     baseline.lwd = 1,

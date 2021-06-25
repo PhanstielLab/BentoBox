@@ -15,6 +15,7 @@ bb_plotTranscripts(
     boxHeight = unit(2, "mm"),
     spaceWidth = 0.02,
     spaceHeight = 0.3,
+    limitLabel = TRUE,
     fontsize = 8,
     labels = "transcript",
     stroke = 0.1,

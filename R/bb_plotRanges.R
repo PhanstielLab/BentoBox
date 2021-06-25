@@ -12,6 +12,7 @@
 #'     boxHeight = unit(2, "mm"),
 #'     spaceWidth = 0.02,
 #'     spaceHeight = 0.3,
+#'     limitLabel = TRUE,
 #'     strandSplit = FALSE,
 #'     bg = NA,
 #'     baseline = FALSE,
