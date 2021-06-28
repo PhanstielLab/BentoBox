@@ -436,21 +436,6 @@ bb_plotManhattan <- function(data, sigVal = 5e-08, chrom = NULL,
             data[[fill$column]] <- colorbyCol
         }
         
-        
-        # if (!is.null(scaleLD)) {
-        #     ldCol <- which(colnames(bedfile) == scaleLD)
-        #     data$ld <- bedfile[, ldCol]
-        # }
-
-
-        # ## Subset data
-        # if (!is.null(chrom)) {
-        #     data <- data[which(data$chr == chrom), ]
-        #     if (!is.null(chromstart) & !is.null(chromend)) {
-        #         data <- data[which(data$pos >= chromstart &
-        #             data$pos <= chromend), ]
-        #     }
-        # }
         return(data)
     }
 
@@ -793,8 +778,10 @@ bb_plotManhattan <- function(data, sigVal = 5e-08, chrom = NULL,
             
             ## Significance coloring with sigCol
             if (!is.null(bb_manInternal$sigCol)){
-                bed_data[bed_data$p <= bb_manInternal$sigVal, ]$color <- 
-                    bb_manInternal$sigCol[1]
+                if (nrow(bed_data[bed_data$p <= bb_manInternal$sigVal, ]) > 0){
+                    bed_data[bed_data$p <= bb_manInternal$sigVal, ]$color <- 
+                        bb_manInternal$sigCol[1]
+                }
             }
 
             # =================================================================
@@ -915,7 +902,11 @@ bb_plotManhattan <- function(data, sigVal = 5e-08, chrom = NULL,
         
         ## Assign color column to gp
         bb_manInternal$gp$col <- bed_data$color
-
+        
+        ## Remove any additional lty information for point plotting
+        bb_manInternal$gp$linetype <- bb_manInternal$gp$lty
+        bb_manInternal$gp$lty <- NULL
+        
         points <- pointsGrob(
             x = bed_data$pos, y = -log10(bed_data$p),
             pch = bed_data$pch,
@@ -982,6 +973,7 @@ bb_plotManhattan <- function(data, sigVal = 5e-08, chrom = NULL,
 
         if (bb_manInternal$sigLine == TRUE) {
             bb_manInternal$gp$col <- bb_manInternal$gp$linecolor
+            bb_manInternal$gp$lty <- bb_manInternal$gp$linetype
             sigGrob <- segmentsGrob(
                 x0 = unit(0, "npc"),
                 y0 = unit(
