@@ -212,10 +212,17 @@ bb_plotGenes <- function(chrom, chromstart = NULL, chromend = NULL,
         
     }
 
-    ## Define a function that gets total lengths and centers of genes
-    get_geneCenters <- function(geneData) {
+    ## Define a function that gets total lengths and centers of visible genes
+    get_geneCenters <- function(geneData, object) {
         minStart <- min(geneData$TXSTART)
+        if (minStart < object$chromstart){
+            minStart <- object$chromstart
+        }
         maxEnd <- max(geneData$TXEND)
+        if (maxEnd > object$chromend){
+            maxEnd <- object$chromend
+        }
+        
         geneLength <- maxEnd - minStart
         geneCenter <- mean(c(minStart, maxEnd))
         return(list(geneLength, geneCenter))
@@ -744,13 +751,15 @@ bb_plotGenes <- function(chrom, chromstart = NULL, chromend = NULL,
 
         ## For every GENEID dataframe, get length and center
         ## location of each total gene
-        plusgeneCenters <- lapply(separatedplusGenes, get_geneCenters)
+        plusgeneCenters <- lapply(separatedplusGenes, get_geneCenters,
+                                object = bb_genes)
         plusgeneCenters <- data.frame(
             GENEID = names(plusgeneCenters),
             length = unlist(purrr::map(plusgeneCenters, 1)),
             labelLoc = unlist(purrr::map(plusgeneCenters, 2))
         )
-        minusgeneCenters <- lapply(separatedminusGenes, get_geneCenters)
+        minusgeneCenters <- lapply(separatedminusGenes, get_geneCenters, 
+                                object = bb_genes)
         minusgeneCenters <- data.frame(
             GENEID = names(minusgeneCenters),
             length = unlist(purrr::map(minusgeneCenters, 1)),
