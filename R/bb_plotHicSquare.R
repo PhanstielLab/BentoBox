@@ -183,62 +183,11 @@ bb_plotHicSquare <- function(data, resolution = "auto", zrange = NULL,
     ## Define a function that catches errors for bb_plothic
     errorcheck_bb_plothic <- function(hic, hic_plot, norm) {
         
-        ###### hic/norm #####
-
-        ## if it's a dataframe or datatable, it needs to be properly formatted
-        if (is(hic, "data.frame") && ncol(hic) != 3) {
-            stop("Invalid dataframe format.  Input a dataframe with ",
-                "3 columns: chrA, chrB, counts.", call. = FALSE)
-        }
-
-        if (!is(hic, "data.frame")) {
-
-            ## if it's a file path, it needs to be a .hic file
-            if (file_ext(hic) != "hic") {
-                stop("Invalid input. File must have a \".hic\" extension",
-                    call. = FALSE
-                )
-            }
-
-            ## if it's a file path, it needs to exist
-            if (!file.exists(hic)) {
-                stop("File", hic, "does not exist.", call. = FALSE)
-            }
-
-            ## if it's a valid .hic file, it needs to have a valid norm
-            if (is.null(norm)) {
-                stop("If providing .hic file, please specify \'norm\'.",
-                    call. = FALSE
-                )
-            }
-        }
+        ###### hic/norm 
+        bb_hicErrors(hic = hic, norm = norm)
 
         ###### chrom/chromstart/chromend/
         ###### altchrom/altchromstart/altchromend
-
-        ## Can't have only one NULL chromstart or chromend
-        if ((is.null(hic_plot$chromstart) &
-            !is.null(hic_plot$chromend)) |
-            (is.null(hic_plot$chromend) &
-                !is.null(hic_plot$chromstart))) {
-            stop("Cannot have one \'NULL\' \'chromstart\' or \'chromend\'.",
-                call. = FALSE
-            )
-        }
-
-        if (!is.null(hic_plot$chromstart) & !is.null(hic_plot$chromend)) {
-            if (hic_plot$chromstart == hic_plot$chromend) {
-                stop("Genomic region is 0 bp long.", call. = FALSE)
-            }
-
-
-            ## Chromstart should be smaller than chromend
-            if (hic_plot$chromstart > hic_plot$chromend) {
-                stop("\'chromstart\' should not be larger than \'chromend\'.",
-                    call. = FALSE
-                )
-            }
-        }
 
         ## Even though straw technically works without "chr" for hg19,
         ## will not accept for consistency purposes
@@ -252,7 +201,10 @@ bb_plotHicSquare <- function(data, resolution = "auto", zrange = NULL,
                 )
             }
         }
-
+        
+        bb_regionErrors(chromstart = hic_plot$chromstart,
+                    chromend = hic_plot$chromend)
+        
         if (!is.null(hic_plot$altchrom)) {
 
             ## Can't specify altchrom without a chrom
@@ -274,34 +226,8 @@ bb_plotHicSquare <- function(data, resolution = "auto", zrange = NULL,
                 }
             }
 
-
-            ## Can't have only one NULL altchromstart or altchromend
-
-            if ((is.null(hic_plot$altchromstart) &
-                !is.null(hic_plot$altchromend)) |
-                (is.null(hic_plot$altchromend) &
-                    !is.null(hic_plot$altchromstart))) {
-                stop("Cannot have one \'NULL\' \'altchromstart\' or ",
-                    "\'altchromend\'.",
-                    call. = FALSE
-                )
-            }
-
-            if (!is.null(hic_plot$altchromstart) &
-                !is.null(hic_plot$altchromend)) {
-                if (hic_plot$altchromstart == hic_plot$altchromend) {
-                    stop("Genomic region is 0 bp long.", call. = FALSE)
-                }
-
-
-                ## Altchromstart should be smaller than altchromend
-                if (hic_plot$altchromstart > hic_plot$altchromend) {
-                    stop("\'altchromstart\' should not be larger ",
-                        "than \'altchromend\'.",
-                        call. = FALSE
-                    )
-                }
-            }
+            bb_regionErrors(chromstart = hic_plot$altchromstart,
+                        chromend = hic_plot$altchromend)
 
 
             if (!is.null(hic_plot$chromstart) & !is.null(hic_plot$chromend) &
@@ -317,34 +243,7 @@ bb_plotHicSquare <- function(data, resolution = "auto", zrange = NULL,
         }
 
         ###### zrange #####
-
-        ## Ensure properly formatted zrange
-        if (!is.null(hic_plot$zrange)) {
-
-            ## zrange needs to be a vector
-            if (!is.vector(hic_plot$zrange)) {
-                stop("\'zrange\' must be a vector of length 2.", call. = FALSE)
-            }
-
-            ## zrange vector needs to be length 2
-            if (length(hic_plot$zrange) != 2) {
-                stop("\'zrange\' must be a vector of length 2.", call. = FALSE)
-            }
-
-            ## zrange vector needs to be numbers
-            if (!is.numeric(hic_plot$zrange)) {
-                stop("\'zrange\' must be a vector of two numbers.",
-                    call. = FALSE
-                )
-            }
-
-            ## second value should be larger than the first value
-            if (hic_plot$zrange[1] >= hic_plot$zrange[2]) {
-                stop("\'zrange\' must be a vector of two numbers in which ",
-                    "the 2nd value is larger than the 1st.", call. = FALSE)
-            }
-        }
-
+        bb_rangeErrors(range = hic_plot$zrange)
 
         ###### half #####
 

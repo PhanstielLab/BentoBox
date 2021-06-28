@@ -190,29 +190,9 @@ bb_plotPairsArches <- function(data, chrom, chromstart = NULL, chromend = NULL,
 
     ## Define a function that catches errors
     errorcheck_bbArches <- function(bedpe, arches_plot, style, fill) {
-        ## Can't have only one NULL chromstart or chromend
-        if ((is.null(arches_plot$chromstart) &
-            !is.null(arches_plot$chromend)) |
-            (is.null(arches_plot$chromend) &
-                !is.null(arches_plot$chromstart))) {
-            stop("Cannot have one \'NULL\' \'chromstart\' or \'chromend\'.",
-                call. = FALSE
-            )
-        }
-
-
-        if (!is.null(arches_plot$chromstart) & !is.null(arches_plot$chromend)) {
-            if (arches_plot$chromstart == arches_plot$chromend) {
-                stop("Genomic region is 0 bp long.", call. = FALSE)
-            }
-
-            ## chromend > chromstart
-            if (arches_plot$chromend < arches_plot$chromstart) {
-                stop("\'chromstart\' should not be larger than \'chromend\'.",
-                    call. = FALSE
-                )
-            }
-        }
+        ## Genomic region
+        bb_regionErrors(chromstart = arches_plot$chromstart,
+                    chromend = arches_plot$chromend)
 
         if (!style %in% c("3D", "2D")) {
             stop("Invalid \'style\' input. Options are \'3D\' and \'2D\'.",

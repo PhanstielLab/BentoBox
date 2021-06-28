@@ -171,26 +171,9 @@ bb_plotPairs <- function(data, chrom, chromstart = NULL, chromend = NULL,
     ## Define a function that catches errors
     errorcheck_bb_plotPairs <- function(bedpe, bedpe_plot, fill) {
 
-        ## Can't have only one NULL chromstart or chromend
-        if ((is.null(bedpe_plot$chromstart) & !is.null(bedpe_plot$chromend)) |
-            (is.null(bedpe_plot$chromend) & !is.null(bedpe_plot$chromstart))) {
-            stop("Cannot have one \'NULL\' \'chromstart\' or \'chromend\'.",
-                call. = FALSE
-            )
-        }
-
-        if (!is.null(bedpe_plot$chromstart) & !is.null(bedpe_plot$chromend)) {
-            if (bedpe_plot$chromstart == bedpe_plot$chromend) {
-                stop("Genomic region is 0 bp long.", call. = FALSE)
-            }
-
-            ## chromend > chromstart
-            if (bedpe_plot$chromend < bedpe_plot$chromstart) {
-                stop("\'chromstart\' should not be larger than \'chromend\'.",
-                    call. = FALSE
-                )
-            }
-        }
+        ## Genomic region
+        bb_regionErrors(chromstart = bedpe_plot$chromstart,
+                    chromend = bedpe_plot$chromend)
         
         ## Fill colorby checks
         bb_checkColorby(fill = fill,

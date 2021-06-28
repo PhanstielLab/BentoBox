@@ -173,29 +173,9 @@ bb_plotTranscripts <- function(chrom, chromstart = NULL, chromend = NULL,
     ## Define a function that checks errors for bb_plotTranscripts
     errorcheck_bb_plotTranscripts <- function(transcript_plot, labels, fill) {
 
-        ## Can't have only one NULL chromstart or chromend
-        if ((is.null(transcript_plot$chromstart) &
-            !is.null(transcript_plot$chromend)) |
-            (is.null(transcript_plot$chromend) &
-                !is.null(transcript_plot$chromstart))) {
-            stop("Cannot have one \'NULL\' \'chromstart\' or \'chromend\'.",
-                call. = FALSE
-            )
-        }
-
-        if (!is.null(transcript_plot$chromstart) &
-            !is.null(transcript_plot$chromend)) {
-            if (transcript_plot$chromstart == transcript_plot$chromend) {
-                stop("Genomic region is 0 bp long.", call. = FALSE)
-            }
-
-            ## chromend > chromstart
-            if (transcript_plot$chromend < transcript_plot$chromstart) {
-                stop("\'chromstart\' should not be larger than \'chromend\'.",
-                    call. = FALSE
-                )
-            }
-        }
+        ## Genomic region
+        bb_regionErrors(chromstart = transcript_plot$chromstart,
+                    chromend = transcript_plot$chromend)
 
 
         if (!labels %in% c(NULL, "transcript", "gene", "both")) {

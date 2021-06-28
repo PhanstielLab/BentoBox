@@ -179,37 +179,13 @@ bb_plotGenes <- function(chrom, chromstart = NULL, chromend = NULL,
 
     ## Define a function that checks errors for bb_plotGenes
     errorcheck_bb_plotGenes <- function(chromstart, chromend, fill) {
-        if (!is.null(chromstart) & is.null(chromend)) {
-            stop("If specifying \'chromstart\', need to provide \'chromend\'.",
-                call. = FALSE
-            )
-        }
-
-        if (!is.null(chromend) & is.null(chromstart)) {
-            stop("If specifying \'chromend\', need to provide \'chromstart\'.",
-                call. = FALSE
-            )
-        }
-
-        if (!is.null(chromstart) & !is.null(chromend)) {
-            if (chromstart == chromend) {
-                stop("Genomic region is 0 bp long.", call. = FALSE)
-            }
-
-            ## chromstart cannot be larger than chromend
-
-            if (chromstart > chromend) {
-                stop("\'chromstart\' should not be larger than \'chromend\'.",
-                    call. = FALSE
-                )
-            }
-        }
+        
+        ## Genomic region errors
+        bb_regionErrors(chromstart = chromstart, chromend = chromend)
         
         ## Make sure fill isn't colorby
         bb_checkColorby(fill = fill,
                         colorby = FALSE)
-        
-        
     }
 
     ## Define a function that gets total lengths and centers of visible genes

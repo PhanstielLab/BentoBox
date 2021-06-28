@@ -215,58 +215,12 @@ bb_plotSignal <- function(data, binSize = NA, binCap = TRUE, negData = FALSE,
             dfChecks(signal = signal)
         }
 
-        ## Can't have only one NULL chromstart or chromend
-        if ((is.null(signal_track$chromstart) &
-            !is.null(signal_track$chromend)) |
-            (is.null(signal_track$chromend) &
-                !is.null(signal_track$chromstart))) {
-            stop("Cannot have one \'NULL\' \'chromstart\' or ",
-                "\'chromend\'.", call. = FALSE)
-        }
+        ## Genomic region
+        bb_regionErrors(chromstart = signaltrack$chromstart,
+                        chromend = signaltrack$chromend)
 
-        if (!is.null(signal_track$chromstart) &
-            !is.null(signal_track$chromend)) {
-            if (signal_track$chromstart == signal_track$chromend) {
-                stop("Genomic region is 0 bp long.", call. = FALSE)
-            }
-
-            if (signal_track$chromstart > signal_track$chromend) {
-                stop("\'chromstart\' should not be larger than ",
-                    "\'chromend\'.", call. = FALSE)
-            }
-        }
-
-        if (!is.null(signaltrack$range)) {
-
-            ## range needs to be a vector
-            if (!is.vector(signaltrack$range)) {
-                stop("\'range\' must be a vector of length 2.",
-                    call. = FALSE
-                )
-            }
-
-            ## range vector needs to be length 2
-            if (length(signaltrack$range) != 2) {
-                stop("\'range\' must be a vector of length 2.",
-                    call. = FALSE
-                )
-            }
-
-            ## range vector needs to be numbers
-            if (!is.numeric(signaltrack$range)) {
-                stop("\'range\' must be a vector of two numbers.",
-                    call. = FALSE
-                )
-            }
-
-            ## second value should be larger than the first value
-            if (signaltrack$range[1] >= signaltrack$range[2]) {
-                stop("\'range\' must be a vector of two numbers in ",
-                    "which the 2nd value is larger than the 1st.",
-                    call. = FALSE
-                )
-            }
-        }
+        ## Range errors
+        bb_rangeErrors(range = signaltrack$range)
         
         bb_checkColorby(fill = fill,
                         colorby = FALSE)

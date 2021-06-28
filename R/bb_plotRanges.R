@@ -174,29 +174,9 @@ bb_plotRanges <- function(data, chrom, chromstart = NULL, chromend = NULL,
     ## Define a function that catches errors
     errorcheck_bb_plotpileup <- function(pileup_plot, fill, bed) {
 
-        ## Can't have only one NULL chromstart or chromend
-        if ((is.null(pileup_plot$chromstart) &
-            !is.null(pileup_plot$chromend)) |
-            (is.null(pileup_plot$chromend) &
-                !is.null(pileup_plot$chromstart))) {
-            stop("Cannot have one \'NULL\' \'chromstart\' or \'chromend\'.",
-                call. = FALSE
-            )
-        }
-
-
-        if (!is.null(pileup_plot$chromstart) & !is.null(pileup_plot$chromend)) {
-            if (pileup_plot$chromstart == pileup_plot$chromend) {
-                stop("Genomic region is 0 bp long.", call. = FALSE)
-            }
-
-            ## chromend > chromstart
-            if (pileup_plot$chromend < pileup_plot$chromstart) {
-                stop("\'chromstart\' should not be larger than \'chromend\'.",
-                    call. = FALSE
-                )
-            }
-        }
+        ## Genomic region
+        bb_regionErrors(chromstart = pileup_plot$chromstart,
+                    chromend = pileup_plot$chromend)
         
         ## Fill/colorby checks
         bb_checkColorby(fill = fill,

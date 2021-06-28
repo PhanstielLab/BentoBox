@@ -81,6 +81,102 @@ setGP <- function(gpList, params, ...) {
     return(gpList)
 }
 
+## Define a function that checks chromstart/chromend 
+## region errors
+bb_regionErrors <- function(chromstart, chromend){
+    
+    ## Can't have only one NULL chromstart or chromend
+    if ((is.null(chromstart) &
+            !is.null(chromend)) |
+            (is.null(chromend) &
+            !is.null(chromstart))) {
+        stop("Cannot have one \'NULL\' \'chromstart\' or ",
+            "\'chromend\'.", call. = FALSE)
+    }
+    
+    if (!is.null(chromstart) & !is.null(chromend)){
+        
+        ## Can't have a 0 bp wide region
+        if (chromstart == chromend) {
+            stop("Genomic region is 0 bp wide.", call. = FALSE)
+        }
+        
+        ## start can't be larger than end
+        if (chromstart > chromend) {
+            stop("\'chromstart\' should not be larger than \'chromend\'.",
+                call. = FALSE
+            )
+        }
+        
+    }
+}
+
+## Define a function that checks the format of range parameters
+bb_rangeErrors <- function(range){
+    
+    if (!is.null(range)){
+        
+        ## Needs to be a vector
+        if (!is.vector(range)) {
+            stop("\'(z)range\' must be a vector of length 2.", call. = FALSE)
+        }
+        
+        ## Vector needs to be length 2
+        if (length(range) != 2) {
+            stop("\'(z)range\' must be a vector of length 2.", call. = FALSE)
+        }
+        
+        ## Vector needs to be numbers
+        if (!is.numeric(range)) {
+            stop("\'(z)range\' must be a vector of two numbers.",
+                call. = FALSE
+            )
+        }
+        
+        ## second value should be larger than the first value
+        if (range[1] >= range[2]) {
+            stop("\'(z)range\' must be a vector of two numbers ",
+                "in which the 2nd value is larger than the 1st.",
+                call. = FALSE
+            )
+        }
+        
+    }
+    
+}
+
+## Define a function that checks for hic input errors
+bb_hicErrors <- function(hic, norm){
+    
+    ## if it's a dataframe or datatable, it needs to be properly formatted
+    if (is(hic, "data.frame") && ncol(hic) != 3) {
+        stop("Invalid dataframe format.  Input a dataframe with 3 ",
+            "columns: chrA, chrB, counts.", call. = FALSE)
+    }
+    
+    if (!is(hic, "data.frame")) {
+        
+        ## if it's a file path, it needs to be a .hic file
+        if (file_ext(hic) != "hic") {
+            stop("Invalid input. File must have a \".hic\" extension",
+                call. = FALSE
+            )
+        }
+        
+        ## if it's a file path, it needs to exist
+        if (!file.exists(hic)) {
+            stop("File", hic, "does not exist.", call. = FALSE)
+        }
+        
+        ## if it's a valid .hic file, it needs to have a valid norm
+        if (is.null(norm)) {
+            stop("If providing .hic file, please specify \'norm\'.",
+                call. = FALSE
+            )
+        }
+    }
+}
+
 ## Define a function to get the assembly info based on a string (ie default)
 ## or bb_assembly object
 # @param assembly assembly input from a plot object

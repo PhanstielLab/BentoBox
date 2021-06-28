@@ -111,15 +111,6 @@ bb_readHic <- function(file, chrom, chromstart = NULL, chromend = NULL,
             stop("File", hic, "does not exist.", call. = FALSE)
         }
 
-
-        ## Can't have only one NULL chromstart or chromend
-        if ((is.null(chromstart) & !is.null(chromend)) |
-            (is.null(chromend) & !is.null(chromstart))) {
-            stop("Cannot have one \'NULL\' \'chromstart\' or \'chromend\'.",
-                call. = FALSE
-            )
-        }
-
         ## Not supporting chrM
         if (chrom == "chrM") {
             stop("chrM not supported.", call. = FALSE)
@@ -138,20 +129,10 @@ bb_readHic <- function(file, chrom, chromstart = NULL, chromend = NULL,
             }
         }
 
-
-        if (!is.null(chromstart) & !is.null(chromend)) {
-            if (chromstart == chromend) {
-                stop("Genomic region is 0 bp long.", call. = FALSE)
-            }
-
-            ## Chromstart should be smaller than chromend
-            if (chromstart > chromend) {
-                stop("\'chromstart\' should not be larger than \'chromend\'.",
-                    call. = FALSE
-                )
-            }
-        }
-
+        ## Genomic region
+        bb_regionErrors(chromstart = chromstart,
+                    chromend = chromend)
+        
         if (!is.null(altchrom)) {
             if (altchrom == "chrM") {
                 stop("chrM not supported.", call. = FALSE)
@@ -176,23 +157,9 @@ bb_readHic <- function(file, chrom, chromstart = NULL, chromend = NULL,
                     call. = FALSE
                 )
             }
-
-            ## Can't have only one NULL altchromstart or altchromend
-            if ((is.null(altchromstart) & !is.null(altchromend)) |
-                (is.null(altchromend) & !is.null(altchromstart))) {
-                stop("Cannot have one \'NULL\' \'altchromstart\' or ",
-                    "\'altchromend\'.",
-                    call. = FALSE
-                )
-            }
-            ## Altchromstart should be smaller than altchromend
-            if (!is.null(altchromstart) & !is.null(altchromend)) {
-                if (altchromstart > altchromend) {
-                    stop("\'altchromstart\' should not be larger ",
-                        "than \'altchromend\'.",
-                        call. = FALSE
-                    )
-                }
+            
+            bb_regionErrors(chromstart = altchromstart,
+                        chromend = altchromend)
             }
 
             ## If giving same chrom and altchrom, need to specify
@@ -210,37 +177,9 @@ bb_readHic <- function(file, chrom, chromstart = NULL, chromend = NULL,
                     "chromosome, just specify \'chrom\'.", call. = FALSE)
                 }
             }
-        }
 
-        ## Ensure properly formatted zrange
-        if (!is.null(zrange)) {
-
-            ## zrange needs to be a vector
-            if (!is.vector(zrange)) {
-                stop("\'zrange\' must be a vector of length 2.", call. = FALSE)
-            }
-
-            ## zrange vector needs to be length 2
-            if (length(zrange) != 2) {
-                stop("\'zrange\' must be a vector of length 2.", call. = FALSE)
-            }
-
-            ## zrange vector needs to be numbers
-            if (!is.numeric(zrange)) {
-                stop("\'zrange\' must be a vector of two numbers.",
-                    call. = FALSE
-                )
-            }
-
-            ## second value should be larger than the first value
-            if (zrange[1] >= zrange[2]) {
-                stop("\'zrange\' must be a vector of two numbers ",
-                    "in which the 2nd value is larger than the 1st.",
-                    call. = FALSE
-                )
-            }
-        }
-
+        ## zrange errors
+        bb_rangeErrors(range = zrange)
 
         ## Check for valid "res_scale" parameter
         if (!(res_scale %in% c("BP", "FRAG"))) {

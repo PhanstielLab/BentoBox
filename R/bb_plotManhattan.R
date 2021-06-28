@@ -310,41 +310,12 @@ bb_plotManhattan <- function(data, sigVal = 5e-08, chrom = NULL,
             }
         }
 
-
+        ## Genomic region
         if (!is.null(chrom)) {
-
-            ## Need both chromstart and chromend if trying to do a region
-            ## within a chrom
-
-            if (!is.null(chromstart) & is.null(chromend)) {
-                stop("If specifying \'chromstart\', ",
-                    "need to provide \'chromend\'.",
-                    call. = FALSE
-                )
-            }
-
-            if (!is.null(chromend) & is.null(chromstart)) {
-                stop("If specifying \'chromend\', ",
-                    "need to provide \'chromstart\'.",
-                    call. = FALSE
-                )
-            }
-
-            if (!is.null(chromstart) & !is.null(chromend)) {
-
-                ## chromstart cannot be larger than chromend
-
-                if (chromstart == chromend) {
-                    stop("Genomic region is 0 bp long.", call. = FALSE)
-                }
-
-                if (chromstart > chromend) {
-                    stop("\'chromstart\' should not be ",
-                        "larger than \'chromend\'.",
-                        call. = FALSE
-                    )
-                }
-            }
+            
+            bb_regionErrors(chromstart = chromstart,
+                        chromend = chromend)
+            
         } else {
             if (!is.null(chromstart) | !is.null(chromend)) {
                 warning("Plotting multiple chromosomes. \'chromstart\' ",
@@ -355,33 +326,7 @@ bb_plotManhattan <- function(data, sigVal = 5e-08, chrom = NULL,
         }
 
         ## range
-        if (!is.null(object$range)) {
-
-            ## range needs to be a vector
-            if (!is.vector(object$range)) {
-                stop("\'range\' must be a vector of length 2.", call. = FALSE)
-            }
-
-            ## range vector needs to be length 2
-            if (length(man_plot$range) != 2) {
-                stop("\'range\' must be a vector of length 2.", call. = FALSE)
-            }
-
-            ## range vector needs to be numbers
-            if (!is.numeric(man_plot$range)) {
-                stop("\'range\' must be a vector of two numbers.",
-                    call. = FALSE
-                )
-            }
-
-            ## second value should be larger than the first value
-            if (man_plot$range[1] >= man_plot$range[2]) {
-                stop("\'range\' must be a vector of two numbers ",
-                    "in which the 2nd value is larger than the 1st.",
-                    call. = FALSE
-                )
-            }
-        }
+        bb_rangeErrors(range = object$range)
 
         ## lead SNP
         if (!is.null(leadSNP)) {
