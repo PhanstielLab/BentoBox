@@ -6,7 +6,8 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Handle BentoBox color scaling parameters — colorby • BentoBox</title>
+<title>Maps a numeric or character vector to a color palette and returns
+the vector of colors — bb_mapColors • BentoBox</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -46,10 +47,10 @@
 
 
 
-<meta property="og:title" content="Handle BentoBox color scaling parameters — colorby" />
-<meta property="og:description" content="colorby should be used to create a set of parameters
-that specify color scaling for the functions bb_plotPairs,
-bb_plotPairsArches, and bb_plotRanges." />
+<meta property="og:title" content="Maps a numeric or character vector to a color palette and returns
+the vector of colors — bb_mapColors" />
+<meta property="og:description" content="Maps a numeric or character vector to a color palette and returns
+the vector of colors" />
 <meta property="og:image" content="https://phanstiellab.github.io/bentobox/logo.png" />
 
 
@@ -145,47 +146,45 @@ bb_plotPairsArches, and bb_plotRanges." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Handle BentoBox color scaling parameters</h1>
-    <small class="dont-index">Source: <a href='https://github.com/PhanstielLab/BentoBox/blob/master/R/colorby.R'><code>R/colorby.R</code></a></small>
-    <div class="hidden name"><code>colorby.Rd</code></div>
+    <h1>Maps a numeric or character vector to a color palette and returns
+the vector of colors</h1>
+    <small class="dont-index">Source: <a href='https://github.com/PhanstielLab/BentoBox/blob/master/R/bb_mapColors.R'><code>R/bb_mapColors.R</code></a></small>
+    <div class="hidden name"><code>bb_mapColors.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p><code>colorby</code> should be used to create a set of parameters
-that specify color scaling for the functions <code>bb_plotPairs</code>,
-<code>bb_plotPairsArches</code>, and <code>bb_plotRanges</code>.</p>
+    <p>Maps a numeric or character vector to a color palette and returns
+the vector of colors</p>
     </div>
 
-    <pre class="usage"><span class='fu'>colorby</span><span class='op'>(</span><span class='va'>column</span>, palette <span class='op'>=</span> <span class='cn'>NULL</span>, range <span class='op'>=</span> <span class='cn'>NULL</span>, scalePerRegion <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>bb_mapColors</span><span class='op'>(</span><span class='va'>vector</span>, <span class='va'>palette</span>, range <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>column</th>
-      <td><p>String specifying name of data column to scale colors by.</p></td>
+      <th>vector</th>
+      <td><p>Vector to map to color.</p></td>
     </tr>
     <tr>
       <th>palette</th>
-      <td><p>(optional) A function describing the color palette to use for
-color scaling.</p></td>
+      <td><p>Color palette function.</p></td>
     </tr>
     <tr>
       <th>range</th>
-      <td><p>(optional) A numeric vector specifying the range of values to
-apply a color scale to.</p></td>
-    </tr>
-    <tr>
-      <th>scalePerRegion</th>
-      <td><p>A logical value indicating whether to adjust 
-NULL range of numerical `colorby` values to subset of data in a plotted
-genomic regoin. Default value is <code>scalePerRegion = FALSE</code>.</p></td>
+      <td><p>Range of values to map for a numerical value.</p></td>
     </tr>
     </table>
 
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>Returns a "<code>bb_colorby</code>" object.</p>
+    <p>This function allows for the manual mapping of a numerical or factor
+vector to a palette of colors. For a more automatic implementation 
+of this functionality in BentoBox functions,  
+<a href='colorby.html'>colorby</a> objects can be used.</p>
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p><a href='colorby.html'>colorby</a></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'>## Load paired ranges data in BEDPE format</span>
@@ -195,17 +194,44 @@ genomic regoin. Default value is <code>scalePerRegion = FALSE</code>.</p></td>
 <span class='co'>## Add a length column</span>
 <span class='va'>bb_bedpeData</span><span class='op'>$</span><span class='va'>length</span> <span class='op'>&lt;-</span> <span class='op'>(</span><span class='va'>bb_bedpeData</span><span class='op'>$</span><span class='va'>start2</span> <span class='op'>-</span> <span class='va'>bb_bedpeData</span><span class='op'>$</span><span class='va'>start1</span><span class='op'>)</span> <span class='op'>/</span> <span class='fl'>1000</span>
 
-<span class='co'>## Plot pairs with colorby object set for `length` column</span>
-<span class='va'>bedpePlot</span> <span class='op'>&lt;-</span> <span class='fu'><a href='bb_plotPairs.html'>bb_plotPairs</a></span><span class='op'>(</span>
-    data <span class='op'>=</span> <span class='va'>bb_bedpeData</span>,
+<span class='co'>## Map length column to a vector of colors</span>
+<span class='va'>colors</span> <span class='op'>&lt;-</span> <span class='fu'>bb_mapColors</span><span class='op'>(</span>vector <span class='op'>=</span> <span class='va'>bb_bedpeData</span><span class='op'>$</span><span class='va'>length</span>,
+            palette <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/grDevices/colorRamp.html'>colorRampPalette</a></span><span class='op'>(</span><span class='fu'><a href='c.html'>c</a></span><span class='op'>(</span><span class='st'>"dodgerblue2"</span>, <span class='st'>"firebrick2"</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
+            
+<span class='co'>## Pass color vector into bb_plotPairsArches</span>
+<span class='va'>heights</span> <span class='op'>&lt;-</span> <span class='va'>bb_bedpeData</span><span class='op'>$</span><span class='va'>length</span> <span class='op'>/</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>max</a></span><span class='op'>(</span><span class='va'>bb_bedpeData</span><span class='op'>$</span><span class='va'>length</span><span class='op'>)</span>    
+<span class='fu'><a href='bb_pageCreate.html'>bb_pageCreate</a></span><span class='op'>(</span>width <span class='op'>=</span> <span class='fl'>7.5</span>, height <span class='op'>=</span> <span class='fl'>2.1</span>, default.units <span class='op'>=</span> <span class='st'>"inches"</span>,
+            showGuides <span class='op'>=</span> <span class='cn'>FALSE</span>, xgrid <span class='op'>=</span> <span class='fl'>0</span>, ygrid <span class='op'>=</span> <span class='fl'>0</span><span class='op'>)</span>       
+</div><div class='input'><span class='va'>params</span> <span class='op'>&lt;-</span> <span class='fu'><a href='bb_params.html'>bb_params</a></span><span class='op'>(</span>
     chrom <span class='op'>=</span> <span class='st'>"chr21"</span>,
     chromstart <span class='op'>=</span> <span class='fl'>27900000</span>, chromend <span class='op'>=</span> <span class='fl'>30700000</span>,
     assembly <span class='op'>=</span> <span class='st'>"hg19"</span>,
-    fill <span class='op'>=</span> <span class='fu'>colorby</span><span class='op'>(</span><span class='st'>"length"</span>, palette <span class='op'>=</span> 
-                <span class='fu'><a href='https://rdrr.io/r/grDevices/colorRamp.html'>colorRampPalette</a></span><span class='op'>(</span><span class='fu'><a href='c.html'>c</a></span><span class='op'>(</span><span class='st'>"dodgerblue2"</span>, <span class='st'>"firebrick2"</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>,
-    lwd <span class='op'>=</span> <span class='fl'>2</span>, spaceHeight <span class='op'>=</span> <span class='fl'>.7</span>,
+    width <span class='op'>=</span> <span class='fl'>7</span>
 <span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>bb_pairs[bb_pairs1]</span></div><div class='img'><img src='colorby-1.png' alt='' width='1230' height='1050' /></div></pre>
+
+<span class='va'>archPlot</span> <span class='op'>&lt;-</span> <span class='fu'><a href='bb_plotPairsArches.html'>bb_plotPairsArches</a></span><span class='op'>(</span>
+    data <span class='op'>=</span> <span class='va'>bb_bedpeData</span>, params <span class='op'>=</span> <span class='va'>params</span>,
+    fill <span class='op'>=</span> <span class='va'>colors</span>,
+    linecolor <span class='op'>=</span> <span class='st'>"fill"</span>,
+    archHeight <span class='op'>=</span> <span class='va'>heights</span>, alpha <span class='op'>=</span> <span class='fl'>1</span>,
+    x <span class='op'>=</span> <span class='fl'>0.25</span>, y <span class='op'>=</span> <span class='fl'>0.25</span>, height <span class='op'>=</span> <span class='fl'>1.5</span>,
+    just <span class='op'>=</span> <span class='fu'><a href='c.html'>c</a></span><span class='op'>(</span><span class='st'>"left"</span>, <span class='st'>"top"</span><span class='op'>)</span>,
+    default.units <span class='op'>=</span> <span class='st'>"inches"</span>
+<span class='op'>)</span>            
+</div><div class='output co'>#&gt; <span class='message'>bb_arches[bb_arches1]</span></div><div class='input'>
+<span class='fu'><a href='bb_annoGenomeLabel.html'>bb_annoGenomeLabel</a></span><span class='op'>(</span>plot <span class='op'>=</span> <span class='va'>archPlot</span>, x <span class='op'>=</span> <span class='fl'>0.25</span>, y <span class='op'>=</span> <span class='fl'>1.78</span>, scale <span class='op'>=</span> <span class='st'>"Mb"</span><span class='op'>)</span> 
+</div><div class='output co'>#&gt; <span class='message'>bb_genomeLabel[bb_genomeLabel1]</span></div><div class='input'><span class='fu'><a href='bb_annoHeatmapLegend.html'>bb_annoHeatmapLegend</a></span><span class='op'>(</span>
+    plot <span class='op'>=</span> <span class='va'>archPlot</span>, fontcolor <span class='op'>=</span> <span class='st'>"black"</span>,
+    x <span class='op'>=</span> <span class='fl'>7.0</span>, y <span class='op'>=</span> <span class='fl'>0.25</span>,
+    width <span class='op'>=</span> <span class='fl'>0.10</span>, height <span class='op'>=</span> <span class='fl'>1</span>, fontsize <span class='op'>=</span> <span class='fl'>10</span>
+<span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='message'>bb_heatmapLegend[bb_heatmapLegend1]</span></div><div class='input'><span class='fu'><a href='bb_plotText.html'>bb_plotText</a></span><span class='op'>(</span>
+    label <span class='op'>=</span> <span class='st'>"Kb"</span>, rot <span class='op'>=</span> <span class='fl'>90</span>, x <span class='op'>=</span> <span class='fl'>6.9</span>, y <span class='op'>=</span> <span class='fl'>0.75</span>,
+    just <span class='op'>=</span> <span class='fu'><a href='c.html'>c</a></span><span class='op'>(</span><span class='st'>"center"</span>, <span class='st'>"center"</span><span class='op'>)</span>,
+    fontsize <span class='op'>=</span> <span class='fl'>10</span>
+<span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='message'>bb_text[bb_text1]</span></div><div class='img'><img src='bb_mapColors-1.png' alt='' width='1230' height='1050' /></div><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
