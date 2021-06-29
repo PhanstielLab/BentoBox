@@ -1,8 +1,63 @@
-## Maps a numeric or character vector to a color palette and returns
-## the vector of colors
-# @param vector Vector to map to color
-# @param palette Color palette function
-# @param range Range of values to map for a numerical value.
+#' Maps a numeric or character vector to a color palette and returns
+#' the vector of colors
+#' @param vector Vector to map to color.
+#' @param palette Color palette function.
+#' @param range Range of values to map for a numerical value.
+#' 
+#' @examples 
+#' ## Load paired ranges data in BEDPE format
+#' library(BentoBoxData)
+#' data("bb_bedpeData")
+#' 
+#' ## Add a length column
+#' bb_bedpeData$length <- (bb_bedpeData$start2 - bb_bedpeData$start1) / 1000
+#' 
+#' ## Map length column to a vector of colors
+#' colors <- bb_mapColors(vector = bb_bedpeData$length,
+#'             palette = colorRampPalette(c("dodgerblue2", "firebrick2")))
+#'             
+#' ## Pass color vector into bb_plotPairsArches
+#' heights <- bb_bedpeData$length / max(bb_bedpeData$length)    
+#' bb_pageCreate(width = 7.5, height = 2.1, default.units = "inches",
+#'             showGuides = FALSE, xgrid = 0, ygrid = 0)       
+#' params <- bb_params(
+#'     chrom = "chr21",
+#'     chromstart = 27900000, chromend = 30700000,
+#'     assembly = "hg19",
+#'     width = 7
+#' )
+#' 
+#' archPlot <- bb_plotPairsArches(
+#'     data = bb_bedpeData, params = params,
+#'     fill = colors,
+#'     linecolor = "fill",
+#'     archHeight = heights, alpha = 1,
+#'     x = 0.25, y = 0.25, height = 1.5,
+#'     just = c("left", "top"),
+#'     default.units = "inches"
+#' )            
+#' 
+#' bb_annoGenomeLabel(plot = archPlot, x = 0.25, y = 1.78, scale = "Mb") 
+#' bb_annoHeatmapLegend(
+#'     plot = archPlot, fontcolor = "black",
+#'     x = 7.0, y = 0.25,
+#'     width = 0.10, height = 1, fontsize = 10
+#' )
+#' bb_plotText(
+#'     label = "Kb", rot = 90, x = 6.9, y = 0.75,
+#'     just = c("center", "center"),
+#'     fontsize = 10
+#' )
+#' 
+#' @details 
+#' This function allows for the manual mapping of a numerical or factor
+#' vector to a palette of colors. For a more automatic implementation 
+#' of this functionality in BentoBox functions,  
+#' \link[BentoBox]{colorby} objects can be used.
+#' 
+#' @seealso \link[BentoBox]{colorby}
+#' 
+#' @export
 bb_mapColors <- function(vector, palette, range = NULL){
     
     if (is(vector, "numeric") | is(vector, "integer")){
@@ -10,6 +65,7 @@ bb_mapColors <- function(vector, palette, range = NULL){
         ## Update range, if necessary
         if (is.null(range)){
             breaks <- seq(min(vector), max(vector), length.out = 100)
+            range <- c(min(vector), max(vector))
         } else {
             vector[which(vector < range[1])] <- range[1]
             vector[which(vector > range[2])] <- range[2]
@@ -20,6 +76,7 @@ bb_mapColors <- function(vector, palette, range = NULL){
         colors <- palette(length(breaks) + 1)    
         colorVector <- as.character(cut(vector, c(-Inf, breaks, Inf), 
                                         labels = colors))
+        attr(colorVector, "range") <- range
         
     } else {
         
@@ -34,7 +91,7 @@ bb_mapColors <- function(vector, palette, range = NULL){
         colorVector <- colors[vector]
         
     } 
-    
+    attr(colorVector, "palette") <- palette
     return(colorVector)
     
 }
@@ -84,7 +141,7 @@ bb_colorDefaults <- function(vector, palette = NULL, range = NULL, object){
 # @param object The plot object, to be updated with any color_palette
 # and zrange information
 # @param subset A string describing the type of data, which will determine
-# how to subset it. Options are ranges, pairs, or manhattan.
+# how to subset it. Options are ranges, pairs, pairs_clip, or manhattan.
 bb_parseColors <- function(data, fill, object, subset = NULL){
     
     ## `colorby` class
@@ -151,9 +208,46 @@ bb_parseColors <- function(data, fill, object, subset = NULL){
             )[seq(1, nrow(data))])
         }
         
+        if (!is.null(attributes(fill))){
+            object$color_palette <- attr(fill, "palette")
+            object$zrange <- attr(fill, "range")
+        }
+        
     }
     
     return(list(colors, object))
+    
+}
+
+## Define a function that will parse the objects for linecolors and 
+## return a vector of linecolors
+# @param linecolor The linecolor parameter value
+# @param fillcolors The mapped vector of fillcolors, for use if 
+# linecolor == "fill"
+# @param data Associated data, for finding `colorby` column
+# @param object The plot object
+# @param subset A string describing the type of data, which will determine
+# how to subset it. Options are ranges, pairs, or pairs_clip.
+bb_lineColors <- function(linecolor, fillcolors, data, object, subset = NULL){
+    
+    if (is.null(linecolor)){
+        linecolor <- NA
+    }
+    
+    if (!all(is.na(linecolor))){
+        if (all(linecolor == "fill")){
+            linecolors <- fillcolors
+        } else {
+            linecolors <- bb_parseColors(data = data,
+                                        fill = linecolor,
+                                        object = object,
+                                        subset = subset)[[1]]
+        }
+    } else {
+        linecolors <- NA
+    }
+    
+    return(linecolors)
     
 }
 

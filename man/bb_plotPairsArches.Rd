@@ -69,7 +69,8 @@ filling up the given plot area}
 \link[BentoBox]{colorby} object specifying fill colors of arches.
 Default value is \code{fill = #1f4297"}.}
 
-\item{linecolor}{A character value specifying the color of the lines
+\item{linecolor}{A single character value, a vector, or a
+\link[BentoBox]{colorby} object specifying the color of the lines
 outlining arches. Default value is \code{linecolor = NA}.
 Special options include:
 \itemize{

@@ -160,23 +160,23 @@ bb_readHic <- function(file, chrom, chromstart = NULL, chromend = NULL,
             
             bb_regionErrors(chromstart = altchromstart,
                         chromend = altchromend)
-            }
-
+            
             ## If giving same chrom and altchrom, need to specify
             ## chromstart/chromend and altchromstart/altchromend
-
+            
             if (chrom == altchrom) {
                 if (is.null(chromstart) |
                     is.null(chromend) |
                     is.null(altchromstart) |
                     is.null(altchromend)) {
                     stop("If giving the same \'chrom\' and \'altchrom\', ",
-                    "please specify \'chromstart\', \'chromend\', ",
-                    "\'altchromstart\', and \'altchromend\'. ",
-                    "If trying to get all interactions between one ",
-                    "chromosome, just specify \'chrom\'.", call. = FALSE)
+                        "please specify \'chromstart\', \'chromend\', ",
+                        "\'altchromstart\', and \'altchromend\'. ",
+                        "If trying to get all interactions between one ",
+                        "chromosome, just specify \'chrom\'.", call. = FALSE)
                 }
             }
+        }
 
         ## zrange errors
         bb_rangeErrors(range = zrange)

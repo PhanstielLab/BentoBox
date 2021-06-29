@@ -42,8 +42,14 @@
 #' @param fill A single character value, a vector, or a 
 #' \link[BentoBox]{colorby} object specifying fill colors of range elements.
 #' Default value is \code{fill = "#7ecdbb"}.
-#' @param linecolor A character value specifying the color of the lines
+#' @param linecolor A single character value, a vector, or a
+#' \link[BentoBox]{colorby} object specifying the color of the lines
 #' outlining range elements. Default value is \code{linecolor = NA}.
+#' Special options include:
+#' \itemize{
+#' \item{\code{NA}: }{No line color.}
+#' \item{\code{"fill"}: }{Same color as \code{fill}.}
+#' } .
 #' @param collapse A logical value indicating whether to collapse
 #' range elements into a single row, or into
 #' two rows if \code{strandSplit = TRUE}.
@@ -312,6 +318,11 @@ bb_plotRanges <- function(data, chrom, chromstart = NULL, chromend = NULL,
                                 subset = "ranges")
     bed$color <- rangeColors[[1]]
     pileup_plot <- rangeColors[[2]]
+    bed$linecolor <- bb_lineColors(linecolor = bb_pileInternal$linecolor,
+                                fillcolors = bed$color,
+                                data = bed,
+                                object = pileup_plot,
+                                subset = "ranges")
     
     # =========================================================================
     # SUBSET DATA FOR CHROMOSOME AND ANY OVERLAPPING REGIONS
@@ -468,8 +479,8 @@ bb_plotRanges <- function(data, chrom, chromstart = NULL, chromend = NULL,
                                 wiggle = wiggle, rowCol = 2,
                                 limitLabel = bb_pileInternal$limitLabel,
                                 gTree = "pileup_grobs",
-                                extraData = bed[,c("color")],
-                                colNames = "color")
+                                extraData = bed[,c("color", "linecolor")],
+                                colNames = c("color", "linecolor"))
             
             ## Calculate y-coordinates
             rowData$y <- rowData$row * (boxHeight + spaceHeight)
@@ -486,16 +497,16 @@ bb_plotRanges <- function(data, chrom, chromstart = NULL, chromend = NULL,
                                 wiggle = wiggle, rowCol = 2,
                                 limitLabel = bb_pileInternal$limitLabel,
                                 gTree = "pileup_grobs",
-                                extraData = posStrand[,c("color")],
-                                colNames = "color")
+                                extraData = posStrand[,c("color", "linecolor")],
+                                colNames = c("color", "linecolor"))
             minData <- assignRows(data = minStrand[,c(2,3)],
                                 maxRows = maxRows * 0.5,
                                 wiggle = wiggle, rowCol = 2,
                                 limitLabel = bb_pileInternal$limitLabel,
                                 side = "bottom",
                                 gTree = "pileup_grobs",
-                                extraData = minStrand[,c("color")],
-                                colNames = "color")
+                                extraData = minStrand[,c("color", "linecolor")],
+                                colNames = c("color", "linecolor"))
             
             ## Calculate y-coordinates
             posData$y <- (0.5 * spaceHeight) + posData$row *
@@ -555,7 +566,8 @@ bb_plotRanges <- function(data, chrom, chromstart = NULL, chromend = NULL,
             default.units = "native",
             gp = gpar(
                 fill = rowData$color,
-                col = bb_pileInternal$linecolor,
+                col = rowData$linecolor,
+                #col = bb_pileInternal$linecolor,
                 alpha = alpha
             )
         )

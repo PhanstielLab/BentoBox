@@ -1,5 +1,17 @@
-CHANGES IN VERSION 0.1.6
+CHANGES IN VERSION 0.99.0
 -------------------------
+
+NEW FEATURES
+
+    o Version bump to 0.99.0 for Bioconductor package submission.
+    o `bb_mapColors` function for users to map a vector to a palette
+    of colors.
+    o `linecolor` parameter in `bb_plotPairs`, `bb_plotPairsArches`,
+    and `bb_plotRanges` now accepts a single value, a vector of colors, 
+    a `colorby` object, or the value "fill".
+
+CHANGES IN VERSION 0.0.0.14
+---------------------------
 
 BUG FIXES 
 
@@ -10,16 +22,16 @@ NEW FEATURES
     o `colorby` object now has a `scalePerRegion` parameter to scale numerical
     `colorby` data to the range of data in a plotted genomic region.
 
-CHANGES IN VERSION 0.1.5
--------------------------
+CHANGES IN VERSION 0.0.0.13
+---------------------------
 
 SIGNIFICANT USER-VISIBLE CHANGES
 
     o `bb_plotManhattan` `fill` paramete now accepts a single value, 
     a vector of colors, or a `colorby` object.
 
-CHANGES IN VERSION 0.1.4
--------------------------
+CHANGES IN VERSION 0.0.0.12
+---------------------------
 
 SIGNIFICANT USER-VISIBLE CHANGES
 
@@ -32,8 +44,8 @@ BUG FIXES
     o `GInteractions` assembly match checking moved before dataframe 
     conversion.
 
-CHANGES IN VERSION 0.1.3
--------------------------
+CHANGES IN VERSION 0.0.0.11
+---------------------------
 
 SIGNIFICANT USER-VISIBLE CHANGES
 
@@ -44,8 +56,8 @@ BUG FIXES
 
     o Streamlined parameter parsing and data reading logic.
 
-CHANGES IN VERSION 0.1.2
--------------------------
+CHANGES IN VERSION 0.0.0.10
+---------------------------
 
 NEW FEATURES
 
@@ -53,8 +65,8 @@ NEW FEATURES
     o `bb_annoDomains` function addition.
     o `bb_plotSignal` vertical orientation.
     
-CHANGES IN VERSION 0.1.1
--------------------------
+CHANGES IN VERSION 0.0.0.9
+--------------------------
 
 NEW FEATURES
 

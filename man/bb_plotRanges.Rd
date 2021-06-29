@@ -53,8 +53,14 @@ Default value is \code{assembly = "hg38"}.}
 \link[BentoBox]{colorby} object specifying fill colors of range elements.
 Default value is \code{fill = "#7ecdbb"}.}
 
-\item{linecolor}{A character value specifying the color of the lines
-outlining range elements. Default value is \code{linecolor = NA}.}
+\item{linecolor}{A single character value, a vector, or a
+\link[BentoBox]{colorby} object specifying the color of the lines
+outlining range elements. Default value is \code{linecolor = NA}.
+Special options include:
+\itemize{
+\item{\code{NA}: }{No line color.}
+\item{\code{"fill"}: }{Same color as \code{fill}.}
+} .}
 
 \item{collapse}{A logical value indicating whether to collapse
 range elements into a single row, or into

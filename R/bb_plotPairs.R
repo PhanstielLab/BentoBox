@@ -39,9 +39,14 @@
 #' @param fill A single character value, a vector, or 
 #' a \link[BentoBox]{colorby} object specifying fill colors of
 #' paired range elements. Default value is \code{fill = "#1f4297"}.
-#' @param linecolor A character value specifying the color of the
-#' lines outlining paired range elements.
-#' Default value is \code{linecolor = NA}.
+#' @param linecolor A single character value, a vector, or a
+#' \link[BentoBox]{colorby} object specifying the color of the lines
+#' outlining paired range elements. Default value is \code{linecolor = NA}.
+#' Special options include:
+#' \itemize{
+#' \item{\code{NA}: }{No line color.}
+#' \item{\code{"fill"}: }{Same color as \code{fill}.}
+#' }
 #' @param bg Character value indicating background color.
 #' Default value is \code{bg = NA}.
 #' @param boxHeight A numeric or unit object specifying height of boxes
@@ -307,6 +312,11 @@ bb_plotPairs <- function(data, chrom, chromstart = NULL, chromend = NULL,
                                 subset = "pairs")
     bedpe$color <- pairColors[[1]]
     bb_bedpe <- pairColors[[2]]
+    bedpe$linecolor <- bb_lineColors(linecolor = bb_bedpeInternal$linecolor,
+                                    fillcolors = bedpe$color,
+                                    data = bedpe,
+                                    object = bb_bedpe,
+                                    subset = "pairs")
 
     # =========================================================================
     # SUBSET DATA FOR CHROMOSOME AND ANY OVERLAPPING REGIONS
@@ -444,10 +454,12 @@ bb_plotPairs <- function(data, chrom, chromstart = NULL, chromend = NULL,
                             rowCol = 3,
                             limitLabel = bb_bedpeInternal$limitLabel,
                             gTree = "bedpe_grobs",
-                            extraData = bedpe[,c("color", "width1",
+                            extraData = bedpe[,c("color", "linecolor", 
+                                                "width1",
                                                 "width2", "pos1",
                                                 "pos2", "distance")],
-                            colNames = c("color", "width1", "width2",
+                            colNames = c("color", "linecolor", 
+                                        "width1", "width2",
                                         "pos1", "pos2", "distance"))
         
         ## Calculate y-coordinates
@@ -477,7 +489,8 @@ bb_plotPairs <- function(data, chrom, chromstart = NULL, chromend = NULL,
         }
 
         bb_bedpeInternal$gp$fill <- rowData$color
-        bb_bedpeInternal$gp$col <- bb_bedpeInternal$linecolor
+        #bb_bedpeInternal$gp$col <- bb_bedpeInternal$linecolor
+        bb_bedpeInternal$gp$col <- rowData$linecolor
 
         bedpeRect1 <- rectGrob(
             x = rowData[,1],

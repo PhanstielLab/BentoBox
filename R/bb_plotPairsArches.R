@@ -54,7 +54,8 @@
 #' @param fill A single character value, a vector, or a 
 #' \link[BentoBox]{colorby} object specifying fill colors of arches.
 #' Default value is \code{fill = #1f4297"}.
-#' @param linecolor A character value specifying the color of the lines
+#' @param linecolor A single character value, a vector, or a
+#' \link[BentoBox]{colorby} object specifying the color of the lines
 #' outlining arches. Default value is \code{linecolor = NA}.
 #' Special options include:
 #' \itemize{
@@ -425,18 +426,12 @@ bb_plotPairsArches <- function(data, chrom, chromstart = NULL, chromend = NULL,
     bedpe$color <- archColors[[1]]
     arches_plot <- archColors[[2]]
     
-    # Set actual line color to fill color if requested by user
-    actuallinecolor <- bb_archInternal$linecolor
-    if (is.na(bb_archInternal$linecolor) == FALSE) {
-        if (bb_archInternal$linecolor == "fill") {
-            actuallinecolor <- bedpe$color
-        }
-    }
-    if (is.null(bb_archInternal$linecolor) == TRUE) {
-        actuallinecolor <- NA
-    }
-    bedpe$linecolor <- actuallinecolor
-
+    bedpe$linecolor <- bb_lineColors(linecolor = bb_archInternal$linecolor,
+                                    fillcolors = bedpe$color,
+                                    data = bedpe,
+                                    object = arches_plot,
+                                    subset = subset)
+    
     # =========================================================================
     # SUBSET DATA
     # =========================================================================
