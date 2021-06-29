@@ -55,6 +55,11 @@
 #' of this functionality in BentoBox functions,  
 #' \link[BentoBox]{colorby} objects can be used.
 #' 
+#' @return 
+#' Returns a character vector of color values. If the input vector is 
+#' numerical, this vector will have additional `palette` and `range`
+#' attributes.
+#' 
 #' @seealso \link[BentoBox]{colorby}
 #' 
 #' @export

@@ -14,6 +14,11 @@ bb_mapColors(vector, palette, range = NULL)
 
 \item{range}{Range of values to map for a numerical value.}
 }
+\value{
+Returns a character vector of color values. If the input vector is 
+numerical, this vector will have additional `palette` and `range`
+attributes.
+}
 \description{
 Maps a numeric or character vector to a color palette and returns
 the vector of colors

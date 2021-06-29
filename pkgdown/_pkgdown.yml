@@ -94,6 +94,7 @@ reference:
       - bb_params
       - c
       - colorby
+      - bb_mapColors
 
 figures:
   fig.height: 7
