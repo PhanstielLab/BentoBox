@@ -310,7 +310,12 @@ bb_plotPairs <- function(data, chrom, chromstart = NULL, chromend = NULL,
                                 fill = bb_bedpeInternal$fill,
                                 object = bb_bedpe,
                                 subset = "pairs")
-    bedpe$color <- pairColors[[1]]
+    if (length(pairColors[[1]]) > 0){
+        bedpe$color <- pairColors[[1]]
+    } else {
+        bedpe$color <- rep("#1f4297", nrow(bedpe))
+    }
+    
     bb_bedpe <- pairColors[[2]]
     bedpe$linecolor <- bb_lineColors(linecolor = bb_bedpeInternal$linecolor,
                                     fillcolors = bedpe$color,
@@ -489,7 +494,6 @@ bb_plotPairs <- function(data, chrom, chromstart = NULL, chromend = NULL,
         }
 
         bb_bedpeInternal$gp$fill <- rowData$color
-        #bb_bedpeInternal$gp$col <- bb_bedpeInternal$linecolor
         bb_bedpeInternal$gp$col <- rowData$linecolor
 
         bedpeRect1 <- rectGrob(

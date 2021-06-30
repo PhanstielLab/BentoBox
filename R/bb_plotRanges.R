@@ -316,7 +316,12 @@ bb_plotRanges <- function(data, chrom, chromstart = NULL, chromend = NULL,
                                 fill = bb_pileInternal$fill,
                                 object = pileup_plot,
                                 subset = "ranges")
-    bed$color <- rangeColors[[1]]
+    if (length(rangeColors[[1]]) > 0){
+        bed$color <- rangeColors[[1]]
+    } else {
+        bed$color <- rep("#7ecdbb", nrow(bed))
+    }
+    
     pileup_plot <- rangeColors[[2]]
     bed$linecolor <- bb_lineColors(linecolor = bb_pileInternal$linecolor,
                                 fillcolors = bed$color,
@@ -484,7 +489,7 @@ bb_plotRanges <- function(data, chrom, chromstart = NULL, chromend = NULL,
             
             ## Calculate y-coordinates
             rowData$y <- rowData$row * (boxHeight + spaceHeight)
-            
+
         } else {
             
             ## Randomize order of data
@@ -518,9 +523,11 @@ bb_plotRanges <- function(data, chrom, chromstart = NULL, chromend = NULL,
             rowData <- rbind(posData, minData)
         }
         
-        ## Calculate range widths
-        rowData$width <- rowData[,2] - rowData[,1]
-        
+        if(nrow(rowData) > 0){
+            ## Calculate range widths
+            rowData$width <- rowData[,2] - rowData[,1] 
+        }
+
     } else {
         if (bb_pileInternal$strandSplit == FALSE) {
             boxHeight <- as.numeric(vp$height)
@@ -542,14 +549,17 @@ bb_plotRanges <- function(data, chrom, chromstart = NULL, chromend = NULL,
 
             ## Combine plus and minus strand data
             rowData <- rbind(posStrand, minStrand)
-            rowData$width <- rowData[,3] - rowData[,2]
+            if (nrow(rowData) > 0){
+                rowData$width <- rowData[,3] - rowData[,2]
+            }
+            
         }
     }
     
     # =====================================================================
     # MAKE GROBS
     # =====================================================================
-
+    
     if (nrow(rowData) > 0) {
 
         alpha <- 1

@@ -65,6 +65,35 @@
 #' @export
 bb_mapColors <- function(vector, palette, range = NULL){
     
+    ## Define a function to catch errors
+    error_mapColors <- function(vector, palette, range){
+        
+        ## palette errors
+        if (!is(palette, "function")){
+            stop("Please provide a palette function.", call. = FALSE)
+        }
+        
+        ## range errors
+        bb_rangeErrors(range = range)
+        
+        ## Numerical vector for breaks
+        if (is(vector, "numeric") | is(vector, "integer")){
+            if (length(unique(vector)) == 1){
+                warning("Not enough numerical values to map ",
+                "to colors.", call. = FALSE)
+                vector <- NULL
+            }
+        }
+        
+        return(vector)
+        
+    }
+    
+    ## Catch errors and update to NULL vector if necessary
+    vector <- error_mapColors(vector = vector,
+                            palette = palette,
+                            range = range)
+    
     if (is(vector, "numeric") | is(vector, "integer")){
         
         ## Update range, if necessary
@@ -113,7 +142,14 @@ bb_colorDefaults <- function(vector, palette = NULL, range = NULL, object){
         }
         
         if (is.null(range)){
+            
             range <- c(min(vector), max(vector))
+            
+            ## Switch back to NULL if invalid range
+            if (range[1] >= range[2]){
+                range <- NULL
+            } 
+            
         }
         
         object$zrange <- range
@@ -188,7 +224,12 @@ bb_parseColors <- function(data, fill, object, subset = NULL){
                     subData <- data
                 }
                 
-                fill$range <- range(subData[,colorbyColNo])
+                range <- range(subData[,colorbyColNo])
+                if (range[1] >= range[2]){
+                    range <- NULL
+                }
+                
+                fill$range <- range
             }
             
         }

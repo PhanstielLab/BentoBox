@@ -422,8 +422,12 @@ bb_plotPairsArches <- function(data, chrom, chromstart = NULL, chromend = NULL,
                                 fill = bb_archInternal$fill,
                                 object = arches_plot,
                                 subset = subset)
+    if (length(archColors[[1]]) > 0){
+        bedpe$color <- archColors[[1]]
+    } else {
+        bedpe$color <- rep("#1f4297", nrow(bedpe))
+    }
     
-    bedpe$color <- archColors[[1]]
     arches_plot <- archColors[[2]]
     
     bedpe$linecolor <- bb_lineColors(linecolor = bb_archInternal$linecolor,
