@@ -78,3 +78,4 @@ Suggests:
     TxDb.Hsapiens.UCSC.hg19.knownGene
 VignetteBuilder: knitr
 Config/testthat/edition: 3
+BugReports: https://github.com/PhanstielLab/BentoBox/issues
